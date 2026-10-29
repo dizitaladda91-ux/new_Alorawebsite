@@ -1,0 +1,24 @@
+<div id="leadModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl relative border border-[#ECE4CE] animate__animated animate__fadeIn">
+        <button type="button" onclick="closeLeadModal()" class="absolute top-4 right-4 text-ash hover:text-black text-xl">&times;</button>
+        
+        <h3 class="text-xl font-serif font-bold text-[#A0522D] mb-2 text-center">Please Fill This Form First</h3>
+        <p class="text-xs text-ash text-center mb-6">Fill in the details for instant order updates and offers.</p>
+        
+        <form id="leadForm" onsubmit="handleLeadSubmit(event)">
+            <div class="mb-4">
+                <label class="block text-xs font-semibold text-ash uppercase tracking-wider mb-1">Full Name</label>
+                <input type="text" id="leadName" required class="w-full px-4 py-2.5 border border-[#DCD3BA] rounded-lg focus:outline-none focus:border-[#A0522D] text-sm" placeholder="Enter your name">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-xs font-semibold text-ash uppercase tracking-wider mb-1">Email Address</label>
+                <input type="email" id="leadEmail" required class="w-full px-4 py-2.5 border border-[#DCD3BA] rounded-lg focus:outline-none focus:border-[#A0522D] text-sm" placeholder="Enter your email">
+            </div>
+            
+            <button type="submit" class="w-full bg-[#A0522D] hover:bg-[#8B4513] text-white py-3 rounded-lg font-semibold text-xs tracking-widest uppercase transition">
+                Submit & Continue
+            </button>
+        </form>
+    </div>
+</div>

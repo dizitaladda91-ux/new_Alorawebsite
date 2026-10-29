@@ -1,0 +1,153 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.aloraradiance.com"
+        }
+      ],
+      "destination": "https://aloraradiance.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/aboutus.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/moreproduct.html",
+      "destination": "/products",
+      "permanent": true
+    }
+  ],
+  "builds": [
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": "frontend/*.html"
+      }
+    },
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/ref/([^/]+)/?",
+      "dest": "/frontend/index"
+    },
+    {
+      "src": "/products/?",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/product/[^/]+/?",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/about/?",
+      "dest": "/frontend/aboutus"
+    },
+    {
+      "src": "/privacy-policy/?",
+      "dest": "/frontend/PrivacyPolicy"
+    },
+    {
+      "src": "/terms-and-conditions/?",
+      "dest": "/frontend/termCondition"
+    },
+    {
+      "src": "/corporate-governance/?",
+      "dest": "/frontend/Corporate Governance"
+    },
+    {
+      "src": "/faq/?",
+      "dest": "/frontend/KnowledegeFAQ"
+    },
+    {
+      "src": "/return-refund/?",
+      "dest": "/frontend/ReturnRefund"
+    },
+    {
+      "src": "/certificates/?",
+      "dest": "/frontend/certificates"
+    },
+    {
+      "src": "/(account|myorders|my-orders)/?",
+      "dest": "/frontend/myorders"
+    },
+    {
+      "src": "/track-order/?",
+      "dest": "/frontend/trackorder"
+    },
+    {
+      "src": "/sitemap\\.xml",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/robots\\.txt",
+      "dest": "/frontend/robots.txt"
+    },
+    {
+      "src": "/sitemap/?",
+      "dest": "/frontend/sitemap"
+    },
+    {
+      "src": "/(affiliate|affiliate-register)(/.*)?",
+      "status": 301,
+      "headers": { "Location": "https://affiliation.aloraradiance.com/register" }
+    },
+    {
+      "src": "/(admin|addnewproduct|adminleadshow|adminproduct|adminupdateproduct|adminUserquery|seoadmin|seoadminupdate|seoallpost|seoproduct|seoproductupdate|affiliate)(\\.html)?",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/uploads/(.*)",
+      "dest": "backend/uploads/$1"
+    },
+    {
+      "src": "/post/(.*)",
+      "status": 301,
+      "headers": { "Location": "/blog/$1" }
+    },
+    {
+      "src": "/post/?",
+      "status": 301,
+      "headers": { "Location": "/blog" }
+    },
+    {
+      "src": "/blog/?",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/blogs/?",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/Blog/?",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/blog/(.*)",
+      "dest": "/api/index.js"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/$1"
+    }
+  ]
+}

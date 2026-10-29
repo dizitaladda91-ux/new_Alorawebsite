@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Alora Radiance</title>
+    <meta id="dynamic-meta-desc" name="description" content="Discover luxury dermatologist-tested skincare formulations by Alora Radiance.">
+    <meta id="dynamic-keywords" name="keywords" content="skincare, luxury skincare, Alora Radiance">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/x-icon" href="./static/favicon.ico">
+    <link id="dynamic-canonical" rel="canonical" href="https://aloraradiance.com/products" />
+    <!-- Tailwind CSS CDN -->
+    <link rel="stylesheet" href="./styles/tailwind.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        parchment: '#FAF6EE',
+                        sand: '#EFE7D5',
+                        clay: '#8B4513',
+                        'clay-dark': '#6E360F',
+                        gold: '#C5A059',
+                        ink: '#1A1A1A',
+                        ash: '#555555'
+                    },
+                    fontFamily: {
+                        serif: ['Fraunces', 'serif'],
+                        sans: ['Manrope', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .star-rating input[type="radio"] { display: none; }
+        .star-rating label { cursor: pointer; color: #DCD3BA; font-size: 1.25rem; }
+        .star-rating input[type="radio"]:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label { color: #C5A059; }
+
+        /* On phones the gallery must scroll normally; otherwise the product
+           details pass underneath the frozen image. */
+        @media (min-width: 768px) {
+            .product-media-gallery {
+                position: sticky;
+                top: 6rem;
+            }
+        }
+
+        /* Product image card + thumbnails: fixed 1:1 square container
+           (Dot & Key style). object-cover fills the square edge-to-edge
+           with no gaps — but this only looks right if every uploaded
+           product image is ALREADY a 1:1 square to begin with. If a
+           non-square image is uploaded here, object-cover will crop its
+           edges to force it into the square, so always prep/export
+           images as 1:1 before uploading. */
+        #main-media-container, .imagesection {
+            aspect-ratio: 1 / 1;
+            width: 100%;
+        }
+
+        #main-media-container img, .imagesection img {
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: high-quality;
+        }
+    </style>
+</head>
+<body class="bg-parchment font-sans text-ink flex flex-col min-h-screen">
+
+    <!-- NAVBAR PLACEHOLDER -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- MAIN PRODUCT SECTION -->
+    <main class="flex-grow">
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-start">
+                
+                <!-- LEFT SIDE: IMAGES & GALLERY -->
+                <div class="product-media-gallery space-y-4 relative z-0">
+                    <div class="relative group">
+                        <div id="main-media-container" class="imagesection bg-white rounded-2xl md:rounded-3xl border border-[#E7DFC7] aspect-square flex items-center justify-center p-0 shadow-sm relative overflow-hidden">
+                            <!-- IMPORTANT: source image must be uploaded as 1:1 (square),
+                                 e.g. 800x800 or 1200x1200 — object-cover will crop anything
+                                 that isn't already square. -->
+                            <img id="main-product-image" src="/static/placeholder.png" alt="Product Image" class="w-full h-full object-cover" decoding="async" fetchpriority="high" onerror="this.onerror=null; this.src='/static/placeholder.png'">
+                        </div>
+
+                        <!-- Left & Right Media Navigation Arrows -->
+                        <button type="button" id="prev-media-btn" aria-label="Previous Image" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-amber-600 shadow-md border border-slate-200/80 flex items-center justify-center transition-all opacity-80 hover:opacity-100 hover:scale-110 z-10 cursor-pointer hidden">
+                            <i class="fa-solid fa-chevron-left text-sm"></i>
+                        </button>
+                        <button type="button" id="next-media-btn" aria-label="Next Image" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 hover:bg-white text-slate-800 hover:text-amber-600 shadow-md border border-slate-200/80 flex items-center justify-center transition-all opacity-80 hover:opacity-100 hover:scale-110 z-10 cursor-pointer hidden">
+                            <i class="fa-solid fa-chevron-right text-sm"></i>
+                        </button>
+                    </div>
+
+                    <!-- THUMBNAILS & VIDEO ICON -->
+                    <div id="thumbnails-container" class="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
+                        <!-- Dynamic thumbnails injected by product.js -->
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE: PRODUCT DETAILS & PURCHASE PANEL -->
+                <div class="space-y-6">
+                    
+                    <!-- CATEGORY & TITLE -->
+                    <div>
+                        <span id="product-category-badge" class="text-[11px] font-bold tracking-widest text-clay uppercase bg-sand/60 px-3 py-1 rounded-full border border-gold/20">ALORA RADIANCE</span>
+                        <h1 id="product-title" class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-ink mt-3 leading-tight">Loading Product...</h1>
+                        
+                        <!-- REVIEWS & RATING SUMMARY -->
+                        <div class="flex items-center gap-3 mt-3">
+                            <div class="flex text-gold text-sm">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                            <span class="text-xs font-semibold text-ash">(<span id="reviews-count">0</span> reviews)</span>
+                        </div>
+                    </div>
+
+                    <!-- PRICING & DISCOUNTS -->
+                    <div class="flex items-baseline gap-3 border-y border-[#ECE4CE] py-4">
+                        <span id="product-price" class="text-2xl sm:text-3xl font-serif font-bold text-clay">₹0</span>
+                        <span id="product-mrp" class="text-sm sm:text-base text-ash line-through">₹0</span>
+                        <span id="product-discount-badge" class="bg-amber-100 text-clay text-xs font-bold px-2.5 py-0.5 rounded-md border border-clay/20 font-mono">SAVE SPECIAL</span>
+                    </div>
+
+                    <!-- SHORT DESCRIPTION -->
+                    <p id="product-desc" class="text-sm text-ash leading-relaxed">
+                        Loading product formulation details...
+                    </p>
+
+                    <!-- VARIANTS SELECTOR (ml / g / Kit Options) -->
+                    <div>
+                        <label class="block text-xs font-bold text-ash uppercase tracking-wider mb-2.5">Select Volume / Size</label>
+                        <div id="variants-container" class="flex flex-wrap gap-2.5">
+                            <!-- Dynamic variant buttons injected here -->
+                        </div>
+                    </div>
+
+                    <!-- QUANTITY & ADD TO CART ACTION BAR -->
+                    <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                        <!-- QUANTITY SELECTOR -->
+                        <div class="flex items-center border border-[#DCD3BA] rounded-xl bg-white h-12 w-32 justify-between px-3">
+                            <button type="button" id="qty-minus" class="text-ash hover:text-clay font-bold text-base px-2">-</button>
+                            <span id="qty-value" class="font-bold text-sm font-mono">1</span>
+                            <button type="button" id="qty-plus" class="text-ash hover:text-clay font-bold text-base px-2">+</button>
+                        </div>
+
+                        <!-- ADD TO CART BUTTON -->
+                        <button type="button" id="cart-toggle-btn" class="flex-1 bg-clay hover:bg-clay-dark text-white font-bold text-sm uppercase tracking-wider h-12 rounded-xl shadow-md transition duration-300 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-shopping text-xs"></i> Add to Cart
+                        </button>
+
+                        <!-- WISHLIST BUTTON -->
+                        <button type="button" id="single-wishlist-btn" class="wishlist-toggle-btn h-12 w-12 rounded-xl bg-white hover:bg-rose-50 border border-[#DCD3BA] shadow-xs flex items-center justify-center transition-all cursor-pointer group/wish shrink-0" title="Add to Wishlist" aria-label="Add to Wishlist">
+                            <i class="fa-regular fa-heart text-base text-stone-400 group-hover/wish:text-rose-600 transition-colors"></i>
+                        </button>
+                    </div>
+
+                    <!-- ALSO AVAILABLE ON MARKETPLACES -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 bg-[#FAF7F0] p-3 rounded-2xl border border-[#E7DFC7] shadow-xs">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-ash flex items-center gap-1.5">
+                            <i class="fa-solid fa-bag-shopping text-amber-600 text-xs"></i> Also Available On:
+                        </span>
+                        <div class="flex items-center gap-2">
+                            <a href="https://www.amazon.in/s?k=ALORA+RADIANCE&ref=nb_sb_noss" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-amber-50 text-slate-800 hover:text-amber-800 px-3 py-1.5 rounded-xl border border-stone-300 text-[11px] font-bold transition-all flex items-center gap-1.5 shadow-2xs">
+                                <i class="fa-brands fa-amazon text-xs text-[#FF9900]"></i> Amazon
+                            </a>
+                            <a href="https://www.flipkart.com/search?q=alora%20radiance&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-blue-50 text-slate-800 hover:text-blue-800 px-3 py-1.5 rounded-xl border border-stone-300 text-[11px] font-bold transition-all flex items-center gap-1.5 shadow-2xs">
+                                <i class="fa-solid fa-cart-shopping text-[10px] text-[#2874F0]"></i> Flipkart
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- ACCORDION TABS: BENEFITS, USAGE, INGREDIENTS -->
+                    <div class="border-t border-[#ECE4CE] pt-4 space-y-3">
+                        <details class="group py-3 border-b border-[#ECE4CE]" open>
+                            <summary class="flex justify-between items-center font-serif font-semibold text-sm text-ink cursor-pointer list-none">
+                                <span>Product Overview &amp; Story</span>
+                                <span class="transition group-open:rotate-45 text-clay"><i class="fa-solid fa-plus text-xs"></i></span>
+                            </summary>
+                            <p id="product-details" class="text-xs text-ash mt-2 leading-relaxed">Loading details...</p>
+                        </details>
+                        <details class="group py-3 border-b border-[#ECE4CE]">
+                            <summary class="flex justify-between items-center font-serif font-semibold text-sm text-ink cursor-pointer list-none">
+                                <span>Key Benefits</span>
+                                <span class="transition group-open:rotate-45 text-clay"><i class="fa-solid fa-plus text-xs"></i></span>
+                            </summary>
+                            <p id="product-benefits" class="text-xs text-ash mt-2 leading-relaxed">Loading benefits...</p>
+                        </details>
+                        <details class="group py-3 border-b border-[#ECE4CE]">
+                            <summary class="flex justify-between items-center font-serif font-semibold text-sm text-ink cursor-pointer list-none">
+                                <span>How to Use</span>
+                                <span class="transition group-open:rotate-45 text-clay"><i class="fa-solid fa-plus text-xs"></i></span>
+                            </summary>
+                            <p id="product-usage" class="text-xs text-ash mt-2 leading-relaxed">Loading usage...</p>
+                        </details>
+                        <details class="group py-3 border-b border-[#ECE4CE]">
+                            <summary class="flex justify-between items-center font-serif font-semibold text-sm text-ink cursor-pointer list-none">
+                                <span>Full Ingredients List</span>
+                                <span class="transition group-open:rotate-45 text-clay"><i class="fa-solid fa-plus text-xs"></i></span>
+                            </summary>
+                            <p id="product-ingredients" class="text-xs text-ash mt-2 leading-relaxed">Loading ingredients...</p>
+                        </details>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- REVIEWS & RATINGS SECTION -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
+            <div class="bg-white p-6 sm:p-10 rounded-2xl shadow-sm border border-[#ECE4CE]">
+                <h2 class="text-xl sm:text-2xl font-serif font-semibold text-ink mb-8">Customer Reviews &amp; Ratings</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Left Side: Review Form -->
+                    <div class="md:col-span-1 border-b md:border-b-0 md:border-r border-[#ECE4CE] pb-6 md:pb-0 md:pr-8">
+                        <h3 class="text-md font-semibold text-ink mb-4">Write a Review</h3>
+                        <form id="review-form" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-ash uppercase tracking-wider mb-2">Your Name</label>
+                                <input type="text" id="review-username" required class="w-full border border-[#DCD3BA] rounded-lg px-3 py-2 text-sm bg-parchment/30 focus:outline-none focus:border-clay">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-ash uppercase tracking-wider mb-2">Your Rating</label>
+                                <div class="flex gap-2 text-xl text-gold" id="star-rating-selector">
+                                    <i class="fa-regular fa-star cursor-pointer star-btn" data-value="1"></i>
+                                    <i class="fa-regular fa-star cursor-pointer star-btn" data-value="2"></i>
+                                    <i class="fa-regular fa-star cursor-pointer star-btn" data-value="3"></i>
+                                    <i class="fa-regular fa-star cursor-pointer star-btn" data-value="4"></i>
+                                    <i class="fa-regular fa-star cursor-pointer star-btn" data-value="5"></i>
+                                </div>
+                                <input type="hidden" id="review-rating-value" value="0" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-ash uppercase tracking-wider mb-2">Review Comments</label>
+                                <textarea id="review-comment" rows="4" required class="w-full border border-[#DCD3BA] rounded-lg px-3 py-2 text-sm bg-parchment/30 focus:outline-none focus:border-clay" placeholder="Share your experience with this product..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-clay hover:bg-clay-dark text-white py-2.5 font-semibold text-xs tracking-wider uppercase transition">
+                                Submit Review
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right Side: Display Submitted Reviews -->
+                    <div class="md:col-span-2 space-y-6" id="reviews-list-container">
+                        <h3 class="text-md font-semibold text-ink mb-4">Recent Reviews</h3>
+                        <div class="text-sm text-ash italic" id="no-reviews-msg">No reviews yet for this product. Be the first to share your thoughts!</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ PRODUCT FAQ SECTION (GOOD TO KNOW) ============ -->
+        <section id="product-faq-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
+            <div class="bg-gradient-to-b from-[#FBF8F3] via-white to-[#FBF8F3] rounded-3xl p-6 sm:p-12 border border-amber-900/15 shadow-xl relative overflow-hidden">
+                
+                <div class="max-w-2xl mx-auto text-center mb-10">
+                    <span class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-100/90 text-[#8B4513] text-[11px] font-bold tracking-widest uppercase font-mono border border-amber-300 shadow-xs mb-3">
+                        FREQUENTLY ASKED QUESTIONS
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-fraunces font-bold text-slate-900 leading-tight">
+                        Good To Know
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-600 mt-2 font-sans">
+                        Have questions about usage, ingredients, or daily routines? Find fast answers below.
+                    </p>
+                </div>
+
+                <div id="product-faq-list" class="max-w-3xl mx-auto space-y-4 text-left">
+                    <!-- Dynamic FAQs rendered by product.js -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER PLACEHOLDER -->
+    <div id="footer-placeholder"></div>
+
+    <!-- SCRIPTS -->
+    <script src="/js/include.min.js"></script>
+    <script type="module" src="/js/navbar-interactions.min.js"></script>
+    <script type="module" src="/js/product.min.js"></script>
+    <script src="/js/cart.min.js"></script>
+    <script src="/js/app.min.js"></script>
+    <script type="module" src="/js/contacts.min.js"></script>
+    <script type="module" src="/js/lead.min.js"></script>
+</body>
+</html>

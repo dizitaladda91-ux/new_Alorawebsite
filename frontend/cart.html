@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alora Radiance - Cart</title>
+    <link rel="icon" type="image/x-icon" href="./static/favicon.ico">
+    <link rel="canonical" href="https://aloraradiance.com/cart.html" />
+    <meta name="description" content="Review and proceed to checkout with your selected Alora Radiance luxury skincare products.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    ink: '#152219',
+                    'ink-light': '#1F3327',
+                    'ink-soft': '#28402F',
+                    parchment: '#F7F2E7',
+                    card: '#FFFFFF',
+                    clay: '#A24C3D',
+                    'clay-light': '#C97E63',
+                    'clay-dark': '#7E3A2F',
+                    sage: '#6C8763',
+                    'sage-light': '#E7ECDF',
+                    gold: '#BB9556',
+                    ash: '#6B685F',
+                },
+                fontFamily: {
+                    robot: ['"PT Sans"', 'ui-robot', 'Georgia', 'robot'],
+                    sans: ['"PT Sans"', 'Manrope', 'sans-serif'],
+                    roboto: ['"Roboto Mono"', 'monospace'],
+                },
+            }
+        }
+    }
+    </script>
+
+</head>
+<body class="bg-parchment text-[#2A2A24] font-sans antialiased">
+
+    <header class="bg-white border-b border-[#ECE4CE] sticky top-0 z-50">
+        <div id="navbar-placeholder"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="./product.html" class="flex items-center gap-2 text-ink font-serif font-semibold text-xl tracking-tight">
+                Alora Radiance
+            </a>
+            <a href="/products" class="text-sm font-semibold text-ash hover:text-clay transition">
+                <i class="fa-solid fa-arrow-left me-1"></i> Continue Shopping
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
+        <p class="text-xs font-bold tracking-[0.25em] uppercase text-clay mb-2">Checkout</p>
+        <h1 class="text-2xl sm:text-3xl font-serif font-medium text-ink mb-8 flex items-center gap-3">
+            <i class="fa-solid fa-bag-shopping text-clay text-2xl"></i> Your Shopping Bag
+            <span id="cart-count-badge" class="text-xs bg-ink text-parchment px-3 py-1.5 rounded-full font-semibold tracking-wide font-sans">0 Items</span>
+        </h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+            <!-- Left Side: Cart Items -->
+            <div class="lg:col-span-2 space-y-4">
+
+                <!-- Dynamic Cart Items injected here -->
+                <div id="cart-items-list" class="space-y-4"></div>
+
+                <!-- Empty State -->
+                <div id="empty-cart-state" class="hidden bg-white rounded-2xl p-14 text-center border border-[#ECE4CE] shadow-sm">
+                    <div class="w-16 h-16 bg-sage-light rounded-full flex items-center justify-center mx-auto mb-5 text-sage">
+                        <i class="fa-solid fa-basket-shopping text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-serif font-semibold text-ink mb-1">Your cart is empty</h3>
+                    <p class="text-ash text-sm mb-6">Looks like you haven't added anything to your cart yet.</p>
+                    <a href="/products" class="inline-flex bg-ink text-parchment px-7 py-3 rounded-md font-semibold text-sm tracking-wide hover:bg-ink-light transition">
+                        Shop Now
+                    </a>
+                </div>
+
+                <!-- Delivery Guarantees Badges -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+                    <div class="flex items-center gap-3 bg-white p-4 rounded-xl border border-[#ECE4CE]">
+                        <div class="w-9 h-9 rounded-full bg-sage/15 text-sage flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-truck-fast text-sm"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-ink">Free Shipping</h4>
+                            <p class="text-[11px] text-ash">On all orders above ₹499</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white p-4 rounded-xl border border-[#ECE4CE]">
+                        <div class="w-9 h-9 rounded-full bg-ink/10 text-ink flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-shield-halved text-sm"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-ink">100% Secure</h4>
+                            <p class="text-[11px] text-ash">SSL Encrypted payments</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white p-4 rounded-xl border border-[#ECE4CE]">
+                        <div class="w-9 h-9 rounded-full bg-gold/15 text-gold flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-rotate-left text-sm"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-ink">Easy Returns</h4>
+                            <p class="text-[11px] text-ash">7-day window</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============ EXPLORE OUR MORE PRODUCTS SLIDER (INLINE LEFT COLUMN) ============ -->
+                <div id="more-products-section" class="mt-6 bg-gradient-to-b from-[#FBF8F3] via-white to-[#FBF8F3] rounded-3xl p-4 sm:p-6 border border-amber-900/10 shadow-sm relative overflow-hidden">
+                    <!-- Header Bar -->
+                    <div class="flex items-center justify-between gap-2 mb-4">
+                        <div>
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-100/80 text-[#8B4513] text-[10px] font-bold tracking-widest uppercase border border-amber-300/40 mb-1">
+                                Add More To Your Bag
+                            </span>
+                            <h3 class="font-fraunces font-bold text-slate-900 text-lg sm:text-xl tracking-tight">
+                                Explore Our More Products
+                            </h3>
+                        </div>
+
+                        <!-- Navigation Arrows -->
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button id="cart-prev-btn" aria-label="Previous Products" 
+                                class="w-8 h-8 rounded-full bg-white hover:bg-amber-50 text-slate-800 flex items-center justify-center border border-amber-900/15 shadow-sm transition active:scale-95 hover:scale-105">
+                                <i class="fa-solid fa-angle-left text-xs"></i>
+                            </button>
+                            <button id="cart-next-btn" aria-label="Next Products" 
+                                class="w-8 h-8 rounded-full bg-white hover:bg-amber-50 text-slate-800 flex items-center justify-center border border-amber-900/15 shadow-sm transition active:scale-95 hover:scale-105">
+                                <i class="fa-solid fa-angle-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Cards Carousel Track -->
+                    <div class="overflow-hidden relative w-full rounded-2xl">
+                        <div id="cart-product-slider" class="flex gap-3 sm:gap-4 transition-transform duration-500 ease-out py-1">
+                            <!-- Dynamic Product Cards Loading Here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Summary & Checkout Forms -->
+            <div id="summary-panel" class="space-y-6">
+
+                <!-- 🚀 DELIVERY DETAILS FORM -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-[#ECE4CE]">
+                    <h3 id="checkout-details-title" class="text-xs font-bold text-ash uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-user-plus text-clay"></i> Create Account & Delivery Details
+                    </h3>
+                    <div class="space-y-3">
+                        <div id="checkout-name-field">
+                            <label class="block text-[11px] font-semibold text-ash uppercase mb-1">Full Name</label>
+                            <input type="text" id="custName" placeholder="Enter full name" class="w-full px-3 py-2 border border-[#DCD3BA] rounded-xl text-xs font-semibold text-ink focus:outline-none focus:border-clay" required>
+                        </div>
+                        <div id="checkout-phone-field">
+                            <label class="block text-[11px] font-semibold text-ash uppercase mb-1">Mobile Number</label>
+                            <input type="tel" id="custPhone" maxlength="10" placeholder="10-digit mobile number" class="w-full px-3 py-2 border border-[#DCD3BA] rounded-xl text-xs font-semibold text-ink focus:outline-none focus:border-clay" required>
+                        </div>
+                        <div id="checkout-email-field">
+                            <label class="block text-[11px] font-semibold text-ash uppercase mb-1">Email Address</label>
+                            <input type="email" id="custEmail" placeholder="you@example.com" class="w-full px-3 py-2 border border-[#DCD3BA] rounded-xl text-xs font-semibold text-ink focus:outline-none focus:border-clay" required>
+                        </div>
+                        <div id="checkout-address-field">
+                            <label class="block text-[11px] font-semibold text-ash uppercase mb-1">Delivery Address</label>
+                            <textarea id="custAddress" placeholder="House/Flat No, Area, Landmark, Pincode" class="w-full px-3 py-2 border border-[#DCD3BA] rounded-xl text-xs font-semibold text-ink focus:outline-none focus:border-clay" rows="2" required></textarea>
+                        </div>
+                        <div id="checkout-account-fields" class="pt-2 border-t border-[#ECE4CE]">
+                            <p class="text-[11px] font-bold text-clay uppercase tracking-wide mb-2">Create your account to continue</p>
+                            <label class="block text-[11px] font-semibold text-ash uppercase mb-1">Create Password</label>
+                            <div class="relative mb-2">
+                                <input type="password" id="custPassword" minlength="6" placeholder="Minimum 6 characters" autocomplete="new-password" class="w-full px-3 py-2 pr-9 border border-[#DCD3BA] rounded-xl text-xs font-semibold text-ink focus:outline-none focus:border-clay" required>
+                                <button type="button" onclick="togglePasswordVisibility('custPassword', this)" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs p-1 focus:outline-none" aria-label="Toggle password view">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                            <label class="block text-[11px] font-semibold text-ash uppercase mb-1">Confirm Password</label>
+                            <div class="relative mb-2">
+                                <input type="password" id="custConfirmPassword" minlength="6" placeholder="Re-enter password" autocomplete="new-password" class="w-full px-3 py-2 pr-9 border border-[#DCD3BA] rounded-xl text-xs font-semibold text-ink focus:outline-none focus:border-clay" required>
+                                <button type="button" onclick="togglePasswordVisibility('custConfirmPassword', this)" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs p-1 focus:outline-none" aria-label="Toggle password view">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                            <p class="mt-1 text-[10px] text-ash">Already have an account? <a class="text-clay font-semibold underline" href="./login.html">Log in</a> first.</p>
+                        </div>
+                        <p id="checkout-signed-in-note" class="hidden pt-2 text-xs font-semibold text-sage">You are signed in. Your saved mobile number, email and delivery address have been filled in.</p>
+                        <div id="saved-customer-summary" class="hidden rounded-xl border border-[#DCD3BA] bg-[#FFFCF4] px-3 py-3 text-xs text-ink space-y-2">
+                            <p class="font-bold text-ash uppercase tracking-wide">Saved delivery details</p>
+                            <p><span class="font-semibold text-ash">Mobile:</span> <span id="saved-customer-phone"></span></p>
+                            <p><span class="font-semibold text-ash">Email:</span> <span id="saved-customer-email"></span></p>
+                            <p id="saved-customer-address-row"><span class="font-semibold text-ash">Address:</span> <span id="saved-customer-address"></span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coupon Apply Section -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-[#ECE4CE]">
+                    <h3 class="text-xs font-bold text-ash uppercase tracking-[0.2em] mb-3">Apply Coupon</h3>
+                    <div class="flex gap-2">
+                        <div class="relative flex-1">
+                            <i class="fa-solid fa-ticket absolute left-3 top-1/2 -translate-y-1/2 text-ash text-xs"></i>
+                            <input type="text" id="coupon-input" placeholder="Enter coupon code" class="w-full pl-9 pr-3 py-2 border border-[#DCD3BA] rounded-xl text-sm uppercase tracking-wider font-semibold text-ink focus:outline-none focus:border-clay">
+                        </div>
+                        <button onclick="applyCoupon()" class="bg-ink text-parchment px-4 py-2 rounded-xl text-sm font-semibold hover:bg-ink-light transition">Apply</button>
+                    </div>
+                    <p id="coupon-message" class="text-xs font-medium mt-2 hidden"></p>
+                    <div id="applied-coupons" class="mt-2 flex flex-wrap gap-2 empty:hidden"></div>
+
+                    <div class="mt-4 pt-3 border-t border-dashed border-[#E3D9BC]">
+                        <p class="text-[11px] text-ash font-semibold uppercase tracking-wider mb-2">Available Coupons</p>
+                        
+                        <!-- ✨ GLOW10 Coupon -->
+                        <button onclick="autoFillCoupon('GLOW10')" class="w-full flex justify-between items-center bg-amber-100/60 hover:bg-amber-100 border border-amber-400/60 p-3 rounded-xl transition group mb-2 text-left">
+                            <span>
+                                <span class="flex items-center gap-2">
+                                    <span class="text-xs font-bold text-[#8B4513] font-mono bg-white px-2 py-0.5 rounded border border-amber-300 shadow-xs">GLOW10</span>
+                                    <span class="text-[10px] font-bold text-amber-800 uppercase tracking-widest bg-amber-200/80 px-1.5 py-0.5 rounded">10% OFF</span>
+                                </span>
+                                <span class="block text-[11px] text-slate-700 font-medium mt-1">✨ Special Welcome Offer: Get flat 10% discount on total order</span>
+                            </span>
+                            <i class="fa-solid fa-circle-plus text-[#8B4513] group-hover:scale-110 transition text-base"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bill Details Section -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-[#ECE4CE]">
+                    <h2 class="text-sm font-bold text-ink uppercase tracking-wider mb-4 border-b border-[#ECE4CE] pb-3">Bill Details</h2>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between text-ash">
+                            <span>Bag Subtotal</span>
+                            <span id="bill-subtotal" class="font-semibold text-ink">₹ 0</span>
+                        </div>
+
+                        <div id="discount-row" class="flex justify-between text-sage hidden">
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-tag"></i> Coupon Discount (<span id="applied-coupon-name"></span>)</span>
+                            <span class="font-semibold">- ₹ <span id="bill-discount">0</span></span>
+                        </div>
+
+                        <div class="flex justify-between text-ash">
+                            <span>Delivery Charges</span>
+                            <span id="bill-delivery" class="font-semibold text-ink">₹ 40</span>
+                        </div>
+
+                        <div id="shipping-alert" class="bg-sage-light border border-sage/30 text-ink text-xs p-3 rounded-xl flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info text-sage"></i>
+                            <span>Add <span id="shipping-needed" class="font-bold">₹ 199</span> more for <span class="font-bold">FREE Delivery</span>!</span>
+                        </div>
+
+                        <hr class="border-[#ECE4CE] my-4">
+                        <div class="gap-3 flex items-center">
+                            <input type="checkbox" class="w-5 h-5 accent-clay cursor-pointer shrink-0" id="founder-delivery">
+                            <label for="founder-delivery" class="text-red-600 text-xs font-semibold leading-tight cursor-pointer">Hand-Delivered by the Founder in Delhi NCR (+₹5,000 Service Charge)</label>
+                        </div>
+
+                        <div class="flex justify-between items-baseline pt-2">
+                            <span class="text-base font-serif font-semibold text-ink">Total Payable</span>
+                            <span id="bill-total" class="text-2xl font-serif font-semibold text-clay">₹ 0</span>
+                        </div>
+                    </div>
+
+                    <button id="payNow" class="w-full bg-clay text-white py-3.5 rounded-xl font-semibold text-sm tracking-[0.15em] uppercase shadow-sm hover:bg-clay-dark transition mt-6 flex items-center justify-center gap-2">
+                        Pay Now <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="./js/alora-storefront-discount.min.js" async defer></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="./js/include.min.js"></script>
+    <script type="module" src="./js/navbar-interactions.min.js"></script>
+    <script type="module" src="./js/payment.min.js"></script>
+    <script src="./js/cart.min.js"></script>
+    <script src="./js/app.min.js"></script>
+    <script type="module" src="./js/contacts.min.js"></script>
+</body>
+</html>

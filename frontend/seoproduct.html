@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO ALORA | Product Catalog Control</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#0B132B',
+                        'navy-light': '#1C2541',
+                        gold: '#8B4513',
+                        'gold-light': '#D4AF37',
+                    },
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        fraunces: ['Fraunces', 'serif'],
+                        mono: ['"Roboto Mono"', 'monospace'],
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        /* 🚀 SEO Studio Executive Theme Colors & High Contrast Fixes */
+        .bg-navy {
+            background-color: #0F172A !important;
+        }
+        .bg-navy-light {
+            background-color: #1E293B !important;
+        }
+        nav.bg-navy {
+            background-color: #0F172A !important;
+            border-bottom: 1px solid #1E293B !important;
+        }
+    </style>
+</head>
+<body class="font-sans bg-[#F8FAFC] flex flex-col h-screen overflow-hidden text-slate-800">
+
+    <!-- Top Executive Navigation Header -->
+    <nav class="h-16 bg-navy text-white flex items-center justify-between px-6 shrink-0 shadow-xl z-20 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-950 flex items-center justify-center font-bold shadow-md shadow-amber-500/20">
+                <i class="fa-solid fa-box text-sm"></i>
+            </div>
+            <div>
+                <h1 class="text-base font-extrabold tracking-wider uppercase font-fraunces text-white flex items-center gap-2">
+                    ALORA PRODUCT STUDIO <span class="text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full border border-emerald-400/40">📦 CATALOG ACTIVE</span>
+                </h1>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <a href="./seoadmin.html" class="text-xs font-bold text-white hover:text-amber-300 transition flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 px-3.5 py-2 rounded-lg border border-slate-600 shadow-xs">
+                <i class="fa-solid fa-arrow-left text-amber-400"></i> Back to Dashboard
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Workspace Area -->
+    <main class="flex-1 p-6 sm:p-8 overflow-y-auto bg-[#F8FAFC]">
+        <div class="max-w-6xl mx-auto space-y-6">
+            
+            <div class="bg-gradient-to-r from-slate-900 via-navy to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+                <div>
+                    <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-500/15 text-amber-300 text-[11px] font-bold tracking-widest uppercase font-mono border border-amber-400/30 mb-2">
+                        📦 Product Content &amp; Meta
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-fraunces font-bold text-white">Listed Products Catalog</h2>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-lg leading-relaxed">
+                        Update product graphics, descriptions, customer ratings, volume (ml/g), and SEO product schemas.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Products Table Container -->
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-200/80 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900 text-slate-200 text-[11px] font-extrabold uppercase tracking-widest border-b border-slate-800">
+                                <th class="px-6 py-4">Product</th>
+                                <th class="px-6 py-4">Description</th>
+                                <th class="px-6 py-4">Rating</th>
+                                <th class="px-6 py-4">Measurements</th>
+                                <th class="px-6 py-4 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="seo-product-table" class="divide-y divide-slate-100 text-sm text-slate-700">
+                            <tr>
+                                <td colspan="5" class="px-6 py-12 text-center text-slate-400">
+                                    <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-amber-600"></i>
+                                    <p class="text-xs font-semibold">Loading catalog products...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="module" src="./js/seoAuth.min.js"></script>
+    <script type="module" src="./js/seoproduct.min.js"></script>
+</body>
+</html>

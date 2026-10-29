@@ -1,0 +1,43 @@
+{
+  "name": "alora-website",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "backend/index.js",
+  "scripts": {
+    "start": "node backend/index.js",
+    "dev": "nodemon --ignore uploads/ backend/index.js",
+    "test": "node --test tests/**/*.test.js",
+    "build:css": "tailwindcss --config tailwind.config.js --input frontend/styles/tailwind.css --output frontend/styles/tailwind.min.css --minify",
+    "build:js": "node scripts/minify-js.mjs"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^1.41.3",
+    "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^8.6.2",
+    "google-auth-library": "^10.9.0",
+    "helmet": "^8.3.0",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.7.4",
+    "multer": "^2.2.0",
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemailer": "^9.0.3",
+    "nodemon": "^3.1.14",
+    "razorpay": "^2.9.8",
+    "sanitize-html": "^2.14.0"
+  },
+  "overrides": {
+    "htmlparser2": "8.0.2"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17",
+    "terser": "^5.51.2"
+  }
+}
