@@ -191,9 +191,8 @@ export const register = async (req, res, next) => {
       return res.status(400).json({ message: 'Phone number already registered.' });
     }
 
-    // 3. Safe UpperCase Conversion & Creation with Verification Token
+    // 3. Safe UpperCase Conversion & Creation
     const formattedName = String(name).trim().toUpperCase();
-    const { rawToken, hashedToken, expiresAt } = generateVerificationToken();
 
     const user = await User.create({ 
       name: formattedName, 
@@ -202,17 +201,8 @@ export const register = async (req, res, next) => {
       phone: phone.trim(),
       address: String(address || '').trim(),
       role: "user",
-      isEmailVerified: false,
-      emailVerificationToken: hashedToken,
-      emailVerificationExpires: expiresAt
+      isEmailVerified: true
     });
-
-    // Send verification email asynchronously
-    try {
-      await sendVerificationEmail(user, rawToken, req);
-    } catch (mailErr) {
-      console.warn("Could not send verification email on register:", mailErr.message);
-    }
 
     // A newly registered customer is a lead by definition. Using the account
     // email as the key avoids creating a new lead every time they checkout.
@@ -231,12 +221,13 @@ export const register = async (req, res, next) => {
       { upsert: true, returnDocument: 'after', setDefaultsOnInsert: true }
     );
 
-    // Unverified accounts are not logged in until email verification completes
+    const token = generateToken(user._id, user.role);
+    res.cookie("token", token, authCookieOptions);
+
     res.status(201).json({
       success: true,
-      isUnverified: true,
-      email: user.email,
-      message: 'Registration successful! Verification email sent.',
+      token,
+      message: 'Registration successful!',
       user: { 
         id: user._id, 
         name: user.name, 
@@ -244,7 +235,7 @@ export const register = async (req, res, next) => {
         phone: user.phone, 
         address: user.address, 
         role: user.role,
-        isEmailVerified: false
+        isEmailVerified: true
       }
     });
   } catch (error) {
@@ -405,26 +396,6 @@ export const login = async (req, res, next) => {
 
     if (!user) {
       return res.status(401).json({ message: 'Invalid email or password.' });
-    }
-
-    // Customer accounts MUST be email verified before allowing login
-    if (user.role === "user" && !user.isEmailVerified) {
-      try {
-        const { rawToken, hashedToken, expiresAt } = generateVerificationToken();
-        user.emailVerificationToken = hashedToken;
-        user.emailVerificationExpires = expiresAt;
-        await user.save();
-        await sendVerificationEmail(user, rawToken, req);
-      } catch (err) {
-        console.warn("Could not resend email on unverified login attempt:", err.message);
-      }
-
-      return res.status(403).json({
-        success: false,
-        isUnverified: true,
-        email: user.email,
-        message: "Aapka email verify nahi hai. Kripya pehle email verify karein! Humne aapko naya verification link bhej diya hai."
-      });
     }
 
     const token = generateToken(user._id, user.role);

@@ -326,8 +326,21 @@ function initRegisterForm() {
                 credentials: "include"
             });
             const data = await response.json();
-            if (response.ok || data.isUnverified) {
-                showVerificationWaitingModal(email, () => {
+            if (response.ok) {
+                if (data.token) {
+                    localStorage.setItem("token", data.token);
+                    sessionStorage.setItem("token", data.token);
+                }
+                const userData = data.user || data.data || {};
+                const displayName = userData.name || (userData.email ? userData.email.split('@')[0] : "User");
+                const userObjToStore = {
+                    ...userData,
+                    name: displayName
+                };
+                localStorage.setItem("user", JSON.stringify(userObjToStore));
+                sessionStorage.setItem("user", JSON.stringify(userObjToStore));
+                sessionStorage.setItem("userRole", userData.role || "user");
+                showSuccessModal("Registration Successful!", `Welcome, ${displayName}!`, () => {
                     window.location.href = "./account.html";
                 });
             } else {
@@ -360,12 +373,6 @@ function initLoginForm() {
                 credentials: "include" 
             });
             const data = await response.json();
-            if (data.isUnverified) {
-                showVerificationWaitingModal(email, () => {
-                    window.location.href = "./account.html";
-                });
-                return;
-            }
             if (response.ok && data.success !== false) {
                 if (data.token) {
                     localStorage.setItem("token", data.token);
