@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Verification | Alora Radiance</title>
@@ -13,11 +15,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .font-fraunces { font-family: 'Fraunces', serif; }
+        body { font-family: 'Poppins', sans-serif; }
+        .font-fraunces { font-family: 'Poppins', sans-serif; }
     </style>
 </head>
-<body class="bg-[#FAF7EE] text-[#2A2A24] min-h-screen flex flex-col antialiased">
+<body class="bg-[#FBF7F0] text-[#2B1D14] min-h-screen flex flex-col antialiased">
     <!-- Navigation Header -->
     <div id="navbar-placeholder"></div>
 
@@ -25,14 +27,14 @@
         <h1 class="sr-only">Verify your Alora Radiance email address</h1>
         <div class="max-w-md w-full bg-white rounded-3xl border border-[#ECE4CE] shadow-lg p-6 sm:p-10 text-center relative overflow-hidden">
             <!-- Decorative Accent Top Bar -->
-            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-600 via-[#8B4513] to-amber-700"></div>
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-600 via-[#D98E2B] to-amber-700"></div>
 
             <!-- Toast / Message Box -->
             <div id="verify-toast" class="hidden mb-4 p-3.5 rounded-xl text-xs font-semibold text-left transition-all"></div>
 
             <!-- 1. LOADING STATE (Token Verification in Progress) -->
             <div id="state-loading" class="hidden py-8 space-y-4">
-                <div class="w-16 h-16 rounded-full bg-amber-50 text-[#8B4513] mx-auto flex items-center justify-center text-2xl border border-amber-200">
+                <div class="w-16 h-16 rounded-full bg-amber-50 text-[#D98E2B] mx-auto flex items-center justify-center text-2xl border border-amber-200">
                     <i class="fa-solid fa-spinner fa-spin"></i>
                 </div>
                 <h2 class="text-xl sm:text-2xl font-fraunces font-bold text-slate-900">Verifying Your Email...</h2>
@@ -53,10 +55,10 @@
                 </div>
 
                 <div class="pt-4 space-y-2.5">
-                    <a href="/account" class="w-full bg-[#8B4513] hover:bg-[#6F370F] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
+                    <a href="/account" class="w-full bg-[#D98E2B] hover:bg-[#6F370F] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
                         <i class="fa-solid fa-user"></i> Go to My Account
                     </a>
-                    <a href="/products" class="w-full bg-amber-50 hover:bg-amber-100 text-[#8B4513] py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition border border-amber-200 flex items-center justify-center gap-2">
+                    <a href="/products" class="w-full bg-amber-50 hover:bg-amber-100 text-[#D98E2B] py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition border border-amber-200 flex items-center justify-center gap-2">
                         <i class="fa-solid fa-bag-shopping"></i> Explore Collection
                     </a>
                 </div>
@@ -82,11 +84,11 @@
                             <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
                                 <i class="fa-regular fa-envelope text-sm"></i>
                             </span>
-                            <input type="email" id="req-email" required placeholder="name@example.com" class="w-full bg-[#FAF7EE]/60 border border-[#DCD3BA] rounded-xl pl-10 pr-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 transition">
+                            <input type="email" id="req-email" required placeholder="name@example.com" class="w-full bg-[#FBF7F0]/60 border border-[#DCD3BA] rounded-xl pl-10 pr-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:border-[#D98E2B] focus:ring-2 focus:ring-[#D98E2B]/20 transition">
                         </div>
                     </div>
 
-                    <button type="submit" id="btn-send-link" class="w-full bg-[#8B4513] hover:bg-[#6F370F] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                    <button type="submit" id="btn-send-link" class="w-full bg-[#D98E2B] hover:bg-[#6F370F] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
                         <i class="fa-solid fa-paper-plane"></i> Send Verification Link
                     </button>
                 </form>
@@ -115,10 +117,10 @@
                 </div>
 
                 <div class="pt-3 space-y-2.5">
-                    <button type="button" onclick="showRequestFormAgain()" class="w-full bg-amber-50 hover:bg-amber-100 text-[#8B4513] py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition border border-amber-200 flex items-center justify-center gap-2 cursor-pointer">
+                    <button type="button" onclick="showRequestFormAgain()" class="w-full bg-amber-50 hover:bg-amber-100 text-[#D98E2B] py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition border border-amber-200 flex items-center justify-center gap-2 cursor-pointer">
                         <i class="fa-solid fa-rotate-right"></i> Try Another Email
                     </button>
-                    <a href="/login.html" class="w-full bg-[#8B4513] hover:bg-[#6F370F] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
+                    <a href="/login.html" class="w-full bg-[#D98E2B] hover:bg-[#6F370F] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
                         <i class="fa-solid fa-arrow-right-to-bracket"></i> Back to Login
                     </a>
                 </div>
@@ -135,7 +137,7 @@
                 </div>
 
                 <div class="pt-3 space-y-2.5">
-                    <button type="button" onclick="showRequestFormAgain()" class="w-full bg-[#8B4513] hover:bg-[#6F370F] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                    <button type="button" onclick="showRequestFormAgain()" class="w-full bg-[#D98E2B] hover:bg-[#6F370F] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
                         <i class="fa-solid fa-paper-plane"></i> Get New Verification Link
                     </button>
                     <a href="/login.html" class="w-full bg-stone-100 hover:bg-stone-200 text-stone-700 py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition border border-stone-200 flex items-center justify-center gap-2">

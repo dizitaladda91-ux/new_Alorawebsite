@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Account & Orders - Alora Radiance</title>
@@ -23,10 +25,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .font-fraunces { font-family: 'Fraunces', serif; }
+        body { font-family: 'Poppins', sans-serif; }
+        .font-fraunces { font-family: 'Poppins', sans-serif; }
         .tab-btn.active {
-            background-color: #8B4513;
+            background-color: #D98E2B;
             color: #FFFFFF;
             box-shadow: 0 4px 12px rgba(139, 69, 19, 0.25);
         }
@@ -39,21 +41,21 @@
         }
         .tab-btn:not(.active):hover {
             background-color: #F5EBE1;
-            color: #8B4513;
+            color: #D98E2B;
         }
         .title-pill.selected {
-            background-color: #8B4513;
+            background-color: #D98E2B;
             color: #FFFFFF;
-            border-color: #8B4513;
+            border-color: #D98E2B;
         }
         .gender-pill.selected {
-            background-color: #8B4513;
+            background-color: #D98E2B;
             color: #FFFFFF;
-            border-color: #8B4513;
+            border-color: #D98E2B;
         }
     </style>
 </head>
-<body class="bg-[#FAF7EE] text-[#2A2A24] min-h-screen flex flex-col antialiased">
+<body class="bg-[#FBF7F0] text-[#2B1D14] min-h-screen flex flex-col antialiased">
     <!-- Top Global Header / Navigation -->
     <div id="navbar-placeholder"></div>
 
@@ -61,7 +63,7 @@
         <!-- Breadcrumb / Header Title -->
         <div class="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <p class="text-xs uppercase tracking-[0.2em] text-[#8B4513] font-extrabold flex items-center gap-1.5">
+                <p class="text-xs uppercase tracking-[0.2em] text-[#D98E2B] font-extrabold flex items-center gap-1.5">
                     <i class="fa-solid fa-crown text-amber-500 text-xs"></i> Alora Member Portal
                 </p>
                 <h1 class="text-2xl sm:text-3xl lg:text-4xl font-fraunces font-bold text-slate-900 mt-1">My Account</h1>
@@ -99,7 +101,7 @@
             <aside class="w-full md:w-72 lg:w-80 shrink-0 bg-white rounded-3xl border border-[#ECE4CE] shadow-sm p-5 md:p-6 md:sticky md:top-24">
                 <!-- User Profile Header Card -->
                 <div class="flex items-center gap-4 pb-6 border-b border-stone-100">
-                    <div id="sidebar-avatar" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8B4513] to-[#5C2E0B] text-white flex items-center justify-center text-xl font-bold font-fraunces shadow-md ring-4 ring-amber-100/70 shrink-0">
+                    <div id="sidebar-avatar" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#D98E2B] to-[#5C2E0B] text-white flex items-center justify-center text-xl font-bold font-fraunces shadow-md ring-4 ring-amber-100/70 shrink-0">
                         <i class="fa-solid fa-user text-lg"></i>
                     </div>
                     <div class="min-w-0 flex-1">
@@ -155,7 +157,7 @@
 
                 <!-- Sidebar Footer & Logout -->
                 <div class="mt-8 pt-6 border-t border-stone-100 space-y-3">
-                    <a href="/products" class="w-full bg-amber-50 hover:bg-amber-100 text-[#8B4513] text-xs font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition border border-amber-200">
+                    <a href="/products" class="w-full bg-amber-50 hover:bg-amber-100 text-[#D98E2B] text-xs font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition border border-amber-200">
                         <i class="fa-solid fa-bag-shopping"></i> Explore Shop
                     </a>
                     <button type="button" id="sidebar-logout-btn" class="w-full bg-stone-100 hover:bg-red-50 text-stone-700 hover:text-red-700 text-xs font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition border border-stone-200 cursor-pointer">
@@ -183,8 +185,8 @@
                             <p class="text-xs sm:text-sm text-stone-500 mt-0.5">Track your packages, download receipts, and view live order progress.</p>
                         </div>
                         <!-- Order Filters -->
-                        <div class="flex items-center gap-1.5 bg-[#FAF7EE] p-1 rounded-xl border border-[#ECE4CE] text-xs font-bold overflow-x-auto scrollbar-none">
-                            <button type="button" onclick="filterOrders('all', this)" class="order-filter-btn px-3 py-1.5 rounded-lg bg-[#8B4513] text-white">All</button>
+                        <div class="flex items-center gap-1.5 bg-[#FBF7F0] p-1 rounded-xl border border-[#ECE4CE] text-xs font-bold overflow-x-auto scrollbar-none">
+                            <button type="button" onclick="filterOrders('all', this)" class="order-filter-btn px-3 py-1.5 rounded-lg bg-[#D98E2B] text-white">All</button>
                             <button type="button" onclick="filterOrders('active', this)" class="order-filter-btn px-3 py-1.5 rounded-lg text-stone-600 hover:text-stone-900">In Progress</button>
                             <button type="button" onclick="filterOrders('delivered', this)" class="order-filter-btn px-3 py-1.5 rounded-lg text-stone-600 hover:text-stone-900">Delivered</button>
                         </div>
@@ -192,17 +194,17 @@
 
                     <!-- Orders Loader / Empty / Content List -->
                     <div id="orders-loader" class="py-12 text-center text-stone-500">
-                        <i class="fa-solid fa-spinner fa-spin text-2xl text-[#8B4513] mb-3"></i>
+                        <i class="fa-solid fa-spinner fa-spin text-2xl text-[#D98E2B] mb-3"></i>
                         <p class="text-sm font-semibold">Loading your order history...</p>
                     </div>
 
                     <div id="orders-empty-state" class="hidden py-12 text-center">
-                        <div class="w-16 h-16 rounded-full bg-amber-50 text-[#8B4513] mx-auto flex items-center justify-center text-2xl mb-4 border border-amber-200">
+                        <div class="w-16 h-16 rounded-full bg-amber-50 text-[#D98E2B] mx-auto flex items-center justify-center text-2xl mb-4 border border-amber-200">
                             <i class="fa-solid fa-bag-shopping"></i>
                         </div>
                         <h3 class="text-lg font-fraunces font-bold text-slate-900">No orders placed yet</h3>
                         <p class="text-xs sm:text-sm text-stone-500 max-w-sm mx-auto mt-1">Discover our clinically crafted luxury skincare rituals and place your first order today.</p>
-                        <a href="/products" class="inline-block mt-5 bg-[#8B4513] hover:bg-[#6F370F] text-white px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-md">
+                        <a href="/products" class="inline-block mt-5 bg-[#D98E2B] hover:bg-[#6F370F] text-white px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-md">
                             Browse Collection
                         </a>
                     </div>
@@ -216,7 +218,7 @@
                 <!-- ==================================================== -->
                 <section id="panel-track" class="account-panel hidden bg-white rounded-3xl border border-[#ECE4CE] p-5 sm:p-7 shadow-sm space-y-6">
                     <div class="pb-6 border-b border-stone-100">
-                        <div class="flex items-center gap-2 text-xs uppercase tracking-wider font-extrabold text-[#8B4513] mb-1">
+                        <div class="flex items-center gap-2 text-xs uppercase tracking-wider font-extrabold text-[#D98E2B] mb-1">
                             <i class="fa-solid fa-truck-fast"></i> Real-Time Shipment Tracking
                         </div>
                         <h2 class="text-xl sm:text-2xl font-fraunces font-bold text-slate-900">Track Order Status</h2>
@@ -224,7 +226,7 @@
                     </div>
 
                     <!-- Search Box -->
-                    <form id="account-track-form" class="bg-gradient-to-br from-[#FAF7EE] to-[#FFFDF9] p-4 sm:p-6 rounded-2xl border border-[#ECE4CE] shadow-2xs space-y-3">
+                    <form id="account-track-form" class="bg-gradient-to-br from-[#FBF7F0] to-[#FFFDF9] p-4 sm:p-6 rounded-2xl border border-[#ECE4CE] shadow-2xs space-y-3">
                         <label for="account-track-input" class="block text-xs font-bold uppercase tracking-wider text-stone-700">
                             Tracking ID / AWB / Order ID
                         </label>
@@ -233,9 +235,9 @@
                                 <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
                                     <i class="fa-solid fa-magnifying-glass text-sm"></i>
                                 </span>
-                                <input type="text" id="account-track-input" placeholder="e.g. AWB12345678, order_ABC123, or pay_..." required class="w-full bg-white border border-[#DCD3BA] rounded-xl pl-10 pr-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 transition shadow-2xs">
+                                <input type="text" id="account-track-input" placeholder="e.g. AWB12345678, order_ABC123, or pay_..." required class="w-full bg-white border border-[#DCD3BA] rounded-xl pl-10 pr-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:border-[#D98E2B] focus:ring-2 focus:ring-[#D98E2B]/20 transition shadow-2xs">
                             </div>
-                            <button type="submit" id="account-track-btn" class="bg-[#8B4513] hover:bg-[#6F370F] text-white px-6 py-3 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer shrink-0">
+                            <button type="submit" id="account-track-btn" class="bg-[#D98E2B] hover:bg-[#6F370F] text-white px-6 py-3 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer shrink-0">
                                 <i class="fa-solid fa-location-arrow"></i> Track Status
                             </button>
                         </div>
@@ -259,17 +261,17 @@
                     </div>
 
                     <div id="buy-again-loader" class="py-12 text-center text-stone-500">
-                        <i class="fa-solid fa-spinner fa-spin text-2xl text-[#8B4513] mb-3"></i>
+                        <i class="fa-solid fa-spinner fa-spin text-2xl text-[#D98E2B] mb-3"></i>
                         <p class="text-sm font-semibold">Finding your past favorites...</p>
                     </div>
 
                     <div id="buy-again-empty" class="hidden py-12 text-center">
-                        <div class="w-16 h-16 rounded-full bg-amber-50 text-[#8B4513] mx-auto flex items-center justify-center text-2xl mb-4 border border-amber-200">
+                        <div class="w-16 h-16 rounded-full bg-amber-50 text-[#D98E2B] mx-auto flex items-center justify-center text-2xl mb-4 border border-amber-200">
                             <i class="fa-solid fa-arrow-rotate-right"></i>
                         </div>
                         <h3 class="text-lg font-fraunces font-bold text-slate-900">No repeat purchases available yet</h3>
                         <p class="text-xs sm:text-sm text-stone-500 max-w-sm mx-auto mt-1">Once you complete an order, your purchased skincare products will appear here for 1-click re-ordering.</p>
-                        <a href="/products" class="inline-block mt-5 bg-[#8B4513] hover:bg-[#6F370F] text-white px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-md">
+                        <a href="/products" class="inline-block mt-5 bg-[#D98E2B] hover:bg-[#6F370F] text-white px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-md">
                             Shop Products
                         </a>
                     </div>
@@ -293,7 +295,7 @@
                     </div>
 
                     <div id="wishlist-loader" class="py-12 text-center text-stone-500">
-                        <i class="fa-solid fa-spinner fa-spin text-2xl text-[#8B4513] mb-3"></i>
+                        <i class="fa-solid fa-spinner fa-spin text-2xl text-[#D98E2B] mb-3"></i>
                         <p class="text-sm font-semibold">Loading your saved items...</p>
                     </div>
 
@@ -303,7 +305,7 @@
                         </div>
                         <h3 class="text-lg font-fraunces font-bold text-slate-900">Your wishlist is empty</h3>
                         <p class="text-xs sm:text-sm text-stone-500 max-w-sm mx-auto mt-1">Tap the heart icon on any product to save it to your wishlist and buy it whenever you're ready.</p>
-                        <a href="/products" class="inline-block mt-5 bg-[#8B4513] hover:bg-[#6F370F] text-white px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-md">
+                        <a href="/products" class="inline-block mt-5 bg-[#D98E2B] hover:bg-[#6F370F] text-white px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-md">
                             Discover Products
                         </a>
                     </div>
@@ -346,7 +348,7 @@
                                     <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
                                         <i class="fa-regular fa-user text-sm"></i>
                                     </span>
-                                    <input type="text" id="prof-name" name="name" required placeholder="Your full name" class="w-full bg-[#FAF7EE]/60 border border-[#DCD3BA] rounded-xl pl-10 pr-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 transition">
+                                    <input type="text" id="prof-name" name="name" required placeholder="Your full name" class="w-full bg-[#FBF7F0]/60 border border-[#DCD3BA] rounded-xl pl-10 pr-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:border-[#D98E2B] focus:ring-2 focus:ring-[#D98E2B]/20 transition">
                                 </div>
                             </div>
 
@@ -358,7 +360,7 @@
                                     <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
                                         <i class="fa-solid fa-phone text-sm"></i>
                                     </span>
-                                    <input type="tel" id="prof-phone" name="phone" required maxlength="10" placeholder="10-digit mobile number" class="w-full bg-[#FAF7EE]/60 border border-[#DCD3BA] rounded-xl pl-10 pr-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 transition">
+                                    <input type="tel" id="prof-phone" name="phone" required maxlength="10" placeholder="10-digit mobile number" class="w-full bg-[#FBF7F0]/60 border border-[#DCD3BA] rounded-xl pl-10 pr-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:border-[#D98E2B] focus:ring-2 focus:ring-[#D98E2B]/20 transition">
                                 </div>
                             </div>
                         </div>
@@ -384,7 +386,7 @@
                                         <p class="text-xs text-amber-900 font-medium flex items-center gap-1.5">
                                             <i class="fa-solid fa-triangle-exclamation text-amber-600"></i> Email not verified.
                                         </p>
-                                        <button type="button" onclick="triggerResendVerificationEmail()" id="btn-resend-verification" class="text-xs font-bold bg-[#8B4513] hover:bg-[#6F370F] text-white px-3 py-1.5 rounded-lg transition shadow-xs cursor-pointer whitespace-nowrap flex items-center justify-center gap-1.5">
+                                        <button type="button" onclick="triggerResendVerificationEmail()" id="btn-resend-verification" class="text-xs font-bold bg-[#D98E2B] hover:bg-[#6F370F] text-white px-3 py-1.5 rounded-lg transition shadow-xs cursor-pointer whitespace-nowrap flex items-center justify-center gap-1.5">
                                             <i class="fa-solid fa-paper-plane text-[10px]"></i> Resend Verification Link
                                         </button>
                                     </div>
@@ -399,7 +401,7 @@
                                     <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
                                         <i class="fa-regular fa-calendar text-sm"></i>
                                     </span>
-                                    <input type="date" id="prof-dob" name="dob" class="w-full bg-[#FAF7EE]/60 border border-[#DCD3BA] rounded-xl pl-10 pr-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 transition">
+                                    <input type="date" id="prof-dob" name="dob" class="w-full bg-[#FBF7F0]/60 border border-[#DCD3BA] rounded-xl pl-10 pr-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:border-[#D98E2B] focus:ring-2 focus:ring-[#D98E2B]/20 transition">
                                 </div>
                             </div>
                         </div>
@@ -421,13 +423,13 @@
                                 Default Shipping & Delivery Address
                             </label>
                             <div class="relative">
-                                <textarea id="prof-address" name="address" rows="3" placeholder="Enter your complete delivery address (House/Flat no, Street, Landmark, City, State, Pincode)" class="w-full bg-[#FAF7EE]/60 border border-[#DCD3BA] rounded-xl p-3.5 text-sm font-medium text-slate-900 focus:outline-none focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 transition"></textarea>
+                                <textarea id="prof-address" name="address" rows="3" placeholder="Enter your complete delivery address (House/Flat no, Street, Landmark, City, State, Pincode)" class="w-full bg-[#FBF7F0]/60 border border-[#DCD3BA] rounded-xl p-3.5 text-sm font-medium text-slate-900 focus:outline-none focus:border-[#D98E2B] focus:ring-2 focus:ring-[#D98E2B]/20 transition"></textarea>
                             </div>
                         </div>
 
                         <!-- Form Submit Button -->
                         <div class="pt-2 flex items-center justify-end">
-                            <button type="submit" id="save-profile-btn" class="bg-[#8B4513] hover:bg-[#6F370F] text-white px-8 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center gap-2 cursor-pointer">
+                            <button type="submit" id="save-profile-btn" class="bg-[#D98E2B] hover:bg-[#6F370F] text-white px-8 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center gap-2 cursor-pointer">
                                 <i class="fa-solid fa-floppy-disk text-sm"></i> Save Changes
                             </button>
                         </div>

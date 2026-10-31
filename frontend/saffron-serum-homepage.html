@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alora Radiance | Saffron Face Serum</title>
+  <meta name="description" content="Discover Alora Radiance Brightening & Hydrating Face Serum (30ml). Formulated with pure saffron, niacinamide, retinol, and hyaluronic acid for a natural, healthy glow.">
+  <link rel="icon" type="image/x-icon" href="./static/favicon.ico">
+
+  <!-- Google Font: Poppins (Only weights 400, 500, 600) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ========================================================
+       COLOUR PALETTE (CSS VARIABLES - ONLY THESE SHADES)
+       ======================================================== */
+    :root {
+      --ivory: #FBF7F0;
+      --sand: #F1E6D3;
+      --amber: #D98E2B;
+      --amber-hover: #C47D1F;
+      --brown: #2B1D14;
+      --brown-80: rgba(43, 29, 20, 0.8);
+      --brown-40: rgba(43, 29, 20, 0.4);
+      --brown-20: rgba(43, 29, 20, 0.15);
+      --brown-10: rgba(43, 29, 20, 0.08);
+    }
+
+    /* Reset & Base Typography */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--ivory);
+      color: var(--brown);
+    }
+
+    body {
+      background-color: var(--ivory);
+      color: var(--brown);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Container Utility */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding-left: 48px;
+        padding-right: 48px;
+      }
+    }
+
+    /* Typography Hierarchy */
+    .logo-text {
+      font-size: 1.4rem;
+      font-weight: 500;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--brown);
+      line-height: 1;
+    }
+
+    .heading-large {
+      font-size: 2.25rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      line-height: 1.25;
+      color: var(--brown);
+    }
+
+    @media (min-width: 768px) {
+      .heading-large {
+        font-size: 3.25rem;
+      }
+    }
+
+    .heading-medium {
+      font-size: 1.6rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      line-height: 1.35;
+      color: var(--brown);
+    }
+
+    @media (min-width: 768px) {
+      .heading-medium {
+        font-size: 2.1rem;
+      }
+    }
+
+    .heading-small {
+      font-size: 1.15rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: var(--brown);
+    }
+
+    .small-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--amber-hover);
+      display: inline-block;
+    }
+
+    .body-text {
+      font-size: 0.95rem;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--brown-80);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      text-align: center;
+      border: 1px solid transparent;
+      outline: none;
+    }
+
+    .btn-primary {
+      background-color: var(--amber);
+      color: var(--brown);
+      border-color: var(--amber);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--amber-hover);
+      border-color: var(--amber-hover);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      border: 1px solid var(--brown);
+      color: var(--brown);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--brown);
+      color: var(--ivory);
+    }
+
+    /* 1. Announcement Bar */
+    .announcement-bar {
+      background-color: var(--brown);
+      color: var(--ivory);
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* 2. Header & Navigation */
+    .site-header {
+      background-color: var(--ivory);
+      border-bottom: 1px solid var(--brown-10);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+      }
+    }
+
+    .nav-link {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--brown);
+      position: relative;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--amber-hover);
+    }
+
+    .cart-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--amber-hover);
+      margin-left: 4px;
+    }
+
+    .mobile-menu-btn {
+      display: block;
+      background: none;
+      border: none;
+      color: var(--brown);
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    @media (min-width: 768px) {
+      .mobile-menu-btn {
+        display: none;
+      }
+    }
+
+    /* Mobile Drawer */
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: var(--ivory);
+      z-index: 100;
+      padding: 24px;
+      flex-direction: column;
+    }
+
+    .mobile-drawer.open {
+      display: flex;
+    }
+
+    .mobile-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--brown-20);
+    }
+
+    .mobile-nav-links {
+      list-style: none;
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .mobile-nav-links a {
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brown);
+    }
+
+    /* 3. Hero Section */
+    .hero-section {
+      padding-top: 48px;
+      padding-bottom: 64px;
+      background-color: var(--ivory);
+    }
+
+    @media (min-width: 768px) {
+      .hero-section {
+        padding-top: 80px;
+        padding-bottom: 100px;
+      }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    @media (min-width: 860px) {
+      .hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 60px;
+      }
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .rating-strip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .stars-group {
+      display: flex;
+      gap: 3px;
+      color: var(--amber);
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .rating-text {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--brown);
+      letter-spacing: 0.5px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    /* Hero Product Image Box */
+    .product-image-box {
+      background-color: var(--sand);
+      border-radius: 12px;
+      padding: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      .product-image-box {
+        padding: 48px;
+      }
+    }
+
+    .product-image-box img {
+      max-width: 82%;
+      max-height: 82%;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 24px rgba(43, 29, 20, 0.12));
+      transition: transform 0.4s ease;
+    }
+
+    .product-image-box:hover img {
+      transform: scale(1.03);
+    }
+
+    /* 4. Ingredients Strip */
+    .ingredients-section {
+      background-color: var(--sand);
+      padding-top: 64px;
+      padding-bottom: 64px;
+    }
+
+    @media (min-width: 768px) {
+      .ingredients-section {
+        padding-top: 80px;
+        padding-bottom: 80px;
+      }
+    }
+
+    .ingredients-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 48px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .ingredients-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 768px) {
+      .ingredients-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+      }
+    }
+
+    .ingredient-card {
+      background-color: var(--ivory);
+      border-radius: 12px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border: 1px solid var(--brown-10);
+      transition: transform 0.25s ease;
+    }
+
+    .ingredient-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .ingredient-name {
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: var(--brown);
+    }
+
+    .ingredient-benefit {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--amber-hover);
+    }
+
+    /* 5. Product Features / Ritual Section */
+    .ritual-section {
+      padding-top: 80px;
+      padding-bottom: 80px;
+      background-color: var(--ivory);
+    }
+
+    .ritual-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (min-width: 860px) {
+      .ritual-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+      }
+    }
+
+    .ritual-card {
+      background-color: var(--sand);
+      border-radius: 12px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .ritual-step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: var(--amber-hover);
+      line-height: 1.2;
+    }
+
+    /* 6. Reviews Section */
+    .reviews-section {
+      background-color: var(--sand);
+      padding-top: 80px;
+      padding-bottom: 80px;
+    }
+
+    .reviews-header {
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto 48px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 768px) {
+      .reviews-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+      }
+    }
+
+    .review-card {
+      background-color: var(--ivory);
+      border-radius: 12px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      border: 1px solid var(--brown-10);
+    }
+
+    .review-author {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--brown);
+      letter-spacing: 0.5px;
+    }
+
+    /* 7. Footer */
+    .site-footer {
+      background-color: var(--brown);
+      color: var(--ivory);
+      padding-top: 64px;
+      padding-bottom: 40px;
+      border-top: 1px solid var(--brown);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(251, 247, 240, 0.15);
+    }
+
+    @media (min-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 48px;
+      }
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .footer-brand .logo-text {
+      color: var(--ivory);
+    }
+
+    .footer-text {
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: rgba(251, 247, 240, 0.75);
+      line-height: 1.7;
+      max-width: 380px;
+    }
+
+    .footer-col-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: rgba(251, 247, 240, 0.8);
+      letter-spacing: 0.5px;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--amber);
+    }
+
+    .footer-bottom {
+      padding-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+      font-size: 0.78rem;
+      color: rgba(251, 247, 240, 0.6);
+    }
+
+    @media (min-width: 768px) {
+      .footer-bottom {
+        flex-direction: row;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Announcement Bar -->
+  <aside class="announcement-bar" role="region" aria-label="Announcement">
+    FREE DELIVERY ON ORDERS ABOVE 999
+  </aside>
+
+  <!-- 2. Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav-inner" aria-label="Main Navigation">
+        <!-- Logo -->
+        <a href="/" class="logo-text" aria-label="Alora Radiance Home">ALORA</a>
+
+        <!-- Desktop Navigation Links -->
+        <ul class="nav-links">
+          <li><a href="/products" class="nav-link">SHOP</a></li>
+          <li><a href="/about" class="nav-link">ABOUT</a></li>
+          <li><a href="#reviews" class="nav-link">REVIEWS</a></li>
+          <li>
+            <a href="/cart" class="nav-link">
+              CART<span class="cart-badge" id="nav-cart-count">(0)</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Mobile Menu Button -->
+        <button type="button" class="mobile-menu-btn" id="mobile-toggle" aria-label="Toggle menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="mobile-drawer-header">
+      <span class="logo-text">ALORA</span>
+      <button type="button" class="mobile-menu-btn" id="mobile-close" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="/products" class="mobile-link">SHOP</a></li>
+      <li><a href="/about" class="mobile-link">ABOUT</a></li>
+      <li><a href="#reviews" class="mobile-link">REVIEWS</a></li>
+      <li><a href="/cart" class="mobile-link">CART</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <!-- 3. Hero Section (Two columns) -->
+    <section class="hero-section" aria-labelledby="hero-heading">
+      <div class="container">
+        <div class="hero-grid">
+          
+          <!-- Left Column: Details & CTAs -->
+          <div class="hero-content">
+            <span class="small-label">SAFFRON FACE SERUM</span>
+            
+            <h1 class="heading-large" id="hero-heading">
+              Glow that feels natural
+            </h1>
+            
+            <p class="body-text">
+              Brightening &amp; Hydrating Face Serum (30ml) formulated with pure Kashmiri saffron, niacinamide, retinol, and hyaluronic acid. Lightweight, fast-absorbing botanical care designed to restore vitality, refine texture, and replenish deep moisture.
+            </p>
+
+            <!-- 5 Amber Stars & Rating Text -->
+            <div class="rating-strip">
+              <div class="stars-group" aria-label="Rated 5 out of 5 stars">
+                <span>&#9733;</span>
+                <span>&#9733;</span>
+                <span>&#9733;</span>
+                <span>&#9733;</span>
+                <span>&#9733;</span>
+              </div>
+              <span class="rating-text">4.8 rating | 30ml</span>
+            </div>
+
+            <!-- Two Buttons -->
+            <div class="hero-buttons">
+              <button type="button" class="btn btn-primary" id="hero-buy-btn">
+                BUY NOW
+              </button>
+              <a href="#ingredients" class="btn btn-secondary">
+                LEARN MORE
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: Product Photo inside Rounded Soft Sand Box -->
+          <div class="product-image-box">
+            <img 
+              src="./static/product2.png" 
+              alt="Alora Radiance Brightening &amp; Hydrating Saffron Face Serum 30ml"
+              width="450" 
+              height="450" 
+              loading="eager"
+            >
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Ingredients Strip on Soft Sand Background (3 Columns) -->
+    <section class="ingredients-section" id="ingredients" aria-labelledby="ingredients-heading">
+      <div class="container">
+        <div class="ingredients-header">
+          <span class="small-label">PURE BOTANICAL FORMULATION</span>
+          <h2 class="heading-medium" id="ingredients-heading">
+            Thoughtful ingredients for radiant skin
+          </h2>
+          <p class="body-text">
+            Each drop blends traditional botanical wisdom with dermatologist-tested active science for lasting results.
+          </p>
+        </div>
+
+        <div class="ingredients-grid">
+          
+          <!-- Column 1: Saffron -->
+          <article class="ingredient-card">
+            <span class="ingredient-benefit">Natural radiance</span>
+            <h3 class="ingredient-name">Saffron</h3>
+            <p class="body-text">
+              Rich in potent antioxidants like crocin to combat oxidative stress, fade dark spots, and impart an authentic, lit-from-within glow.
+            </p>
+          </article>
+
+          <!-- Column 2: Niacinamide -->
+          <article class="ingredient-card">
+            <span class="ingredient-benefit">Even skin tone</span>
+            <h3 class="ingredient-name">Niacinamide</h3>
+            <p class="body-text">
+              Concentrated Vitamin B3 calms visible redness, balances excess sebum production, and refines uneven texture for smooth clarity.
+            </p>
+          </article>
+
+          <!-- Column 3: Hyaluronic Acid -->
+          <article class="ingredient-card">
+            <span class="ingredient-benefit">Deep hydration</span>
+            <h3 class="ingredient-name">Hyaluronic Acid</h3>
+            <p class="body-text">
+              Attracts and binds up to 1,000 times its molecular weight in water, plumping fine dehydration lines and sealing continuous moisture.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Routine & Proven Care Section -->
+    <section class="ritual-section" id="ritual" aria-labelledby="ritual-heading">
+      <div class="container">
+        <div class="ritual-grid">
+          
+          <!-- Left: Ritual Details -->
+          <div>
+            <span class="small-label">EVERYDAY RITUAL</span>
+            <h2 class="heading-medium" id="ritual-heading" style="margin-top: 10px; margin-bottom: 20px;">
+              Designed for effortless daily application
+            </h2>
+            <p class="body-text" style="margin-bottom: 32px;">
+              Layering skincare should be a calming moment of care. Our silk-finish serum absorbs in under 20 seconds without tackiness or residue.
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+              <div class="ritual-step">
+                <span class="step-number">01</span>
+                <div>
+                  <h3 class="heading-small">Cleanse gently</h3>
+                  <p class="body-text">Wash your face thoroughly with warm water and pat dry with a soft cotton towel.</p>
+                </div>
+              </div>
+
+              <div class="ritual-step">
+                <span class="step-number">02</span>
+                <div>
+                  <h3 class="heading-small">Dispense 3-4 drops</h3>
+                  <p class="body-text">Warm the golden drops gently between fingertips and press lightly onto cheeks, forehead, and neck.</p>
+                </div>
+              </div>
+
+              <div class="ritual-step">
+                <span class="step-number">03</span>
+                <div>
+                  <h3 class="heading-small">Seal with moisturizer</h3>
+                  <p class="body-text">Follow with your favorite daily face cream or sunscreen to lock in active hydration all day.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Soft Sand Feature Box -->
+          <div class="ritual-card">
+            <span class="small-label">FORMULATION STANDARDS</span>
+            <h3 class="heading-medium">Clean, verified, gentle</h3>
+            <p class="body-text">
+              Cruelty-free, 100% vegan formula free from parabens, mineral oils, synthetic dyes, and artificial fragrances. Dermatologically balanced for all Indian skin types.
+            </p>
+            <div style="border-top: 1px solid var(--brown-20); padding-top: 24px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span style="display: block; font-size: 1.3rem; font-weight: 500; color: var(--brown);">₹599</span>
+                <span style="font-size: 0.8rem; color: var(--brown-80);">30ml bottle | Taxes included</span>
+              </div>
+              <button type="button" class="btn btn-primary" onclick="handleDirectBuy()">
+                BUY NOW
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Real Customer Reviews Section -->
+    <section class="reviews-section" id="reviews" aria-labelledby="reviews-heading">
+      <div class="container">
+        <div class="reviews-header">
+          <span class="small-label">COMMUNITY EXPERIENCES</span>
+          <h2 class="heading-medium" id="reviews-heading">
+            Loved for true, healthy skin results
+          </h2>
+          <div class="rating-strip" style="justify-content: center;">
+            <div class="stars-group">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <span class="rating-text">4.8 out of 5 based on verified customer purchases</span>
+          </div>
+        </div>
+
+        <div class="reviews-grid">
+          
+          <article class="review-card">
+            <div class="stars-group" style="font-size: 0.95rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="body-text">
+              "Obsessed with this serum! It absorbs within 15 seconds without any sticky residue. After 3 weeks of consistent night use, my acne marks have visibly lightened and my face looks plump in the morning."
+            </p>
+            <span class="review-author">Ananya Verma &bull; Verified Buyer</span>
+          </article>
+
+          <article class="review-card">
+            <div class="stars-group" style="font-size: 0.95rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="body-text">
+              "The glass dropper bottle feels so luxurious. Just 3 drops are enough for the whole face and neck. Hydration lasts all day under makeup without pilling."
+            </p>
+            <span class="review-author">Tanya Sengupta &bull; Verified Buyer</span>
+          </article>
+
+          <article class="review-card">
+            <div class="stars-group" style="font-size: 0.95rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="body-text">
+              "I have tired, dull skin from constant laptop screen exposure. This serum gave an instant dewy bounce within a week. Truly worth every rupee."
+            </p>
+            <span class="review-author">Meera Kulkarni &bull; Verified Buyer</span>
+          </article>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 7. Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <!-- Brand Summary -->
+        <div class="footer-brand">
+          <span class="logo-text">ALORA</span>
+          <p class="footer-text">
+            Thoughtful botanical skincare formulated for radiant, healthy skin. Pure ingredients, dermatologist-tested formulas, and mindful everyday rituals.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="footer-col-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="/products">Shop All Products</a></li>
+            <li><a href="/about">Our Story &amp; Philosophy</a></li>
+            <li><a href="#ingredients">Ingredients Guide</a></li>
+            <li><a href="#reviews">Verified Reviews</a></li>
+          </ul>
+        </div>
+
+        <!-- Customer Care -->
+        <div>
+          <h4 class="footer-col-title">Customer Care</h4>
+          <ul class="footer-links">
+            <li><a href="/trackorder">Track Your Order</a></li>
+            <li><a href="/PrivacyPolicy">Privacy Policy</a></li>
+            <li><a href="/ReturnRefund">Returns &amp; Refunds</a></li>
+            <li><a href="/termCondition">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Alora Radiance. All rights reserved.</span>
+        <span>Free delivery on orders above 999 across India.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile navigation toggle
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileClose = document.getElementById('mobile-close');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+
+    if (mobileToggle && mobileDrawer) {
+      mobileToggle.addEventListener('click', () => {
+        mobileDrawer.classList.add('open');
+      });
+    }
+
+    if (mobileClose && mobileDrawer) {
+      mobileClose.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+      });
+    }
+
+    // Close drawer when clicking any link
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (mobileDrawer) mobileDrawer.classList.remove('open');
+      });
+    });
+
+    // Update cart badge from localStorage
+    function updateCartBadge() {
+      try {
+        const cart = JSON.parse(localStorage.getItem('alora_cart') || '[]');
+        const totalCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        const badge = document.getElementById('nav-cart-count');
+        if (badge) {
+          badge.textContent = `(${totalCount})`;
+        }
+      } catch (err) {
+        console.error('Cart load error:', err);
+      }
+    }
+
+    // Direct Buy Now handler for Saffron Face Serum
+    function handleDirectBuy() {
+      try {
+        let cart = JSON.parse(localStorage.getItem('alora_cart') || '[]');
+        const serumItem = {
+          id: '6a6c2a1e478a84d9d7169bbe',
+          slug: 'brightening-hydrating-face-serum',
+          name: 'Brightening & Hydrating Face Serum',
+          price: 599,
+          quantity: 1,
+          size: '30ml',
+          image: './static/product2.png'
+        };
+
+        const existingIndex = cart.findIndex(i => i.id === serumItem.id || i.slug === serumItem.slug);
+        if (existingIndex > -1) {
+          cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+        } else {
+          cart.push(serumItem);
+        }
+
+        localStorage.setItem('alora_cart', JSON.stringify(cart));
+        window.location.href = '/cart';
+      } catch (err) {
+        window.location.href = '/cart';
+      }
+    }
+
+    const heroBuyBtn = document.getElementById('hero-buy-btn');
+    if (heroBuyBtn) {
+      heroBuyBtn.addEventListener('click', handleDirectBuy);
+    }
+
+    document.addEventListener('DOMContentLoaded', updateCartBadge);
+  </script>
+</body>
+</html>

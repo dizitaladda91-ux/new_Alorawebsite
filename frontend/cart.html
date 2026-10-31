@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alora Radiance - Cart</title>
@@ -16,22 +18,22 @@
         theme: {
             extend: {
                 colors: {
-                    ink: '#152219',
-                    'ink-light': '#1F3327',
+                    ink: '#2B1D14',
+                    'ink-light': '#2B1D14',
                     'ink-soft': '#28402F',
-                    parchment: '#F7F2E7',
+                    parchment: '#FBF7F0',
                     card: '#FFFFFF',
                     clay: '#A24C3D',
                     'clay-light': '#C97E63',
                     'clay-dark': '#7E3A2F',
                     sage: '#6C8763',
                     'sage-light': '#E7ECDF',
-                    gold: '#BB9556',
+                    gold: '#D98E2B',
                     ash: '#6B685F',
                 },
                 fontFamily: {
-                    robot: ['"PT Sans"', 'ui-robot', 'Georgia', 'robot'],
-                    sans: ['"PT Sans"', 'Manrope', 'sans-serif'],
+                    robot: ['Poppins', 'ui-robot', 'Georgia', 'robot'],
+                    sans: ['Poppins', 'Poppins', 'sans-serif'],
                     roboto: ['"Roboto Mono"', 'monospace'],
                 },
             }
@@ -40,7 +42,7 @@
     </script>
 
 </head>
-<body class="bg-parchment text-[#2A2A24] font-sans antialiased">
+<body class="bg-parchment text-[#2B1D14] font-sans antialiased">
 
     <header class="bg-white border-b border-[#ECE4CE] sticky top-0 z-50">
         <div id="navbar-placeholder"></div>
@@ -118,7 +120,7 @@
                     <!-- Header Bar -->
                     <div class="flex items-center justify-between gap-2 mb-4">
                         <div>
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-100/80 text-[#8B4513] text-[10px] font-bold tracking-widest uppercase border border-amber-300/40 mb-1">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-100/80 text-[#D98E2B] text-[10px] font-bold tracking-widest uppercase border border-amber-300/40 mb-1">
                                 Add More To Your Bag
                             </span>
                             <h3 class="font-fraunces font-bold text-slate-900 text-lg sm:text-xl tracking-tight">
@@ -221,12 +223,12 @@
                         <button onclick="autoFillCoupon('GLOW10')" class="w-full flex justify-between items-center bg-amber-100/60 hover:bg-amber-100 border border-amber-400/60 p-3 rounded-xl transition group mb-2 text-left">
                             <span>
                                 <span class="flex items-center gap-2">
-                                    <span class="text-xs font-bold text-[#8B4513] font-mono bg-white px-2 py-0.5 rounded border border-amber-300 shadow-xs">GLOW10</span>
+                                    <span class="text-xs font-bold text-[#D98E2B] font-mono bg-white px-2 py-0.5 rounded border border-amber-300 shadow-xs">GLOW10</span>
                                     <span class="text-[10px] font-bold text-amber-800 uppercase tracking-widest bg-amber-200/80 px-1.5 py-0.5 rounded">10% OFF</span>
                                 </span>
                                 <span class="block text-[11px] text-slate-700 font-medium mt-1">✨ Special Welcome Offer: Get flat 10% discount on total order</span>
                             </span>
-                            <i class="fa-solid fa-circle-plus text-[#8B4513] group-hover:scale-110 transition text-base"></i>
+                            <i class="fa-solid fa-circle-plus text-[#D98E2B] group-hover:scale-110 transition text-base"></i>
                         </button>
                     </div>
                 </div>

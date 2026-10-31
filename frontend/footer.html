@@ -1,133 +1,86 @@
+<!-- footer.html -->
 <style>
-  /* ========================================================
-     🎨 ALORA RADIANCE LUXURY DEEP WARM CREAM FOOTER
-     ======================================================== */
-  :root, footer, #footer-placeholder {
-    --footer-bg-cream: #EAE1CD;
-    --footer-bg-bottom: #DFD3BA;
-    --footer-card-bg: #FFFFFF;
-    --footer-heading-color: #B8460E;
-    --footer-subheading-color: #141E14;
-    --footer-accent-color: #B8460E;
-    --footer-hover-color: #D9541E;
-    --footer-gold-color: #B8860B;
-    --footer-text-primary: #141E14;
-    --footer-text-muted: #2E3B2C;
-    --footer-border-subtle: #D8CCA8;
-    --footer-border-card: #CEBE96;
+  footer.alora-footer {
+    background-color: #2B1D14 !important;
+    color: #FBF7F0 !important;
+    font-family: 'Poppins', sans-serif !important;
+    border-top: 1px solid #2B1D14 !important;
   }
-
-  footer.alora-cream-footer {
-    background-color: var(--footer-bg-cream) !important;
-    color: var(--footer-text-primary) !important;
-    border-top: 1px solid #E5DCB8 !important;
-    position: relative;
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  .footer-heading {
+    color: #D98E2B !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 600 !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    font-size: 0.78rem !important;
   }
-
-  .footer-custom-heading {
-    color: #B8460E !important;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 800 !important;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    text-shadow: 0 0.5px 0 rgba(255, 255, 255, 0.4);
+  .footer-link-item {
+    color: rgba(251, 247, 240, 0.8) !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 400 !important;
+    transition: color 0.2s ease !important;
+    display: inline-block !important;
   }
-
-  .footer-custom-link {
-    color: #141E14 !important;
-    font-size: 0.88rem;
-    font-weight: 700 !important;
-    transition: all 0.22s ease;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .footer-custom-link:hover {
-    color: #B8460E !important;
-    transform: translateX(4px);
-  }
-
-  .footer-action-pill {
-    background: #FFFFFF;
-    border: 1px solid #CEBE96;
-    color: #B8460E;
-    font-weight: 700;
-    transition: all 0.2s ease;
-  }
-  .footer-action-pill:hover {
-    background: #B8460E;
-    color: #FFFFFF;
-    border-color: #B8460E;
+  .footer-link-item:hover {
+    color: #D98E2B !important;
   }
 </style>
 
-<footer class="alora-cream-footer pt-12 pb-6 w-full">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10">
+<footer class="alora-footer pt-16 pb-8 w-full">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#FBF7F0]/15">
     
     <!-- Col 1: Brand & Overview -->
     <div class="space-y-4">
-      <a href="/" class="inline-block">
-        <img src="./static/logo2.png" alt="Alora Radiance" class="w-36 h-auto">
+      <a href="/" class="text-2xl font-medium tracking-[5px] uppercase text-[#FBF7F0] block leading-none select-none">
+        ALORA
       </a>
-      <p class="text-xs text-[#2E3B2C] leading-relaxed font-semibold">
-        Dermatologically-tested, clean &amp; safe luxury skincare formulations. Elevate your daily skincare routine with natural botanical extracts crafted for visible radiance.
+      <p class="text-xs text-[#FBF7F0]/80 leading-relaxed font-normal">
+        Thoughtful botanical skincare formulated for radiant, healthy skin. Dermatologist-tested, clean formulations infused with pure saffron and clinically backed active science.
       </p>
-      <div class="pt-1">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 border border-[#CEBE96] text-[11px] font-bold text-[#B8460E]">
-          <i class="fa-solid fa-certificate text-xs"></i> 100% Ayurvedic &amp; Clean
+      <div class="pt-2">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-[3px] bg-[#F1E6D3] text-[#2B1D14] text-[11px] font-semibold uppercase tracking-wider">
+          <i class="fa-solid fa-leaf text-[#D98E2B]"></i> 100% Ayurvedic &amp; Clean
         </span>
       </div>
     </div>
 
     <!-- Col 2: Quick Links -->
-    <div class="space-y-3">
-      <h3 class="footer-custom-heading flex items-center gap-2">
-        <i class="fa-solid fa-compass text-xs"></i>
-        <span>Quick Links</span>
-      </h3>
-      <ul class="space-y-2 text-xs font-bold">
-        <li><a href="/" class="footer-custom-link"><i class="fa-solid fa-chevron-right text-[10px] text-[#B8460E] mr-1.5"></i> Home</a></li>
-        <li><a href="/products" class="footer-custom-link"><i class="fa-solid fa-chevron-right text-[10px] text-[#B8460E] mr-1.5"></i> Shop Products</a></li>
-        <li><a href="/trackorder.html" class="footer-custom-link"><i class="fa-solid fa-truck-fast text-[10px] text-[#B8460E] mr-1.5"></i> Track My Order</a></li>
-        <li><a href="/account.html" class="footer-custom-link"><i class="fa-solid fa-user text-[10px] text-[#B8460E] mr-1.5"></i> My Account &amp; Orders</a></li>
-        <li><a href="/blog" class="footer-custom-link"><i class="fa-solid fa-newspaper text-[10px] text-[#B8460E] mr-1.5"></i> Skincare Blogs</a></li>
-        <li><a href="/KnowledegeFAQ.html" class="footer-custom-link"><i class="fa-solid fa-circle-question text-[10px] text-[#B8460E] mr-1.5"></i> Knowledge Base FAQs</a></li>
+    <div class="space-y-4">
+      <h3 class="footer-heading">Quick Links</h3>
+      <ul class="space-y-2.5 text-xs">
+        <li><a href="/" class="footer-link-item">Home</a></li>
+        <li><a href="/products" class="footer-link-item">Shop All Products</a></li>
+        <li><a href="/aboutus.html" class="footer-link-item">About Our Philosophy</a></li>
+        <li><a href="/#reviews" class="footer-link-item">Customer Reviews</a></li>
+        <li><a href="/trackorder.html" class="footer-link-item">Track Order</a></li>
+        <li><a href="/account.html" class="footer-link-item">My Account</a></li>
       </ul>
     </div>
 
-    <!-- Col 3: Policies & Compliance -->
-    <div class="space-y-3">
-      <h3 class="footer-custom-heading flex items-center gap-2">
-        <i class="fa-solid fa-shield-halved text-xs"></i>
-        <span>Policies &amp; Trust</span>
-      </h3>
-      <ul class="space-y-2 text-xs font-bold">
-        <li><a href="/aboutus.html" class="footer-custom-link"><i class="fa-solid fa-chevron-right text-[10px] text-[#B8460E] mr-1.5"></i> About Us</a></li>
-        <li><a href="/PrivacyPolicy.html" class="footer-custom-link"><i class="fa-solid fa-chevron-right text-[10px] text-[#B8460E] mr-1.5"></i> Privacy Policy</a></li>
-        <li><a href="/termCondition.html" class="footer-custom-link"><i class="fa-solid fa-chevron-right text-[10px] text-[#B8460E] mr-1.5"></i> Terms &amp; Conditions</a></li>
-        <li><a href="/ReturnRefund.html" class="footer-custom-link"><i class="fa-solid fa-chevron-right text-[10px] text-[#B8460E] mr-1.5"></i> Return &amp; Refund Policy</a></li>
-        <li><a href="/Corporate Governance.html" class="footer-custom-link"><i class="fa-solid fa-chevron-right text-[10px] text-[#B8460E] mr-1.5"></i> Corporate Governance</a></li>
-        <li><a href="/certificates.html" class="footer-custom-link"><i class="fa-solid fa-award text-[10px] text-[#B8460E] mr-1.5"></i> Quality Certifications</a></li>
+    <!-- Col 3: Policies & Trust -->
+    <div class="space-y-4">
+      <h3 class="footer-heading">Policies &amp; Trust</h3>
+      <ul class="space-y-2.5 text-xs">
+        <li><a href="/PrivacyPolicy.html" class="footer-link-item">Privacy Policy</a></li>
+        <li><a href="/ReturnRefund.html" class="footer-link-item">Returns &amp; Refunds</a></li>
+        <li><a href="/termCondition.html" class="footer-link-item">Terms &amp; Conditions</a></li>
+        <li><a href="/certificates.html" class="footer-link-item">Quality Certifications</a></li>
+        <li><a href="/Corporate Governance.html" class="footer-link-item">Corporate Governance</a></li>
+        <li><a href="/KnowledegeFAQ.html" class="footer-link-item">Knowledge Base FAQs</a></li>
       </ul>
     </div>
 
-    <!-- Col 4: Experience Center & Map -->
-    <div class="space-y-3">
-      <h3 class="footer-custom-heading flex items-center gap-2">
-        <i class="fa-solid fa-map-location-dot text-xs"></i>
-        <span>Locate Us</span>
-      </h3>
-      <div class="w-full h-32 rounded-xl overflow-hidden border border-[#CEBE96] shadow-xs">
+    <!-- Col 4: Experience Center & Contact -->
+    <div class="space-y-4">
+      <h3 class="footer-heading">Experience Center</h3>
+      <div class="w-full h-28 rounded-[12px] overflow-hidden border border-[#FBF7F0]/20 bg-[#F1E6D3]">
         <iframe src="https://maps.google.com/maps?q=Alora%20Radiance&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
-      <div class="text-xs space-y-1 font-bold">
-        <p class="font-extrabold text-[#B8460E] uppercase font-mono tracking-wide">Alora Radiance</p>
-        <p class="font-bold text-[#B8460E] leading-snug">Official Experience Center &amp; Headquarters</p>
-        <p class="text-[11px] text-[#2E3B2C]">53, Ground Floor, Hargovind Enclave, C-52, Block C, Rajpur, Chhatarpur, New Delhi, Delhi 110065</p>
-        <a href="https://share.google/GfIte9pX9tj2VCSAe" target="_blank" rel="noopener noreferrer" class="footer-action-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-lg mt-1 text-xs">
-          <i class="fa-solid fa-map-pin text-[#B8460E] text-xs"></i>
+      <div class="text-xs space-y-1">
+        <p class="font-medium text-[#D98E2B] uppercase tracking-wide">Alora Radiance HQ</p>
+        <p class="text-[11px] text-[#FBF7F0]/75">53, Ground Floor, Hargovind Enclave, Rajpur, Chhatarpur, New Delhi 110065</p>
+        <a href="https://share.google/GfIte9pX9tj2VCSAe" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-[11px] text-[#D98E2B] hover:text-[#C47D1F] font-semibold mt-1">
           <span>Open in Google Maps</span>
           <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </a>
@@ -136,24 +89,13 @@
 
   </div>
 
-  <!-- ====================================================
-       Copyright Bottom Bar (Distinct Deeper Grounding Strip)
-       ==================================================== -->
-  <div class="w-full bg-[#DFD3BA] border-t-2 border-[#D0BF98] py-4 relative z-10 mt-2">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#2A3728] gap-4 font-bold">
-      <div class="flex flex-col sm:flex-row items-center gap-2 text-center sm:text-left">
-        <p>Copyright © 2026 <strong class="text-[#141E14] font-extrabold">Alora Radiance</strong>. All Rights Reserved.</p>
-        <span class="hidden sm:inline text-[#B8460E]">•</span>
-        <a href="/sitemap.html" class="hover:text-[#B8460E] transition font-bold">Sitemap</a>
-        <a href="/sitemap.xml" target="_blank" class="text-[#B8460E] font-extrabold">(XML)</a>
-        <span class="hidden sm:inline text-[#B8460E]">•</span>
-        <span class="text-[#B8460E] font-extrabold">Crafted for Pure Radiance ✨</span>
-      </div>
-
-      <!-- Floating Scroll to Top -->
-      <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Scroll to top" class="w-9 h-9 rounded-full bg-white border border-[#C8B88E] text-[#141E14] shadow-xs flex items-center justify-center cursor-pointer hover:bg-[#B8460E] hover:text-white hover:border-[#B8460E] transition-all" title="Scroll to top">
-        <i class="fa-solid fa-chevron-up text-xs"></i>
-      </button>
+  <!-- Copyright Bottom Bar -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#FBF7F0]/60 gap-4">
+    <p>Copyright &copy; 2026 <strong class="text-[#FBF7F0] font-medium">Alora Radiance</strong>. All Rights Reserved.</p>
+    <div class="flex items-center gap-4 text-xs">
+      <a href="/sitemap.html" class="hover:text-[#D98E2B] transition">Sitemap</a>
+      <span>&bull;</span>
+      <span class="text-[#D98E2B]">Crafted for Pure Radiance</span>
     </div>
   </div>
 </footer>

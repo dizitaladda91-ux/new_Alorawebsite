@@ -1,3 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --ivory: #FBF7F0;
+  --sand: #F1E6D3;
+  --amber: #D98E2B;
+  --amber-hover: #C47D1F;
+  --brown: #2B1D14;
+  --brown-80: rgba(43, 29, 20, 0.8);
+  --brown-40: rgba(43, 29, 20, 0.4);
+  --brown-20: rgba(43, 29, 20, 0.15);
+  --brown-10: rgba(43, 29, 20, 0.08);
+}
+
+*, *::before, *::after {
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: var(--ivory) !important;
+  color: var(--brown) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6, .heading {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: 1px !important;
+  color: var(--brown) !important;
+}
+
+/* Small Labels */
+.small-label, .sub-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 3px !important;
+  color: var(--amber-hover) !important;
+}
+
+/* Body Text */
+p, .body-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--brown-80);
+}
+
+/* Buttons */
+.btn, button.btn-cta {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  border-radius: 3px !important;
+}
+
+.btn-primary, button[type="submit"]:not(.btn-secondary):not(.secondary-btn), .primary-btn {
+  background-color: var(--amber) !important;
+  color: var(--brown) !important;
+  border: 1px solid var(--amber) !important;
+  border-radius: 3px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease !important;
+}
+
+.btn-primary:hover, button[type="submit"]:not(.btn-secondary):not(.secondary-btn):hover, .primary-btn:hover {
+  background-color: var(--amber-hover) !important;
+  border-color: var(--amber-hover) !important;
+}
+
+.btn-secondary, .secondary-btn {
+  background-color: transparent !important;
+  border: 1px solid var(--brown) !important;
+  color: var(--brown) !important;
+  border-radius: 3px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  transition: background-color 0.2s ease, color 0.2s ease !important;
+}
+
+.btn-secondary:hover, .secondary-btn:hover {
+  background-color: var(--brown) !important;
+  color: var(--ivory) !important;
+}
+
+/* Cards & Section Box */
+.card, .product-card, .sand-box {
+  background-color: var(--sand) !important;
+  border-radius: 12px !important;
+}
+
+/* Font override classes */
+.font-sans, .font-serif, .font-fraunces, .font-roboto, .font-manrope, .font-jakarta {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* FontAwesome icons protection */
+body i, body [class*="fa-"], body .fa, body .fas, body .far, body .fab, body .fa-solid, body .fa-regular, body .fa-brands {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+}

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buy Skincare Products Online - Alora Radiance</title>
@@ -362,8 +364,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         html, body {
-            background-color: #FAF7F2 !important;
-            color: #152219;
+            background-color: #FBF7F0 !important;
+            color: #2B1D14;
             margin: 0;
             padding: 0;
         }
@@ -398,7 +400,7 @@
         }
     </style>
 </head>
-<body class="bg-parchment text-[#2A2A24] font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-parchment text-[#2B1D14] font-sans antialiased min-h-screen flex flex-col justify-between">
 
     <!-- NAV Placeholder -->
     <div id="navbar-placeholder"></div>
@@ -407,7 +409,7 @@
     <div class="bg-gradient-to-r from-[#FBF8F3] via-white to-[#FBF8F3] border-b border-[#ECE4CE] shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div>
-                <span class="text-[10px] font-extrabold tracking-[0.25em] uppercase text-[#8B4513] font-mono">The Skincare Collection</span>
+                <span class="text-[10px] font-extrabold tracking-[0.25em] uppercase text-[#D98E2B] font-mono">The Skincare Collection</span>
                 <h1 class="text-lg font-fraunces font-bold text-slate-900 leading-tight">Shop All Formulations</h1>
             </div>
             <div class="flex items-center gap-2 overflow-x-auto no-scrollbar w-full sm:w-auto pb-1 sm:pb-0">
@@ -424,7 +426,7 @@
         <!-- Mobile Filter Toggle Bar -->
         <div class="lg:hidden flex items-center justify-between mb-4 bg-white border border-amber-900/15 p-3.5 rounded-2xl shadow-sm">
             <span class="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2 font-fraunces">
-                <i class="fa-solid fa-sliders text-[#8B4513]"></i> Filter &amp; Sort
+                <i class="fa-solid fa-sliders text-[#D98E2B]"></i> Filter &amp; Sort
             </span>
             <button id="toggle-filter-btn" type="button" class="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 text-xs font-extrabold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-sm transition active:scale-95">
                 <i class="fa-solid fa-filter text-xs"></i> <span>Filter Options</span>
@@ -439,10 +441,10 @@
                     
                     <div class="flex items-center justify-between border-b border-amber-900/10 pb-3.5">
                         <h2 class="font-fraunces font-bold text-slate-900 tracking-wide text-base flex items-center gap-2">
-                            <i class="fa-solid fa-sliders text-[#8B4513] text-sm"></i> Filter Suite
+                            <i class="fa-solid fa-sliders text-[#D98E2B] text-sm"></i> Filter Suite
                         </h2>
                         <div class="flex items-center gap-2">
-                            <button onclick="resetFilters()" class="text-[11px] font-extrabold text-[#8B4513] bg-amber-100/70 hover:bg-[#8B4513] hover:text-white px-2.5 py-1 rounded-full transition shadow-xs">
+                            <button onclick="resetFilters()" class="text-[11px] font-extrabold text-[#D98E2B] bg-amber-100/70 hover:bg-[#D98E2B] hover:text-white px-2.5 py-1 rounded-full transition shadow-xs">
                                 Clear All
                             </button>
                             <button id="close-filter-btn" type="button" class="lg:hidden text-slate-500 hover:text-slate-900 text-xl font-bold p-1">
@@ -465,7 +467,7 @@
                         <label class="block text-[11px] font-extrabold text-slate-700 uppercase tracking-widest mb-2 font-mono">Category Collections</label>
                         <div class="space-y-2">
                             <label class="flex items-center p-2.5 rounded-xl border border-amber-900/10 hover:border-amber-400 bg-white hover:bg-amber-50/40 transition cursor-pointer text-xs font-bold text-slate-800">
-                                <input type="checkbox" name="category" value="face" onchange="filterProducts()" class="rounded border-slate-300 text-[#8B4513] focus:ring-amber-500 mr-3 w-4 h-4">
+                                <input type="checkbox" name="category" value="face" onchange="filterProducts()" class="rounded border-slate-300 text-[#D98E2B] focus:ring-amber-500 mr-3 w-4 h-4">
                                 <i class="fa-solid fa-spa text-amber-600 mr-2 text-xs"></i> Face Skincare
                             </label>
                             <label class="flex items-center p-2.5 rounded-xl border border-amber-900/10 hover:border-amber-400 bg-white hover:bg-amber-50/40 transition cursor-pointer text-xs font-bold text-slate-800">
@@ -478,9 +480,9 @@
                     <div>
                         <div class="flex justify-between items-center mb-2">
                             <label class="text-[11px] font-extrabold text-slate-700 uppercase tracking-widest font-mono">Maximum Price</label>
-                            <span id="price-max-label" class="text-xs font-extrabold text-[#8B4513] bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300 font-mono">₹2500</span>
+                            <span id="price-max-label" class="text-xs font-extrabold text-[#D98E2B] bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300 font-mono">₹2500</span>
                         </div>
-                        <input type="range" id="price-range" min="200" max="2500" value="2500" oninput="updatePriceLabel(this.value)" onchange="filterProducts()" class="w-full h-2 bg-amber-200/60 rounded-lg appearance-none cursor-pointer accent-[#8B4513]">
+                        <input type="range" id="price-range" min="200" max="2500" value="2500" oninput="updatePriceLabel(this.value)" onchange="filterProducts()" class="w-full h-2 bg-amber-200/60 rounded-lg appearance-none cursor-pointer accent-[#D98E2B]">
                         <div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
                             <span>₹200</span>
                             <span>₹2,500</span>
@@ -527,35 +529,35 @@
                 </div>
         <!-- Popular Shop Searches & Keywords Strip -->
         <div class="mt-12 pt-6 border-t border-amber-900/10 text-slate-700">
-          <div class="bg-[#FAF6EE] rounded-2xl p-5 border border-[#E6DCC8] shadow-xs">
-            <h3 class="text-xs font-bold uppercase tracking-widest text-[#B8460E] font-mono mb-3 flex items-center gap-2">
+          <div class="bg-[#FBF7F0] rounded-2xl p-5 border border-[#E6DCC8] shadow-xs">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-[#D98E2B] font-mono mb-3 flex items-center gap-2">
               <i class="fa-solid fa-tags text-[11px]"></i>
               <span>Popular Shop Searches &amp; Skincare Offers</span>
             </h3>
             <div class="flex flex-wrap gap-2 text-xs">
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">buy skin care products</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skin care products</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skin care products online</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">shop skin care products</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">buy skincare products online</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">offers on skin care products</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skincare offers</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">trending skin care products</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skincare shopping</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skin care shop</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skin care products website</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skincare online store</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skincare online</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skin care products set</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skin care kit</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skincare gifts</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">luxury skincare gifts</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skincare sets for gifting</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">Alora Radiance shop</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">Alora Radiance products</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">buy Alora Radiance products</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">Alora Radiance online store</a>
-              <a href="/products" class="bg-white hover:bg-[#B8460E] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">Alora Radiance skincare shop</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">buy skin care products</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skin care products</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skin care products online</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">shop skin care products</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">buy skincare products online</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">offers on skin care products</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skincare offers</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">trending skin care products</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skincare shopping</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skin care shop</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skin care products website</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skincare online store</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skincare online</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skin care products set</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skin care kit</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skincare gifts</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">luxury skincare gifts</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">skincare sets for gifting</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">Alora Radiance shop</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">Alora Radiance products</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">buy Alora Radiance products</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">Alora Radiance online store</a>
+              <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">Alora Radiance skincare shop</a>
             </div>
           </div>
         </div>
