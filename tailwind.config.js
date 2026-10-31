@@ -31,10 +31,10 @@ export default {
         ash: 'rgba(43, 29, 20, 0.8)'
       },
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
-        serif: ['Poppins', 'sans-serif'],
-        fraunces: ['Poppins', 'sans-serif'],
-        roboto: ['Poppins', 'sans-serif']
+        sans: ['"DM Sans"', 'sans-serif'],
+        serif: ['"DM Sans"', 'sans-serif'],
+        fraunces: ['"DM Sans"', 'sans-serif'],
+        roboto: ['"DM Sans"', 'sans-serif']
       }
     }
   }

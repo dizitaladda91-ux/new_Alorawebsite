@@ -22,15 +22,10 @@
       
       <!-- Desktop Menu Links -->
       <ul class="hidden md:flex items-center gap-7 text-xs font-semibold tracking-[1.5px] uppercase text-[#2B1D14]">
+        <li><a href="/" class="hover:text-[#C47D1F] transition">HOME</a></li>
         <li><a href="/products" class="hover:text-[#C47D1F] transition">SHOP</a></li>
-        <li><a href="/about" class="hover:text-[#C47D1F] transition">ABOUT</a></li>
-        <li><a href="/#reviews" class="hover:text-[#C47D1F] transition">REVIEWS</a></li>
-        <li>
-          <a href="/cart.html" class="hover:text-[#C47D1F] transition flex items-center gap-1">
-            <span>CART</span>
-            <span id="global-cart-badge" class="text-[#C47D1F] font-bold text-xs">(0)</span>
-          </a>
-        </li>
+        <li><a href="/blog" class="hover:text-[#C47D1F] transition">BLOGS</a></li>
+        <li><a href="/about" class="hover:text-[#C47D1F] transition">ABOUT US</a></li>
       </ul>
 
       <!-- Action Icons (Search, Login, Mobile Cart) -->
@@ -48,6 +43,12 @@
           </div>
         </div>
 
+        <!-- Cart Section -->
+        <a href="./cart.html" aria-label="Shopping Cart" title="Shopping Cart" class="relative text-sm text-[#2B1D14] hover:text-[#C47D1F] transition flex items-center">
+          <i class="fa-solid fa-shopping-cart" aria-hidden="true"></i>
+          <span id="global-cart-badge" class="ml-1 text-xs font-bold text-[#C47D1F]">(0)</span>
+        </a>
+
         <!-- Auth Section -->
         <div id="auth-actions" class="flex items-center gap-3">
           <a href="./login.html" aria-label="User Account Login" title="User Account Login" class="text-sm text-[#2B1D14] hover:text-[#C47D1F] transition">
@@ -56,11 +57,7 @@
           </a>
         </div>
 
-        <!-- Mobile Cart Icon -->
-        <a href="./cart.html" aria-label="Shopping Cart" title="Shopping Cart" class="md:hidden relative text-sm text-[#2B1D14] hover:text-[#C47D1F] transition">
-          <i class="fa-solid fa-shopping-cart" aria-hidden="true"></i>
-          <span id="mobile-cart-badge" class="text-[#C47D1F] text-xs font-bold ml-0.5">0</span>
-        </a>
+
       </div>
 
     </div>
@@ -80,10 +77,9 @@
         <ul class="mt-8 space-y-5 text-sm font-semibold uppercase tracking-[2px] text-[#2B1D14]">
           <li><a href="/" class="block py-1 hover:text-[#C47D1F]">Home</a></li>
           <li><a href="/products" class="block py-1 hover:text-[#C47D1F]">Shop</a></li>
-          <li><a href="/about" class="block py-1 hover:text-[#C47D1F]">About</a></li>
-          <li><a href="/#reviews" class="block py-1 hover:text-[#C47D1F]">Reviews</a></li>
-          <li><a href="/cart.html" class="block py-1 hover:text-[#C47D1F]">Cart</a></li>
           <li><a href="/blog" class="block py-1 hover:text-[#C47D1F]">Blogs</a></li>
+          <li><a href="/about" class="block py-1 hover:text-[#C47D1F]">About Us</a></li>
+          <li><a href="/cart.html" class="block py-1 hover:text-[#C47D1F]">Cart</a></li>
         </ul>
       </div>
 
