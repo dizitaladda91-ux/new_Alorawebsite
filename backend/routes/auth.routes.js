@@ -1,5 +1,18 @@
 import express from "express";
-import { register, login, logout, forgotPassword, resetPassword, getSession, updateProfile, verifyEmail, resendVerificationEmail, pollVerificationStatus } from '../controllers/auth.controllers.js';
+import { 
+  register, 
+  login, 
+  verify2FA, 
+  resend2FAOtp, 
+  logout, 
+  forgotPassword, 
+  resetPassword, 
+  getSession, 
+  updateProfile, 
+  verifyEmail, 
+  resendVerificationEmail, 
+  pollVerificationStatus 
+} from '../controllers/auth.controllers.js';
 import jwt from "jsonwebtoken";
 import { requireAuth, verifyAuthToken } from "../middlewares/auth.middleware.js";
 import User from "../models/userAuth.models.js";
@@ -11,15 +24,8 @@ const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
-// ==========================================
-// MIDDLEWARES FOR WEB & API PROTECTION
-// ==========================================
-
-// Safe Protect Middleware (Optional Chaining added to avoid undefined error crashes)
 const protectView = async (req, res, next) => {
   const token = req.cookies?.token;
-
-  // Agar token nahi mila, toh directly login page par redirect kar do
   if (!token) {
     return res.redirect("/login.html");
   }
@@ -44,27 +50,23 @@ const protectView = async (req, res, next) => {
   }
 };
 
-// Role Authentication Middleware for Views
 const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!req.user || !roles.includes(req.user.role)) {
-      // Agar role match nahi karta, toh homepage par bhej do
       return res.redirect("/index.html"); 
     }
     next();
   };
 };
 
-// ==========================================
-// PUBLIC API ROUTES
-// ==========================================
 router.post('/api/auth/register', register);
 router.post('/api/auth/login', login);
+router.post('/api/auth/verify-2fa', verify2FA);
+router.post('/api/auth/resend-2fa', resend2FAOtp);
 router.all('/api/auth/logout', logout);
 router.get('/api/auth/session', requireAuth, getSession);
 router.put('/api/auth/profile', requireAuth, updateProfile);
 
-// Email Verification API Routes
 router.get('/api/auth/verify-email', verifyEmail);
 router.post('/api/auth/verify-email', verifyEmail);
 router.post('/api/auth/poll-verification', pollVerificationStatus);
@@ -76,13 +78,9 @@ router.post('/api/auth/resend-verification', (req, res, next) => {
   return resendVerificationEmail(req, res);
 });
 
-// Forgot Password & Reset Password API Routes
 router.post('/api/auth/forgot-password', forgotPassword);
 router.post('/api/auth/reset-password', resetPassword);
 
-// ==========================================
-// PUBLIC PAGES SERVING
-// ==========================================
 router.get(['/verify-email', '/verify-email.html'], (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/verify-email.html'));
 });
@@ -91,11 +89,6 @@ router.get('/reset-password.html', (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/reset-password.html'));
 });
 
-// ==========================================
-// PROTECTED PAGES SERVING (Direct URL Protection)
-// ==========================================
-
-// 1. ADMIN PAGES LIST & PROTECTION LOOP
 const adminPages = [
   'admin.html',
   'addnewproduct.html',
@@ -119,7 +112,6 @@ const registerProtectedViews = (pages, roles) => {
 
 registerProtectedViews(adminPages, ['admin']);
 
-// 2. SEO ADMIN PAGES LIST & PROTECTION LOOP
 const seoPages = [
   'seoadmin.html',
   'seoadminupdate.html',
@@ -129,7 +121,6 @@ const seoPages = [
 ];
 
 registerProtectedViews(seoPages, ['seoadmin', 'admin']);
-
 registerProtectedViews(['affiliate.html'], ['affiliate']);
 
 export default router;

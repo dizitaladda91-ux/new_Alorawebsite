@@ -7,14 +7,11 @@ import nodemailer from "nodemailer";
 const authCookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production" || Boolean(process.env.VERCEL),
-  // The storefront does not need cross-site authenticated requests. Strict
-  // cookies prevent a third-party site from replaying a logged-in session.
   sameSite: "strict",
   path: "/",
   maxAge: 24 * 60 * 60 * 1000
 };
 
-// JWT Token Generator
 const generateToken = (id, role) => {
   if (!process.env.JWT_SECRET) {
     throw new Error("JWT_SECRET is not configured");
@@ -34,10 +31,6 @@ const generateToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn, issuer: "alora-radiance", audience: "alora-web" });
 };
 
-// Older deployments keep the staff credentials in environment variables.  The
-// normal path is still a bcrypt-backed database account, but this bridge makes
-// those configured credentials usable while ensuring a real user record exists
-// for the JWT/session middleware.
 const configuredStaffAccounts = () => [
   { email: process.env.ADMIN_EMAIL || process.env.Admin_login_mail, password: process.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD_login, role: "admin", name: "Alora Admin" },
   { email: process.env.Admin_login_mail, password: process.env.ADMIN_PASSWORD_login || process.env.ADMIN_PASSWORD, role: "admin", name: "Alora Admin" },
@@ -69,9 +62,6 @@ const findConfiguredStaffUser = async (email, password) => {
     return user;
   }
 
-  // Staff accounts do not need a customer phone number.  Use a deterministic,
-  // non-personal placeholder because older collections may retain a unique
-  // phone index.
   const staffPhone = `staff-${crypto.createHash("sha256").update(email).digest("hex").slice(0, 20)}`;
   user = await User.create({
     name: account.name,
@@ -83,24 +73,87 @@ const findConfiguredStaffUser = async (email, password) => {
   return user;
 };
 
+let cachedTransporter = null;
 const getTransporter = () => {
   const user = String(process.env.EMAIL_USER || "").trim();
   const pass = String(process.env.EMAIL_PASS || "").replace(/\s+/g, "").trim();
   if (!user || !pass) return null;
-  return nodemailer.createTransport({
-    service: "gmail",
-    auth: { user, pass }
-  });
+  if (!cachedTransporter) {
+    cachedTransporter = nodemailer.createTransport({
+      service: "gmail",
+      pool: true,
+      maxConnections: 3,
+      auth: { user, pass }
+    });
+  }
+  return cachedTransporter;
 };
 
-// Password-reset links must always be delivered to the account owner.
 export const getPasswordResetRecipient = (user) => String(user?.email || "").trim().toLowerCase();
 
 export const generateVerificationToken = () => {
   const rawToken = crypto.randomBytes(32).toString("hex");
   const hashedToken = crypto.createHash("sha256").update(rawToken).digest("hex");
-  const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+  const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
   return { rawToken, hashedToken, expiresAt };
+};
+
+export const generate6DigitOtp = () => {
+  return crypto.randomInt(100000, 1000000).toString();
+};
+
+export const send2FAOtpEmail = async (userEmail, userName, otpCode) => {
+  const transporter = getTransporter();
+  if (!transporter) {
+    console.warn("EMAIL_USER or EMAIL_PASS not configured. Skipping 2FA OTP email.");
+    return false;
+  }
+
+  const mailOptions = {
+    from: `"Alora Radiance" <${process.env.EMAIL_USER}>`,
+    to: userEmail,
+    subject: `Your Login Code: ${otpCode} - Alora Radiance`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #FAF7EE; color: #2A2A24; margin: 0; padding: 20px; }
+          .container { max-width: 520px; margin: 0 auto; background: #ffffff; border: 1px solid #ECE4CE; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+          .header { background: #2A2A24; padding: 24px 20px; text-align: center; }
+          .header h1 { margin: 0; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: #FAF7EE; }
+          .header p { margin: 4px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #D4AF37; }
+          .content { padding: 30px 24px; text-align: center; line-height: 1.6; }
+          .content h2 { color: #2A2A24; font-size: 19px; margin: 0 0 10px 0; font-weight: 600; }
+          .content p { color: #555550; font-size: 14px; margin: 0 0 20px 0; }
+          .otp-code { background: #FAF5EE; border: 2px dashed #8B4513; border-radius: 12px; padding: 16px 24px; font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #8B4513; font-family: monospace; display: inline-block; margin: 0 auto 20px auto; }
+          .footer { background: #FAF7EE; padding: 16px; text-align: center; font-size: 11px; color: #8C877B; border-top: 1px solid #ECE4CE; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>ALORA RADIANCE</h1>
+            <p>Two-Factor Authentication</p>
+          </div>
+          <div class="content">
+            <h2>Your Login Verification Code</h2>
+            <p>Hello ${userName || "User"},<br>Enter this 6-digit one-time code to complete your login to your Alora Radiance account:</p>
+            <div class="otp-code">${otpCode}</div>
+            <p style="font-size: 13px; color: #666; margin: 0;">This code is valid for <strong>10 minutes</strong>. Never share this code with anyone.</p>
+          </div>
+          <div class="footer">
+            <p style="margin: 0;">&copy; ${new Date().getFullYear()} Alora Radiance. All rights reserved.</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `
+  };
+
+  const info = await transporter.sendMail(mailOptions);
+  return Boolean(info?.messageId);
 };
 
 export const sendVerificationEmail = async (user, rawToken, req) => {
@@ -158,7 +211,6 @@ export const sendVerificationEmail = async (user, rawToken, req) => {
           </div>
           <div class="footer">
             <p style="margin: 0;">&copy; ${new Date().getFullYear()} Alora Radiance. All rights reserved.</p>
-            <p style="margin: 4px 0 0 0;">Crafted with pure botanicals & active skincare essentials.</p>
           </div>
         </div>
       </body>
@@ -166,60 +218,62 @@ export const sendVerificationEmail = async (user, rawToken, req) => {
     `
   };
 
-  return await transporter.sendMail(mailOptions);
+  const info = await transporter.sendMail(mailOptions);
+  return Boolean(info?.messageId);
 };
 
-export const register = async (req, res, next) => {
+export const register = async (req, res) => {
   try {
-    const { name, email, password, phone, address, source } = req.body;
+    const { name, email, password, phone, address, title, dob, gender } = req.body;
 
-    // 1. Mandatory Input Validation (Avoids undefined crashes)
     if (!name || !email || !password || !phone) {
-      return res.status(400).json({ 
-        message: 'All fields (Name, Email, Password, Phone) are required!' 
-      });
+      return res.status(400).json({ message: 'Name, email, password, and phone number are required.' });
     }
 
-    // 2. Existing User Check
-    let userExists = await User.findOne({ email: email.toLowerCase().trim() });
-    if (userExists) {
-      return res.status(400).json({ message: 'Email already registered.' });
+    const cleanEmail = email.toLowerCase().trim();
+    const cleanPhone = phone.trim();
+
+    const existingUser = await User.findOne({
+      $or: [{ email: cleanEmail }, { phone: cleanPhone }]
+    });
+
+    if (existingUser) {
+      if (existingUser.email === cleanEmail) {
+        return res.status(400).json({ message: 'User with this email already exists!' });
+      }
+      if (existingUser.phone === cleanPhone) {
+        return res.status(400).json({ message: 'User with this phone number already exists!' });
+      }
     }
 
-    let phoneExists = await User.findOne({ phone: phone.trim() });
-    if (phoneExists) {
-      return res.status(400).json({ message: 'Phone number already registered.' });
-    }
-
-    // 3. Safe UpperCase Conversion & Creation
-    const formattedName = String(name).trim().toUpperCase();
-
-    const user = await User.create({ 
-      name: formattedName, 
-      email: email.toLowerCase().trim(), 
-      password, 
-      phone: phone.trim(),
-      address: String(address || '').trim(),
-      role: "user",
+    const user = await User.create({
+      title: title || '',
+      name,
+      email: cleanEmail,
+      password,
+      phone: cleanPhone,
+      address: address || '',
+      dob: dob || '',
+      gender: gender || '',
+      role: 'user',
       isEmailVerified: true
     });
 
-    // A newly registered customer is a lead by definition. Using the account
-    // email as the key avoids creating a new lead every time they checkout.
-    await Lead.findOneAndUpdate(
-      { email: user.email },
-      {
-        $set: {
-          name: user.name,
-          email: user.email,
-          phone: user.phone,
-          address: user.address || '',
-          source: String(source || 'registration').trim()
+    try {
+      await Lead.findOneAndUpdate(
+        { email: cleanEmail },
+        { 
+          name, 
+          email: cleanEmail, 
+          phone: cleanPhone, 
+          source: 'Website Registration',
+          status: 'Contacted'
         },
-        $setOnInsert: { createdAt: new Date() }
-      },
-      { upsert: true, returnDocument: 'after', setDefaultsOnInsert: true }
-    );
+        { upsert: true, new: true }
+      );
+    } catch (leadError) {
+      console.warn("Could not sync registered user to leads collection:", leadError.message);
+    }
 
     const token = generateToken(user._id, user.role);
     res.cookie("token", token, authCookieOptions);
@@ -244,9 +298,6 @@ export const register = async (req, res, next) => {
   }
 };
 
-// ==========================================
-// EMAIL VERIFICATION CONTROLLERS
-// ==========================================
 export const verifyEmail = async (req, res) => {
   try {
     const token = String(req.query.token || req.body?.token || "").trim();
@@ -330,9 +381,6 @@ export const resendVerificationEmail = async (req, res) => {
   }
 };
 
-// ==========================================
-// REAL-TIME POLLING FOR LIVE AUTO-LOGIN
-// ==========================================
 export const pollVerificationStatus = async (req, res) => {
   try {
     const email = String(req.body?.email || req.query?.email || "").toLowerCase().trim();
@@ -349,7 +397,6 @@ export const pollVerificationStatus = async (req, res) => {
       return res.status(200).json({ success: true, verified: false, message: "Waiting for email verification." });
     }
 
-    // User is verified -> issue JWT session cookie and auto-login!
     const token = generateToken(user._id, user.role);
     res.cookie("token", token, authCookieOptions);
 
@@ -374,14 +421,11 @@ export const pollVerificationStatus = async (req, res) => {
   }
 };
 
-// ==========================================
-// LOGIN USER
-// ==========================================
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).json({ message: 'Email and password are required.' });
+      return res.status(400).json({ success: false, message: 'Email and password are required.' });
     }
 
     const cleanEmail = email.toLowerCase().trim();
@@ -395,38 +439,123 @@ export const login = async (req, res, next) => {
     }
 
     if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password.' });
+      return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
 
-    const token = generateToken(user._id, user.role);
+    const otp = generate6DigitOtp();
+    const hashedOtp = crypto.createHash("sha256").update(otp).digest("hex");
+    user.twoFactorOtp = hashedOtp;
+    user.twoFactorOtpExpires = new Date(Date.now() + 10 * 60 * 1000);
+    await user.save();
 
-    res.cookie("token", token, authCookieOptions);
-    
-    const response = {
+    try {
+      await send2FAOtpEmail(user.email, user.name, otp);
+    } catch (mailErr) {
+      console.error("2FA OTP Email send error:", mailErr.message);
+    }
+
+    return res.status(200).json({
       success: true,
-      message: 'Login successful!', 
-      user: { 
-        id: user._id, 
-        name: user.name, 
-        email: user.email, 
-        phone: user.phone, 
-        address: user.address, 
-        role: user.role,
-        isEmailVerified: user.isEmailVerified || false
-      }
-    };
-
-    response.token = token;
-    res.status(200).json(response);
+      require2FA: true,
+      email: cleanEmail,
+      message: 'A 6-digit verification code has been sent to your email.'
+    });
   } catch (error) {
     console.error("LOGIN_ERROR:", error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ success: false, message: 'Server error', error: error.message });
   }
 };
 
-// ==========================================
-// LOGOUT USER
-// ==========================================
+export const verify2FA = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+      return res.status(400).json({ success: false, message: 'Email and verification code are required.' });
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+    const cleanOtp = String(otp).trim();
+
+    const hashedOtp = crypto.createHash("sha256").update(cleanOtp).digest("hex");
+
+    const user = await User.findOne({
+      email: cleanEmail,
+      twoFactorOtp: hashedOtp,
+      twoFactorOtpExpires: { $gt: Date.now() }
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired verification code. Please check your code or request a new one.'
+      });
+    }
+
+    user.twoFactorOtp = null;
+    user.twoFactorOtpExpires = null;
+    user.isEmailVerified = true;
+    await user.save();
+
+    const token = generateToken(user._id, user.role);
+    res.cookie("token", token, authCookieOptions);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Login successful!',
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+        role: user.role,
+        isEmailVerified: true
+      }
+    });
+  } catch (error) {
+    console.error("VERIFY_2FA_ERROR:", error);
+    return res.status(500).json({ success: false, message: 'Server error during 2FA verification.', error: error.message });
+  }
+};
+
+export const resend2FAOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email is required.' });
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+    const user = await User.findOne({ email: cleanEmail });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Account not found.' });
+    }
+
+    const otp = generate6DigitOtp();
+    const hashedOtp = crypto.createHash("sha256").update(otp).digest("hex");
+
+    user.twoFactorOtp = hashedOtp;
+    user.twoFactorOtpExpires = new Date(Date.now() + 10 * 60 * 1000);
+    await user.save();
+
+    try {
+      await send2FAOtpEmail(user.email, user.name, otp);
+    } catch (mailErr) {
+      console.error("Resend 2FA Email error:", mailErr.message);
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'A new 6-digit verification code has been sent to your email.'
+    });
+  } catch (error) {
+    console.error("RESEND_2FA_ERROR:", error);
+    return res.status(500).json({ success: false, message: 'Could not resend verification code.', error: error.message });
+  }
+};
+
 export const logout = (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
@@ -438,7 +567,6 @@ export const logout = (req, res) => {
   res.status(200).json({ success: true, message: "Logged out successfully" });
 };
 
-// Returns the currently authenticated user without exposing the JWT to browser JavaScript.
 export const getSession = async (req, res) => {
   try {
     const { id } = req.user;
@@ -469,7 +597,6 @@ export const updateProfile = async (req, res) => {
       return res.status(400).json({ success: false, message: "No profile details were provided." });
     }
 
-    // If phone is updated, verify it is not already taken by another user
     if (updateData.phone) {
       const existingPhone = await User.findOne({ phone: updateData.phone, _id: { $ne: req.user.id } });
       if (existingPhone) {
@@ -498,9 +625,6 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-// ==========================================
-// FORGOT PASSWORD
-// ==========================================
 export const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -529,9 +653,6 @@ export const forgotPassword = async (req, res) => {
 
     const mailOptions = {
       from: `"Alora Radiance" <${process.env.EMAIL_USER}>`,
-      // Never accept a client-provided delivery address here. Otherwise an
-      // attacker could request a reset for another account and receive that
-      // account's reset token in their own inbox.
       to: getPasswordResetRecipient(user),
       subject: `Password Reset Request for Account (${accountEmail}) - Alora Radiance`,
       html: `
@@ -558,9 +679,6 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
-// ==========================================
-// RESET PASSWORD
-// ==========================================
 export const resetPassword = async (req, res) => {
   try {
     const { token, newPassword } = req.body;

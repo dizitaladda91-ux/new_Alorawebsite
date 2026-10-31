@@ -1,0 +1,352 @@
+[
+  {
+    "productId": "purifying-glow-face-wash",
+    "username": "Priya Sharma",
+    "rating": 5,
+    "comment": "Honestly the best gentle face wash I've used this year. Usually saffron cleansers feel too heavy, but this gel formula foams up just right and clears my skin without that tight, dry feeling afterwards. Definitely reordering!",
+    "createdAt": { "$date": "2026-10-28T10:00:00Z" }
+  },
+  {
+    "productId": "purifying-glow-face-wash",
+    "username": "Aarav Joshi",
+    "rating": 5,
+    "comment": "Got this after a friend recommended it for oily T-zone. It genuinely controls excess oil through the afternoon and the mild natural fragrance is very soothing. Skin feels fresh and breathable.",
+    "createdAt": { "$date": "2026-10-22T14:30:00Z" }
+  },
+  {
+    "productId": "purifying-glow-face-wash",
+    "username": "Kavita Nair",
+    "rating": 4,
+    "comment": "Very nice texture and packaging pump works smoothly. Leaves a noticeable subtle glow after washing. Taking off 1 star only because I wish they had a travel mini size, otherwise 10/10 formula.",
+    "createdAt": { "$date": "2026-10-13T16:15:00Z" }
+  },
+  {
+    "productId": "purifying-glow-face-wash",
+    "username": "Sneha Patel",
+    "rating": 5,
+    "comment": "My skin is extremely sensitive and prone to redness. Was worried about salicylic acid, but this formulation is super calm and non-stripping. Saffron extract gives such a clean, radiant look.",
+    "createdAt": { "$date": "2026-10-04T11:20:00Z" }
+  },
+  {
+    "productId": "purifying-glow-face-wash",
+    "username": "Rohan Malhotra",
+    "rating": 5,
+    "comment": "Clean ingredients and zero soapy residue. Removes everyday dust and pollution easily. Even my sister started stealing it from my bathroom shelf!",
+    "createdAt": { "$date": "2026-09-23T09:45:00Z" }
+  },
+  {
+    "productId": "brightening-hydrating-face-serum",
+    "username": "Ananya Verma",
+    "rating": 5,
+    "comment": "Obsessed with this serum! It absorbs within 15 seconds without any sticky residue. After 3 weeks of consistent night use, my acne marks have visibly lightened and my face looks plump in the morning.",
+    "createdAt": { "$date": "2026-10-29T10:00:00Z" }
+  },
+  {
+    "productId": "brightening-hydrating-face-serum",
+    "username": "Tanya Sengupta",
+    "rating": 5,
+    "comment": "The glass dropper bottle feels so luxurious. Just 3 drops are enough for the whole face and neck. Hydration lasts all day under makeup without pilling.",
+    "createdAt": { "$date": "2026-10-21T18:00:00Z" }
+  },
+  {
+    "productId": "brightening-hydrating-face-serum",
+    "username": "Vikramaditya Rao",
+    "rating": 4,
+    "comment": "Great formulation for combination skin. Helped smooth out dry patches around my nose and forehead. Slight golden tint looks very natural.",
+    "createdAt": { "$date": "2026-10-11T13:40:00Z" }
+  },
+  {
+    "productId": "brightening-hydrating-face-serum",
+    "username": "Meera Kulkarni",
+    "rating": 5,
+    "comment": "I have tired, dull skin from constant laptop screen exposure. This serum gave an instant dewy bounce within a week. Holy grail product!",
+    "createdAt": { "$date": "2026-09-29T15:10:00Z" }
+  },
+  {
+    "productId": "brightening-hydrating-face-serum",
+    "username": "Arjun Deshmukh",
+    "rating": 5,
+    "comment": "Lightweight, non-greasy, and smells heavenly without overpowering perfumes. One bottle lasted me almost 2 months. Worth every rupee.",
+    "createdAt": { "$date": "2026-09-17T11:00:00Z" }
+  },
+  {
+    "productId": "soothing-face-scrub",
+    "username": "Pooja Hegde",
+    "rating": 5,
+    "comment": "Finally a physical scrub with ultra-fine granules that don't scratch or damage the skin barrier! Buffs away blackheads around the nose area effortlessly.",
+    "createdAt": { "$date": "2026-10-27T12:00:00Z" }
+  },
+  {
+    "productId": "soothing-face-scrub",
+    "username": "Kunal Singhania",
+    "rating": 4,
+    "comment": "I use it twice a week after workouts. Deep cleans pores and keeps ingrown beard hairs away. Rinses clean with lukewarm water.",
+    "createdAt": { "$date": "2026-10-19T17:25:00Z" }
+  },
+  {
+    "productId": "soothing-face-scrub",
+    "username": "Divya Chawla",
+    "rating": 5,
+    "comment": "Leaves your face feeling as smooth as glass. You only need a pea-sized amount. The botanical extracts feel very soothing and spa-like.",
+    "createdAt": { "$date": "2026-10-08T09:15:00Z" }
+  },
+  {
+    "productId": "soothing-face-scrub",
+    "username": "Ritu Saxena",
+    "rating": 5,
+    "comment": "Gentle enough for my sensitive cheeks while still clearing stubborn whiteheads on my chin. My moisturizer absorbs twice as fast after using this.",
+    "createdAt": { "$date": "2026-09-26T14:50:00Z" }
+  },
+  {
+    "productId": "soothing-face-scrub",
+    "username": "Siddharth Pillai",
+    "rating": 5,
+    "comment": "No synthetic plastic microbeads, pure eco-friendly natural texture. Skin feels renewed and baby soft immediately after towel drying.",
+    "createdAt": { "$date": "2026-09-14T16:00:00Z" }
+  },
+  {
+    "productId": "face-cream-sunscreen-spf-30",
+    "username": "Shreya Iyer",
+    "rating": 5,
+    "comment": "Zero white cast! As someone with duskier skin tone, finding an SPF 30 cream that doesn't leave an ashy finish is a miracle. Lightweight and moisturising.",
+    "createdAt": { "$date": "2026-10-26T11:45:00Z" }
+  },
+  {
+    "productId": "face-cream-sunscreen-spf-30",
+    "username": "Harish Nambiar",
+    "rating": 5,
+    "comment": "Does double duty as my daily moisturizer and sun protection. Saves so much time in the morning before heading to the office. Doesn't sting the eyes.",
+    "createdAt": { "$date": "2026-10-18T10:20:00Z" }
+  },
+  {
+    "productId": "face-cream-sunscreen-spf-30",
+    "username": "Neha Bansal",
+    "rating": 4,
+    "comment": "Moisturizes really well for daily wear. If you have extremely oily skin in humid monsoon, you might need a light powder on top, but for normal-to-dry skin it's perfection.",
+    "createdAt": { "$date": "2026-10-06T15:35:00Z" }
+  },
+  {
+    "productId": "face-cream-sunscreen-spf-30",
+    "username": "Amitav Ghosh",
+    "rating": 5,
+    "comment": "Doesn't make my face sweat or grease up like regular sunscreens. Broad spectrum coverage is solid, didn't tan during my Goa trip.",
+    "createdAt": { "$date": "2026-09-24T18:10:00Z" }
+  },
+  {
+    "productId": "face-cream-sunscreen-spf-30",
+    "username": "Riddhi Bhatt",
+    "rating": 5,
+    "comment": "The texture is like whipped silk. Layers beautifully under tinted moisturizer or foundation without separating. Love the subtle glow finish.",
+    "createdAt": { "$date": "2026-09-12T13:00:00Z" }
+  },
+  {
+    "productId": "soothing-body-lotion",
+    "username": "Simran Kaur",
+    "rating": 5,
+    "comment": "Deep nourishment without feeling like a thick greasy blanket. Keeps dry elbows and knees hydrated throughout 12-hour air-conditioned office shifts.",
+    "createdAt": { "$date": "2026-10-25T14:15:00Z" }
+  },
+  {
+    "productId": "soothing-body-lotion",
+    "username": "Deepak Tiwari",
+    "rating": 5,
+    "comment": "Subtle pleasant fragrance that doesn't clash with cologne. Absorbs right in after a morning shower, skin stays smooth all day.",
+    "createdAt": { "$date": "2026-10-16T09:00:00Z" }
+  },
+  {
+    "productId": "soothing-body-lotion",
+    "username": "Aditi Mukhopadhyay",
+    "rating": 4,
+    "comment": "Pump dispenser is sturdy and dispenses the exact right amount. Very soothing on post-waxed irritated skin. Will definitely repurchase.",
+    "createdAt": { "$date": "2026-10-03T16:40:00Z" }
+  },
+  {
+    "productId": "soothing-body-lotion",
+    "username": "Varun Kapoor",
+    "rating": 5,
+    "comment": "Fixed my winter ashy skin within 4 days. Non-sticky formula is rare to find at this price point. Clean ingredients list too.",
+    "createdAt": { "$date": "2026-09-21T12:30:00Z" }
+  },
+  {
+    "productId": "soothing-body-lotion",
+    "username": "Sunidhi Rao",
+    "rating": 5,
+    "comment": "My whole family is using this now! From my mom's dry hands to my brother's dry legs. Leaves skin supple, soft, and delicately scented.",
+    "createdAt": { "$date": "2026-09-09T17:15:00Z" }
+  },
+  {
+    "productId": "daily-glow-duo",
+    "username": "Rashmi Menon",
+    "rating": 5,
+    "comment": "Pairing the cleanser with the face serum is unbeatable. My morning routine takes literally 3 minutes now and skin looks radiant all day.",
+    "createdAt": { "$date": "2026-10-24T10:10:00Z" }
+  },
+  {
+    "productId": "daily-glow-duo",
+    "username": "Karan Oberoi",
+    "rating": 5,
+    "comment": "Bought this combo pack for the discount and both products exceeded expectations. Great value for everyday essential skincare.",
+    "createdAt": { "$date": "2026-10-15T15:20:00Z" }
+  },
+  {
+    "productId": "daily-glow-duo",
+    "username": "Bhavna Trivedi",
+    "rating": 4,
+    "comment": "Both items work in perfect synergy. Cleanser preps the skin, and serum locks in the glow. Would love an option to customize bottle sizes.",
+    "createdAt": { "$date": "2026-10-02T11:55:00Z" }
+  },
+  {
+    "productId": "daily-glow-duo",
+    "username": "Yashvardhan Jain",
+    "rating": 5,
+    "comment": "Noticeable difference in texture within 10 days. Clean, vegan formulation that doesn't cause breakouts. Highly recommend the bundle.",
+    "createdAt": { "$date": "2026-09-19T13:45:00Z" }
+  },
+  {
+    "productId": "daily-glow-duo",
+    "username": "Pallavi Dutta",
+    "rating": 5,
+    "comment": "Gifted this combo to my sister on Rakhi and she loved it so much she made me order another set for herself! Beautiful packaging as well.",
+    "createdAt": { "$date": "2026-09-08T18:00:00Z" }
+  },
+  {
+    "productId": "cleanse-protect-duo",
+    "username": "Manisha Agarwal",
+    "rating": 5,
+    "comment": "The ultimate minimalist skincare starter kit! Wash your face, slap on the SPF cream, and you're good to tackle the city pollution and sun.",
+    "createdAt": { "$date": "2026-10-23T16:00:00Z" }
+  },
+  {
+    "productId": "cleanse-protect-duo",
+    "username": "Nikhil Varma",
+    "rating": 5,
+    "comment": "Super convenient duo for college students and working professionals. Neither product feels heavy or sticky. Big thumbs up!",
+    "createdAt": { "$date": "2026-10-14T12:10:00Z" }
+  },
+  {
+    "productId": "cleanse-protect-duo",
+    "username": "Swati Sundaram",
+    "rating": 4,
+    "comment": "Great combination for humid climate. Cleanser removes sweat thoroughly and sunscreen moisturizes without clogging pores.",
+    "createdAt": { "$date": "2026-10-01T17:40:00Z" }
+  },
+  {
+    "productId": "cleanse-protect-duo",
+    "username": "Tarun Bhargava",
+    "rating": 5,
+    "comment": "Solid daily defense kit. Helped calm down redness and prevented my forehead from getting sun-damaged during daily commutes.",
+    "createdAt": { "$date": "2026-09-18T10:30:00Z" }
+  },
+  {
+    "productId": "cleanse-protect-duo",
+    "username": "Ishita Roy",
+    "rating": 5,
+    "comment": "Ordered on a recommendation and completely sold. The cleanser is gentle, sunscreen doesn't leave chalky marks. Reordering next month.",
+    "createdAt": { "$date": "2026-09-07T14:20:00Z" }
+  },
+  {
+    "productId": "hydration-duo",
+    "username": "Garima Kashyap",
+    "rating": 5,
+    "comment": "Saved my dehydrated, dull skin! The combination locks in water levels so well that fine dry lines around my smile completely softened.",
+    "createdAt": { "$date": "2026-10-22T11:00:00Z" }
+  },
+  {
+    "productId": "hydration-duo",
+    "username": "Prateek Sethi",
+    "rating": 5,
+    "comment": "My skin gets super parched in AC rooms. Using these two together gives deep, plump bounce from morning till evening. Very impressed.",
+    "createdAt": { "$date": "2026-10-12T16:50:00Z" }
+  },
+  {
+    "productId": "hydration-duo",
+    "username": "Jyoti Pillai",
+    "rating": 4,
+    "comment": "Rich hydration without making the face look oily or slick. The texture of both products feels premium and thoughtfully crafted.",
+    "createdAt": { "$date": "2026-09-30T13:15:00Z" }
+  },
+  {
+    "productId": "hydration-duo",
+    "username": "Sameer Kulkarni",
+    "rating": 5,
+    "comment": "Noticeably softer skin in less than a week. No harsh alcohol smell or artificial dyes. Genuine botanical nourishment.",
+    "createdAt": { "$date": "2026-09-16T18:25:00Z" }
+  },
+  {
+    "productId": "hydration-duo",
+    "username": "Meghna Sengupta",
+    "rating": 5,
+    "comment": "The best hydration pairing on the market right now. Makeup sits so smoothly over this base. 100% worth the investment.",
+    "createdAt": { "$date": "2026-09-05T09:30:00Z" }
+  },
+  {
+    "productId": "radiance-ritual-trio",
+    "username": "Alankrita Sen",
+    "rating": 5,
+    "comment": "The ultimate self-care weekend ritual! Using the scrub, followed by serum and cream gives an authentic salon-level facial glow at home.",
+    "createdAt": { "$date": "2026-10-20T17:30:00Z" }
+  },
+  {
+    "productId": "radiance-ritual-trio",
+    "username": "Gaurav Chauhan",
+    "rating": 5,
+    "comment": "Bought this set for my wife's birthday and she's obsessed. The unboxing experience and packaging look like luxury Parisian skincare.",
+    "createdAt": { "$date": "2026-10-10T14:10:00Z" }
+  },
+  {
+    "productId": "radiance-ritual-trio",
+    "username": "Namrata Khurana",
+    "rating": 4,
+    "comment": "All three products complement each other seamlessly. Exfoliates, hydrates, and protects. Definitely seen an improvement in skin tone.",
+    "createdAt": { "$date": "2026-09-28T11:40:00Z" }
+  },
+  {
+    "productId": "radiance-ritual-trio",
+    "username": "Udayan Mukherjee",
+    "rating": 5,
+    "comment": "Worth every penny. The ritual has genuinely cleared dullness and given my skin an even, healthy tone. Five stars easily.",
+    "createdAt": { "$date": "2026-09-15T15:00:00Z" }
+  },
+  {
+    "productId": "radiance-ritual-trio",
+    "username": "Shilpa Vashisht",
+    "rating": 5,
+    "comment": "Complete 3-step routine in one convenient box. Takes the guesswork out of layering skincare products. Skin feels like velvet!",
+    "createdAt": { "$date": "2026-09-04T12:45:00Z" }
+  },
+  {
+    "productId": "alora-radiance-travel-essentials-kit",
+    "username": "Kritika Goel",
+    "rating": 5,
+    "comment": "Cabin-baggage friendly, leak-proof caps, and beautiful pouch! Carried this on my flight to Dubai and my skin didn't dry out at all.",
+    "createdAt": { "$date": "2026-10-18T13:20:00Z" }
+  },
+  {
+    "productId": "alora-radiance-travel-essentials-kit",
+    "username": "Mohit Chandra",
+    "rating": 5,
+    "comment": "Super compact and hassle-free. All the core essentials in one grab-and-go kit. No more carrying heavy clunky bottles on trips.",
+    "createdAt": { "$date": "2026-10-09T18:30:00Z" }
+  },
+  {
+    "productId": "alora-radiance-travel-essentials-kit",
+    "username": "Radhika Somani",
+    "rating": 4,
+    "comment": "Very convenient kit for short work trips and weekends away. High quality bottles that you can even refill later.",
+    "createdAt": { "$date": "2026-09-25T10:15:00Z" }
+  },
+  {
+    "productId": "alora-radiance-travel-essentials-kit",
+    "username": "Abhishek Nayak",
+    "rating": 5,
+    "comment": "Everything you need for clean, glowing skin on the go. Great way to try out the Alora range before buying the full-size bottles.",
+    "createdAt": { "$date": "2026-09-13T16:00:00Z" }
+  },
+  {
+    "productId": "alora-radiance-travel-essentials-kit",
+    "username": "Tanvi Deshmukh",
+    "rating": 5,
+    "comment": "Got this for my honeymoon trip to the hills. Protected my skin against chilly winds and kept my face fresh in photos all week!",
+    "createdAt": { "$date": "2026-09-02T11:30:00Z" }
+  }
+]

@@ -352,6 +352,56 @@ function initRegisterForm() {
         }
     });
 }
+let pending2FAEmail = "";
+let resendCountdownTimer = null;
+
+function startResendCooldown(seconds = 30) {
+    const resendBtn = document.getElementById("resendOtpBtn");
+    const timerText = document.getElementById("resendTimerText");
+    if (!resendBtn) return;
+
+    if (resendCountdownTimer) clearInterval(resendCountdownTimer);
+
+    let remaining = seconds;
+    resendBtn.disabled = true;
+    resendBtn.classList.add("opacity-50", "cursor-not-allowed");
+    if (timerText) timerText.textContent = `(${remaining}s)`;
+
+    resendCountdownTimer = setInterval(() => {
+        remaining--;
+        if (remaining <= 0) {
+            clearInterval(resendCountdownTimer);
+            resendCountdownTimer = null;
+            resendBtn.disabled = false;
+            resendBtn.classList.remove("opacity-50", "cursor-not-allowed");
+            if (timerText) timerText.textContent = "";
+        } else {
+            if (timerText) timerText.textContent = `(${remaining}s)`;
+        }
+    }, 1000);
+}
+
+function show2FAView(email) {
+    pending2FAEmail = email;
+    const loginSection = document.getElementById("loginSection");
+    const forgotSection = document.getElementById("forgotSection");
+    const otpSection = document.getElementById("otpSection");
+
+    if (loginSection) loginSection.classList.add("hidden");
+    if (forgotSection) forgotSection.classList.add("hidden");
+    if (otpSection) {
+        otpSection.classList.remove("hidden");
+        const emailDisplay = document.getElementById("otpEmailDisplay");
+        if (emailDisplay) emailDisplay.textContent = email;
+        const otpInput = document.getElementById("otpCode");
+        if (otpInput) {
+            otpInput.value = "";
+            otpInput.focus();
+        }
+    }
+    startResendCooldown(30);
+}
+
 function initLoginForm() {
     const loginForm = document.getElementById("loginForm");
     if (!loginForm) return;
@@ -362,9 +412,17 @@ function initLoginForm() {
         e.stopPropagation();
         const emailEl = document.getElementById("email");
         const passwordEl = document.getElementById("password");
+        const loginBtn = document.getElementById("loginSubmitBtn");
         if (!emailEl || !passwordEl) return;
         const email = emailEl.value.trim();
         const password = passwordEl.value;
+
+        const origBtnText = loginBtn ? loginBtn.innerHTML : "";
+        if (loginBtn) {
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Verifying...';
+        }
+
         try {
             const response = await fetch(`${BASE_URL}/api/auth/login`, {
                 method: "POST",
@@ -374,6 +432,10 @@ function initLoginForm() {
             });
             const data = await response.json();
             if (response.ok && data.success !== false) {
+                if (data.require2FA) {
+                    show2FAView(data.email || email);
+                    return;
+                }
                 if (data.token) {
                     localStorage.setItem("token", data.token);
                     sessionStorage.setItem("token", data.token);
@@ -407,8 +469,128 @@ function initLoginForm() {
         } catch (error) {
             console.error("Login Error:", error);
             showSuccessModal("Error", "Server se contact nahi ho paa raha hai.", null);
+        } finally {
+            if (loginBtn) {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = origBtnText;
+            }
         }
     });
+}
+
+function initOtpForm() {
+    const otpForm = document.getElementById("otpForm");
+    if (!otpForm) return;
+
+    const newOtpForm = otpForm.cloneNode(true);
+    otpForm.parentNode.replaceChild(newOtpForm, otpForm);
+
+    newOtpForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const otpCodeEl = document.getElementById("otpCode");
+        const verifyBtn = document.getElementById("verifyOtpBtn");
+        if (!otpCodeEl) return;
+
+        const otp = otpCodeEl.value.trim();
+        if (!otp || otp.length !== 6) {
+            showSuccessModal("Invalid Code", "Please enter the 6-digit verification code.", null);
+            return;
+        }
+
+        const origBtnText = verifyBtn ? verifyBtn.innerHTML : "";
+        if (verifyBtn) {
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Verifying...';
+        }
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/auth/verify-2fa`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: pending2FAEmail, otp }),
+                credentials: "include"
+            });
+            const data = await response.json();
+
+            if (response.ok && data.success !== false) {
+                if (data.token) {
+                    localStorage.setItem("token", data.token);
+                    sessionStorage.setItem("token", data.token);
+                }
+                const userData = data.user || data.data || {};
+                const displayName = userData.name || userData.username || (userData.email ? userData.email.split('@')[0] : "User");
+                const userObjToStore = {
+                    ...userData,
+                    name: displayName
+                };
+                const role = userData.role ? userData.role.toLowerCase().trim() : "user";
+                sessionStorage.setItem("tabAuthActive", "true");
+                sessionStorage.setItem("userRole", role);
+                sessionStorage.setItem("user", JSON.stringify(userObjToStore));
+                localStorage.setItem("userRole", role);
+                localStorage.setItem("user", JSON.stringify(userObjToStore));
+
+                let targetUrl = "./account.html";
+                if (role === "admin") {
+                    targetUrl = "./admin.html";
+                } else if (role === "seoadmin") {
+                    targetUrl = "./seoadmin.html";
+                } else if (role === "affiliate") {
+                    targetUrl = "./affiliate.html";
+                }
+
+                showSuccessModal("Login Successful!", `Welcome, ${displayName}!`, () => {
+                    window.location.href = targetUrl;
+                });
+            } else {
+                showSuccessModal("Verification Failed", data.message || "Invalid or expired verification code.", null);
+            }
+        } catch (error) {
+            console.error("2FA Verify Error:", error);
+            showSuccessModal("Error", "Could not connect to the server.", null);
+        } finally {
+            if (verifyBtn) {
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = origBtnText;
+            }
+        }
+    });
+
+    const resendBtn = document.getElementById("resendOtpBtn");
+    if (resendBtn) {
+        resendBtn.addEventListener("click", async () => {
+            if (resendBtn.disabled) return;
+            try {
+                const response = await fetch(`${BASE_URL}/api/auth/resend-2fa`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: pending2FAEmail }),
+                    credentials: "include"
+                });
+                const data = await response.json();
+                if (response.ok && data.success !== false) {
+                    startResendCooldown(30);
+                    showSuccessModal("Code Sent", "A new 6-digit verification code has been sent to your email.", null);
+                } else {
+                    showSuccessModal("Failed", data.message || "Could not resend verification code.", null);
+                }
+            } catch (err) {
+                showSuccessModal("Error", "Server error while requesting new code.", null);
+            }
+        });
+    }
+
+    const backBtn = document.getElementById("backToLoginFromOtpBtn");
+    if (backBtn) {
+        backBtn.addEventListener("click", () => {
+            const loginSection = document.getElementById("loginSection");
+            const otpSection = document.getElementById("otpSection");
+            if (otpSection) otpSection.classList.add("hidden");
+            if (loginSection) loginSection.classList.remove("hidden");
+        });
+    }
 }
 function initForgotForm() {
     const forgotForm = document.getElementById("forgotForm");
@@ -458,6 +640,7 @@ function initForgotForm() {
 function initAuthForms() {
     initRegisterForm();
     initLoginForm();
+    initOtpForm();
     initForgotForm();
 }
 if (document.readyState === "complete" || document.readyState === "interactive") {

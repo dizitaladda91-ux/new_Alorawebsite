@@ -13,15 +13,12 @@
 </head>
 <body class="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#FAF7F2] font-sans">
 
-  <!-- Background: live index.html -->
   <iframe id="bgFrame" src="./index.html" class="fixed top-0 left-0 w-full h-full border-none scale-[1.02] pointer-events-none z-0" tabindex="-1" aria-hidden="true"></iframe>
   <div class="absolute inset-0 bg-black/40 backdrop-blur-xs z-[1] pointer-events-none"></div>
 
-  <!-- Main Container for Forms -->
   <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4 relative z-10 border border-amber-900/10">
     <a href="./index.html" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 text-lg font-bold flex items-center justify-center transition-all no-underline" title="Close">&times;</a>
 
-    <!-- LOGIN FORM -->
     <div id="loginSection">
       <div class="text-center mb-6">
         <h1 class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight">Login to Alora</h1>
@@ -45,11 +42,32 @@
         <div class="text-right">
           <button type="button" id="showForgotBtn" onclick="toggleViews(true)" class="text-xs font-bold text-[#8B4513] hover:text-amber-900 transition-colors">Forgot Password?</button>
         </div>
-        <button type="submit" class="w-full bg-[#8B4513] hover:bg-amber-900 text-white py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider shadow-md transition-all active:scale-[0.99] cursor-pointer">Login</button>
+        <button type="submit" id="loginSubmitBtn" class="w-full bg-[#8B4513] hover:bg-amber-900 text-white py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider shadow-md transition-all active:scale-[0.99] cursor-pointer">Login</button>
       </form>
     </div>
 
-    <!-- FORGOT PASSWORD FORM -->
+    <div id="otpSection" class="hidden">
+      <div class="text-center mb-6">
+        <div class="w-12 h-12 mx-auto mb-3 bg-amber-50 text-[#8B4513] rounded-2xl border border-amber-200 flex items-center justify-center text-xl shadow-xs">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight">Security Code</h2>
+        <p class="text-xs text-slate-500 mt-1">Enter the 6-digit code sent to <strong id="otpEmailDisplay" class="text-slate-800 font-mono"></strong></p>
+      </div>
+
+      <form id="otpForm" class="space-y-4">
+        <div>
+          <label class="block text-slate-700 text-xs font-bold uppercase tracking-wider mb-1 font-mono">6-Digit Verification Code</label>
+          <input type="text" id="otpCode" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code" required placeholder="••••••" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:border-[#8B4513] focus:ring-2 focus:ring-amber-500/20 outline-none text-center font-mono text-2xl tracking-[0.4em] font-bold text-slate-900 bg-amber-50/20 transition-all">
+        </div>
+        <button type="submit" id="verifyOtpBtn" class="w-full bg-[#8B4513] hover:bg-amber-900 text-white py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider shadow-md transition-all active:scale-[0.99] cursor-pointer">Verify &amp; Login</button>
+        <div class="flex items-center justify-between mt-3 text-xs">
+          <button type="button" id="resendOtpBtn" class="font-bold text-[#8B4513] hover:text-amber-900 transition-colors cursor-pointer">Resend Code <span id="resendTimerText"></span></button>
+          <button type="button" id="backToLoginFromOtpBtn" class="font-bold text-slate-600 hover:text-slate-900 transition-colors cursor-pointer">← Back to Login</button>
+        </div>
+      </form>
+    </div>
+
     <div id="forgotSection" class="hidden">
       <div class="text-center mb-6">
         <h2 class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight">Forgot Password</h2>
@@ -78,12 +96,12 @@
     </div>
   </div>
 
-  <!-- Inline UI Switcher Script -->
   <script>
     function toggleViews(showForgot) {
       const loginSection = document.getElementById('loginSection');
       const forgotSection = document.getElementById('forgotSection');
-      
+      const otpSection = document.getElementById('otpSection');
+      if (otpSection) otpSection.classList.add('hidden');
       if (showForgot) {
         loginSection.classList.add('hidden');
         forgotSection.classList.remove('hidden');
@@ -95,6 +113,6 @@
   </script>
 
   <script src="./js/include.min.js"></script>
-  <script type="module" src="./js/auth.min.js"></script>
+  <script type="module" src="./js/auth.js"></script>
 </body>
 </html>

@@ -70,7 +70,9 @@ const userSchema = new mongoose.Schema({
     default: null
   },
   resetToken: { type: String, default: null },
-  resetTokenExpiry: { type: Date, default: null }
+  resetTokenExpiry: { type: Date, default: null },
+  twoFactorOtp: { type: String, default: null },
+  twoFactorOtpExpires: { type: Date, default: null }
 }, { timestamps: true });
 
 userSchema.pre('save', async function () {
