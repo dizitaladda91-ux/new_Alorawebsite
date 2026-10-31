@@ -17,8 +17,11 @@
 }
 
 *, *::before, *::after {
-  font-family: 'DM Sans', sans-serif;
   box-sizing: border-box;
+}
+
+body, html, p, h1, h2, h3, h4, h5, h6, a, span:not(.fa):not([class*='fa-']), button, input, select, textarea {
+  font-family: 'DM Sans', sans-serif;
 }
 
 html, body {

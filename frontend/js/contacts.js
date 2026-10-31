@@ -39,7 +39,7 @@ export function renderNavbarState() {
             if (role === "admin" || role === "seoadmin") {
                 authActions.innerHTML = `
                     <a href="${role === 'admin' ? './admin.html' : './seoadmin.html'}" class="text-base text-black hover:text-gold transition" title="Account Login">
-                        <i class="fa-solid fa-user"></i>
+                        <svg class="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     </a>
                 `;
             } else {
@@ -64,9 +64,7 @@ export function renderNavbarState() {
         }
     } else {
         authActions.innerHTML = `
-            <a href="./login.html" class="text-base text-black hover:text-gold transition">
-                <i class="fa-solid fa-user"></i>
-            </a>
+            <a href="./login.html" aria-label="User Account Login" title="User Account Login" class="p-2 text-[#2B1D14] hover:text-[#D98E2B] transition flex items-center justify-center"><svg class="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span class="sr-only">User Account Login</span></a>
         `;
     }
 }
