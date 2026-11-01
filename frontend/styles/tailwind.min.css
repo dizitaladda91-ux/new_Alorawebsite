@@ -19,5 +19,7 @@ input,select,textarea{font-family:var(--font-body);}
 .font-serif,.font-fraunces,.font-heading,.font-['Fraunces']{font-family:var(--font-heading)!important;}
 body i,body [class*="fa-"],body .fa,body .fas,body .far,body .fab,body .fa-solid,body .fa-regular,body .fa-brands,[class*="fa-"]::before,[class*="fa-"]::after{font-family:"Font Awesome 6 Free","Font Awesome 6 Brands"!important;}
 .top-ticker-bar,.top-ticker-bar *,.top-ticker-bar span,.top-ticker-bar div{background-color:#2B1D14;color:#FBF7F0!important;font-family:var(--font-body);}
-.top-ticker-bar .ticker-badge{background-color:#D98E2B!important;color:#2B1D14!important;}
-.top-ticker-bar .ticker-star{color:#D98E2B!important;}
+.top-ticker-bar .ticker-badge{background-color:transparent!important;color:#D98E2B!important;font-weight:700;padding:0!important;}
+.top-ticker-bar .ticker-star{color:#D98E2B!important;font-size:0.72rem!important;opacity:0.75;display:inline-flex;align-items:center;}
+
+@keyframes reviewsScrollLeft{0%{transform:translate3d(0,0,0);}100%{transform:translate3d(-50%,0,0);}}@keyframes reviewsScrollRight{0%{transform:translate3d(-50%,0,0);}100%{transform:translate3d(0,0,0);}}.animate-reviews-row-1{display:flex;width:max-content;gap:1.25rem;animation:reviewsScrollLeft 48s linear infinite;will-change:transform;}.animate-reviews-row-2{display:flex;width:max-content;gap:1.25rem;animation:reviewsScrollRight 48s linear infinite;will-change:transform;}.animate-reviews-row-1:hover,.animate-reviews-row-2:hover{animation-play-state:paused;}
