@@ -150,7 +150,7 @@ async function loadAllPartials() {
     const navPlaceholder = document.getElementById('navbar-placeholder');
     if (navPlaceholder) {
         if (!navPlaceholder.parentElement || navPlaceholder.parentElement.tagName !== 'HEADER') {
-            navPlaceholder.classList.add('sticky', 'top-0', 'z-50', 'w-full', 'bg-white');
+            navPlaceholder.classList.add('w-full');
         }
         await loadPartial("#navbar-placeholder", navUrl);
         if (typeof window.renderNavbarState === 'function') {

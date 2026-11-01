@@ -21,20 +21,20 @@
 }
 
 body, html, p, h1, h2, h3, h4, h5, h6, a, span:not(.fa):not([class*='fa-']), button, input, select, textarea {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 html, body {
   background-color: var(--ivory) !important;
   color: var(--brown) !important;
-  font-family: 'DM Sans', sans-serif !important;
+  font-family: 'Times New Roman', Times, serif !important;
   font-weight: 400;
   line-height: 1.7;
 }
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'DM Sans', sans-serif !important;
+  font-family: 'Times New Roman', Times, serif !important;
   font-weight: 500 !important;
   letter-spacing: 1px !important;
   color: var(--brown) !important;
@@ -42,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Small Labels */
 .small-label, .sub-label {
-  font-family: 'DM Sans', sans-serif !important;
+  font-family: 'Times New Roman', Times, serif !important;
   font-size: 0.72rem !important;
   font-weight: 600 !important;
   text-transform: uppercase !important;
@@ -52,7 +52,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Body Text */
 p, .body-text {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   color: var(--brown-80);
 }
 
@@ -91,10 +91,23 @@ p, .body-text {
 
 /* Font override classes */
 .font-sans, .font-serif, .font-fraunces, .font-roboto, .font-manrope, .font-jakarta {
-  font-family: 'DM Sans', sans-serif !important;
+  font-family: 'Times New Roman', Times, serif !important;
 }
 
 /* Icons safety */
 body i, body [class*="fa-"], body .fa, body .fas, body .far, body .fab, body .fa-solid, body .fa-regular, body .fa-brands {
   font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+}
+
+/* 🚀 TOP TICKER ANNOUNCEMENT BAR (DEEP BROWN) */
+.top-ticker-bar, .top-ticker-bar *, .top-ticker-bar span, .top-ticker-bar div {
+  background-color: #2B1D14;
+  color: #FBF7F0 !important;
+}
+.top-ticker-bar .ticker-badge {
+  background-color: #D98E2B !important;
+  color: #2B1D14 !important;
+}
+.top-ticker-bar .ticker-star {
+  color: #D98E2B !important;
 }

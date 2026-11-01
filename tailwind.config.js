@@ -31,10 +31,10 @@ export default {
         ash: 'rgba(43, 29, 20, 0.8)'
       },
       fontFamily: {
-        sans: ['"DM Sans"', 'sans-serif'],
-        serif: ['"DM Sans"', 'sans-serif'],
-        fraunces: ['"DM Sans"', 'sans-serif'],
-        roboto: ['"DM Sans"', 'sans-serif']
+        sans: ['"Times New Roman"', 'Times', 'serif'],
+        serif: ['"Times New Roman"', 'Times', 'serif'],
+        fraunces: ['"Times New Roman"', 'Times', 'serif'],
+        roboto: ['"Times New Roman"', 'Times', 'serif']
       }
     }
   }

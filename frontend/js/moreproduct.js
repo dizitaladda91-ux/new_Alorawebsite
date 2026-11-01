@@ -157,70 +157,86 @@ function renderProductCatalog(products) {
         const skinType = product.category ? (product.category.toLowerCase().includes('sun') || product.category.toLowerCase().includes('spf') ? 'All Skin Types' : product.category.toLowerCase().includes('body') ? 'Deep Hydration' : 'All Skin Types') : 'All Skin Types';
         const reviewCount = Math.floor(450 + (product.rating || 4.8) * 280);
 
+        const pct = (initialSize.mrp && Number(initialSize.mrp) > Number(initialSize.price))
+            ? Math.round(((Number(initialSize.mrp) - Number(initialSize.price)) / Number(initialSize.mrp)) * 100)
+            : 0;
+
         return `
-        <div data-product-id="${product.id}" class="animate-fade-in relative w-full flex-shrink-0 product-card bg-white rounded-3xl shadow-xs border border-stone-200/90 flex flex-col justify-between overflow-hidden">
+        <div data-product-id="${product.id}" class="animate-fade-in relative w-full flex-shrink-0 product-card bg-white rounded-xl shadow-xs hover:shadow-md border border-stone-200/90 flex flex-col justify-between overflow-hidden transition-shadow duration-300">
             <div>
-                <!-- Product Image Container (Full Bleed to Top, Left, and Right of Card) -->
-                <div class="relative w-full aspect-square overflow-hidden bg-[#FAF7F2]">
+                <!-- Product Image Container -->
+                <div class="relative w-full aspect-square overflow-hidden bg-[#FAF7F2] p-2 flex items-center justify-center">
                     <a href="${product.productUrl}" class="w-full h-full block">
-                        <img src="${product.baseImg}" alt="${product.name}" class="product-card-img w-full h-full object-cover">
+                        <img src="${product.baseImg}" alt="${product.name}" class="product-card-img w-full h-full object-contain mix-blend-multiply transition-transform duration-300 hover:scale-105">
                     </a>
 
-                    <!-- Floating Top-Left Badges Over Image -->
-                    <div class="absolute z-10 flex flex-col gap-1 items-start pointer-events-none" style="top: 10px; left: 10px;">
-                        ${product.isBestseller ? `
-                            <span class="bg-[#FFF4E5]/95 backdrop-blur-xs text-[#D97706] border border-[#FDE68A] text-[9px] sm:text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md shadow-xs flex items-center gap-1 pointer-events-auto">
-                                BESTSELLER <i class="fa-solid fa-star text-[8px] text-amber-500"></i>
-                            </span>
-                        ` : `
-                            <span class="bg-white/95 backdrop-blur-xs text-slate-900 border border-slate-200 text-[9px] sm:text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md shadow-xs pointer-events-auto">
-                                NEW
-                            </span>
-                        `}
-                        ${discountBadgeHTML}
-                    </div>
-
-                    <!-- Floating Top-Right Wishlist Button Over Image -->
-                    <button type="button" onclick="window.handleCardWishlistToggle && window.handleCardWishlistToggle('${product.id}', this, event)" style="position: absolute; top: 10px; right: 10px; left: auto;" class="wishlist-toggle-btn z-10 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs hover:bg-white text-stone-500 hover:text-rose-600 shadow-xs border border-stone-200/60 flex items-center justify-center cursor-pointer transition-colors" title="Add to Wishlist" aria-label="Add to Wishlist">
+                    <!-- Floating Top-Right Wishlist Button -->
+                    <button type="button" onclick="window.handleCardWishlistToggle && window.handleCardWishlistToggle('${product.id}', this, event)" class="wishlist-toggle-btn absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-stone-500 hover:text-rose-600 shadow-xs border border-stone-200/60 flex items-center justify-center cursor-pointer transition-colors" title="Add to Wishlist" aria-label="Add to Wishlist">
                         <i class="fa-regular fa-heart text-xs sm:text-sm hover:text-rose-600 transition-colors"></i>
                     </button>
                 </div>
 
-                <!-- Product Info Section (Padded Content Below Image) -->
-                <div class="px-3.5 sm:px-4 pt-3 flex flex-col">
-                    <!-- Skin Type / Category Pill -->
-                    <span class="self-start inline-block bg-stone-100/90 text-stone-600 text-[10px] sm:text-[11px] font-medium px-2 py-0.5 rounded-md mb-1.5">
-                        ${skinType}
-                    </span>
-
-                    <!-- Product Title -->
-                    <h3 class="text-xs sm:text-sm font-bold text-slate-900 leading-snug line-clamp-2 hover:text-[#8B4513] transition-colors text-left product-name">
+                <!-- Product Info Section (Amazon Card Style from Image) -->
+                <div class="px-3.5 sm:px-4 pt-3 pb-2 flex flex-col text-left">
+                    <!-- Title -->
+                    <h3 class="text-sm sm:text-[15px] font-bold text-[#2B1D14] leading-snug line-clamp-2 hover:text-[#D98E2B] transition-colors mb-1.5 product-name">
                         <a href="${product.productUrl}">${product.name}</a>
                     </h3>
 
                     <!-- Rating Stars & Review Count -->
-                    <div class="flex items-center gap-1.5 text-amber-500 text-[11px] sm:text-xs font-bold my-1.5">
-                        <div class="flex gap-0.5 text-amber-400">${starsHTML}</div>
-                        <span class="text-stone-500 text-[10px] sm:text-[11px] font-medium font-sans">(${reviewCount})</span>
+                    <div class="flex items-center gap-1.5 text-xs text-[#2B1D14] mb-2">
+                        <span class="font-bold text-amber-700 text-xs">${(product.rating || 4.8).toFixed(1)}</span>
+                        <div class="flex gap-0.5 text-xs">${starsHTML}</div>
+                        <svg class="w-3 h-3 text-stone-400 inline" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                        <span class="text-stone-500 text-[11px] font-medium font-sans">(${reviewCount})</span>
+                    </div>
+
+                    <!-- Deal / Promo Badge -->
+                    <div class="mb-2">
+                        <span class="inline-block bg-[#C43826] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xs">
+                            ${product.isBestseller ? 'Bestseller Deal' : (pct > 0 ? `${pct}% OFF DEAL` : 'Special Offer')}
+                        </span>
+                    </div>
+
+                    <!-- Price Row -->
+                    <div class="flex items-baseline flex-wrap gap-1 mb-0.5">
+                        <span class="text-xs font-semibold text-[#2B1D14] align-super">₹</span>
+                        <span class="product-price text-2xl font-bold text-[#2B1D14] tracking-tight leading-none">${initialSize.price}</span>
+                        <span class="unit-size-text text-[11px] text-stone-500 font-normal">(${initialSize.label})</span>
+                    </div>
+
+                    <!-- MRP & Discount Row -->
+                    <div class="text-xs text-stone-600 mb-1.5">
+                        ${initialSize.mrp ? `M.R.P.: <span class="product-mrp line-through text-stone-400 font-mono">₹${initialSize.mrp}</span> <span class="discount-badge text-emerald-800 font-bold">(${pct}% off)</span>` : ''}
+                    </div>
+
+                    <!-- Promo note -->
+                    <p class="text-[11px] text-[#2B1D14]/80 leading-tight mb-2 font-medium">
+                        Extra discount with code <span class="font-bold text-[#D98E2B]">GLOW10</span>
+                    </p>
+
+                    <!-- Delivery Row -->
+                    <div class="text-xs leading-snug mb-2.5">
+                        <p class="text-stone-900 font-normal">
+                            <span class="font-bold text-[#2B1D14]">FREE delivery</span> on orders above ₹499
+                        </p>
+                        <p class="text-emerald-700 font-semibold text-[11px] mt-0.5">
+                            In stock • Dispatches within 24 hours
+                        </p>
                     </div>
 
                     <!-- Size Variant Buttons -->
                     <div class="flex items-center gap-1.5 flex-wrap my-1 size-btn-container">
                         ${sizeButtonsHTML}
                     </div>
-
-                    <!-- Price & Compare Price -->
-                    <div class="flex items-baseline gap-2 mt-1">
-                        <span class="product-price font-fraunces font-bold text-slate-900 text-base sm:text-lg"><span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${initialSize.price}</span>
-                        ${initialSize.mrp ? `<span class="product-mrp text-xs line-through text-stone-400 font-mono"><span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${initialSize.mrp}</span>` : ''}
-                    </div>
                 </div>
             </div>
 
-            <!-- Add to Cart Action Bar (Padded at Bottom) -->
-            <div class="px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-3">
-                <button type="button" onclick="handleCartButtonClick('${product.id}', this)" class="w-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-extrabold py-2.5 sm:py-3 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-md hover:shadow-amber-500/25 active:scale-95 cursor-pointer">
-                    <i class="fa-solid fa-cart-shopping text-xs"></i> Add to Cart
+            <!-- Add to Cart Action Bar -->
+            <div class="px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-1">
+                <button type="button" onclick="handleCartButtonClick('${product.id}', this)" class="w-full bg-[#D98E2B] hover:bg-[#C47D1F] text-[#2B1D14] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
+                    <svg class="w-4 h-4 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span>Add to Cart</span>
                 </button>
             </div>
         </div>`;
