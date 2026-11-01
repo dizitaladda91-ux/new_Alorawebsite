@@ -739,8 +739,50 @@
 
    <div id="navbar-placeholder" class="w-full">
 <!-- announcement bar & navbar.html -->
-<div class="w-full bg-[#2B1D14] text-[#FBF7F0] text-center py-2 px-4 text-xs font-medium tracking-[2px] uppercase select-none">
-  FREE DELIVERY ON ORDERS ABOVE 999
+<!-- ============ TOP INFINITE MOVING TICKER ANNOUNCEMENT BAR (FOOTER THEME) ============ -->
+<div class="bg-[#2B1D14] text-[#FBF7F0] py-2 px-0 shadow-md border-b border-[#2B1D14]/30 relative z-30 overflow-hidden min-h-[38px] flex items-center select-none">
+    <div class="animate-top-ticker flex items-center whitespace-nowrap">
+        <!-- Loop Item Group 1 -->
+        <div class="flex items-center gap-8 px-4 text-xs sm:text-sm font-semibold tracking-wide">
+            <span class="inline-flex items-center gap-1.5">
+                <span class="text-[#D98E2B] uppercase tracking-wider font-extrabold">WELCOME OFFER:</span> Get Flat 10% OFF! Use Code: 
+                <span class="bg-[#D98E2B] text-[#2B1D14] px-2 py-0.5 rounded font-mono font-extrabold shadow-xs ml-1">GLOW10</span>
+            </span>
+            <span class="text-[#D98E2B] font-bold">✦</span>
+            <span class="inline-flex items-center gap-1.5">
+                <span class="text-[#D98E2B] uppercase tracking-wider font-extrabold">SPECIAL COMBOS SALE:</span> Save Extra on Skincare Bundles &amp; Value Kits!
+            </span>
+            <span class="text-[#D98E2B] font-bold">✦</span>
+            <span class="inline-flex items-center gap-1.5">
+                <span class="text-[#D98E2B] uppercase tracking-wider font-extrabold">FREE SHIPPING:</span> On All Orders Above <span style="font-family: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">&#8377;</span>499 Across India!
+            </span>
+            <span class="text-[#D98E2B] font-bold">✦</span>
+            <span class="inline-flex items-center gap-1.5">
+                <span class="text-[#D98E2B] uppercase tracking-wider font-extrabold">DERMATOLOGIST TESTED:</span> 100% Toxin-Free &amp; Cruelty-Free Formulations!
+            </span>
+            <span class="text-[#D98E2B] font-bold">✦</span>
+        </div>
+        <!-- Loop Item Group 2 (Duplicate for Seamless Infinite Scroll) -->
+        <div class="flex items-center gap-8 px-4 text-xs sm:text-sm font-semibold tracking-wide">
+            <span class="inline-flex items-center gap-1.5">
+                <span class="text-[#D98E2B] uppercase tracking-wider font-extrabold">WELCOME OFFER:</span> Get Flat 10% OFF! Use Code: 
+                <span class="bg-[#D98E2B] text-[#2B1D14] px-2 py-0.5 rounded font-mono font-extrabold shadow-xs ml-1">GLOW10</span>
+            </span>
+            <span class="text-[#D98E2B] font-bold">✦</span>
+            <span class="inline-flex items-center gap-1.5">
+                <span class="text-[#D98E2B] uppercase tracking-wider font-extrabold">SPECIAL COMBOS SALE:</span> Save Extra on Skincare Bundles &amp; Value Kits!
+            </span>
+            <span class="text-[#D98E2B] font-bold">✦</span>
+            <span class="inline-flex items-center gap-1.5">
+                <span class="text-[#D98E2B] uppercase tracking-wider font-extrabold">FREE SHIPPING:</span> On All Orders Above <span style="font-family: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">&#8377;</span>499 Across India!
+            </span>
+            <span class="text-[#D98E2B] font-bold">✦</span>
+            <span class="inline-flex items-center gap-1.5">
+                <span class="text-[#D98E2B] uppercase tracking-wider font-extrabold">DERMATOLOGIST TESTED:</span> 100% Toxin-Free &amp; Cruelty-Free Formulations!
+            </span>
+            <span class="text-[#D98E2B] font-bold">✦</span>
+        </div>
+    </div>
 </div>
 
 <nav class="bg-[#FBF7F0] text-[#2B1D14] sticky top-0 z-50 border-b border-[#2B1D14]/10 transition-colors">
@@ -892,8 +934,8 @@
 </div>
 
   <!-- ============ FEATURED PRODUCTS COLLECTION ============ -->
-    <section id="featured" class="max-w-7xl mx-auto px-4 py-4 sm:py-6 sm:px-6 lg:px-8">
-        <div class="bg-gradient-to-b from-[#FBF8F3] via-white to-[#FBF8F3] rounded-3xl p-6 sm:p-10 border border-amber-900/10 shadow-sm relative overflow-hidden">
+    <section id="featured" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
             <!-- Top Header Bar -->
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6 sm:mb-8">
                 <div>
@@ -937,16 +979,15 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        
+</section>
 
     <!-- ============ HERO BUNDLE HIGHLIGHT SECTION ============ -->
-    <header class="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-6">
-        <div style="background: linear-gradient(135deg, #F5EFE6 0%, #EAE1CD 50%, #DFD3BA 100%); border: 1px solid #CEBE96;" class="rounded-3xl p-5 sm:p-10 md:p-14 text-[#141E14] shadow-xl relative overflow-hidden grid gap-8 md:grid-cols-2 md:gap-12 items-center">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14">
+<div class="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
+
             
-            <!-- Ambient Background Glow Effect -->
-            <div style="background-color: rgba(184, 70, 14, 0.08);" class="absolute -top-24 -left-24 w-96 h-96 rounded-full blur-3xl pointer-events-none"></div>
-            <div style="background-color: rgba(184, 134, 11, 0.08);" class="absolute -bottom-24 -right-24 w-96 h-96 rounded-full blur-3xl pointer-events-none"></div>
+            
 
             <!-- Left Hero Copy -->
             <div class="relative z-10 flex flex-col items-center md:items-start text-center md:text-left hero-copy w-full">
@@ -1019,16 +1060,17 @@
                 </div>
             </div>
 
-        </div>
-    </header>
+        
+</div>
+</section>
 
 
 
     <!-- ============ WATCH IT. LOVE IT. VIDEO REELS CAROUSEL SECTION ============ -->
     <!-- NOTE: You can change the 'data-video-url' attribute on any card below to your desired video link (YouTube embed, Instagram Reel URL, or MP4 file) -->
     
-    <section id="watch-it-love-it-section" class="max-w-7xl mx-auto px-4 py-6 sm:py-10">
-        <div class="bg-gradient-to-b from-slate-50 via-white to-amber-50/20 rounded-3xl p-5 sm:p-8 border border-amber-900/10 shadow-lg relative overflow-hidden">
+    <section id="watch-it-love-it-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
             
             <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-4 mb-6 text-center sm:text-left">
                 <div>
@@ -1154,8 +1196,8 @@
                 </div>
             </div>
 
-        </div>
-    </section>
+        
+</section>
 
     <div id="watchItVideoModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md items-center justify-center p-4 transition-all">
         <div class="relative w-full max-w-lg bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-white/20">
@@ -1325,8 +1367,8 @@
 
 
     <!-- ============ TOXIN-FREE PROMISE (CONTINUOUS SLIDING TICKER) ============ -->
-    <section class="max-w-6xl mx-auto px-2 sm:px-4 py-6 sm:py-10">
-        <div class="bg-transparent sm:bg-gradient-to-b sm:from-[#FDFBF7] sm:via-white sm:to-[#FDFBF7] rounded-none sm:rounded-3xl p-2 sm:p-10 border-0 sm:border sm:border-amber-900/15 shadow-none sm:shadow-xl relative overflow-hidden">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
             
             <!-- Top Header -->
             <div class="text-center mb-6 sm:mb-8">
@@ -1545,13 +1587,13 @@
 
             </div>
 
-        </div>
-    </section>
+        
+</section>
 
 
     <!-- ============ WHY ALORA RADIANCE (OUR STANDARD) ============ -->
-    <section class="max-w-7xl mx-auto px-2 sm:px-4 py-6 sm:py-12">
-        <div class="bg-transparent sm:bg-gradient-to-b sm:from-[#FBF8F3] sm:via-white sm:to-[#FBF8F3] rounded-none sm:rounded-3xl p-2 sm:p-12 border-0 sm:border sm:border-amber-900/15 shadow-none sm:shadow-xl text-center relative overflow-hidden">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-center">
+
             
             <!-- Header -->
             <div class="max-w-2xl mx-auto mb-8 sm:mb-10">
@@ -1699,8 +1741,8 @@
                 </div>
             </div>
 
-        </div>
-    </section>
+        
+</section>
 
     <!-- ============ GREEN INITIATIVE + SAFETY ============ -->
     <section class="bg-transparent py-4 sm:py-8">
@@ -1877,8 +1919,8 @@
 
         
     <!-- ============= SKIN CONCERNS CATEGORIES ============= -->
-    <section class="max-w-7xl mx-auto px-4 py-8 sm:py-12">
-        <div class="bg-gradient-to-b from-[#FBF8F3] via-white to-[#FBF8F3] rounded-3xl p-6 sm:p-10 border border-amber-900/15 shadow-xl text-center relative overflow-hidden">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 text-center">
+
             
             <div class="max-w-xl mx-auto mb-8">
                 <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-100/80 text-[#D98E2B] text-[11px] font-bold tracking-widest uppercase font-mono border border-amber-300/40 mb-2">
@@ -1935,14 +1977,14 @@
                 </a>
 
             </div>
-        </div>
-    </section>
+        
+</section>
 
 
 
                        <!-- ============ TESTIMONIALS (CUSTOMER REVIEWS & STORIES) ============ -->
-    <section class="max-w-7xl mx-auto px-4 py-8 sm:py-12 relative overflow-hidden">
-        <div class="bg-gradient-to-b from-[#FBF8F3] via-white to-[#FBF8F3] rounded-3xl p-6 sm:p-12 border border-amber-900/15 shadow-xl relative overflow-hidden text-center">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative overflow-hidden text-center">
+
             
             <!-- Background subtle glow decoration -->
             <div class="absolute -top-16 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-400/15 rounded-full blur-3xl pointer-events-none"></div>
@@ -2109,12 +2151,12 @@
                 <button class="dot h-2.5 rounded-full bg-amber-200 w-2.5 hover:bg-amber-400 transition-all duration-300" aria-label="Slide 3"></button>
             </div>
 
-        </div>
-    </section>
+        
+</section>
 
     <!-- ============ POPULAR SEARCHES & SEO KEYWORDS ============ -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-amber-900/10 text-slate-700">
-      <div class="bg-[#FBF7F0] rounded-2xl p-5 sm:p-6 border border-[#E6DCC8] shadow-xs">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 border-t border-amber-900/10 text-slate-700">
+
         <h3 class="text-xs font-bold uppercase tracking-widest text-[#D98E2B] font-mono mb-3 flex items-center gap-2">
           <i class="fa-solid fa-tags text-[11px]"></i>
           <span>Popular Skincare Searches &amp; Categories</span>
@@ -2155,8 +2197,8 @@
           <a href="/" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">Alora Radiance skincare India</a>
           <a href="/products" class="bg-white hover:bg-[#D98E2B] hover:text-white text-slate-700 px-3 py-1 rounded-full border border-[#D9CEB4] transition-all font-medium">Alora Radiance products India</a>
         </div>
-      </div>
-    </section>
+      
+</section>
 
     <!-- ============ FAQ SECTION (LOADED MODULARLY VIA FAQ-SECTION.HTML) ============ -->
     <div id="faq-placeholder"></div>
