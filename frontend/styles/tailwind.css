@@ -1,10 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
+  /* ==========================================================================
+     Typography System: Fraunces (Headings) & Manrope (Body, Nav, Buttons, Prices)
+     Includes seamless fallbacks for Devanagari / Hindi & non-Latin system glyphs
+     ========================================================================== */
+  --font-heading: 'Fraunces', 'Noto Serif Devanagari', 'Kohinoor Devanagari', Georgia, serif;
+  --font-body: 'Manrope', 'Noto Sans Devanagari', 'Kohinoor Devanagari', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* ==========================================================================
+     Brand Color Palette (Intact)
+     ========================================================================== */
   --ivory: #FBF7F0;
   --sand: #F1E6D3;
   --amber: #D98E2B;
@@ -20,43 +30,43 @@
   box-sizing: border-box;
 }
 
-body, html, p, h1, h2, h3, h4, h5, h6, a, span:not(.fa):not([class*='fa-']), button, input, select, textarea {
-  font-family: 'Times New Roman', Times, serif;
-}
-
+/* Base Body Typography */
 html, body {
   background-color: var(--ivory) !important;
   color: var(--brown) !important;
-  font-family: 'Times New Roman', Times, serif !important;
+  font-family: var(--font-body) !important;
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.6 !important;
 }
 
-/* Headings */
+/* Headings Typography */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Times New Roman', Times, serif !important;
-  font-weight: 500 !important;
-  letter-spacing: 1px !important;
+  font-family: var(--font-heading) !important;
+  letter-spacing: -0.01em !important;
+  font-weight: 500;
   color: var(--brown) !important;
 }
 
-/* Small Labels */
-.small-label, .sub-label {
-  font-family: 'Times New Roman', Times, serif !important;
-  font-size: 0.72rem !important;
-  font-weight: 600 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 3px !important;
-  color: var(--amber-hover) !important;
+/* Body Text, Paragraphs, Lists & Common Content */
+p, .body-text, span:not(.fa):not([class*='fa-']):not(.ticker-star), li, label, blockquote, dt, dd {
+  font-family: var(--font-body);
 }
 
-/* Body Text */
-p, .body-text {
-  font-family: 'Times New Roman', Times, serif;
-  color: var(--brown-80);
+/* Navigation & Header Links */
+nav, .navbar, .nav-link, nav a, .navbar a, #mobile-menu, #mobile-menu-drawer, header a {
+  font-family: var(--font-body) !important;
 }
 
-/* Buttons */
+/* Product Prices & MRP Values */
+.product-price, .product-mrp, .price, [class*="price"], .price-tag, .product-mrp-val, .rupee-price {
+  font-family: var(--font-body) !important;
+}
+
+/* Buttons & Interactive Clickables */
+button, input[type="button"], input[type="submit"], input[type="reset"], .btn-primary, .btn-secondary, .primary-btn, .secondary-btn, .add-to-cart-btn {
+  font-family: var(--font-body) !important;
+}
+
 .btn-primary, button[type="submit"]:not(.btn-secondary):not(.secondary-btn), .primary-btn {
   background-color: var(--amber) !important;
   color: var(--brown) !important;
@@ -89,13 +99,32 @@ p, .body-text {
   color: var(--ivory) !important;
 }
 
-/* Font override classes */
-.font-sans, .font-serif, .font-fraunces, .font-roboto, .font-manrope, .font-jakarta {
-  font-family: 'Times New Roman', Times, serif !important;
+/* Form Inputs, Selects & Textareas */
+input, select, textarea {
+  font-family: var(--font-body);
 }
 
-/* Icons safety */
-body i, body [class*="fa-"], body .fa, body .fas, body .far, body .fab, body .fa-solid, body .fa-regular, body .fa-brands {
+/* Small / Sub-labels */
+.small-label, .sub-label {
+  font-family: var(--font-body) !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+  color: var(--amber-hover) !important;
+}
+
+/* Utility Font Class Overrides */
+.font-sans, .font-manrope, .font-body, .font-roboto, .font-\[\'Manrope\'\] {
+  font-family: var(--font-body) !important;
+}
+
+.font-serif, .font-fraunces, .font-heading, .font-\[\'Fraunces\'\] {
+  font-family: var(--font-heading) !important;
+}
+
+/* FontAwesome Safety - Icons must never inherit text font */
+body i, body [class*="fa-"], body .fa, body .fas, body .far, body .fab, body .fa-solid, body .fa-regular, body .fa-brands, [class*="fa-"]::before, [class*="fa-"]::after {
   font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
 }
 
@@ -103,6 +132,7 @@ body i, body [class*="fa-"], body .fa, body .fas, body .far, body .fab, body .fa
 .top-ticker-bar, .top-ticker-bar *, .top-ticker-bar span, .top-ticker-bar div {
   background-color: #2B1D14;
   color: #FBF7F0 !important;
+  font-family: var(--font-body);
 }
 .top-ticker-bar .ticker-badge {
   background-color: #D98E2B !important;

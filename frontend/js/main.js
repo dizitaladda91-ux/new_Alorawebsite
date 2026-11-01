@@ -617,44 +617,26 @@ function changeCardSize(volume, price, comparePrice, buttonElement) {
         priceEl.textContent = `${price}`;
     }
     if (mrpEl) {
-        mrpEl.textContent = comparePrice ? `₹${comparePrice}` : '';
+        mrpEl.innerHTML = comparePrice ? `<span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${comparePrice}` : '';
     }
     if (unitEl) {
         unitEl.textContent = `(${volume})`;
     }
-    if (discountEl && comparePrice && Number(comparePrice) > Number(price)) {
-        const pct = Math.round(((Number(comparePrice) - Number(price)) / Number(comparePrice)) * 100);
-        discountEl.textContent = pct > 0 ? `(${pct}% off)` : '';
-    }
-});
-    buttonElement.classList.add('bg-ink', 'text-parchment', 'border-ink');
-    buttonElement.classList.remove('border-[#DCD3BA]', 'text-ash');
-    const priceEl = card.querySelector('.product-price');
-    if (priceEl) priceEl.innerHTML = `<span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span> ${price}`;
-    const mrpElement = card.querySelector('.product-mrp');
-    if (mrpElement) {
-        if (comparePrice > 0) {
-            mrpElement.innerHTML = `<span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span> ${comparePrice}`;
-            mrpElement.style.display = 'inline';
-        } else {
-            mrpElement.style.display = 'none';
-        }
-    }
-    const discountBadgeEl = card.querySelector('.discount-badge');
-    if (discountBadgeEl) {
+    if (discountEl) {
         if (comparePrice && Number(comparePrice) > Number(price)) {
             const pct = Math.round(((Number(comparePrice) - Number(price)) / Number(comparePrice)) * 100);
             if (pct > 0) {
-                discountBadgeEl.innerText = `${pct}% OFF`;
-                discountBadgeEl.style.display = 'inline-block';
+                discountEl.textContent = `(${pct}% off)`;
+                discountEl.style.display = 'inline-block';
             } else {
-                discountBadgeEl.style.display = 'none';
+                discountEl.style.display = 'none';
             }
         } else {
-            discountBadgeEl.style.display = 'none';
+            discountEl.style.display = 'none';
         }
     }
 }
+
 function slideProducts(direction) {
     const container = document.getElementById('productSliderContainer');
     const wrapper = document.getElementById('productSliderWrapper');

@@ -31,10 +31,12 @@ export default {
         ash: 'rgba(43, 29, 20, 0.8)'
       },
       fontFamily: {
-        sans: ['"Times New Roman"', 'Times', 'serif'],
-        serif: ['"Times New Roman"', 'Times', 'serif'],
-        fraunces: ['"Times New Roman"', 'Times', 'serif'],
-        roboto: ['"Times New Roman"', 'Times', 'serif']
+        sans: ['var(--font-body)', 'sans-serif'],
+        serif: ['var(--font-heading)', 'serif'],
+        heading: ['var(--font-heading)', 'serif'],
+        fraunces: ['var(--font-heading)', 'serif'],
+        manrope: ['var(--font-body)', 'sans-serif'],
+        roboto: ['var(--font-body)', 'sans-serif']
       }
     }
   }
