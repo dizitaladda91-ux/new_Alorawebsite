@@ -18,9 +18,10 @@
     let mobileListenerInstalled = false;
     let mobileQuery = window.matchMedia("(max-width: 640px)");
     let decorativeElements = [];
-    let toranContainer;
-    let originalToranPosition;
-    let originalToranOverflow;
+    let toranResizeObserver;
+    let toranResizeFallbackInstalled = false;
+    let lastToranWidth = 0;
+    let lastToranMobileState;
     let heroContainer;
     let originalHeroPosition;
     const cardPositions = new Map();
@@ -33,38 +34,131 @@
     }
 
     function createToran() {
-        const nav = document.getElementById("navbar-placeholder");
-        if (!nav || document.getElementById("alora-diwali-toran")) return;
-        toranContainer = nav;
-        originalToranPosition = nav.style.position;
-        originalToranOverflow = nav.style.overflow;
-        const svg = createSvgElement(`
-            <svg id="alora-diwali-toran" class="diwali-site-decor" viewBox="0 0 1200 58" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M0 4 Q600 30 1200 4" fill="none" stroke="#6B3B20" stroke-width="2"/>
-                <path d="M0 9 Q600 35 1200 9" fill="none" stroke="#32704A" stroke-width="3" class="diwali-toran-leaves"/>
-                ${Array.from({ length: 25 }, (_, index) => {
-                    const x = index * 50 + 25;
-                    const y = 10 + Math.sin((x / 1200) * Math.PI) * 25;
-                    const bulbColor = colors[index % colors.length];
-                    return `<circle class="diwali-light" cx="${x}" cy="${y}" r="2.8" fill="${bulbColor}"/>`;
-                }).join("")}
-                ${Array.from({ length: 19 }, (_, index) => {
-                    const x = index * 66 + 34;
-                    const y = 13 + Math.sin((x / 1200) * Math.PI) * 23;
-                    return `<g transform="translate(${x} ${y + 11})">
-                        <path d="M0 -3 C-8 -15 -15 -13 -10 -3 C-7 2 -3 3 0 4 C3 3 7 2 10 -3 C15 -13 8 -15 0 -3Z" fill="${index % 2 ? "#32704A" : "#477A3E"}"/>
-                        <circle cx="0" cy="3" r="5" fill="#FF9933"/>
-                        <circle cx="-4" cy="2" r="2.3" fill="#FFC83D"/>
-                        <circle cx="4" cy="2" r="2.3" fill="#FFC83D"/>
-                        <circle cy="-1" r="2.3" fill="#FFF6E5"/>
-                    </g>`;
-                }).join("")}
-            </svg>
-        `);
-        nav.style.position = "relative";
-        nav.style.overflow = "visible";
-        nav.appendChild(svg);
-        decorativeElements.push(svg);
+        const nav = document.querySelector("#navbar-placeholder nav") || document.querySelector("nav.sticky.top-0");
+        if (!nav) return;
+
+        let svg = nav.querySelector("#alora-diwali-toran");
+        if (!svg) {
+            svg = createSvgElement('<svg id="alora-diwali-toran" class="diwali-site-decor" aria-hidden="true" focusable="false"></svg>');
+            nav.appendChild(svg);
+            decorativeElements.push(svg);
+        }
+
+        const width = Math.max(1, nav.getBoundingClientRect().width);
+        const isMobile = mobileQuery.matches;
+        if (Math.abs(width - lastToranWidth) < 1 && lastToranMobileState === isMobile) return;
+
+        lastToranWidth = width;
+        lastToranMobileState = isMobile;
+        const height = isMobile ? 78 : 112;
+        const swagCount = Math.max(3, Math.round(width / (isMobile ? 105 : 175)));
+        const sag = isMobile ? 15 : 23;
+        const flowerSize = isMobile ? 0.72 : 0.96;
+        let seed = Math.round(width * 31 + (isMobile ? 7 : 19));
+        const random = () => {
+            seed = (seed * 1664525 + 1013904223) >>> 0;
+            return seed / 4294967296;
+        };
+        const petals = (count, radius, petalRadius, layer) => Array.from({ length: count }, (_, index) => {
+            const angle = (index / count) * Math.PI * 2 + layer * 0.16;
+            const x = Math.sin(angle) * radius;
+            const y = -Math.cos(angle) * radius;
+            return `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${petalRadius}" fill="url(#alora-marigold-gradient)" stroke="#C95812" stroke-opacity=".42" stroke-width=".45"/>`;
+        }).join("");
+        const flower = `<symbol id="alora-marigold-flower" viewBox="-11 -11 22 22">
+            ${petals(12, 6.5, 3.5, 0)}
+            ${petals(9, 4.35, 3.05, 1)}
+            ${petals(6, 2.25, 2.45, 2)}
+            <circle r="2.45" fill="#873B12"/>
+            <circle r="1.25" fill="#C77A18"/>
+            <circle cx="-.65" cy="-.45" r=".38" fill="#FFE08A"/>
+            <circle cx=".75" cy=".35" r=".3" fill="#FFE08A"/>
+        </symbol>`;
+        const flowerAt = (x, y, scale, rotation) => `
+            <g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rotation.toFixed(1)}) scale(${scale.toFixed(2)})">
+                <use href="#alora-marigold-flower" x="-11" y="-11" width="22" height="22"/>
+            </g>`;
+        const leafAt = (x, y, rotation, size) => `
+            <g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rotation.toFixed(1)}) scale(${size.toFixed(2)})">
+                <path d="M0 0 C-3 -7 -10 -8 -12 -3 C-9 2 -4 3 0 0Z" fill="url(#alora-leaf-gradient)" stroke="#285B34" stroke-width=".7"/>
+                <path d="M0 0 L-10 -3.2" fill="none" stroke="#D3D59A" stroke-width=".55" opacity=".8"/>
+            </g>`;
+        const swags = Array.from({ length: swagCount }, (_, index) => {
+            const startX = (width * index) / swagCount;
+            const endX = (width * (index + 1)) / swagCount;
+            const centerX = (startX + endX) / 2;
+            const curveSag = sag * (0.92 + random() * 0.16);
+            const flowerCount = isMobile ? 6 : 9;
+            const blooms = Array.from({ length: flowerCount }, (_, flowerIndex) => {
+                const t = (flowerIndex + 0.5) / flowerCount;
+                const x = startX + (endX - startX) * t;
+                const y = 9 + 2 * (1 - t) * t * curveSag;
+                const scale = flowerSize * (0.78 + random() * 0.32);
+                const rotation = random() * 32 - 16;
+                const mainBloom = flowerAt(x, y, scale, rotation);
+                if (flowerIndex % 2 !== 0) return mainBloom;
+                const leaf = leafAt(x + (random() - 0.5) * 4, y - 3, random() * 70 - 35, isMobile ? 0.68 : 0.82);
+                return `${leaf}${mainBloom}`;
+            }).join("");
+            const strand = `<path d="M${startX.toFixed(1)} 9 Q${centerX.toFixed(1)} ${(9 + curveSag * 2).toFixed(1)} ${endX.toFixed(1)} 9" fill="none" stroke="#6B3B20" stroke-width="${isMobile ? 1.5 : 2}" stroke-linecap="round"/>`;
+            const vine = `<path d="M${startX.toFixed(1)} 11 Q${centerX.toFixed(1)} ${(11 + curveSag * 2).toFixed(1)} ${endX.toFixed(1)} 11" fill="none" stroke="#32623A" stroke-width="${isMobile ? 1 : 1.5}" stroke-linecap="round" opacity=".9"/>`;
+            const swayDuration = `${4.8 + random() * 2.8}s`;
+            const swayDirection = random() > 0.5 ? 1 : -1;
+            const swayAngle = swayDirection * (0.45 + random() * 0.5);
+            return `<g class="diwali-toran-swag" style="--sway-duration:${swayDuration};--sway-from:${-swayAngle}deg;--sway-to:${swayAngle}deg;--sway-origin:${centerX.toFixed(1)}px">
+                ${strand}${vine}${blooms}
+            </g>`;
+        }).join("");
+        const hangings = Array.from({ length: swagCount - 1 }, (_, index) => {
+            const x = (width * (index + 1)) / swagCount;
+            const swayDuration = `${3.8 + random() * 2.6}s`;
+            const swayDirection = random() > 0.5 ? 1 : -1;
+            const swayAngle = swayDirection * (0.7 + random() * 0.7);
+            const flowerGap = isMobile ? 10 : 13;
+            const chain = Array.from({ length: 5 }, (_, flowerIndex) => {
+                const y = 10 + flowerIndex * flowerGap;
+                const scale = (isMobile ? 0.57 : 0.7) * (1 - flowerIndex * 0.045);
+                return `${flowerAt(0, y, scale, random() * 24 - 12)}${flowerIndex < 4 ? `<circle cy="${y + flowerGap / 2}" r="${isMobile ? 1.2 : 1.6}" fill="#9A501B"/>` : ""}`;
+            }).join("");
+            const endY = 10 + 4 * flowerGap;
+            return `<g transform="translate(${x.toFixed(1)} 9)"><g class="diwali-toran-hanging" style="--sway-duration:${swayDuration};--sway-from:${-swayAngle}deg;--sway-to:${swayAngle}deg">
+                <path d="M0 0 Q${random() * 2 - 1} 5 0 ${endY + 4}" fill="none" stroke="#70401F" stroke-width="${isMobile ? 1 : 1.4}"/>
+                ${chain}
+                <path d="M0 ${endY + 5} Q-5 ${endY + 12} 0 ${endY + 18} Q5 ${endY + 12} 0 ${endY + 5}Z" fill="url(#alora-marigold-gradient)" stroke="#C95812" stroke-width=".7"/>
+                <path d="M0 ${endY + 6} Q-1 ${endY + 12} 0 ${endY + 16}" fill="none" stroke="#873B12" stroke-width=".8"/>
+            </g></g>`;
+        }).join("");
+
+        svg.setAttribute("viewBox", `0 0 ${width.toFixed(1)} ${height}`);
+        svg.setAttribute("preserveAspectRatio", "none");
+        svg.innerHTML = `<defs>
+            <radialGradient id="alora-marigold-gradient" cx="30%" cy="25%" r="78%">
+                <stop offset="0%" stop-color="#FFE56A"/>
+                <stop offset="38%" stop-color="#FFB51D"/>
+                <stop offset="72%" stop-color="#F47B16"/>
+                <stop offset="100%" stop-color="#B9430C"/>
+            </radialGradient>
+            <linearGradient id="alora-leaf-gradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#8FA657"/>
+                <stop offset="55%" stop-color="#4F813F"/>
+                <stop offset="100%" stop-color="#285B34"/>
+            </linearGradient>
+            <filter id="alora-toran-shadow" x="-15%" y="-15%" width="130%" height="145%">
+                <feDropShadow dx="0" dy="2" stdDeviation="2.2" flood-color="#392012" flood-opacity=".28"/>
+            </filter>
+            ${flower}
+        </defs>
+        <g class="diwali-toran-blooms" filter="url(#alora-toran-shadow)">${swags}${hangings}</g>`;
+
+        if (!toranResizeObserver && "ResizeObserver" in window) {
+            toranResizeObserver = new ResizeObserver(() => {
+                window.requestAnimationFrame(createToran);
+            });
+            toranResizeObserver.observe(nav);
+        } else if (!toranResizeObserver && !toranResizeFallbackInstalled) {
+            window.addEventListener("resize", createToran, { passive: true });
+            toranResizeFallbackInstalled = true;
+        }
     }
 
     function createFloatingDecorations() {
@@ -364,6 +458,7 @@
         mountDecorations();
         if (!mobileListenerInstalled && mobileQuery.addEventListener) {
             mobileQuery.addEventListener("change", createFloatingDecorations);
+            mobileQuery.addEventListener("change", createToran);
             mobileListenerInstalled = true;
         }
         installSparkles();
@@ -373,16 +468,20 @@
         removeSparkles();
         if (mobileListenerInstalled) {
             mobileQuery.removeEventListener("change", createFloatingDecorations);
+            mobileQuery.removeEventListener("change", createToran);
             mobileListenerInstalled = false;
         }
         decorativeElements.forEach((element) => element.remove());
         decorativeElements = [];
         document.querySelectorAll(".diwali-floating-decoration").forEach((element) => element.remove());
-        if (toranContainer) {
-            toranContainer.style.position = originalToranPosition;
-            toranContainer.style.overflow = originalToranOverflow;
-            toranContainer = null;
+        toranResizeObserver?.disconnect();
+        toranResizeObserver = null;
+        if (toranResizeFallbackInstalled) {
+            window.removeEventListener("resize", createToran);
+            toranResizeFallbackInstalled = false;
         }
+        lastToranWidth = 0;
+        lastToranMobileState = undefined;
         if (heroContainer) {
             heroContainer.style.position = originalHeroPosition;
             heroContainer = null;

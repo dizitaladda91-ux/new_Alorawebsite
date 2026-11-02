@@ -194,24 +194,24 @@
             }
             #alora-diwali-toran {
                 position: absolute;
-                top: calc(100% - 3px);
+                top: calc(100% - 2px);
                 left: 0;
-                z-index: 45;
+                z-index: 1;
                 width: 100%;
-                height: 48px;
+                height: 112px;
                 overflow: visible;
                 pointer-events: none;
             }
-            #alora-diwali-toran .diwali-toran-leaves {
+            #alora-diwali-toran .diwali-toran-swag {
+                transform-box: view-box;
+                transform-origin: var(--sway-origin) 9px;
+                animation: diwali-toran-sway var(--sway-duration) ease-in-out infinite alternate;
+            }
+            #alora-diwali-toran .diwali-toran-hanging {
                 transform-box: fill-box;
-                transform-origin: top center;
-                animation: diwali-toran-sway 5s ease-in-out infinite alternate;
+                transform-origin: 50% 0;
+                animation: diwali-toran-sway var(--sway-duration) ease-in-out infinite alternate;
             }
-            #alora-diwali-toran .diwali-light {
-                animation: diwali-string-light 1.8s ease-in-out infinite alternate;
-            }
-            #alora-diwali-toran .diwali-light:nth-of-type(3n) { animation-delay: -0.6s; }
-            #alora-diwali-toran .diwali-light:nth-of-type(3n + 1) { animation-delay: -1.2s; }
             .diwali-floating-decoration {
                 position: fixed;
                 top: -40px;
@@ -259,8 +259,8 @@
                 to { opacity: 1; filter: drop-shadow(0 0 5px #FFC83D); }
             }
             @keyframes diwali-toran-sway {
-                from { transform: rotate(-1deg); }
-                to { transform: rotate(1deg); }
+                from { transform: rotate(var(--sway-from)); }
+                to { transform: rotate(var(--sway-to)); }
             }
             @keyframes diwali-rangoli-glow {
                 from { opacity: 0.3; transform: rotate(-4deg) scale(0.96); }
@@ -270,7 +270,7 @@
                 #alora-diwali-banner { gap: 6px; justify-content: flex-start; font-size: 10px; }
                 #alora-diwali-banner .diwali-banner-message { max-width: 52vw; }
                 #alora-diwali-banner a { padding-inline: 8px; font-size: 10px; }
-                #alora-diwali-toran { height: 32px; }
+                #alora-diwali-toran { height: 78px; }
                 #alora-diwali-rangoli { right: 6px; bottom: 6px; }
             }
             @media (prefers-reduced-motion: reduce) {
