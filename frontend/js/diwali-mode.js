@@ -100,6 +100,35 @@
             outline: 3px solid #D98E2B;
             outline-offset: 3px;
         }
+        body.diwali-light-accent #more-products-section {
+            border-color: rgba(217, 142, 43, 0.3);
+            background: linear-gradient(145deg, #fffaf0, #fff 52%, #fff7e8);
+            box-shadow: 0 8px 24px rgba(126, 58, 47, 0.08);
+        }
+        body.diwali-light-accent #more-products-section .product-card {
+            border-color: rgba(217, 142, 43, 0.36);
+            background: linear-gradient(155deg, #fffefa, #fff8eb);
+            box-shadow: 0 4px 14px rgba(126, 58, 47, 0.08);
+        }
+        body.diwali-light-accent #more-products-section .product-card::after {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            inset: 4px 5px auto;
+            height: 8px;
+            border-radius: inherit;
+            background-image:
+                radial-gradient(circle, #FFF8C7 0 1.15px, #FFC83D 1.6px 2px, rgba(255, 153, 51, 0.52) 2.3px, transparent 4px),
+                linear-gradient(rgba(255, 200, 61, 0.72), rgba(255, 200, 61, 0.72));
+            background-size: 15px 8px, 100% 1px;
+            background-position: left center, center;
+            background-repeat: repeat-x, no-repeat;
+            filter: drop-shadow(0 0 2px rgba(255, 200, 61, 0.5));
+            pointer-events: none;
+        }
+        body.diwali-light-accent #more-products-section .product-card-img {
+            background: radial-gradient(ellipse at center, #fff 35%, #fff7e8 100%);
+        }
         @media print {
             #alora-diwali-banner, #alora-diwali-toggle, .diwali-site-decor,
             .diwali-floating-decoration, #alora-diwali-rangoli, #alora-diwali-toran {
