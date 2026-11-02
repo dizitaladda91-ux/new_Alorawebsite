@@ -1,0 +1,10 @@
+:root {
+  --site-font: 'Manrope', Arial, sans-serif;
+  --font-heading: var(--site-font);
+  --font-body: var(--site-font);
+}
+
+html body,
+html body *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab) {
+  font-family: var(--site-font) !important;
+}

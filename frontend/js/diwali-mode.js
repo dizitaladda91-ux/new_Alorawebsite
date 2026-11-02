@@ -118,6 +118,9 @@
 
     function installFestivalStyles() {
         if (activeStyles) return;
+        const toranImagePath = location.protocol === "file:"
+            ? "./static/diwali-marigold-toran.webp"
+            : "/static/diwali-marigold-toran.webp";
         activeStyles = document.createElement("style");
         activeStyles.id = "alora-diwali-active-styles";
         activeStyles.textContent = `
@@ -129,14 +132,55 @@
                 pointer-events: none;
                 background: linear-gradient(180deg, rgba(122, 16, 48, 0.07), transparent 30%, rgba(255, 153, 51, 0.035));
             }
-            body.diwali-festival-active h1,
-            body.diwali-festival-active h2,
-            body.diwali-festival-active h3 {
-                font-family: "Playfair Display", var(--font-heading), Georgia, serif !important;
-            }
             body.diwali-festival-active .product-card {
                 border-color: rgba(217, 142, 43, 0.32);
             }
+            .diwali-product-lights {
+                position: absolute;
+                z-index: 11;
+                inset: 5px;
+                border-radius: inherit;
+                pointer-events: none;
+            }
+            .diwali-product-light-edge {
+                position: absolute;
+                display: block;
+                pointer-events: none;
+                animation: diwali-product-lights-twinkle 2.2s ease-in-out infinite alternate;
+            }
+            .diwali-product-light-top,
+            .diwali-product-light-bottom {
+                right: 3px;
+                left: 3px;
+                height: 8px;
+                background-image:
+                    radial-gradient(circle, #FFF8C7 0 1.15px, #FFC83D 1.6px 2px, rgba(255, 153, 51, 0.52) 2.3px, transparent 4px),
+                    linear-gradient(rgba(255, 200, 61, 0.72), rgba(255, 200, 61, 0.72));
+                background-size: 15px 8px, 100% 1px;
+                background-position: left center, center;
+                background-repeat: repeat-x, no-repeat;
+                filter: drop-shadow(0 0 2px rgba(255, 200, 61, 0.65));
+            }
+            .diwali-product-light-top { top: 0; }
+            .diwali-product-light-bottom {
+                bottom: 0;
+                animation-delay: -1.1s;
+            }
+            .diwali-product-light-left,
+            .diwali-product-light-right {
+                top: 3px;
+                bottom: 3px;
+                width: 8px;
+                background-image:
+                    radial-gradient(circle, #FFF8C7 0 1.15px, #FFC83D 1.6px 2px, rgba(255, 153, 51, 0.52) 2.3px, transparent 4px),
+                    linear-gradient(90deg, rgba(255, 200, 61, 0.72), rgba(255, 200, 61, 0.72));
+                background-size: 8px 15px, 1px 100%;
+                background-position: center top, center;
+                background-repeat: repeat-y, no-repeat;
+                filter: drop-shadow(0 0 2px rgba(255, 200, 61, 0.65));
+            }
+            .diwali-product-light-left { left: 0; animation-delay: -1.65s; }
+            .diwali-product-light-right { right: 0; animation-delay: -0.55s; }
             body.diwali-light-accent :is(button, input, select, textarea):focus-visible {
                 outline: 2px solid #D98E2B;
                 outline-offset: 2px;
@@ -194,24 +238,35 @@
             }
             #alora-diwali-toran {
                 position: absolute;
-                top: calc(100% - 2px);
+                top: calc(100% - 3px);
                 left: 0;
-                z-index: 1;
+                z-index: 45;
                 width: 100%;
-                height: 112px;
+                height: 84px;
+                background-image: url("${toranImagePath}");
+                background-repeat: repeat-x;
+                background-position: left top;
+                background-size: 336px 84px;
+                filter: drop-shadow(0 3px 4px rgba(43, 29, 20, 0.22));
+                overflow: visible;
+                pointer-events: none;
+                transform-origin: top center;
+                animation: diwali-toran-sway 5s ease-in-out infinite alternate;
+            }
+            #alora-diwali-toran .diwali-toran-lights {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 34px;
                 overflow: visible;
                 pointer-events: none;
             }
-            #alora-diwali-toran .diwali-toran-swag {
-                transform-box: view-box;
-                transform-origin: var(--sway-origin) 9px;
-                animation: diwali-toran-sway var(--sway-duration) ease-in-out infinite alternate;
+            #alora-diwali-toran .diwali-light {
+                animation: diwali-string-light 1.8s ease-in-out infinite alternate;
             }
-            #alora-diwali-toran .diwali-toran-hanging {
-                transform-box: fill-box;
-                transform-origin: 50% 0;
-                animation: diwali-toran-sway var(--sway-duration) ease-in-out infinite alternate;
-            }
+            #alora-diwali-toran .diwali-light:nth-of-type(3n) { animation-delay: -0.6s; }
+            #alora-diwali-toran .diwali-light:nth-of-type(3n + 1) { animation-delay: -1.2s; }
             .diwali-floating-decoration {
                 position: fixed;
                 top: -40px;
@@ -244,6 +299,7 @@
                 animation: diwali-rangoli-glow 5s ease-in-out infinite alternate;
             }
             body.diwali-page-hidden .diwali-floating-decoration,
+            body.diwali-page-hidden #alora-diwali-toran,
             body.diwali-page-hidden #alora-diwali-toran *,
             body.diwali-page-hidden #alora-diwali-rangoli {
                 animation-play-state: paused !important;
@@ -258,9 +314,13 @@
                 from { opacity: 0.45; filter: drop-shadow(0 0 1px #FFC83D); }
                 to { opacity: 1; filter: drop-shadow(0 0 5px #FFC83D); }
             }
+            @keyframes diwali-product-lights-twinkle {
+                from { opacity: 0.72; }
+                to { opacity: 1; }
+            }
             @keyframes diwali-toran-sway {
-                from { transform: rotate(var(--sway-from)); }
-                to { transform: rotate(var(--sway-to)); }
+                from { transform: rotate(-1deg); }
+                to { transform: rotate(1deg); }
             }
             @keyframes diwali-rangoli-glow {
                 from { opacity: 0.3; transform: rotate(-4deg) scale(0.96); }
@@ -270,27 +330,20 @@
                 #alora-diwali-banner { gap: 6px; justify-content: flex-start; font-size: 10px; }
                 #alora-diwali-banner .diwali-banner-message { max-width: 52vw; }
                 #alora-diwali-banner a { padding-inline: 8px; font-size: 10px; }
-                #alora-diwali-toran { height: 78px; }
+                #alora-diwali-toran { height: 60px; background-size: 240px 60px; }
+                #alora-diwali-toran .diwali-toran-lights { height: 26px; }
                 #alora-diwali-rangoli { right: 6px; bottom: 6px; }
             }
             @media (prefers-reduced-motion: reduce) {
-                .diwali-floating-decoration, #alora-diwali-toran *,
-                #alora-diwali-rangoli, #alora-diwali-banner * {
+                .diwali-floating-decoration, #alora-diwali-toran, #alora-diwali-toran *,
+                #alora-diwali-rangoli, #alora-diwali-banner *,
+                .diwali-product-light-edge {
                     animation: none !important;
                     transition: none !important;
                 }
             }
         `;
         document.head.appendChild(activeStyles);
-    }
-
-    function loadDisplayFont() {
-        if (document.getElementById("alora-diwali-font")) return;
-        const font = document.createElement("link");
-        font.id = "alora-diwali-font";
-        font.rel = "stylesheet";
-        font.href = "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap";
-        document.head.appendChild(font);
     }
 
     function installBanner() {
@@ -400,7 +453,6 @@
                 return;
             }
             installFestivalStyles();
-            loadDisplayFont();
             installBanner();
             if (typeof window.enableDiwaliEffects === "function") window.enableDiwaliEffects();
             else loadEffects();
@@ -409,7 +461,6 @@
             banner = null;
             activeStyles?.remove();
             activeStyles = null;
-            document.getElementById("alora-diwali-font")?.remove();
             document.body.classList.remove("diwali-page-hidden");
             window.disableDiwaliEffects?.();
             updateToggle();

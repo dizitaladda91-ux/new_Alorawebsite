@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
 <head>
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap">
+
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Figma UI - Alora Radiance Landing Page Design System</title>
-  
+
   <!-- Tailwind CSS & FontAwesome -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
+
   <!-- Luxury Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 
   <style>
     body {
@@ -70,6 +71,7 @@
       box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
     }
   </style>
+    <link rel="stylesheet" href="./styles/typography.css">
 </head>
 <body class="h-full flex flex-col bg-[#1E1E1E] text-[#E0E0E0] overflow-hidden">
 
@@ -173,7 +175,7 @@
     <!-- CENTER CANVAS -->
     <main id="figmaCanvas" class="figma-canvas-grid flex-grow overflow-auto relative p-12">
       <div id="canvasViewport" class="flex items-start gap-16 min-w-max transition-transform duration-200 origin-top-left" style="transform: scale(0.8);">
-        
+
         <!-- ARTBOARD 1: DESKTOP -->
         <div id="artboardDesktop" class="flex flex-col">
           <div class="flex items-center justify-between text-[#888] text-xs font-mono mb-3 px-1">
@@ -182,7 +184,7 @@
           </div>
 
           <div class="artboard-frame w-[1440px] bg-[#FDFBF7] rounded-xl overflow-hidden text-slate-900 border border-slate-700/50">
-            
+
             <!-- Announcement Bar -->
             <div id="layerAnnounceBar" data-layer-name="Top Announcement Bar" class="figma-selectable bg-[#1E2B1C] text-amber-300 text-xs py-2.5 px-6 flex items-center justify-between border-b border-amber-400/20" onclick="selectLayer('AnnounceBar', 'Top Announcement Bar', '1440px', '38px', '#1E2B1C')">
               <div class="flex items-center gap-2">
@@ -198,7 +200,7 @@
             <!-- Navbar -->
             <nav id="layerHeaderNav" data-layer-name="Navigation Header" class="figma-selectable bg-white/95 backdrop-blur-md px-10 py-4 flex items-center justify-between border-b border-stone-200 sticky top-0 z-30" onclick="selectLayer('HeaderNav', 'Navigation Header', '1440px', '72px', '#FFFFFF')">
               <img src="./static/alora.png" alt="Alora Radiance" class="h-9 w-auto" onerror="this.outerHTML='<span class=\'font-fraunces font-bold text-2xl text-slate-900 tracking-wider\'>ALORA RADIANCE</span>'">
-              
+
               <div class="flex items-center gap-8 text-sm font-semibold text-stone-700 font-jakarta">
                 <a href="javascript:void(0)" class="text-[#D9713A] border-b-2 border-[#D9713A] pb-1">Home</a>
                 <a href="javascript:void(0)" class="hover:text-[#D9713A] transition">All Products</a>
@@ -232,7 +234,7 @@
                   <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-widest font-jakarta">
                     <i class="fa-solid fa-sparkles"></i> 100% Ayurvedic &amp; Science-Backed
                   </span>
-                  
+
                   <h1 class="text-5xl font-fraunces font-bold leading-tight text-[#FBF7F0]">
                     Awaken Your Skin’s <br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-[#D9713A]">Natural Radiance</span>

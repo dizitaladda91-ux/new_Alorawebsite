@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEO ALORA | FAQ Management Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles/tailwind.min.css">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<link rel="stylesheet" href="./styles/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -103,6 +104,7 @@
             border-color: rgba(225, 29, 72, 0.5) !important;
         }
     </style>
+    <link rel="stylesheet" href="./styles/typography.css">
 </head>
 <body class="font-sans bg-[#F8FAFC] flex flex-col h-screen overflow-hidden text-slate-800">
 
@@ -128,11 +130,11 @@
 
     <!-- Main Workspace Container -->
     <div class="flex flex-1 overflow-hidden">
-        
+
         <!-- Sidebar Navigation -->
         <aside class="bg-navy text-slate-200 w-64 min-h-full p-4 flex flex-col justify-between shrink-0 border-r border-slate-800 shadow-lg">
             <div class="space-y-6">
-                
+
                 <div class="px-2 pt-2">
                     <p class="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider font-mono mb-3">Content Navigation</p>
                     <nav class="w-full">
@@ -185,7 +187,7 @@
         <!-- Main Workspace Area -->
         <main class="flex-1 p-6 sm:p-8 overflow-y-auto bg-[#F8FAFC]">
             <div class="animate__animated animate__fadeIn max-w-6xl mx-auto space-y-6">
-                
+
                 <!-- Welcome Stats Header -->
                 <div class="bg-gradient-to-r from-slate-900 via-navy to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 relative overflow-hidden">
                     <div class="relative z-10">
@@ -280,7 +282,7 @@
                 </h3>
                 <button type="button" id="closeModalBtn" class="text-slate-400 hover:text-white text-lg focus:outline-none cursor-pointer">&times;</button>
             </div>
-            
+
             <form id="faqForm" class="p-6 space-y-4">
                 <input type="hidden" id="faqId">
 
@@ -338,7 +340,7 @@
             </form>
         </div>
     </div>
-    
+
     <script type="module" src="./js/seoAuth.min.js"></script>
     <script type="module" src="./js/seofaq.min.js"></script>
 </body>

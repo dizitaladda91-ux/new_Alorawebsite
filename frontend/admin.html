@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles/tailwind.min.css">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<link rel="stylesheet" href="./styles/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    
+
     <!-- Print Specific CSS -->
     <style>
         @media print {
@@ -23,6 +24,7 @@
             .no-print { display: none !important; }
         }
     </style>
+    <link rel="stylesheet" href="./styles/typography.css">
 </head>
 <body class="font-body bg-gray-50 flex flex-col h-screen">
 
@@ -31,7 +33,7 @@
     </nav>
 
     <div class="flex flex-1 overflow-hidden">
-        
+
         <aside class="bg-gray-800 text-gray-300 w-64 min-h-full p-4 flex flex-col justify-between shrink-0 no-print">
             <nav class="w-full">
                 <ul class="space-y-2">
@@ -159,7 +161,7 @@
     <!-- INVOICE MODAL (Pop-up Slip) -->
     <div id="invoiceModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
         <div class="bg-white w-full max-w-xl rounded-xl shadow-2xl p-6 relative flex flex-col max-h-[90vh]">
-            
+
             <!-- Modal Header -->
             <div class="flex justify-between items-center border-b pb-3 no-print">
                 <h3 class="text-lg font-bold text-gray-800">Payment Invoice Slip</h3>

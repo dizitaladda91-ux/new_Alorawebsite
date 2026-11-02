@@ -1,13 +1,13 @@
 <div id="leadModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 transition-all duration-300" style="background-color: rgba(0, 0, 0, 0.65);">
     <div class="bg-[#FBF7F0] rounded-3xl p-6 sm:p-8 w-full max-w-md mx-auto shadow-2xl relative border-2 border-[#D98E2B]/40 animate__animated animate__fadeInUp overflow-hidden" style="background-color: #FBF7F0; opacity: 1;">
-        
+
         <!-- Festive Decorative Background Glow -->
         <div class="absolute -top-12 -right-12 w-36 h-36 bg-[#D98E2B]/15 rounded-full blur-2xl pointer-events-none"></div>
         <div class="absolute -bottom-12 -left-12 w-36 h-36 bg-[#D98E2B]/15 rounded-full blur-2xl pointer-events-none"></div>
 
         <!-- Close Button -->
         <button type="button" onclick="closeLeadModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-[#2B1D14]/70 hover:text-[#2B1D14] text-lg flex items-center justify-center border border-[#2B1D14]/10 transition shadow-xs z-10 cursor-pointer" aria-label="Close">&times;</button>
-        
+
         <!-- Modal Content Container -->
         <div id="leadFormContainer">
             <!-- Festive Badge -->
@@ -26,7 +26,7 @@
                     Celebrate the Festival of Lights with pure saffron radiance. Enter your name &amp; email below to claim your exclusive <strong>20% OFF</strong> Diwali coupon!
                 </p>
             </div>
-            
+
             <!-- Lead Form -->
             <form id="leadForm" onsubmit="handleLeadSubmit(event)" class="space-y-3.5 text-left">
                 <div>
@@ -54,7 +54,7 @@
                 </div>
 
                 <div id="leadFormError" class="hidden text-xs text-red-600 font-semibold font-body"></div>
-                
+
                 <button type="submit" id="leadSubmitBtn" 
                         class="w-full mt-2 bg-[#D98E2B] hover:bg-[#C47D1F] text-white py-3 rounded-xl font-bold text-xs sm:text-sm tracking-wider uppercase transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer">
                     <span>🪔 CLAIM 20% OFF NOW</span>

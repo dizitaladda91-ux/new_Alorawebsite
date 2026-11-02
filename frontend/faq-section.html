@@ -1,6 +1,6 @@
 <!-- ============ SHARED FAQ SECTION (GOOD TO KNOW - 2 COLUMNS: 5 ON LEFT, 5 ON RIGHT) ============ -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
-    
+
     <div class="max-w-2xl mx-auto text-center mb-8 sm:mb-12">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-[#F1E6D3] text-[#2B1D14] text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase border border-[#2B1D14]/10 mb-2.5 select-none">
             <i class="fa-solid fa-circle-question text-[#D98E2B]"></i> Frequently Asked Questions
@@ -15,10 +15,10 @@
 
     <!-- 2 Parts: 5 FAQs on Left Column, 5 FAQs on Right Column (Edge-to-Edge Without Restrictive Box) -->
     <div id="global-faq-list" class="grid grid-cols-1 lg:grid-cols-2 gap-3.5 sm:gap-5 text-left items-start">
-        
+
         <!-- Left Side: 5 FAQs -->
         <div class="space-y-3.5 sm:space-y-4">
-            
+
             <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md" open>
                 <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
                     <span class="leading-snug">What is Alora Radiance known for?</span>
@@ -73,7 +73,7 @@
 
         <!-- Right Side: 5 FAQs -->
         <div class="space-y-3.5 sm:space-y-4">
-            
+
             <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md">
                 <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
                     <span class="leading-snug">Can I use the Face Serum and Day Cream together?</span>
@@ -133,10 +133,10 @@
     (function() {
         const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:";
         const baseUrl = (window.BASE_URL !== undefined && window.BASE_URL !== null) ? window.BASE_URL : (isLocal ? "http://localhost:5000" : "");
-        
+
         let pageCategory = "Landing Page";
         const path = (window.location.pathname || "").toLowerCase();
-        
+
         if (path.includes("about") || path.includes("aboutus")) {
             pageCategory = "About Us";
         } else if (path.includes("product") || path.includes("moreproduct") || path.includes("cart") || path.includes("shop")) {
@@ -177,7 +177,7 @@
                 if (data && data.success && Array.isArray(data.data) && data.data.length > 0) {
                     const container = document.getElementById('global-faq-list');
                     if (!container) return;
-                    
+
                     const list = data.data;
                     const half = Math.ceil(list.length / 2);
                     const col1 = list.slice(0, half);

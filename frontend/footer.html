@@ -6,6 +6,7 @@
     font-family: var(--font-body) !important;
     line-height: 1.6 !important;
     border-top: 1px solid #2B1D14 !important;
+    overflow: visible;
   }
   .footer-heading {
     color: #D98E2B !important;
@@ -26,11 +27,47 @@
   .footer-link-item:hover {
     color: #D98E2B !important;
   }
+  .diwali-footer-diyas {
+    display: none;
+  }
+  body.diwali-festival-active .diwali-footer-diyas {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    gap: clamp(14px, 3vw, 36px);
+    height: 24px;
+    overflow: visible;
+    pointer-events: none;
+    transform: translateY(50%);
+  }
+  .diwali-footer-diyas span {
+    display: block;
+    font-size: 19px;
+    line-height: 1;
+    filter: drop-shadow(0 0 5px rgba(255, 190, 75, 0.65));
+    animation: diwali-footer-diya-glow 2.4s ease-in-out infinite alternate;
+  }
+  .diwali-footer-diyas span:nth-child(2n) {
+    animation-delay: -1.2s;
+  }
+  @keyframes diwali-footer-diya-glow {
+    from { opacity: 0.78; filter: drop-shadow(0 0 2px rgba(255, 190, 75, 0.4)); }
+    to { opacity: 1; filter: drop-shadow(0 0 7px rgba(255, 190, 75, 0.85)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .diwali-footer-diyas span {
+      animation: none;
+    }
+  }
 </style>
 
 <footer class="alora-footer pt-16 pb-8 w-full">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#FBF7F0]/15">
-    
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#FBF7F0]/15 relative">
+
     <!-- Col 1: Brand & Overview -->
     <div class="space-y-4">
       <a href="/" class="text-2xl font-medium tracking-[5px] uppercase text-[#FBF7F0] block leading-none select-none">
@@ -88,6 +125,10 @@
       </div>
     </div>
 
+    <div class="diwali-footer-diyas" aria-hidden="true">
+      <span>🪔</span><span>🪔</span><span>🪔</span><span>🪔</span><span>🪔</span>
+      <span>🪔</span><span>🪔</span><span>🪔</span><span>🪔</span>
+    </div>
   </div>
 
   <!-- Copyright Bottom Bar -->
