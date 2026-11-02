@@ -15,16 +15,11 @@
     let lastPointerSparkleAt = 0;
     let pointerFrame = 0;
     let sparklesInstalled = false;
-    let mobileListenerInstalled = false;
-    let mobileQuery = window.matchMedia("(max-width: 640px)");
     let decorativeElements = [];
-    let toranContainer;
-    let originalToranPosition;
-    let originalToranOverflow;
     let heroContainer;
     let originalHeroPosition;
-    const cardPositions = new Map();
-    let cardObserver;
+    let introLightsTimer;
+    let introLightsPlayed = false;
 
     function createSvgElement(markup) {
         const wrapper = document.createElement("div");
@@ -32,54 +27,45 @@
         return wrapper.firstElementChild;
     }
 
-    function createToran() {
-        const nav = document.getElementById("navbar-placeholder");
-        if (!nav || document.getElementById("alora-diwali-toran")) return;
-        toranContainer = nav;
-        originalToranPosition = nav.style.position;
-        originalToranOverflow = nav.style.overflow;
-        const toran = document.createElement("div");
-        toran.id = "alora-diwali-toran";
-        toran.className = "diwali-site-decor";
-        toran.setAttribute("aria-hidden", "true");
-        const lights = createSvgElement(`
-            <svg class="diwali-toran-lights" viewBox="0 0 1200 36" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M0 3 Q600 28 1200 3" fill="none" stroke="#6B3B20" stroke-width="2"/>
-                ${Array.from({ length: 25 }, (_, index) => {
-                    const x = index * 50 + 25;
-                    const y = 3 + Math.sin((x / 1200) * Math.PI) * 25;
-                    return `<circle class="diwali-light" cx="${x}" cy="${y}" r="2.8" fill="${colors[index % colors.length]}"/>`;
-                }).join("")}
-            </svg>
-        `);
-        toran.appendChild(lights);
-        nav.style.position = "relative";
-        nav.style.overflow = "visible";
-        nav.appendChild(toran);
-        decorativeElements.push(toran);
-    }
+    function createIntroLights() {
+        if (introLightsPlayed) return;
+        introLightsPlayed = true;
 
-    function createFloatingDecorations() {
-        document.querySelectorAll(".diwali-floating-decoration").forEach((element) => element.remove());
-        decorativeElements = decorativeElements.filter((element) => element.isConnected);
-        const isMobile = mobileQuery.matches;
-        const isAuthPage = document.body.classList.contains("diwali-auth-page");
-        const petalCount = isAuthPage ? (isMobile ? 4 : 9) : (isMobile ? 7 : 18);
-        const diyaCount = isAuthPage ? (isMobile ? 1 : 2) : (isMobile ? 2 : 4);
+        const intro = document.createElement("div");
+        intro.id = "alora-diwali-intro-lights";
+        intro.setAttribute("aria-hidden", "true");
 
-        for (let index = 0; index < petalCount + diyaCount; index += 1) {
-            const isDiya = index >= petalCount;
-            const element = document.createElement("span");
-            element.className = `diwali-floating-decoration ${isDiya ? "diwali-mini-diya" : "diwali-petal"}`;
-            element.setAttribute("aria-hidden", "true");
-            element.style.left = `${Math.random() * 100}%`;
-            element.style.setProperty("--fall-duration", `${12 + Math.random() * 12}s`);
-            element.style.setProperty("--fall-delay", `${-Math.random() * 20}s`);
-            element.style.setProperty("--fall-drift", `${Math.round(Math.random() * 150 - 75)}px`);
-            if (isDiya) element.textContent = "🪔";
-            document.body.appendChild(element);
-            decorativeElements.push(element);
+        ["left", "right"].forEach((side) => {
+            const string = document.createElement("div");
+            string.className = `diwali-intro-string diwali-intro-string-${side}`;
+            for (let index = 1; index <= 9; index += 1) {
+                const bulb = document.createElement("span");
+                bulb.className = "diwali-intro-bulb";
+                bulb.style.top = `${index * 10}%`;
+                bulb.style.animationDelay = `${(index % 4) * -0.3}s`;
+                string.appendChild(bulb);
+            }
+            intro.appendChild(string);
+        });
+
+        for (let index = 0; index < 26; index += 1) {
+            const sparkle = document.createElement("span");
+            sparkle.className = "diwali-intro-sparkle";
+            sparkle.textContent = "✦";
+            sparkle.style.left = `${5 + Math.random() * 90}%`;
+            sparkle.style.top = `${5 + Math.random() * 90}%`;
+            sparkle.style.animationDelay = `${Math.random() * -1.8}s`;
+            sparkle.style.fontSize = `${8 + Math.random() * 12}px`;
+            intro.appendChild(sparkle);
         }
+
+        document.body.appendChild(intro);
+        decorativeElements.push(intro);
+        introLightsTimer = window.setTimeout(() => {
+            intro.remove();
+            decorativeElements = decorativeElements.filter((element) => element !== intro);
+            introLightsTimer = null;
+        }, 4600);
     }
 
     function createRangoli() {
@@ -105,46 +91,10 @@
         decorativeElements.push(rangoli);
     }
 
-    function decorateProductCards(root = document) {
-        const cards = [];
-        if (root instanceof Element && root.matches(".product-card")) cards.push(root);
-        if (root.querySelectorAll) cards.push(...root.querySelectorAll(".product-card"));
-
-        cards.forEach((card) => {
-            if (card.querySelector(":scope > .diwali-product-lights")) return;
-            if (window.getComputedStyle(card).position === "static") {
-                cardPositions.set(card, card.style.position);
-                card.style.position = "relative";
-            }
-            const lights = document.createElement("div");
-            lights.className = "diwali-product-lights";
-            lights.setAttribute("aria-hidden", "true");
-            lights.innerHTML = `
-                <span class="diwali-product-light-edge diwali-product-light-top"></span>
-                <span class="diwali-product-light-edge diwali-product-light-right"></span>
-                <span class="diwali-product-light-edge diwali-product-light-bottom"></span>
-                <span class="diwali-product-light-edge diwali-product-light-left"></span>
-            `;
-            card.appendChild(lights);
-        });
-    }
-
     function mountDecorations() {
         if (!window.isDiwaliEffectsAllowed?.()) return;
-        createToran();
-        createFloatingDecorations();
+        createIntroLights();
         createRangoli();
-        decorateProductCards();
-        if (!cardObserver) {
-            cardObserver = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    mutation.addedNodes.forEach((node) => {
-                        if (node instanceof Element) decorateProductCards(node);
-                    });
-                });
-            });
-            cardObserver.observe(document.body, { childList: true, subtree: true });
-        }
     }
 
     function createBurst(x, y) {
@@ -289,7 +239,7 @@
 
     function shouldIgnoreSparkle(target) {
         return target instanceof Element && Boolean(target.closest(
-            "input, textarea, select, button, a, label, iframe, [role='button'], [contenteditable='true'], #alora-diwali-banner, #alora-diwali-toggle"
+            "input, textarea, select, button, a, label, iframe, [role='button'], [contenteditable='true'], #alora-diwali-banner"
         ));
     }
 
@@ -347,38 +297,19 @@
     window.enableDiwaliEffects = () => {
         if (!window.isDiwaliEffectsAllowed?.()) return;
         mountDecorations();
-        if (!mobileListenerInstalled && mobileQuery.addEventListener) {
-            mobileQuery.addEventListener("change", createFloatingDecorations);
-            mobileListenerInstalled = true;
-        }
         installSparkles();
     };
     window.disableDiwaliEffects = () => {
         cleanupFireworks();
         removeSparkles();
-        if (mobileListenerInstalled) {
-            mobileQuery.removeEventListener("change", createFloatingDecorations);
-            mobileListenerInstalled = false;
-        }
+        if (introLightsTimer) window.clearTimeout(introLightsTimer);
+        introLightsTimer = null;
         decorativeElements.forEach((element) => element.remove());
         decorativeElements = [];
-        document.querySelectorAll(".diwali-floating-decoration").forEach((element) => element.remove());
-        if (toranContainer) {
-            toranContainer.style.position = originalToranPosition;
-            toranContainer.style.overflow = originalToranOverflow;
-            toranContainer = null;
-        }
         if (heroContainer) {
             heroContainer.style.position = originalHeroPosition;
             heroContainer = null;
         }
-        cardObserver?.disconnect();
-        cardObserver = null;
-        cardPositions.forEach((position, card) => {
-            if (card.isConnected) card.style.position = position;
-        });
-        cardPositions.clear();
-        document.querySelectorAll(".diwali-product-garland, .diwali-product-lights").forEach((decoration) => decoration.remove());
     };
 
     window.enableDiwaliEffects();

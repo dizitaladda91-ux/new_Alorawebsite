@@ -31,6 +31,28 @@ const generateToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn, issuer: "alora-radiance", audience: "alora-web" });
 };
 
+export const requiresTwoFactor = (user) => user.role === "user";
+
+const completeLogin = (res, user) => {
+  const token = generateToken(user._id, user.role);
+  res.cookie("token", token, authCookieOptions);
+
+  return res.status(200).json({
+    success: true,
+    message: "Login successful!",
+    token,
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      address: user.address,
+      role: user.role,
+      isEmailVerified: user.isEmailVerified
+    }
+  });
+};
+
 const configuredStaffAccounts = () => [
   { email: process.env.ADMIN_EMAIL || process.env.Admin_login_mail, password: process.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD_login, role: "admin", name: "Alora Admin" },
   { email: process.env.Admin_login_mail, password: process.env.ADMIN_PASSWORD_login || process.env.ADMIN_PASSWORD, role: "admin", name: "Alora Admin" },
@@ -442,6 +464,10 @@ export const login = async (req, res, next) => {
       return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
 
+    if (!requiresTwoFactor(user)) {
+      return completeLogin(res, user);
+    }
+
     const otp = generate6DigitOtp();
     const hashedOtp = crypto.createHash("sha256").update(otp).digest("hex");
     user.twoFactorOtp = hashedOtp;
@@ -480,6 +506,7 @@ export const verify2FA = async (req, res) => {
 
     const user = await User.findOne({
       email: cleanEmail,
+      role: "user",
       twoFactorOtp: hashedOtp,
       twoFactorOtpExpires: { $gt: Date.now() }
     });
@@ -496,23 +523,7 @@ export const verify2FA = async (req, res) => {
     user.isEmailVerified = true;
     await user.save();
 
-    const token = generateToken(user._id, user.role);
-    res.cookie("token", token, authCookieOptions);
-
-    return res.status(200).json({
-      success: true,
-      message: 'Login successful!',
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        address: user.address,
-        role: user.role,
-        isEmailVerified: true
-      }
-    });
+    return completeLogin(res, user);
   } catch (error) {
     console.error("VERIFY_2FA_ERROR:", error);
     return res.status(500).json({ success: false, message: 'Server error during 2FA verification.', error: error.message });
@@ -527,7 +538,7 @@ export const resend2FAOtp = async (req, res) => {
     }
 
     const cleanEmail = email.toLowerCase().trim();
-    const user = await User.findOne({ email: cleanEmail });
+    const user = await User.findOne({ email: cleanEmail, role: "user" });
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'Account not found.' });

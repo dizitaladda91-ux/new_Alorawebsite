@@ -3,7 +3,6 @@
         startDateIST: "2026-10-20T00:00:00+05:30",
         diwaliDateIST: "2026-11-08T00:00:00+05:30",
         endDateIST: "2026-11-08T23:59:59+05:30",
-        preferenceKey: "alora_diwali_preference",
         bannerDismissedKey: "alora_diwali_banner_dismissed",
         offerPlaceholder: "Festive offer details coming soon"
     });
@@ -11,10 +10,6 @@
     const diwaliTime = Date.parse(config.diwaliDateIST);
     const endTime = Date.parse(config.endDateIST);
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const toranImagePath = location.protocol === "file:"
-        ? "./static/diwali-marigold-toran.webp"
-        : "/static/diwali-marigold-toran.webp";
-
     window.ALORA_DIWALI_CONFIG = config;
     window.isFestivalDateActive = () => {
         const override = new URLSearchParams(location.search).get("festival");
@@ -43,30 +38,12 @@
         return /(^|\/)(cart|checkout|payment)(\.html)?$/.test(location.pathname.toLowerCase());
     }
 
-    function getPreference() {
-        try {
-            return localStorage.getItem(config.preferenceKey);
-        } catch (error) {
-            console.warn("Diwali preference could not be read.", error);
-            return null;
-        }
-    }
-
-    function setPreference(value) {
-        try {
-            localStorage.setItem(config.preferenceKey, value);
-        } catch (error) {
-            console.warn("Diwali preference could not be saved.", error);
-        }
-    }
-
     function isFestivalActive() {
         if (isEnvironmentRestricted() || isExcludedPage()) return false;
 
         const override = new URLSearchParams(location.search).get("festival");
         if (override === "on") return true;
         if (override === "off") return false;
-        if (getPreference() === "off") return false;
         return window.isFestivalDateActive();
     }
 
@@ -85,39 +62,10 @@
     const baseStyles = document.createElement("style");
     baseStyles.id = "alora-diwali-base-styles";
     baseStyles.textContent = `
-        #alora-diwali-toggle {
-            position: fixed;
-            left: 14px;
-            bottom: 14px;
-            z-index: 30;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 44px;
-            min-height: 44px;
-            border: 1px solid #D98E2B;
-            border-radius: 999px;
-            background: #FBF7F0;
-            color: #2B1D14;
-            box-shadow: 0 3px 14px rgba(43, 29, 20, 0.18);
-            cursor: pointer;
-            font: 600 20px/1 Manrope, sans-serif;
-        }
-        #alora-diwali-toggle:focus-visible,
         #alora-diwali-banner button:focus-visible,
         #alora-diwali-banner a:focus-visible {
             outline: 3px solid #D98E2B;
             outline-offset: 3px;
-        }
-        body.diwali-auth-page #alora-diwali-toggle {
-            top: 14px;
-            right: 14px;
-            bottom: auto;
-            left: auto;
-            z-index: 30;
-            border-color: #FFC83D;
-            background: #FFF6E5;
-            color: #43142C;
         }
         .diwali-countdown {
             display: inline-flex;
@@ -146,22 +94,6 @@
             border-color: rgba(217, 142, 43, 0.36);
             background: linear-gradient(155deg, #fffefa, #fff8eb);
             box-shadow: 0 4px 14px rgba(126, 58, 47, 0.08);
-        }
-        body.diwali-light-accent #more-products-section .product-card::after {
-            content: "";
-            position: absolute;
-            z-index: 1;
-            inset: 4px 5px auto;
-            height: 8px;
-            border-radius: inherit;
-            background-image:
-                radial-gradient(circle, #FFF8C7 0 1.15px, #FFC83D 1.6px 2px, rgba(255, 153, 51, 0.52) 2.3px, transparent 4px),
-                linear-gradient(rgba(255, 200, 61, 0.72), rgba(255, 200, 61, 0.72));
-            background-size: 15px 8px, 100% 1px;
-            background-position: left center, center;
-            background-repeat: repeat-x, no-repeat;
-            filter: drop-shadow(0 0 2px rgba(255, 200, 61, 0.5));
-            pointer-events: none;
         }
         body.diwali-light-accent #more-products-section .product-card-img {
             background: radial-gradient(ellipse at center, #fff 35%, #fff7e8 100%);
@@ -241,19 +173,6 @@
         body.diwali-festival-active.diwali-auth-page .diwali-auth-card .bg-blue-50 .text-blue-600 {
             color: #FFD56A !important;
         }
-        .diwali-auth-toran {
-            position: fixed;
-            z-index: 12;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: clamp(72px, 17vw, 128px);
-            background: url("${toranImagePath}") repeat-x left top / auto 100%;
-            filter: drop-shadow(0 4px 8px rgba(12, 3, 13, 0.38));
-            transform-origin: top center;
-            animation: diwali-toran-sway 5s ease-in-out infinite alternate;
-            pointer-events: none;
-        }
         .diwali-auth-rangoli {
             position: fixed;
             z-index: 3;
@@ -270,11 +189,6 @@
             right: -24px;
             bottom: 20px;
         }
-        body.diwali-festival-active.diwali-auth-page .diwali-floating-decoration {
-            z-index: 8;
-            opacity: 0.72;
-        }
-        body.diwali-page-hidden .diwali-auth-toran,
         body.diwali-page-hidden .diwali-auth-rangoli {
             animation-play-state: paused !important;
         }
@@ -285,15 +199,13 @@
             .diwali-auth-rangoli-top-left { top: 62px; }
         }
         @media (prefers-reduced-motion: reduce) {
-            .diwali-auth-toran,
             .diwali-auth-rangoli {
                 animation: none !important;
             }
         }
         @media print {
-            #alora-diwali-banner, #alora-diwali-toggle, .diwali-site-decor,
-            .diwali-floating-decoration, #alora-diwali-rangoli, #alora-diwali-toran,
-            .diwali-auth-toran, .diwali-auth-rangoli {
+            #alora-diwali-banner, .diwali-site-decor, #alora-diwali-rangoli,
+            .diwali-auth-rangoli {
                 display: none !important;
             }
         }
@@ -301,7 +213,6 @@
     document.head.appendChild(baseStyles);
 
     let activeStyles;
-    let toggle;
     let banner;
     let effectsScript;
     let currentActive = false;
@@ -312,12 +223,6 @@
 
     function mountAuthDecorations() {
         if (!isAuthPage() || authDecorations.some((element) => element.isConnected)) return;
-
-        const toran = document.createElement("div");
-        toran.className = "diwali-auth-toran";
-        toran.setAttribute("aria-hidden", "true");
-        document.body.appendChild(toran);
-        authDecorations.push(toran);
 
         ["top-left", "bottom-right"].forEach((position) => {
             const rangoli = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -424,55 +329,61 @@
                 pointer-events: none;
                 background: linear-gradient(180deg, rgba(122, 16, 48, 0.07), transparent 30%, rgba(255, 153, 51, 0.035));
             }
-            body.diwali-festival-active .product-card {
-                border-color: rgba(217, 142, 43, 0.32);
-            }
-            .diwali-product-lights {
-                position: absolute;
-                z-index: 11;
-                inset: 5px;
-                border-radius: inherit;
+            #alora-diwali-intro-lights {
+                position: fixed;
+                inset: 0;
+                z-index: 60;
+                overflow: hidden;
                 pointer-events: none;
+                animation: diwali-intro-fade 4.5s ease-out forwards;
             }
-            .diwali-product-light-edge {
+            .diwali-intro-string {
                 position: absolute;
-                display: block;
-                pointer-events: none;
-                animation: diwali-product-lights-twinkle 2.2s ease-in-out infinite alternate;
+                top: 16vh;
+                height: 68vh;
+                width: 16px;
+                border-color: rgba(217, 142, 43, 0.68);
+                border-style: solid;
+                border-width: 0;
             }
-            .diwali-product-light-top,
-            .diwali-product-light-bottom {
-                right: 3px;
-                left: 3px;
-                height: 8px;
-                background-image:
-                    radial-gradient(circle, #FFF8C7 0 1.15px, #FFC83D 1.6px 2px, rgba(255, 153, 51, 0.52) 2.3px, transparent 4px),
-                    linear-gradient(rgba(255, 200, 61, 0.72), rgba(255, 200, 61, 0.72));
-                background-size: 15px 8px, 100% 1px;
-                background-position: left center, center;
-                background-repeat: repeat-x, no-repeat;
-                filter: drop-shadow(0 0 2px rgba(255, 200, 61, 0.65));
+            .diwali-intro-string-left {
+                left: 12px;
+                border-left-width: 1px;
             }
-            .diwali-product-light-top { top: 0; }
-            .diwali-product-light-bottom {
-                bottom: 0;
-                animation-delay: -1.1s;
+            .diwali-intro-string-right {
+                right: 12px;
+                border-right-width: 1px;
             }
-            .diwali-product-light-left,
-            .diwali-product-light-right {
-                top: 3px;
-                bottom: 3px;
-                width: 8px;
-                background-image:
-                    radial-gradient(circle, #FFF8C7 0 1.15px, #FFC83D 1.6px 2px, rgba(255, 153, 51, 0.52) 2.3px, transparent 4px),
-                    linear-gradient(90deg, rgba(255, 200, 61, 0.72), rgba(255, 200, 61, 0.72));
-                background-size: 8px 15px, 1px 100%;
-                background-position: center top, center;
-                background-repeat: repeat-y, no-repeat;
-                filter: drop-shadow(0 0 2px rgba(255, 200, 61, 0.65));
+            .diwali-intro-bulb {
+                position: absolute;
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: #FFF4C2;
+                box-shadow: 0 0 5px 2px rgba(255, 200, 61, 0.78);
+                animation: diwali-intro-glow 0.9s ease-in-out infinite alternate;
             }
-            .diwali-product-light-left { left: 0; animation-delay: -1.65s; }
-            .diwali-product-light-right { right: 0; animation-delay: -0.55s; }
+            .diwali-intro-string-left .diwali-intro-bulb { left: -4px; }
+            .diwali-intro-string-right .diwali-intro-bulb { right: -4px; }
+            .diwali-intro-sparkle {
+                position: absolute;
+                color: #FFF2BA;
+                text-shadow: 0 0 6px #FFC83D, 0 0 14px rgba(255, 153, 51, 0.86);
+                animation: diwali-intro-twinkle 1.8s ease-in-out infinite alternate;
+            }
+            @keyframes diwali-intro-fade {
+                0%, 8% { opacity: 0; }
+                18%, 72% { opacity: 1; }
+                100% { opacity: 0; }
+            }
+            @keyframes diwali-intro-glow {
+                from { opacity: 0.48; transform: scale(0.75); }
+                to { opacity: 1; transform: scale(1.2); }
+            }
+            @keyframes diwali-intro-twinkle {
+                from { opacity: 0.24; transform: scale(0.6) rotate(0deg); }
+                to { opacity: 1; transform: scale(1.1) rotate(45deg); }
+            }
             body.diwali-light-accent :is(button, input, select, textarea):focus-visible {
                 outline: 2px solid #D98E2B;
                 outline-offset: 2px;
@@ -528,57 +439,6 @@
                 background: transparent;
                 font-size: 20px;
             }
-            #alora-diwali-toran {
-                position: absolute;
-                top: calc(100% - 3px);
-                left: 0;
-                z-index: 45;
-                width: 100%;
-                height: 84px;
-                background-image: url("${toranImagePath}");
-                background-repeat: repeat-x;
-                background-position: left top;
-                background-size: 336px 84px;
-                filter: drop-shadow(0 3px 4px rgba(43, 29, 20, 0.22));
-                overflow: visible;
-                pointer-events: none;
-                transform-origin: top center;
-                animation: diwali-toran-sway 5s ease-in-out infinite alternate;
-            }
-            #alora-diwali-toran .diwali-toran-lights {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 34px;
-                overflow: visible;
-                pointer-events: none;
-            }
-            #alora-diwali-toran .diwali-light {
-                animation: diwali-string-light 1.8s ease-in-out infinite alternate;
-            }
-            #alora-diwali-toran .diwali-light:nth-of-type(3n) { animation-delay: -0.6s; }
-            #alora-diwali-toran .diwali-light:nth-of-type(3n + 1) { animation-delay: -1.2s; }
-            .diwali-floating-decoration {
-                position: fixed;
-                top: -40px;
-                z-index: 20;
-                pointer-events: none;
-                user-select: none;
-                will-change: transform, opacity;
-                animation: diwali-fall var(--fall-duration) linear var(--fall-delay) infinite;
-            }
-            .diwali-petal {
-                width: 8px;
-                height: 13px;
-                border-radius: 80% 10% 80% 10%;
-                background: linear-gradient(145deg, #FFC83D, #FF9933 68%, #D96B25);
-                box-shadow: 0 1px 5px rgba(217, 107, 37, 0.22);
-            }
-            .diwali-mini-diya {
-                font-size: 15px;
-                filter: drop-shadow(0 0 5px rgba(255, 153, 51, 0.65));
-            }
             #alora-diwali-rangoli {
                 position: absolute;
                 right: 12px;
@@ -590,46 +450,23 @@
                 pointer-events: none;
                 animation: diwali-rangoli-glow 5s ease-in-out infinite alternate;
             }
-            body.diwali-page-hidden .diwali-floating-decoration,
-            body.diwali-page-hidden #alora-diwali-toran,
-            body.diwali-page-hidden #alora-diwali-toran *,
             body.diwali-page-hidden #alora-diwali-rangoli {
                 animation-play-state: paused !important;
-            }
-            @keyframes diwali-fall {
-                0% { transform: translate3d(0, -5vh, 0) rotate(0deg); opacity: 0; }
-                8% { opacity: 0.72; }
-                90% { opacity: 0.6; }
-                100% { transform: translate3d(var(--fall-drift), 110vh, 0) rotate(540deg); opacity: 0; }
-            }
-            @keyframes diwali-string-light {
-                from { opacity: 0.45; filter: drop-shadow(0 0 1px #FFC83D); }
-                to { opacity: 1; filter: drop-shadow(0 0 5px #FFC83D); }
-            }
-            @keyframes diwali-product-lights-twinkle {
-                from { opacity: 0.72; }
-                to { opacity: 1; }
-            }
-            @keyframes diwali-toran-sway {
-                from { transform: rotate(-1deg); }
-                to { transform: rotate(1deg); }
             }
             @keyframes diwali-rangoli-glow {
                 from { opacity: 0.3; transform: rotate(-4deg) scale(0.96); }
                 to { opacity: 0.52; transform: rotate(4deg) scale(1); }
             }
             @media (max-width: 640px) {
+                .diwali-intro-string-left { left: 7px; }
+                .diwali-intro-string-right { right: 7px; }
                 #alora-diwali-banner { gap: 6px; justify-content: flex-start; font-size: 10px; }
                 #alora-diwali-banner .diwali-banner-message { max-width: 52vw; }
                 #alora-diwali-banner a { padding-inline: 8px; font-size: 10px; }
-                #alora-diwali-toran { height: 60px; background-size: 240px 60px; }
-                #alora-diwali-toran .diwali-toran-lights { height: 26px; }
                 #alora-diwali-rangoli { right: 6px; bottom: 6px; }
             }
             @media (prefers-reduced-motion: reduce) {
-                .diwali-floating-decoration, #alora-diwali-toran, #alora-diwali-toran *,
-                #alora-diwali-rangoli, #alora-diwali-banner *,
-                .diwali-product-light-edge {
+                #alora-diwali-rangoli, #alora-diwali-banner * {
                     animation: none !important;
                     transition: none !important;
                 }
@@ -680,38 +517,6 @@
         });
     }
 
-    function installToggle() {
-        if (lightOnly || isExcludedPage()) return;
-        if (isEnvironmentRestricted()) {
-            toggle?.remove();
-            toggle = null;
-            return;
-        }
-        if (toggle) return;
-        const showDuringCampaign = Date.now() >= startTime && Date.now() <= endTime;
-        const hasTestOverride = new URLSearchParams(location.search).has("festival");
-        if (!showDuringCampaign && !hasTestOverride) return;
-
-        toggle = document.createElement("button");
-        toggle.id = "alora-diwali-toggle";
-        toggle.type = "button";
-        toggle.setAttribute("aria-label", "Turn Diwali festival mode off");
-        toggle.setAttribute("aria-pressed", "true");
-        toggle.title = "Diwali festival mode";
-        toggle.textContent = "🪔";
-        document.body.appendChild(toggle);
-        toggle.addEventListener("click", () => {
-            const enabled = !isFestivalActive();
-            const url = new URL(location.href);
-            if (url.searchParams.has("festival")) {
-                url.searchParams.set("festival", enabled ? "on" : "off");
-            }
-            history.replaceState(null, "", url);
-            setPreference(enabled ? "on" : "off");
-            updateMode();
-        });
-    }
-
     function loadEffects() {
         if (effectsScript) return;
         effectsScript = document.createElement("script");
@@ -725,18 +530,9 @@
         document.head.appendChild(effectsScript);
     }
 
-    function updateToggle() {
-        if (!toggle) return;
-        toggle.setAttribute("aria-pressed", String(currentActive));
-        toggle.setAttribute("aria-label", currentActive ? "Turn Diwali festival mode off" : "Turn Diwali festival mode on");
-        toggle.title = currentActive ? "Diwali mode is on. Click to turn it off." : "Diwali mode is off. Click to turn it on.";
-    }
-
     function updateMode() {
         const active = isFestivalActive();
         currentActive = active;
-        installToggle();
-        updateToggle();
         document.body.classList.toggle("diwali-festival-active", active && !lightOnly);
         document.body.classList.toggle("diwali-light-accent", active && lightOnly);
         if (active) {
@@ -761,7 +557,6 @@
             activeStyles = null;
             document.body.classList.remove("diwali-page-hidden");
             window.disableDiwaliEffects?.();
-            updateToggle();
         }
     }
 

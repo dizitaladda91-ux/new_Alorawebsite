@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import crypto from "node:crypto";
 import { createRateLimiter } from "../backend/middlewares/security.middleware.js";
-import { getPasswordResetRecipient, generateVerificationToken } from "../backend/controllers/auth.controllers.js";
+import { getPasswordResetRecipient, generateVerificationToken, requiresTwoFactor } from "../backend/controllers/auth.controllers.js";
 
 const makeResponse = () => ({
   headers: {},
@@ -83,4 +83,10 @@ test("customer accounts require email verification for login", () => {
   assert.equal(isLoginAllowed(adminAccount), true);
 });
 
+test("two-factor authentication is required only for regular user accounts", () => {
+  assert.equal(requiresTwoFactor({ role: "user" }), true);
+  assert.equal(requiresTwoFactor({ role: "admin" }), false);
+  assert.equal(requiresTwoFactor({ role: "seoadmin" }), false);
+  assert.equal(requiresTwoFactor({ role: "affiliate" }), false);
+});
 
