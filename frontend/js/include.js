@@ -1,3 +1,13 @@
+function loadDiwaliEffects() {
+    if (document.getElementById("alora-diwali-effects-script")) return;
+    const script = document.createElement("script");
+    script.id = "alora-diwali-effects-script";
+    script.src = location.protocol === "file:" ? "./js/diwali-effects.js" : "/js/diwali-effects.js";
+    document.head.appendChild(script);
+}
+
+loadDiwaliEffects();
+
 window.togglePasswordVisibility = function(inputId, btn) {
     const input = document.getElementById(inputId);
     if (!input) return;

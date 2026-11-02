@@ -251,6 +251,7 @@ button?.addEventListener("click", async (e) => {
     }
 });
 function showPaymentSuccessPopup(orderInfo) {
+    const isDiwaliCampaignActive = Date.now() <= Date.parse("2026-11-08T23:59:59+05:30");
     const modal = document.createElement('div');
     modal.id = 'payment-success-modal';
     modal.innerHTML = `
@@ -263,11 +264,17 @@ function showPaymentSuccessPopup(orderInfo) {
                 background: #ffffff; padding: 30px; border-radius: 12px;
                 text-align: center; max-width: 380px; width: 85%; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             ">
-                <div style="font-size: 48px; margin-bottom: 12px;">🎉</div>
-                <h2 style="margin: 0 0 8px 0; color: #2e7d32; font-size: 22px;">Payment Successful!</h2>
+                <div style="font-size: 48px; margin-bottom: 12px;">${isDiwaliCampaignActive ? "🪔" : "🎉"}</div>
+                <h2 style="margin: 0 0 8px 0; color: ${isDiwaliCampaignActive ? "#A0522D" : "#2e7d32"}; font-size: 22px;">${isDiwaliCampaignActive ? "Happy Diwali!" : "Payment Successful!"}</h2>
                 <p style="color: #555; margin: 0 0 20px 0; font-size: 14px; line-height: 1.4;">
-                    Aapka order successfully place ho gaya hai.
+                    ${isDiwaliCampaignActive ? "Thank you for placing your order with Alora Radiance. Your order is confirmed." : "Aapka order successfully place ho gaya hai."}
                 </p>
+                ${isDiwaliCampaignActive ? `
+                <div style="background: #fff8eb; border: 1px solid #f0d7a4; border-radius: 10px; padding: 14px; margin-bottom: 18px; text-align: left; color: #5c3928; font-size: 13px; line-height: 1.6;">
+                    <p style="margin: 0 0 8px;">Dear Customer,</p>
+                    <p style="margin: 0 0 8px;">Thank you for choosing Alora Radiance. May this Diwali bring you and your family light, joy, and beautiful moments.</p>
+                    <p style="margin: 0;">With gratitude,<br><strong>Team Alora Radiance</strong></p>
+                </div>` : ""}
                 <button id="download-receipt-btn" style="
                     background-color: #2e7d32; color: white; border: none;
                     padding: 10px 20px; font-size: 14px; border-radius: 6px; cursor: pointer;
@@ -282,6 +289,13 @@ function showPaymentSuccessPopup(orderInfo) {
         </div>
     `;
     document.body.appendChild(modal);
+    if (isDiwaliCampaignActive) {
+        if (typeof window.playDiwaliFireworks === "function") {
+            window.playDiwaliFireworks();
+        } else {
+            window.aloraDiwaliFireworksPending = true;
+        }
+    }
     document.getElementById('download-receipt-btn')?.addEventListener('click', function() {
         printReceipt(orderInfo);
     });
