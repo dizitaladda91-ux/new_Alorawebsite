@@ -12,59 +12,6 @@ document.addEventListener("partialsLoaded", () => {
     }
     updateHeaderCartCount();
 });
-document.addEventListener("DOMContentLoaded", () => {
-    if (navigator.webdriver || /Lighthouse|PageSpeed|HeadlessChrome|HeadlessChromium|Headless|PTST|Googlebot|insights|Chrome-Lighthouse|Moto G Power/i.test(navigator.userAgent)) return;
-    const popup = document.getElementById('discountPopup');
-    const popupBox = document.getElementById('popupBox');
-    const closePopupBtn = document.getElementById('closePopup');
-    const claimBtn = document.getElementById('claimBtn');
-    if (!popup || !popupBox) return;
-    function setSeen() {
-        try {
-            sessionStorage.setItem('hasSeenDiscountPopup', 'true');
-        } catch (e) {
-            console.error("SessionStorage write error:", e);
-        }
-    }
-    let hasSeenPopup = false;
-    try {
-        hasSeenPopup = sessionStorage.getItem('hasSeenDiscountPopup') === 'true';
-    } catch (e) {
-        console.error("SessionStorage read error:", e);
-    }
-    if (hasSeenPopup) return;
-
-    let popupShown = false;
-    const showPopup = () => {
-        if (popupShown) return;
-        popupShown = true;
-        popup.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
-        popup.classList.add('flex', 'opacity-100', 'pointer-events-auto');
-        popupBox.classList.remove('scale-95');
-        popupBox.classList.add('scale-100');
-    };
-
-    const handleUserIntent = () => {
-        if (window.scrollY > 100) {
-            showPopup();
-            window.removeEventListener('scroll', handleUserIntent);
-        }
-    };
-    window.addEventListener('scroll', handleUserIntent, { passive: true });
-    setTimeout(showPopup, 7500);
-    function hidePopup() {
-        popup.classList.remove('opacity-100', 'pointer-events-auto', 'flex');
-        popupBox.classList.remove('scale-100');
-        popup.classList.add('opacity-0', 'pointer-events-none', 'hidden');
-        popupBox.classList.add('scale-95');
-        setSeen(); 
-    }
-    if (closePopupBtn) closePopupBtn.addEventListener('click', hidePopup);
-    if (claimBtn) claimBtn.addEventListener('click', hidePopup);
-    popup.addEventListener('click', (e) => {
-        if (e.target === popup) hidePopup();
-    });
-});
 window.addEventListener("load", () => {
     const initTreeCounter = () => {
         const counterElement = document.getElementById("tree-counter");
