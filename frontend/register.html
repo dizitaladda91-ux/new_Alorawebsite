@@ -18,18 +18,15 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link rel="stylesheet" href="./styles/typography.css">
 </head>
-<body class="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#FBF7F0] font-sans">
-
-  <!-- Background: live index.html -->
-  <iframe id="bgFrame" src="./index.html" class="fixed top-0 left-0 w-full h-full border-none scale-[1.02] pointer-events-none z-0" tabindex="-1" aria-hidden="true"></iframe>
-  <div class="absolute inset-0 bg-black/40 backdrop-blur-xs z-[1] pointer-events-none"></div>
+<body class="diwali-auth-page relative min-h-screen flex items-center justify-center overflow-x-hidden overflow-y-auto bg-[#FBF7F0] font-sans">
 
   <!-- Register Box -->
-  <div class="bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4 relative z-10 border border-amber-900/10 my-8">
+  <div class="diwali-auth-card bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4 relative z-10 border border-amber-900/10 my-8">
 
     <a href="./index.html" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 text-lg font-bold flex items-center justify-center transition-all no-underline" title="Close">&times;</a>
 
     <div class="text-center mb-6">
+      <p class="diwali-auth-brand mb-3"><span aria-hidden="true">🪔</span> ALORA RADIANCE</p>
       <h1 class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight">Create Account</h1>
       <p class="text-xs text-slate-500 mt-1">Join Alora Radiance to unlock exclusive offer deals.</p>
     </div>

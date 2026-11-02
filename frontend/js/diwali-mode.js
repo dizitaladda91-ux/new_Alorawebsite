@@ -1,14 +1,19 @@
 (() => {
     const config = Object.freeze({
         startDateIST: "2026-10-20T00:00:00+05:30",
+        diwaliDateIST: "2026-11-08T00:00:00+05:30",
         endDateIST: "2026-11-08T23:59:59+05:30",
         preferenceKey: "alora_diwali_preference",
         bannerDismissedKey: "alora_diwali_banner_dismissed",
         offerPlaceholder: "Festive offer details coming soon"
     });
     const startTime = Date.parse(config.startDateIST);
+    const diwaliTime = Date.parse(config.diwaliDateIST);
     const endTime = Date.parse(config.endDateIST);
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const toranImagePath = location.protocol === "file:"
+        ? "./static/diwali-marigold-toran.webp"
+        : "/static/diwali-marigold-toran.webp";
 
     window.ALORA_DIWALI_CONFIG = config;
     window.isFestivalDateActive = () => {
@@ -27,7 +32,11 @@
 
     function isExcludedPage() {
         const path = location.pathname.toLowerCase();
-        return /(^|\/)(admin[^/]*|seoadmin[^/]*|login|register|forgot-password|reset-password)(\.html)?$/.test(path);
+        return /(^|\/)(admin[^/]*|seoadmin[^/]*|forgot-password|reset-password)(\.html)?$/.test(path);
+    }
+
+    function isAuthPage() {
+        return /(^|\/)(login|register)(\.html)?$/.test(location.pathname.toLowerCase());
     }
 
     function isLightOnlyPage() {
@@ -100,6 +109,34 @@
             outline: 3px solid #D98E2B;
             outline-offset: 3px;
         }
+        body.diwali-auth-page #alora-diwali-toggle {
+            top: 14px;
+            right: 14px;
+            bottom: auto;
+            left: auto;
+            z-index: 30;
+            border-color: #FFC83D;
+            background: #FFF6E5;
+            color: #43142C;
+        }
+        .diwali-countdown {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 8px;
+            border: 1px solid rgba(217, 142, 43, 0.55);
+            border-radius: 999px;
+            background: rgba(217, 142, 43, 0.12) !important;
+            font-size: 0.9em;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+        .diwali-countdown[hidden] {
+            display: none;
+        }
+        .diwali-countdown-label {
+            color: #D98E2B !important;
+        }
         body.diwali-light-accent #more-products-section {
             border-color: rgba(217, 142, 43, 0.3);
             background: linear-gradient(145deg, #fffaf0, #fff 52%, #fff7e8);
@@ -129,9 +166,134 @@
         body.diwali-light-accent #more-products-section .product-card-img {
             background: radial-gradient(ellipse at center, #fff 35%, #fff7e8 100%);
         }
+        body.diwali-festival-active.diwali-auth-page {
+            min-height: 100vh;
+            min-height: 100svh;
+            overflow-x: hidden;
+            background: radial-gradient(ellipse at 50% 35%, #54152f 0%, #390d27 52%, #22091c 100%) !important;
+            color: #FFF6E5 !important;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card {
+            z-index: 10;
+            overflow: hidden;
+            border: 1px solid rgba(255, 200, 61, 0.62) !important;
+            border-radius: 28px !important;
+            background: linear-gradient(155deg, rgba(67, 14, 43, 0.96), rgba(43, 10, 34, 0.97)) !important;
+            box-shadow: 0 24px 80px rgba(11, 3, 13, 0.48), inset 0 0 32px rgba(255, 200, 61, 0.035) !important;
+            color: #FFF6E5 !important;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-brand {
+            color: #FFD27A !important;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            padding-top: 36px;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card h1,
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card h2 {
+            color: #FFF6E5 !important;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card p,
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card label {
+            color: #E9D7DF !important;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card input {
+            border-color: rgba(255, 200, 61, 0.46) !important;
+            background-color: rgba(32, 7, 25, 0.72) !important;
+            color: #FFF6E5 !important;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card input::placeholder {
+            color: #CBB7C1 !important;
+            opacity: 0.82;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card input:focus-visible,
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card button:focus-visible,
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card a:focus-visible {
+            outline: 3px solid #FFD56A !important;
+            outline-offset: 3px;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card button[type="submit"] {
+            border: 1px solid #FFC83D !important;
+            background: linear-gradient(100deg, #FFD96A, #FF9933) !important;
+            color: #43142C !important;
+            box-shadow: 0 8px 26px rgba(255, 153, 51, 0.24) !important;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card a,
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card button:not([type="submit"]) {
+            color: #FFD56A !important;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card > a[title="Close"] {
+            border: 1px solid rgba(255, 200, 61, 0.36) !important;
+            background: rgba(255, 246, 229, 0.1) !important;
+            color: #FFF6E5 !important;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card .border-t {
+            border-color: rgba(255, 200, 61, 0.24) !important;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card .bg-blue-50 {
+            border-color: rgba(255, 200, 61, 0.35) !important;
+            background: rgba(255, 200, 61, 0.1) !important;
+            color: #FFE6A5 !important;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card .bg-blue-50 * {
+            color: #FFE6A5 !important;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-auth-card .bg-blue-50 .text-blue-600 {
+            color: #FFD56A !important;
+        }
+        .diwali-auth-toran {
+            position: fixed;
+            z-index: 12;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: clamp(72px, 17vw, 128px);
+            background: url("${toranImagePath}") repeat-x left top / auto 100%;
+            filter: drop-shadow(0 4px 8px rgba(12, 3, 13, 0.38));
+            transform-origin: top center;
+            animation: diwali-toran-sway 5s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+        .diwali-auth-rangoli {
+            position: fixed;
+            z-index: 3;
+            width: clamp(82px, 18vw, 150px);
+            opacity: 0.52;
+            filter: drop-shadow(0 0 8px rgba(255, 200, 61, 0.3));
+            pointer-events: none;
+        }
+        .diwali-auth-rangoli-top-left {
+            top: 72px;
+            left: -28px;
+        }
+        .diwali-auth-rangoli-bottom-right {
+            right: -24px;
+            bottom: 20px;
+        }
+        body.diwali-festival-active.diwali-auth-page .diwali-floating-decoration {
+            z-index: 8;
+            opacity: 0.72;
+        }
+        body.diwali-page-hidden .diwali-auth-toran,
+        body.diwali-page-hidden .diwali-auth-rangoli {
+            animation-play-state: paused !important;
+        }
+        @media (max-width: 640px) {
+            body.diwali-festival-active.diwali-auth-page .diwali-auth-card {
+                border-radius: 24px !important;
+            }
+            .diwali-auth-rangoli-top-left { top: 62px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .diwali-auth-toran,
+            .diwali-auth-rangoli {
+                animation: none !important;
+            }
+        }
         @media print {
             #alora-diwali-banner, #alora-diwali-toggle, .diwali-site-decor,
-            .diwali-floating-decoration, #alora-diwali-rangoli, #alora-diwali-toran {
+            .diwali-floating-decoration, #alora-diwali-rangoli, #alora-diwali-toran,
+            .diwali-auth-toran, .diwali-auth-rangoli {
                 display: none !important;
             }
         }
@@ -143,13 +305,114 @@
     let banner;
     let effectsScript;
     let currentActive = false;
+    let countdownInterval;
+    let countdownObserver;
+    let authDecorations = [];
     const lightOnly = isLightOnlyPage();
+
+    function mountAuthDecorations() {
+        if (!isAuthPage() || authDecorations.some((element) => element.isConnected)) return;
+
+        const toran = document.createElement("div");
+        toran.className = "diwali-auth-toran";
+        toran.setAttribute("aria-hidden", "true");
+        document.body.appendChild(toran);
+        authDecorations.push(toran);
+
+        ["top-left", "bottom-right"].forEach((position) => {
+            const rangoli = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            rangoli.setAttribute("class", `diwali-auth-rangoli diwali-auth-rangoli-${position}`);
+            rangoli.setAttribute("viewBox", "0 0 100 100");
+            rangoli.setAttribute("aria-hidden", "true");
+            const petals = Array.from({ length: 8 }, (_, index) =>
+                `<ellipse transform="rotate(${index * 45} 50 50)" cx="50" cy="27" rx="8" ry="19"/>`
+            ).join("");
+            rangoli.innerHTML = `<g fill="none" stroke="#FFC83D" stroke-width="1.5">${petals}<circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="13" stroke="#FF9933"/><circle cx="50" cy="50" r="3" fill="#FFC83D"/>${Array.from({ length: 8 }, (_, index) => `<circle transform="rotate(${index * 45} 50 50)" cx="50" cy="14" r="2" fill="#FF9933" stroke="none"/>`).join("")}</g>`;
+            document.body.appendChild(rangoli);
+            authDecorations.push(rangoli);
+        });
+    }
+
+    function removeAuthDecorations() {
+        authDecorations.forEach((element) => element.remove());
+        authDecorations = [];
+    }
+
+    function updateDiwaliCountdown() {
+        const countdowns = document.querySelectorAll(".diwali-countdown-time");
+        if (!countdowns.length) return;
+
+        const remaining = diwaliTime - Date.now();
+        if (remaining <= 0) {
+            const isDiwaliDay = Date.now() <= endTime;
+            const message = isDiwaliDay ? "HAPPY DIWALI!" : "";
+            countdowns.forEach((countdown) => {
+                countdown.textContent = message;
+                countdown.parentElement.hidden = !message;
+            });
+            if (!isDiwaliDay && countdownInterval) {
+                window.clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+            return;
+        }
+
+        const totalSeconds = Math.floor(remaining / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        const time = `${days}d ${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`;
+
+        countdowns.forEach((countdown) => {
+            countdown.textContent = time;
+            countdown.parentElement.hidden = false;
+        });
+    }
+
+    function mountDiwaliCountdown() {
+        const tickerGroups = document.querySelectorAll(".top-ticker-bar .animate-top-ticker > div");
+        if (!tickerGroups.length) return;
+        tickerGroups.forEach((group) => {
+            if (group.querySelector(".diwali-countdown")) return;
+            const brandItem = group.firstElementChild;
+            if (!brandItem) return;
+
+            const separator = document.createElement("span");
+            separator.className = "ticker-star text-[11px] opacity-75";
+            separator.setAttribute("aria-hidden", "true");
+            separator.textContent = "✦";
+
+            const countdown = document.createElement("span");
+            countdown.className = "diwali-countdown";
+            countdown.setAttribute("aria-hidden", "true");
+            countdown.innerHTML = '<span class="diwali-countdown-label">DIWALI IN</span><span class="diwali-countdown-time"></span>';
+
+            group.insertBefore(separator, brandItem.nextSibling);
+            group.insertBefore(countdown, separator.nextSibling);
+        });
+
+        if ([...tickerGroups].every((group) => group.querySelector(".diwali-countdown"))) {
+            countdownObserver?.disconnect();
+            countdownObserver = null;
+        }
+        if (!countdownInterval && document.querySelector(".diwali-countdown-time")) {
+            updateDiwaliCountdown();
+            countdownInterval = window.setInterval(updateDiwaliCountdown, 1000);
+        }
+    }
+
+    function watchForDiwaliTicker() {
+        mountDiwaliCountdown();
+        const placeholder = document.getElementById("navbar-placeholder");
+        const watchTarget = placeholder || (document.readyState === "loading" ? document.documentElement : null);
+        if (countdownObserver || !watchTarget || document.querySelector(".top-ticker-bar .animate-top-ticker > div")) return;
+        countdownObserver = new MutationObserver(mountDiwaliCountdown);
+        countdownObserver.observe(watchTarget, { childList: true, subtree: true });
+    }
 
     function installFestivalStyles() {
         if (activeStyles) return;
-        const toranImagePath = location.protocol === "file:"
-            ? "./static/diwali-marigold-toran.webp"
-            : "/static/diwali-marigold-toran.webp";
         activeStyles = document.createElement("style");
         activeStyles.id = "alora-diwali-active-styles";
         activeStyles.textContent = `
@@ -482,12 +745,18 @@
                 return;
             }
             installFestivalStyles();
-            installBanner();
+            if (isAuthPage()) {
+                removeAuthDecorations();
+                mountAuthDecorations();
+            } else {
+                installBanner();
+            }
             if (typeof window.enableDiwaliEffects === "function") window.enableDiwaliEffects();
             else loadEffects();
         } else {
             banner?.remove();
             banner = null;
+            removeAuthDecorations();
             activeStyles?.remove();
             activeStyles = null;
             document.body.classList.remove("diwali-page-hidden");
@@ -498,7 +767,11 @@
 
     document.addEventListener("visibilitychange", () => {
         document.body.classList.toggle("diwali-page-hidden", document.hidden);
+        if (!document.hidden) updateDiwaliCountdown();
     });
+    document.addEventListener("DOMContentLoaded", watchForDiwaliTicker, { once: true });
+    document.addEventListener("partialsLoaded", watchForDiwaliTicker);
+    watchForDiwaliTicker();
     mediaQuery.addEventListener?.("change", updateMode);
     document.addEventListener("partialsLoaded", () => {
         if (currentActive && !lightOnly) window.mountDiwaliDecorations?.();

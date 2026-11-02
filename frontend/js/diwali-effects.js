@@ -63,8 +63,9 @@
         document.querySelectorAll(".diwali-floating-decoration").forEach((element) => element.remove());
         decorativeElements = decorativeElements.filter((element) => element.isConnected);
         const isMobile = mobileQuery.matches;
-        const petalCount = isMobile ? 7 : 18;
-        const diyaCount = isMobile ? 2 : 4;
+        const isAuthPage = document.body.classList.contains("diwali-auth-page");
+        const petalCount = isAuthPage ? (isMobile ? 4 : 9) : (isMobile ? 7 : 18);
+        const diyaCount = isAuthPage ? (isMobile ? 1 : 2) : (isMobile ? 2 : 4);
 
         for (let index = 0; index < petalCount + diyaCount; index += 1) {
             const isDiya = index >= petalCount;
