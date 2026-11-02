@@ -2,7 +2,12 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import crypto from "node:crypto";
 import { createRateLimiter } from "../backend/middlewares/security.middleware.js";
-import { getPasswordResetRecipient, generateVerificationToken, requiresTwoFactor } from "../backend/controllers/auth.controllers.js";
+import {
+  getPasswordResetRecipient,
+  generateVerificationToken,
+  requiresEmailVerification,
+  requiresTwoFactor
+} from "../backend/controllers/auth.controllers.js";
 
 const makeResponse = () => ({
   headers: {},
@@ -69,18 +74,11 @@ test("email verification token correctly matches incoming candidate tokens", () 
 });
 
 test("customer accounts require email verification for login", () => {
-  const unverifiedCustomer = { role: "user", isEmailVerified: false };
-  const verifiedCustomer = { role: "user", isEmailVerified: true };
-  const adminAccount = { role: "admin", isEmailVerified: false };
-
-  const isLoginAllowed = (user) => {
-    if (user.role === "user" && !user.isEmailVerified) return false;
-    return true;
-  };
-
-  assert.equal(isLoginAllowed(unverifiedCustomer), false);
-  assert.equal(isLoginAllowed(verifiedCustomer), true);
-  assert.equal(isLoginAllowed(adminAccount), true);
+  assert.equal(requiresEmailVerification({ role: "user", isEmailVerified: false }), true);
+  assert.equal(requiresEmailVerification({ role: "user", isEmailVerified: true }), true);
+  assert.equal(requiresEmailVerification({ role: "admin", isEmailVerified: false }), false);
+  assert.equal(requiresEmailVerification({ role: "seoadmin", isEmailVerified: false }), false);
+  assert.equal(requiresEmailVerification({ role: "affiliate", isEmailVerified: false }), false);
 });
 
 test("two-factor authentication is required only for regular user accounts", () => {
@@ -89,4 +87,3 @@ test("two-factor authentication is required only for regular user accounts", () 
   assert.equal(requiresTwoFactor({ role: "seoadmin" }), false);
   assert.equal(requiresTwoFactor({ role: "affiliate" }), false);
 });
-

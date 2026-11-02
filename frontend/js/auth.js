@@ -29,7 +29,7 @@ export function showSuccessModal(title, message, callback) {
     });
 }
 
-export function showVerificationWaitingModal(userEmail, callback) {
+export function showVerificationWaitingModal(userEmail, callback, emailSent = true) {
     const existingModal = document.getElementById("custom-success-modal");
     if (existingModal) existingModal.remove();
 
@@ -66,8 +66,10 @@ export function showVerificationWaitingModal(userEmail, callback) {
 
             <h3 id="polling-title" class="text-2xl font-bold text-slate-900 font-serif mb-1">Verify Your Email</h3>
             <p id="polling-desc" class="text-stone-600 text-xs sm:text-sm mb-4 leading-relaxed">
-                Verification link sent to <strong class="text-slate-900 font-mono select-all">${escapeHtml(userEmail)}</strong>.<br>
-                <span class="text-[#8B4513] font-semibold mt-1 block">Click the link in your email to instantly auto-login!</span>
+                ${emailSent
+                    ? `Verification link sent to <strong class="text-slate-900 font-mono select-all">${escapeHtml(userEmail)}</strong>.`
+                    : `We could not send a verification link to <strong class="text-slate-900 font-mono select-all">${escapeHtml(userEmail)}</strong>. Use the resend button to try again.`}
+                <br><span class="text-[#8B4513] font-semibold mt-1 block">Verify your email, then log in to continue.</span>
             </p>
 
             <div id="polling-actions" class="space-y-2 pt-1">
@@ -103,10 +105,14 @@ export function showVerificationWaitingModal(userEmail, callback) {
                         resendBtn.disabled = false;
                     }, 4000);
                 } else {
+                    const descEl = document.getElementById("polling-desc");
+                    if (descEl) descEl.textContent = resData.message || "Could not resend the verification email. Please try again.";
                     resendBtn.innerHTML = orig;
                     resendBtn.disabled = false;
                 }
             } catch (e) {
+                const descEl = document.getElementById("polling-desc");
+                if (descEl) descEl.textContent = "Could not connect to the server. Please try again.";
                 resendBtn.innerHTML = orig;
                 resendBtn.disabled = false;
             }
@@ -151,32 +157,25 @@ export function showVerificationWaitingModal(userEmail, callback) {
                     badgeEl.innerHTML = '<i class="fa-solid fa-circle-check text-blue-600"></i> Verified Blue Tick Active!';
                 }
                 if (titleEl) titleEl.innerText = "Email Verified!";
-                if (descEl) descEl.innerHTML = "<span class='text-emerald-700 font-bold'>Account verified successfully! Logging you in now...</span>";
-                if (actionsEl) actionsEl.innerHTML = "";
-
-                // Store user session
-                if (data.token) {
-                    localStorage.setItem("token", data.token);
-                    sessionStorage.setItem("token", data.token);
+                if (descEl) descEl.innerHTML = "<span class='text-emerald-700 font-bold'>Your account is verified. Log in to continue.</span>";
+                if (actionsEl) {
+                    actionsEl.innerHTML = `
+                        <button id="modal-continue-btn" type="button" class="w-full bg-[#8B4513] hover:bg-amber-900 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl transition shadow-md cursor-pointer">
+                            Continue to Login
+                        </button>
+                    `;
+                    actionsEl.querySelector("#modal-continue-btn").addEventListener("click", () => {
+                        cleanup();
+                        modal.remove();
+                        if (callback) callback();
+                        else window.location.href = "./login.html";
+                    });
                 }
-                const userData = data.user || {};
-                const displayName = userData.name || userData.username || (userData.email ? userData.email.split('@')[0] : "User");
-                const userObjToStore = {
-                    ...userData,
-                    name: displayName
-                };
-                const role = userData.role ? userData.role.toLowerCase().trim() : "user";
-                sessionStorage.setItem("tabAuthActive", "true");
-                sessionStorage.setItem("userRole", role);
-                sessionStorage.setItem("user", JSON.stringify(userObjToStore));
-                localStorage.setItem("userRole", role);
-                localStorage.setItem("user", JSON.stringify(userObjToStore));
 
-                setTimeout(() => {
+                if (!actionsEl) {
                     modal.remove();
                     if (callback) callback();
-                    else window.location.href = "./account.html";
-                }, 1200);
+                }
             }
         } catch (pollErr) {
             console.warn("Poll error:", pollErr);
@@ -327,6 +326,12 @@ function initRegisterForm() {
             });
             const data = await response.json();
             if (response.ok) {
+                if (data.emailVerificationRequired) {
+                    showVerificationWaitingModal(email, () => {
+                        window.location.href = "./login.html";
+                    }, data.emailSent);
+                    return;
+                }
                 if (data.token) {
                     localStorage.setItem("token", data.token);
                     sessionStorage.setItem("token", data.token);

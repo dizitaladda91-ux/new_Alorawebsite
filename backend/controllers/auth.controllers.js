@@ -32,6 +32,7 @@ const generateToken = (id, role) => {
 };
 
 export const requiresTwoFactor = (user) => user.role === "user";
+export const requiresEmailVerification = (user) => user.role === "user";
 
 const completeLogin = (res, user) => {
   const token = generateToken(user._id, user.role);
@@ -268,6 +269,7 @@ export const register = async (req, res) => {
       }
     }
 
+    const { rawToken, hashedToken, expiresAt } = generateVerificationToken();
     const user = await User.create({
       title: title || '',
       name,
@@ -278,8 +280,17 @@ export const register = async (req, res) => {
       dob: dob || '',
       gender: gender || '',
       role: 'user',
-      isEmailVerified: true
+      isEmailVerified: false,
+      emailVerificationToken: hashedToken,
+      emailVerificationExpires: expiresAt
     });
+
+    let emailSent = false;
+    try {
+      emailSent = await sendVerificationEmail(user, rawToken, req);
+    } catch (mailErr) {
+      console.error("Registration verification email error:", mailErr.message);
+    }
 
     try {
       await Lead.findOneAndUpdate(
@@ -297,22 +308,13 @@ export const register = async (req, res) => {
       console.warn("Could not sync registered user to leads collection:", leadError.message);
     }
 
-    const token = generateToken(user._id, user.role);
-    res.cookie("token", token, authCookieOptions);
-
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
-      token,
-      message: 'Registration successful!',
-      user: { 
-        id: user._id, 
-        name: user.name, 
-        email: user.email, 
-        phone: user.phone, 
-        address: user.address, 
-        role: user.role,
-        isEmailVerified: true
-      }
+      emailVerificationRequired: true,
+      emailSent,
+      message: emailSent
+        ? "Registration successful! Please verify your email to activate your account."
+        : "Your account was created, but the verification email could not be sent. Please request a new link."
     });
   } catch (error) {
     console.error("REGISTER_ERROR:", error);
@@ -363,15 +365,15 @@ export const verifyEmail = async (req, res) => {
 
 export const resendVerificationEmail = async (req, res) => {
   try {
-    const targetEmail = req.user?.id 
+    const targetEmail = req.user?.id
       ? null 
       : String(req.body?.email || "").toLowerCase().trim();
 
     let user;
     if (req.user?.id) {
-      user = await User.findById(req.user.id);
+      user = await User.findOne({ _id: req.user.id, role: "user" });
     } else if (targetEmail) {
-      user = await User.findOne({ email: targetEmail });
+      user = await User.findOne({ email: targetEmail, role: "user" });
     }
 
     if (!user) {
@@ -388,9 +390,19 @@ export const resendVerificationEmail = async (req, res) => {
     await user.save();
 
     try {
-      await sendVerificationEmail(user, rawToken, req);
+      const emailSent = await sendVerificationEmail(user, rawToken, req);
+      if (!emailSent) {
+        return res.status(503).json({
+          success: false,
+          message: "Verification email could not be sent right now. Please try again later."
+        });
+      }
     } catch (mailErr) {
       console.warn("Could not send verification email on resend:", mailErr.message);
+      return res.status(503).json({
+        success: false,
+        message: "Verification email could not be sent right now. Please try again later."
+      });
     }
 
     return res.status(200).json({
@@ -410,7 +422,7 @@ export const pollVerificationStatus = async (req, res) => {
       return res.status(400).json({ success: false, verified: false, message: "Email is required." });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email, role: "user" }).select("isEmailVerified");
     if (!user) {
       return res.status(404).json({ success: false, verified: false, message: "Account not found." });
     }
@@ -419,23 +431,10 @@ export const pollVerificationStatus = async (req, res) => {
       return res.status(200).json({ success: true, verified: false, message: "Waiting for email verification." });
     }
 
-    const token = generateToken(user._id, user.role);
-    res.cookie("token", token, authCookieOptions);
-
     return res.status(200).json({
       success: true,
       verified: true,
-      message: "Email verified successfully! Logging you in...",
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        address: user.address,
-        role: user.role,
-        isEmailVerified: true
-      }
+      message: "Email verified successfully. You can now log in."
     });
   } catch (error) {
     console.error("POLL_VERIFICATION_ERROR:", error);
@@ -462,6 +461,14 @@ export const login = async (req, res, next) => {
 
     if (!user) {
       return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+    }
+
+    if (requiresEmailVerification(user) && !user.isEmailVerified) {
+      return res.status(403).json({
+        success: false,
+        emailVerificationRequired: true,
+        message: "Please verify your email before logging in. Visit the email verification page to request a new link."
+      });
     }
 
     if (!requiresTwoFactor(user)) {
@@ -507,6 +514,7 @@ export const verify2FA = async (req, res) => {
     const user = await User.findOne({
       email: cleanEmail,
       role: "user",
+      isEmailVerified: true,
       twoFactorOtp: hashedOtp,
       twoFactorOtpExpires: { $gt: Date.now() }
     });
@@ -520,7 +528,6 @@ export const verify2FA = async (req, res) => {
 
     user.twoFactorOtp = null;
     user.twoFactorOtpExpires = null;
-    user.isEmailVerified = true;
     await user.save();
 
     return completeLogin(res, user);
