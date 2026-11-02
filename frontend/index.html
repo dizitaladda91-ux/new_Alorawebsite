@@ -1080,125 +1080,181 @@
     <!-- ============ WATCH IT. LOVE IT. VIDEO REELS CAROUSEL SECTION ============ -->
     <!-- NOTE: You can change the 'data-video-url' attribute on any card below to your desired video link (YouTube embed, Instagram Reel URL, or MP4 file) -->
     
-    <!-- ============ VIDEO SPOTLIGHT (WATCH IT. LOVE IT. - 5 REELS FULL EDGES) ============ -->
-<section id="watch-it-love-it-section" class="w-full px-3 sm:px-6 md:px-8 lg:px-10 xl:px-12 py-8 sm:py-12 relative overflow-hidden bg-transparent">
+    <!-- ============ VIDEO SPOTLIGHT (WATCH IT. LOVE IT. - EDGE-TO-EDGE COMPACT REEL CAROUSEL) ============ -->
+<section id="watch-it-love-it-section" class="w-full py-8 sm:py-12 relative overflow-hidden bg-transparent">
 
-    <div class="w-full mb-6 text-center sm:text-left">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-[#F1E6D3] text-[#2B1D14] text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase border border-[#2B1D14]/10 mb-2 select-none">
-            <i class="fa-solid fa-circle-play text-[#D98E2B]"></i> Video Spotlight
-        </span>
-        <h2 class="text-2xl sm:text-4xl font-heading font-bold text-[#2B1D14] leading-tight">Watch It. Love It.</h2>
-        <p class="text-xs sm:text-sm text-[#2B1D14]/70 mt-1 font-body">Real skincare routines &amp; results in action. Click any card to watch.</p>
+    <!-- Section Header with Margins -->
+    <div class="w-full px-4 sm:px-6 md:px-8 mb-4 sm:mb-5 flex items-end justify-between">
+        <div>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-[#F1E6D3] text-[#2B1D14] text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase border border-[#2B1D14]/10 mb-2 select-none">
+                <i class="fa-solid fa-circle-play text-[#D98E2B]"></i> Video Spotlight
+            </span>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-heading font-bold text-[#2B1D14] leading-tight">Watch It. Love It.</h2>
+            <p class="text-xs sm:text-sm text-[#2B1D14]/70 mt-1 font-body">Real skincare routines &amp; results in action. Click any card to watch.</p>
+        </div>
+        <!-- Desktop Scroll Arrows -->
+        <div class="hidden sm:flex items-center gap-2 shrink-0">
+            <button type="button" onclick="scrollWatchItCarousel('left')" class="w-9 h-9 rounded-full bg-white hover:bg-[#D98E2B] text-[#2B1D14] hover:text-white border border-[#2B1D14]/15 flex items-center justify-center transition-all shadow-xs hover:shadow-md cursor-pointer select-none" aria-label="Previous Videos">
+                <i class="fa-solid fa-chevron-left text-xs"></i>
+            </button>
+            <button type="button" onclick="scrollWatchItCarousel('right')" class="w-9 h-9 rounded-full bg-white hover:bg-[#D98E2B] text-[#2B1D14] hover:text-white border border-[#2B1D14]/15 flex items-center justify-center transition-all shadow-xs hover:shadow-md cursor-pointer select-none" aria-label="Next Videos">
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+            </button>
+        </div>
     </div>
 
-    <!-- Full-Width 5-Reel Grid: All 5 videos stretch edge-to-edge, zero cutoff! -->
-    <div id="watchItCarousel" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5 w-full items-stretch">
+    <!-- Edge-to-Edge Compact Carousel: Starts right at the screen edge with very small gap -->
+    <div id="watchItCarousel" class="flex gap-2.5 sm:gap-3 overflow-x-auto scroll-smooth py-2 pl-3 sm:pl-5 pr-3 sm:pr-5 no-scrollbar snap-x snap-mandatory items-stretch cursor-grab active:cursor-grabbing select-none w-full">
         
         <!-- Video Reel 1 -->
-        <div class="reel-card-item w-full group transition-all duration-300 hover:-translate-y-1.5">
-            <div class="relative w-full aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-[#2B1D14]/15 bg-slate-900 cursor-pointer reel-video-trigger"
+        <div class="reel-card-item w-[170px] sm:w-[190px] md:w-[210px] shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1">
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
                  data-video-url="https://www.instagram.com/reel/Db003y_vnCo/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" 
                  data-poster="./static/reel1-thumbnail.png"
                  data-video-title="Alora Skincare Reel 1">
                 <img src="./static/reel1-thumbnail.png" alt="Alora Video Reel 1" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/40 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
-                        <i class="fa-solid fa-play text-sm ml-0.5"></i>
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                        <i class="fa-solid fa-play text-xs ml-0.5"></i>
                     </div>
                 </div>
-                <div class="absolute bottom-3.5 sm:bottom-4 left-3.5 sm:left-4 right-3.5 sm:right-4 text-white text-xs font-medium leading-snug drop-shadow-md flex items-center justify-between gap-2 font-body">
+                <div class="absolute bottom-3 left-3 right-3 text-white text-[11px] sm:text-xs font-medium leading-snug drop-shadow-md flex items-center justify-between gap-1.5 font-body">
                     <p class="line-clamp-2">"Real skincare routines &amp; glow results ✨"</p>
-                    <span class="w-7 h-7 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center shrink-0">
-                        <i class="fa-brands fa-instagram text-xs"></i>
+                    <span class="w-6 h-6 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center shrink-0 text-[10px]">
+                        <i class="fa-brands fa-instagram"></i>
                     </span>
                 </div>
             </div>
         </div>
 
         <!-- Video Reel 2 -->
-        <div class="reel-card-item w-full group transition-all duration-300 hover:-translate-y-1.5">
-            <div class="relative w-full aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-[#2B1D14]/15 bg-slate-900 cursor-pointer reel-video-trigger"
+        <div class="reel-card-item w-[170px] sm:w-[190px] md:w-[210px] shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1">
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
                  data-video-url="https://www.instagram.com/reel/DcLflVtTzKL/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" 
                  data-poster="./static/reel2-thumbnail.png"
                  data-video-title="Alora Skincare Reel 2">
                 <img src="./static/reel2-thumbnail.png" alt="Alora Video Reel 2" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/40 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
-                        <i class="fa-solid fa-play text-sm ml-0.5"></i>
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                        <i class="fa-solid fa-play text-xs ml-0.5"></i>
                     </div>
                 </div>
-                <div class="absolute bottom-3.5 sm:bottom-4 left-3.5 sm:left-4 right-3.5 sm:right-4 text-white text-xs font-medium leading-snug drop-shadow-md flex items-center justify-between gap-2 font-body">
+                <div class="absolute bottom-3 left-3 right-3 text-white text-[11px] sm:text-xs font-medium leading-snug drop-shadow-md flex items-center justify-between gap-1.5 font-body">
                     <p class="line-clamp-2">"Hydrating nourishment with radiant skin texture 🌸"</p>
-                    <span class="w-7 h-7 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center shrink-0">
-                        <i class="fa-brands fa-instagram text-xs"></i>
+                    <span class="w-6 h-6 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center shrink-0 text-[10px]">
+                        <i class="fa-brands fa-instagram"></i>
                     </span>
                 </div>
             </div>
         </div>
 
         <!-- Video Reel 3 -->
-        <div class="reel-card-item w-full group transition-all duration-300 hover:-translate-y-1.5">
-            <div class="relative w-full aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-[#2B1D14]/15 bg-slate-900 cursor-pointer reel-video-trigger"
+        <div class="reel-card-item w-[170px] sm:w-[190px] md:w-[210px] shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1">
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
                  data-video-url="https://www.instagram.com/reel/DcGaFCCoBWJ/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" 
                  data-poster="./static/reel3-thumbnail.png"
                  data-video-title="Alora Skincare Reel 3">
                 <img src="./static/reel3-thumbnail.png" alt="Alora Video Reel 3" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/40 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
-                        <i class="fa-solid fa-play text-sm ml-0.5"></i>
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                        <i class="fa-solid fa-play text-xs ml-0.5"></i>
                     </div>
                 </div>
-                <div class="absolute bottom-3.5 sm:bottom-4 left-3.5 sm:left-4 right-3.5 sm:right-4 text-white text-xs font-medium leading-snug drop-shadow-md flex items-center justify-between gap-2 font-body">
+                <div class="absolute bottom-3 left-3 right-3 text-white text-[11px] sm:text-xs font-medium leading-snug drop-shadow-md flex items-center justify-between gap-1.5 font-body">
                     <p class="line-clamp-2">"Pure botanical radiance &amp; deep hydration ✨"</p>
-                    <span class="w-7 h-7 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center shrink-0">
-                        <i class="fa-brands fa-instagram text-xs"></i>
+                    <span class="w-6 h-6 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center shrink-0 text-[10px]">
+                        <i class="fa-brands fa-instagram"></i>
                     </span>
                 </div>
             </div>
         </div>
 
         <!-- Video Reel 4 -->
-        <div class="reel-card-item w-full group transition-all duration-300 hover:-translate-y-1.5">
-            <div class="relative w-full aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-[#2B1D14]/15 bg-slate-900 cursor-pointer reel-video-trigger"
+        <div class="reel-card-item w-[170px] sm:w-[190px] md:w-[210px] shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1">
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
                  data-video-url="https://www.instagram.com/reel/DcTSaQhJrsJ/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" 
                  data-poster="./static/reel4-thumbnail.png"
                  data-video-title="Alora Skincare Reel 4">
                 <img src="./static/reel4-thumbnail.png" alt="Alora Video Reel 4" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/40 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
-                        <i class="fa-solid fa-play text-sm ml-0.5"></i>
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                        <i class="fa-solid fa-play text-xs ml-0.5"></i>
                     </div>
                 </div>
-                <div class="absolute bottom-3.5 sm:bottom-4 left-3.5 sm:left-4 right-3.5 sm:right-4 text-white text-xs font-medium leading-snug drop-shadow-md flex items-center justify-between gap-2 font-body">
+                <div class="absolute bottom-3 left-3 right-3 text-white text-[11px] sm:text-xs font-medium leading-snug drop-shadow-md flex items-center justify-between gap-1.5 font-body">
                     <p class="line-clamp-2">"Daily ritual routine for glowing skin ☀️"</p>
-                    <span class="w-7 h-7 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center shrink-0">
-                        <i class="fa-brands fa-instagram text-xs"></i>
+                    <span class="w-6 h-6 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center shrink-0 text-[10px]">
+                        <i class="fa-brands fa-instagram"></i>
                     </span>
                 </div>
             </div>
         </div>
 
         <!-- Video Reel 5 -->
-        <div class="reel-card-item w-full group transition-all duration-300 hover:-translate-y-1.5">
-            <div class="relative w-full aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-[#2B1D14]/15 bg-slate-900 cursor-pointer reel-video-trigger"
+        <div class="reel-card-item w-[170px] sm:w-[190px] md:w-[210px] shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1">
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
                  data-video-url="https://www.instagram.com/reel/DcF7UytJq4c" 
                  data-poster="./static/reel5-thumbnail.png"
                  data-video-title="Alora Radiance Face Serum">
                 <img src="./static/reel5-thumbnail.png" alt="Alora Video Reel 5" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/40 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
-                        <i class="fa-solid fa-play text-sm ml-0.5"></i>
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                        <i class="fa-solid fa-play text-xs ml-0.5"></i>
                     </div>
                 </div>
-                <div class="absolute bottom-3.5 sm:bottom-4 left-3.5 sm:left-4 right-3.5 sm:right-4 text-white text-xs font-medium leading-snug drop-shadow-md flex items-center justify-between gap-2 font-body">
+                <div class="absolute bottom-3 left-3 right-3 text-white text-[11px] sm:text-xs font-medium leading-snug drop-shadow-md flex items-center justify-between gap-1.5 font-body">
                     <p class="line-clamp-2">"Brightening &amp; hydrating face serum for radiant skin ✨"</p>
-                    <span class="w-7 h-7 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center shrink-0">
-                        <i class="fa-brands fa-instagram text-xs"></i>
+                    <span class="w-6 h-6 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center shrink-0 text-[10px]">
+                        <i class="fa-brands fa-instagram"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Reel 6 -->
+        <div class="reel-card-item w-[170px] sm:w-[190px] md:w-[210px] shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1">
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
+                 data-video-url="https://www.instagram.com/reel/Db003y_vnCo/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" 
+                 data-poster="./static/reel1-thumbnail.png"
+                 data-video-title="Alora Skincare Reel 1">
+                <img src="./static/reel1-thumbnail.png" alt="Alora Video Reel 6" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                        <i class="fa-solid fa-play text-xs ml-0.5"></i>
+                    </div>
+                </div>
+                <div class="absolute bottom-3 left-3 right-3 text-white text-[11px] sm:text-xs font-medium leading-snug drop-shadow-md flex items-center justify-between gap-1.5 font-body">
+                    <p class="line-clamp-2">"Instant dewy glow &amp; lightweight feel 🌿"</p>
+                    <span class="w-6 h-6 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center shrink-0 text-[10px]">
+                        <i class="fa-brands fa-instagram"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Reel 7 -->
+        <div class="reel-card-item w-[170px] sm:w-[190px] md:w-[210px] shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1">
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
+                 data-video-url="https://www.instagram.com/reel/DcLflVtTzKL/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" 
+                 data-poster="./static/reel2-thumbnail.png"
+                 data-video-title="Alora Skincare Reel 2">
+                <img src="./static/reel2-thumbnail.png" alt="Alora Video Reel 7" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                        <i class="fa-solid fa-play text-xs ml-0.5"></i>
+                    </div>
+                </div>
+                <div class="absolute bottom-3 left-3 right-3 text-white text-[11px] sm:text-xs font-medium leading-snug drop-shadow-md flex items-center justify-between gap-1.5 font-body">
+                    <p class="line-clamp-2">"Saffron power for even skin tone ✨"</p>
+                    <span class="w-6 h-6 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center shrink-0 text-[10px]">
+                        <i class="fa-brands fa-instagram"></i>
                     </span>
                 </div>
             </div>
@@ -1208,11 +1264,12 @@
 
 </section>
 
+    <!-- Video Modal Player -->
     <div id="watchItVideoModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md items-center justify-center p-4 transition-all">
         <div class="relative w-full max-w-lg bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-white/20">
             <div class="flex items-center justify-between px-5 py-3.5 bg-slate-900/90 border-b border-white/10 text-white">
                 <h3 id="watchItVideoModalTitle" class="text-sm font-bold truncate font-fraunces">Watch Video</h3>
-                <button type="button" onclick="closeReelVideoModal()" aria-label="Close Video" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all">
+                <button type="button" onclick="closeReelVideoModal()" aria-label="Close Video" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer">
                     <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
@@ -1224,6 +1281,7 @@
     
     <script>
         // Desktop Mouse Drag to Scroll for watchItCarousel
+        let isCarouselDragging = false;
         document.addEventListener("DOMContentLoaded", function() {
             const carousel = document.getElementById("watchItCarousel");
             if (!carousel) return;
@@ -1233,6 +1291,7 @@
 
             carousel.addEventListener("mousedown", function(e) {
                 isDown = true;
+                isCarouselDragging = false;
                 carousel.classList.add("cursor-grabbing");
                 startX = e.pageX - carousel.offsetLeft;
                 scrollLeft = carousel.scrollLeft;
@@ -1244,21 +1303,24 @@
             carousel.addEventListener("mouseup", function() {
                 isDown = false;
                 carousel.classList.remove("cursor-grabbing");
+                setTimeout(function() { isCarouselDragging = false; }, 80);
             });
             carousel.addEventListener("mousemove", function(e) {
                 if (!isDown) return;
-                e.preventDefault();
                 const x = e.pageX - carousel.offsetLeft;
                 const walk = (x - startX) * 1.5;
+                if (Math.abs(walk) > 6) {
+                    isCarouselDragging = true;
+                }
                 carousel.scrollLeft = scrollLeft - walk;
             });
         });
 
-        // Carousel scroll function
+        // Carousel scroll function with navigation buttons
         function scrollWatchItCarousel(direction) {
             const container = document.getElementById('watchItCarousel');
             if (!container) return;
-            const scrollAmount = 300;
+            const scrollAmount = 320;
             if (direction === 'left') {
                 container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
             } else {
@@ -1269,7 +1331,6 @@
         // Open video reel redirect or modal
         function openReelVideoModal(url, title) {
             if (!url) return;
-            // Directly open Instagram, TikTok, YouTube links, or external URLs in a new tab
             if (url.includes('instagram.com') || url.includes('tiktok.com') || url.includes('reel') || url.includes('facebook.com') || url.startsWith('http')) {
                 window.open(url, '_blank', 'noopener,noreferrer');
                 return;
@@ -1315,7 +1376,6 @@
                 }
 
                 if (videoUrl) {
-                    // 1. YouTube Video URL detection
                     let ytVideoId = null;
                     if (videoUrl.includes('youtube.com/watch?v=')) {
                         ytVideoId = videoUrl.split('v=')[1]?.split('&')[0];
@@ -1330,7 +1390,6 @@
                         return;
                     }
 
-                    // 2. Instagram Reel URL detection
                     const igMatch = videoUrl.match(/instagram\.com\/(?:reel|reels|p)\/([a-zA-Z0-9_-]+)/i);
                     if (igMatch && igMatch[1]) {
                         const shortcode = igMatch[1];
@@ -1351,6 +1410,10 @@
 
             document.querySelectorAll('.reel-video-trigger').forEach(function(card) {
                 card.addEventListener('click', function(e) {
+                    if (isCarouselDragging) {
+                        e.preventDefault();
+                        return;
+                    }
                     e.preventDefault();
                     const videoUrl = this.getAttribute('data-video-url');
                     const videoTitle = this.getAttribute('data-video-title');
@@ -1358,7 +1421,6 @@
                 });
             });
 
-            // Close modal when clicking outside modal box
             const videoModal = document.getElementById('watchItVideoModal');
             if (videoModal) {
                 videoModal.addEventListener('click', function(e) {
@@ -1370,12 +1432,7 @@
         });
     </script>
 
-
-
-
-
-
-    <!-- ============ TOXIN-FREE PROMISE (CONTINUOUS SLIDING TICKER) ============ -->
+<!-- ============ TOXIN-FREE PROMISE (CONTINUOUS SLIDING TICKER) ============ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
 
             

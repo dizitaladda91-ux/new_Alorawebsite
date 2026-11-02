@@ -436,6 +436,17 @@ async function applyCoupon() {
         }
         return;
     }
+    if (typedCode === "DIWALI20" || typedCode === "DIWALI" || typedCode === "FESTIVE20" || typedCode === "DIWALI20OFF") {
+        if (addAppliedCoupon(typedCode, 20)) {
+            couponMessage.innerText = `🪔 Shubh Diwali Special Coupon '${typedCode}' applied successfully! (20% Off)`;
+            couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
+            couponInput.value = "";
+        } else {
+            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
+            couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
+        }
+        return;
+    }
     if (typedCode === "GLOW10") {
         if (addAppliedCoupon(typedCode, 10)) {
             couponMessage.innerText = "Coupon 'GLOW10' applied successfully! (10% Off)";

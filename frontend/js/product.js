@@ -526,17 +526,54 @@ function renderGoodToKnowFaqs(product) {
             {
                 question: "How often should I use the Face Scrub?",
                 answer: "Use the Face Scrub 2–3 times a week to gently exfoliate dead skin cells, unclog pores, and restore skin smoothness."
+            },
+            {
+                question: "Are Alora Radiance products safe and dermatologically tested?",
+                answer: "Yes, all Alora Radiance formulations are 100% dermatologically tested, paraben-free, cruelty-free, and formulated with clean, high-grade ingredients safe for all skin types."
+            },
+            {
+                question: "What is the difference between a face serum and a toner?",
+                answer: "A toner re-balances your skin's natural pH and preps pores after cleansing. A face serum is a high-potency treatment with smaller molecules that penetrate deeper into the dermis to deliver active botanicals."
+            },
+            {
+                question: "Does Alora Radiance offer skincare kits or bundles?",
+                answer: "Yes! We offer curated value sets including our Saffron Glow Day & Night Kit and Daily Radiance Trio — designed to work in synergy for visible results with exclusive savings."
+            },
+            {
+                question: "How long does it take to see visible results?",
+                answer: "Most customers notice softer, more hydrated skin within 3 to 7 days. Significant improvements in radiance and skin texture typically appear within 3 to 4 weeks of consistent routine."
+            },
+            {
+                question: "How can I track my order?",
+                answer: "You can easily track your order in real-time by visiting our Track Order page and entering your Order ID and phone number."
             }
         ];
-    faqList.innerHTML = faqsToRender.map((faq, index) => `
-        <details class="group bg-white p-5 rounded-2xl border border-amber-900/15 shadow-xs transition-all duration-300 open:shadow-md" ${index === 0 ? 'open' : ''}>
-            <summary class="flex justify-between items-center font-fraunces font-bold text-slate-900 text-sm sm:text-base cursor-pointer list-none select-none">
-                <span>${escapeHTML(faq.question)}</span>
-                <span class="w-8 h-8 rounded-full bg-amber-100 text-[#8B4513] flex items-center justify-center text-xs group-open:rotate-45 transition-transform"><i class="fa-solid fa-plus"></i></span>
+
+    const half = Math.ceil(faqsToRender.length / 2);
+    const col1 = faqsToRender.slice(0, half);
+    const col2 = faqsToRender.slice(half);
+
+    const renderCard = (faq, idx) => `
+        <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md" ${idx === 0 ? 'open' : ''}>
+            <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                <span class="leading-snug">${escapeHTML(faq.question)}</span>
+                <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200">
+                    <i class="fa-solid fa-plus"></i>
+                </span>
             </summary>
-            <p class="text-xs sm:text-sm text-slate-600 mt-3 pl-3 border-l-2 border-[#8B4513] leading-relaxed font-sans">
+            <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
                 ${escapeHTML(faq.answer)}
             </p>
         </details>
-    `).join('');
+    `;
+
+    faqList.className = "grid grid-cols-1 lg:grid-cols-2 gap-3.5 sm:gap-5 text-left items-start";
+    faqList.innerHTML = `
+        <div class="space-y-3.5 sm:space-y-4">
+            ${col1.map((f, i) => renderCard(f, i)).join('')}
+        </div>
+        <div class="space-y-3.5 sm:space-y-4">
+            ${col2.map((f, i) => renderCard(f, i + half)).join('')}
+        </div>
+    `;
 }

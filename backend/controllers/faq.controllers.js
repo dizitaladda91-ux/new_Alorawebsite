@@ -2,45 +2,63 @@ import Faq from "../models/faq.models.js";
 
 const BASE_DEFAULT_FAQS = [
     {
-        question: "Can I use the Alora Radiance Face Wash every day?",
-        answer: "Yes! Our Face Wash is dermatologist-formulated to be gentle enough for daily use, morning and night, to remove impurities without stripping skin moisture.",
+        question: "What is Alora Radiance known for?",
+        answer: "Alora Radiance is known for dermatologically tested, toxin-free skincare built around a small set of clinically proven botanical actives like saffron, shea butter, and retinol. The brand is recognized for full ingredient transparency and formulations manufactured in WHO-GMP and FDA-approved facilities.",
         order: 1,
         isActive: true
     },
     {
-        question: "Can I use the Face Serum every day?",
-        answer: "Yes. Apply 3-4 drops daily after cleansing and before your face cream. If you are new to active Retinol, start with alternate nights.",
+        question: "What are the 5 basics of a skincare routine?",
+        answer: "A complete everyday skincare routine consists of: 1. Cleanser (to remove dirt & pollution), 2. Toner (to balance pH), 3. Serum (concentrated actives targeting specific concerns), 4. Moisturizer/Cream (to lock in hydration), and 5. Sunscreen/SPF (to shield against UV rays and premature ageing).",
         order: 2,
         isActive: true
     },
     {
-        question: "When should I apply the Face Cream?",
-        answer: "Apply the Face Cream right after your serum, morning and night, to lock in active ingredients and seal 24-hour hydration.",
+        question: "What is the difference between a face serum and a toner?",
+        answer: "A toner re-balances your skin's natural pH and preps pores after cleansing. A face serum is a high-potency treatment with smaller molecules that penetrate deeper into the dermis to deliver active botanicals like saffron and hyaluronic acid directly to skin cells.",
         order: 3,
         isActive: true
     },
     {
-        question: "Can I use the Body Lotion every day?",
-        answer: "Yes! Apply daily right after a bath/shower when skin is damp for maximum absorption and long-lasting velvety softness.",
+        question: "Does Alora Radiance offer skincare kits or bundles?",
+        answer: "Yes! We offer curated value sets including our Saffron Glow Day & Night Kit, Daily Radiance Trio, and Complete Barrier Repair Bundle — designed to work in synergy for visible results with exclusive combo savings.",
         order: 4,
         isActive: true
     },
     {
-        question: "How often should I use the Face Scrub?",
-        answer: "Use the Face Scrub 2–3 times a week to gently exfoliate dead skin cells, unclog pores, and restore skin smoothness.",
+        question: "Can I use the Alora Radiance Face Wash every day?",
+        answer: "Yes! Our Face Wash is dermatologist-formulated to be gentle enough for daily use, morning and night, to remove impurities and excess sebum without stripping your skin's natural moisture barrier.",
         order: 5,
         isActive: true
     },
     {
-        question: "Are Alora Radiance products safe and dermatologically tested?",
-        answer: "Yes, all Alora Radiance formulations are 100% dermatologically tested, paraben-free, cruelty-free, and formulated with clean, high-grade ingredients safe for all skin types.",
+        question: "Can I use the Face Serum and Day Cream together?",
+        answer: "Absolutely. Apply 3-4 drops of Face Serum first onto freshly cleansed skin. Allow 30-60 seconds for absorption, then apply your Saffron Day Cream or Night Elixir to seal in active nutrients and moisture.",
         order: 6,
         isActive: true
     },
     {
-        question: "How can I track my order?",
-        answer: "You can easily track your order in real-time by visiting our Track Order page and entering your Order ID and phone number.",
+        question: "Are Alora Radiance products safe and dermatologically tested?",
+        answer: "Yes, 100% of our products undergo rigorous clinical patch-testing. They are certified toxin-free, paraben-free, cruelty-free, and formulated to be safe even for sensitive or acne-prone skin types.",
         order: 7,
+        isActive: true
+    },
+    {
+        question: "How often should I use the Face Scrub?",
+        answer: "We recommend using the Face Scrub 2 to 3 times a week. Gentle circular massage buffs away dead skin cells and unclogs pores without causing micro-tears or irritation.",
+        order: 8,
+        isActive: true
+    },
+    {
+        question: "How long does it take to see visible results?",
+        answer: "Most customers notice softer, more hydrated skin within 3 to 7 days. Significant improvements in radiance, skin texture, and reduced hyperpigmentation are typically visible after 3 to 4 weeks of consistent routine.",
+        order: 9,
+        isActive: true
+    },
+    {
+        question: "How can I track my order?",
+        answer: "Once dispatched, you receive instant SMS and email updates with a live tracking link. You can also visit our Track Order page anytime and enter your Order ID or mobile number to track delivery in real time.",
+        order: 10,
         isActive: true
     }
 ];

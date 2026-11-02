@@ -44,12 +44,15 @@ function renderLeadsTable() {
                         </div>
                     </div>
                 </td>
-                <!-- 2. Email Address -->
+                <!-- 2. Email Address & Campaign Source -->
                 <td class="py-4 px-6">
-                    <div class="flex items-center gap-1.5 text-gray-600 text-xs font-medium">
-                        <i class="fa-regular fa-envelope text-gray-400"></i>
+                    <div class="flex items-center gap-1.5 text-gray-800 text-xs font-semibold">
+                        <i class="fa-regular fa-envelope text-[#D98E2B]"></i>
                         ${lead.email}
                     </div>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100/80 text-amber-900 border border-amber-300/60 mt-1">
+                        <i class="fa-solid fa-tag text-[9px] text-[#D98E2B]"></i> ${lead.source || 'Website Lead'}
+                    </span>
                 </td>
                 <!-- 3. Joined Date & Time -->
                 <td class="py-4 px-6 text-xs text-gray-500 font-medium">

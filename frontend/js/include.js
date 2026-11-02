@@ -118,20 +118,38 @@ async function refreshPageFaqs() {
         if (!res.ok) return;
         const data = await res.json();
         if (data && data.success && Array.isArray(data.data) && data.data.length > 0) {
-            container.innerHTML = data.data.map((faq, idx) => {
+            const escapeStr = str => !str ? '' : String(str).replace(/[&<>'"]/g, t => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[t] || t));
+            const renderFaqCard = (faq, idx) => {
                 const isOpen = idx === 0 ? "open" : "";
                 return `
-                    <details class="group bg-white p-5 rounded-2xl border border-amber-900/15 shadow-xs transition-all duration-300 open:shadow-md" ${isOpen}>
-                        <summary class="flex justify-between items-center font-fraunces font-bold text-slate-900 text-sm sm:text-base cursor-pointer list-none select-none">
-                            <span>${faq.question}</span>
-                            <span class="w-8 h-8 rounded-full bg-amber-100 text-[#8B4513] flex items-center justify-center text-xs group-open:rotate-45 transition-transform"><i class="fa-solid fa-plus"></i></span>
+                    <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md" ${isOpen}>
+                        <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                            <span class="leading-snug">${escapeStr(faq.question)}</span>
+                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200">
+                                <i class="fa-solid fa-plus"></i>
+                            </span>
                         </summary>
-                        <p class="text-xs sm:text-sm text-slate-600 mt-3 pl-3 border-l-2 border-[#8B4513] leading-relaxed font-sans">
-                            ${faq.answer}
+                        <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+                            ${escapeStr(faq.answer)}
                         </p>
                     </details>
                 `;
-            }).join('');
+            };
+
+            const list = data.data;
+            const half = Math.ceil(list.length / 2);
+            const col1 = list.slice(0, half);
+            const col2 = list.slice(half);
+
+            container.className = "grid grid-cols-1 lg:grid-cols-2 gap-3.5 sm:gap-5 text-left items-start";
+            container.innerHTML = `
+                <div class="space-y-3.5 sm:space-y-4">
+                    ${col1.map((f, i) => renderFaqCard(f, i)).join('')}
+                </div>
+                <div class="space-y-3.5 sm:space-y-4">
+                    ${col2.map((f, i) => renderFaqCard(f, i + half)).join('')}
+                </div>
+            `;
         }
     } catch (err) {
         // keep fallback HTML if fetch fails
@@ -188,6 +206,15 @@ async function loadAllPartials() {
             script.id = "alora-chatbot-js";
             script.src = chatbotJsUrl;
             document.body.appendChild(script);
+        }
+
+        if (!isAdminOrAuth && !document.getElementById("alora-lead-script")) {
+            const isFile = location.protocol === "file:";
+            const leadScript = document.createElement("script");
+            leadScript.id = "alora-lead-script";
+            leadScript.type = "module";
+            leadScript.src = isFile ? "./js/lead.min.js" : "/js/lead.min.js";
+            document.body.appendChild(leadScript);
         }
         document.dispatchEvent(new Event("partialsLoaded"));
     };

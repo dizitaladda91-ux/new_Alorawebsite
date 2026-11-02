@@ -1,92 +1,131 @@
-<!-- ============ SHARED FAQ SECTION (LUXURY GLASS ACCORDION) ============ -->
-<section class="max-w-7xl mx-auto px-4 py-8 sm:py-12">
-    <div class="bg-gradient-to-b from-[#FBF8F3] via-white to-[#FBF8F3] rounded-3xl p-6 sm:p-12 border border-amber-900/15 shadow-xl relative overflow-hidden">
+<!-- ============ SHARED FAQ SECTION (GOOD TO KNOW - 2 COLUMNS: 5 ON LEFT, 5 ON RIGHT) ============ -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+    
+    <div class="max-w-2xl mx-auto text-center mb-8 sm:mb-12">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-[#F1E6D3] text-[#2B1D14] text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase border border-[#2B1D14]/10 mb-2.5 select-none">
+            <i class="fa-solid fa-circle-question text-[#D98E2B]"></i> Frequently Asked Questions
+        </span>
+        <h2 class="text-2xl sm:text-4xl font-heading font-bold text-[#2B1D14] leading-tight">
+            Good To Know
+        </h2>
+        <p class="text-xs sm:text-sm text-[#2B1D14]/70 mt-1.5 font-body">
+            Have questions about usage, ingredients, or daily routines? Find fast answers below.
+        </p>
+    </div>
+
+    <!-- 2 Parts: 5 FAQs on Left Column, 5 FAQs on Right Column (Edge-to-Edge Without Restrictive Box) -->
+    <div id="global-faq-list" class="grid grid-cols-1 lg:grid-cols-2 gap-3.5 sm:gap-5 text-left items-start">
         
-        <div class="max-w-2xl mx-auto text-center mb-10">
-            <span class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-100/90 text-[#D98E2B] text-[11px] font-bold tracking-widest uppercase font-mono border border-amber-300 shadow-xs mb-3">
-                Frequently Asked Questions
-            </span>
-            <h2 class="text-3xl sm:text-4xl font-fraunces font-bold text-slate-900 leading-tight">
-                Good To Know
-            </h2>
-            <p class="text-xs sm:text-sm text-slate-600 mt-2 font-sans">
-                Have questions about usage, ingredients, or daily routines? Find fast answers below.
-            </p>
-        </div>
-
-        <div id="global-faq-list" class="max-w-3xl mx-auto space-y-4 text-left">
+        <!-- Left Side: 5 FAQs -->
+        <div class="space-y-3.5 sm:space-y-4">
             
-            <details class="group bg-white p-5 rounded-2xl border border-amber-900/15 shadow-xs transition-all duration-300 open:shadow-md" open>
-                <summary class="flex justify-between items-center font-fraunces font-bold text-slate-900 text-sm sm:text-base cursor-pointer list-none select-none">
-                    <span>Can I use the Alora Radiance Face Wash every day?</span>
-                    <span class="w-8 h-8 rounded-full bg-amber-100 text-[#D98E2B] flex items-center justify-center text-xs group-open:rotate-45 transition-transform"><i class="fa-solid fa-plus"></i></span>
+            <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md" open>
+                <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                    <span class="leading-snug">What is Alora Radiance known for?</span>
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200"><i class="fa-solid fa-plus"></i></span>
                 </summary>
-                <p class="text-xs sm:text-sm text-slate-600 mt-3 pl-3 border-l-2 border-[#D98E2B] leading-relaxed font-sans">
-                    Yes! Our Face Wash is dermatologist-formulated to be gentle enough for daily use, morning and night, to remove impurities without stripping skin moisture.
+                <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+                    Alora Radiance is known for dermatologically tested, toxin-free skincare built around a small set of clinically proven botanical actives like saffron, shea butter, and retinol. The brand is recognized for full ingredient transparency and formulations manufactured in WHO-GMP and FDA-approved facilities.
                 </p>
             </details>
 
-            <details class="group bg-white p-5 rounded-2xl border border-amber-900/15 shadow-xs transition-all duration-300 open:shadow-md">
-                <summary class="flex justify-between items-center font-fraunces font-bold text-slate-900 text-sm sm:text-base cursor-pointer list-none select-none">
-                    <span>Can I use the Face Serum every day?</span>
-                    <span class="w-8 h-8 rounded-full bg-amber-100 text-[#D98E2B] flex items-center justify-center text-xs group-open:rotate-45 transition-transform"><i class="fa-solid fa-plus"></i></span>
+            <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md">
+                <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                    <span class="leading-snug">What are the 5 basics of a skincare routine?</span>
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200"><i class="fa-solid fa-plus"></i></span>
                 </summary>
-                <p class="text-xs sm:text-sm text-slate-600 mt-3 pl-3 border-l-2 border-[#D98E2B] leading-relaxed font-sans">
-                    Yes. Apply 3-4 drops daily after cleansing and before your face cream. If you are new to active Retinol, start with alternate nights.
+                <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+                    A complete everyday skincare routine consists of: 1. Cleanser (to remove dirt &amp; pollution), 2. Toner (to balance pH), 3. Serum (concentrated actives targeting specific concerns), 4. Moisturizer/Cream (to lock in hydration), and 5. Sunscreen/SPF (to shield against UV rays and premature ageing).
                 </p>
             </details>
 
-            <details class="group bg-white p-5 rounded-2xl border border-amber-900/15 shadow-xs transition-all duration-300 open:shadow-md">
-                <summary class="flex justify-between items-center font-fraunces font-bold text-slate-900 text-sm sm:text-base cursor-pointer list-none select-none">
-                    <span>When should I apply the Face Cream?</span>
-                    <span class="w-8 h-8 rounded-full bg-amber-100 text-[#D98E2B] flex items-center justify-center text-xs group-open:rotate-45 transition-transform"><i class="fa-solid fa-plus"></i></span>
+            <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md">
+                <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                    <span class="leading-snug">What is the difference between a face serum and a toner?</span>
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200"><i class="fa-solid fa-plus"></i></span>
                 </summary>
-                <p class="text-xs sm:text-sm text-slate-600 mt-3 pl-3 border-l-2 border-[#D98E2B] leading-relaxed font-sans">
-                    Apply the Face Cream right after your serum, morning and night, to lock in active ingredients and seal 24-hour hydration.
+                <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+                    A toner re-balances your skin's natural pH and preps pores after cleansing. A face serum is a high-potency treatment with smaller molecules that penetrate deeper into the dermis to deliver active botanicals like saffron and hyaluronic acid directly to skin cells.
                 </p>
             </details>
 
-            <details class="group bg-white p-5 rounded-2xl border border-amber-900/15 shadow-xs transition-all duration-300 open:shadow-md">
-                <summary class="flex justify-between items-center font-fraunces font-bold text-slate-900 text-sm sm:text-base cursor-pointer list-none select-none">
-                    <span>Can I use the Body Lotion every day?</span>
-                    <span class="w-8 h-8 rounded-full bg-amber-100 text-[#D98E2B] flex items-center justify-center text-xs group-open:rotate-45 transition-transform"><i class="fa-solid fa-plus"></i></span>
+            <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md">
+                <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                    <span class="leading-snug">Does Alora Radiance offer skincare kits or bundles?</span>
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200"><i class="fa-solid fa-plus"></i></span>
                 </summary>
-                <p class="text-xs sm:text-sm text-slate-600 mt-3 pl-3 border-l-2 border-[#D98E2B] leading-relaxed font-sans">
-                    Yes! Apply daily right after a bath/shower when skin is damp for maximum absorption and long-lasting velvety softness.
+                <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+                    Yes! We offer curated value sets including our Saffron Glow Day &amp; Night Kit, Daily Radiance Trio, and Complete Barrier Repair Bundle — designed to work in synergy for visible results with exclusive combo savings.
                 </p>
             </details>
 
-            <details class="group bg-white p-5 rounded-2xl border border-amber-900/15 shadow-xs transition-all duration-300 open:shadow-md">
-                <summary class="flex justify-between items-center font-fraunces font-bold text-slate-900 text-sm sm:text-base cursor-pointer list-none select-none">
-                    <span>How often should I use the Face Scrub?</span>
-                    <span class="w-8 h-8 rounded-full bg-amber-100 text-[#D98E2B] flex items-center justify-center text-xs group-open:rotate-45 transition-transform"><i class="fa-solid fa-plus"></i></span>
+            <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md">
+                <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                    <span class="leading-snug">Can I use the Alora Radiance Face Wash every day?</span>
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200"><i class="fa-solid fa-plus"></i></span>
                 </summary>
-                <p class="text-xs sm:text-sm text-slate-600 mt-3 pl-3 border-l-2 border-[#D98E2B] leading-relaxed font-sans">
-                    Use the Face Scrub 2–3 times a week to gently exfoliate dead skin cells, unclog pores, and restore skin smoothness.
-                </p>
-            </details>
-
-            <details class="group bg-white p-5 rounded-2xl border border-amber-900/15 shadow-xs transition-all duration-300 open:shadow-md">
-                <summary class="flex justify-between items-center font-fraunces font-bold text-slate-900 text-sm sm:text-base cursor-pointer list-none select-none">
-                    <span>Are Alora Radiance products safe and dermatologically tested?</span>
-                    <span class="w-8 h-8 rounded-full bg-amber-100 text-[#D98E2B] flex items-center justify-center text-xs group-open:rotate-45 transition-transform"><i class="fa-solid fa-plus"></i></span>
-                </summary>
-                <p class="text-xs sm:text-sm text-slate-600 mt-3 pl-3 border-l-2 border-[#D98E2B] leading-relaxed font-sans">
-                    Yes, all Alora Radiance formulations are 100% dermatologically tested, paraben-free, cruelty-free, and formulated with clean, high-grade ingredients safe for all skin types.
-                </p>
-            </details>
-
-            <details class="group bg-white p-5 rounded-2xl border border-amber-900/15 shadow-xs transition-all duration-300 open:shadow-md">
-                <summary class="flex justify-between items-center font-fraunces font-bold text-slate-900 text-sm sm:text-base cursor-pointer list-none select-none">
-                    <span>How can I track my order?</span>
-                    <span class="w-8 h-8 rounded-full bg-amber-100 text-[#D98E2B] flex items-center justify-center text-xs group-open:rotate-45 transition-transform"><i class="fa-solid fa-plus"></i></span>
-                </summary>
-                <p class="text-xs sm:text-sm text-slate-600 mt-3 pl-3 border-l-2 border-[#D98E2B] leading-relaxed font-sans">
-                    You can easily track your order in real-time by visiting our <a href="/trackorder.html" class="text-[#D98E2B] hover:underline font-bold">Track Order</a> page and entering your Order ID and phone number.
+                <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+                    Yes! Our Face Wash is dermatologist-formulated to be gentle enough for daily use, morning and night, to remove impurities and excess sebum without stripping your skin's natural moisture barrier.
                 </p>
             </details>
 
         </div>
+
+        <!-- Right Side: 5 FAQs -->
+        <div class="space-y-3.5 sm:space-y-4">
+            
+            <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md">
+                <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                    <span class="leading-snug">Can I use the Face Serum and Day Cream together?</span>
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200"><i class="fa-solid fa-plus"></i></span>
+                </summary>
+                <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+                    Absolutely. Apply 3-4 drops of Face Serum first onto freshly cleansed skin. Allow 30-60 seconds for absorption, then apply your Saffron Day Cream or Night Elixir to seal in active nutrients and moisture.
+                </p>
+            </details>
+
+            <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md">
+                <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                    <span class="leading-snug">Are Alora Radiance products safe and dermatologically tested?</span>
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200"><i class="fa-solid fa-plus"></i></span>
+                </summary>
+                <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+                    Yes, 100% of our products undergo rigorous clinical patch-testing. They are certified toxin-free, paraben-free, cruelty-free, and formulated to be safe even for sensitive or acne-prone skin types.
+                </p>
+            </details>
+
+            <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md">
+                <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                    <span class="leading-snug">How often should I use the Face Scrub?</span>
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200"><i class="fa-solid fa-plus"></i></span>
+                </summary>
+                <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+                    We recommend using the Face Scrub 2 to 3 times a week. Gentle circular massage buffs away dead skin cells and unclogs pores without causing micro-tears or irritation.
+                </p>
+            </details>
+
+            <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md">
+                <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                    <span class="leading-snug">How long does it take to see visible results?</span>
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200"><i class="fa-solid fa-plus"></i></span>
+                </summary>
+                <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+                    Most customers notice softer, more hydrated skin within 3 to 7 days. Significant improvements in radiance, skin texture, and reduced hyperpigmentation are typically visible after 3 to 4 weeks of consistent routine.
+                </p>
+            </details>
+
+            <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md">
+                <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                    <span class="leading-snug">How can I track my order?</span>
+                    <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200"><i class="fa-solid fa-plus"></i></span>
+                </summary>
+                <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+                    Once dispatched, you receive instant SMS and email updates with a live tracking link. You can also visit our <a href="/trackorder.html" class="text-[#D98E2B] hover:underline font-bold">Track Order</a> page anytime and enter your Order ID or mobile number to track delivery in real time.
+                </p>
+            </details>
+
+        </div>
+
     </div>
 </section>
 
@@ -95,7 +134,6 @@
         const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:";
         const baseUrl = (window.BASE_URL !== undefined && window.BASE_URL !== null) ? window.BASE_URL : (isLocal ? "http://localhost:5000" : "");
         
-        // 🚀 Auto-Detect Current Storefront Page (4 Main Dedicated Categories)
         let pageCategory = "Landing Page";
         const path = (window.location.pathname || "").toLowerCase();
         
@@ -109,11 +147,29 @@
             pageCategory = "Landing Page";
         }
 
-        // Allow explicit override via DOM attribute data-faq-page
         const customSlot = document.querySelector("[data-faq-page]");
         if (customSlot && customSlot.getAttribute("data-faq-page")) {
             pageCategory = customSlot.getAttribute("data-faq-page");
         }
+
+        const escapeStr = str => !str ? '' : String(str).replace(/[&<>'"]/g, t => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[t] || t));
+
+        const renderFaqCard = (faq, idx) => {
+            const isOpen = idx === 0 ? "open" : "";
+            return `
+                <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md" ${isOpen}>
+                    <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+                        <span class="leading-snug">${escapeStr(faq.question)}</span>
+                        <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200">
+                            <i class="fa-solid fa-plus"></i>
+                        </span>
+                    </summary>
+                    <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+                        ${escapeStr(faq.answer)}
+                    </p>
+                </details>
+            `;
+        };
 
         fetch(`${baseUrl}/api/faqs?page=${encodeURIComponent(pageCategory)}`)
             .then(res => res.ok ? res.json() : null)
@@ -122,22 +178,19 @@
                     const container = document.getElementById('global-faq-list');
                     if (!container) return;
                     
-                    const html = data.data.map((faq, idx) => {
-                        const isOpen = idx === 0 ? "open" : "";
-                        return `
-                            <details class="group bg-white p-5 rounded-2xl border border-amber-900/15 shadow-xs transition-all duration-300 open:shadow-md" ${isOpen}>
-                                <summary class="flex justify-between items-center font-fraunces font-bold text-slate-900 text-sm sm:text-base cursor-pointer list-none select-none">
-                                    <span>${faq.question}</span>
-                                    <span class="w-8 h-8 rounded-full bg-amber-100 text-[#D98E2B] flex items-center justify-center text-xs group-open:rotate-45 transition-transform"><i class="fa-solid fa-plus"></i></span>
-                                </summary>
-                                <p class="text-xs sm:text-sm text-slate-600 mt-3 pl-3 border-l-2 border-[#D98E2B] leading-relaxed font-sans">
-                                    ${faq.answer}
-                                </p>
-                            </details>
-                        `;
-                    }).join('');
-                    
-                    container.innerHTML = html;
+                    const list = data.data;
+                    const half = Math.ceil(list.length / 2);
+                    const col1 = list.slice(0, half);
+                    const col2 = list.slice(half);
+
+                    container.innerHTML = `
+                        <div class="space-y-3.5 sm:space-y-4">
+                            ${col1.map((f, i) => renderFaqCard(f, i)).join('')}
+                        </div>
+                        <div class="space-y-3.5 sm:space-y-4">
+                            ${col2.map((f, i) => renderFaqCard(f, i + half)).join('')}
+                        </div>
+                    `;
                 }
             })
             .catch(() => {});
