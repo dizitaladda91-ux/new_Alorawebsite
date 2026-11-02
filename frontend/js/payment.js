@@ -251,7 +251,7 @@ button?.addEventListener("click", async (e) => {
     }
 });
 function showPaymentSuccessPopup(orderInfo) {
-    const isDiwaliCampaignActive = Date.now() <= Date.parse("2026-11-08T23:59:59+05:30");
+    const isDiwaliCampaignActive = window.isFestivalDateActive?.() === true;
     const modal = document.createElement('div');
     modal.id = 'payment-success-modal';
     modal.innerHTML = `
@@ -289,13 +289,7 @@ function showPaymentSuccessPopup(orderInfo) {
         </div>
     `;
     document.body.appendChild(modal);
-    if (isDiwaliCampaignActive) {
-        if (typeof window.playDiwaliFireworks === "function") {
-            window.playDiwaliFireworks();
-        } else {
-            window.aloraDiwaliFireworksPending = true;
-        }
-    }
+    if (isDiwaliCampaignActive) window.triggerDiwaliFireworks?.({ orderSuccess: true });
     document.getElementById('download-receipt-btn')?.addEventListener('click', function() {
         printReceipt(orderInfo);
     });

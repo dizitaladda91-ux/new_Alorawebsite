@@ -1,15 +1,39 @@
 <!-- announcement bar & navbar.html -->
 <style>
+    body:not(.diwali-festival-active) .top-ticker-bar.diwali-ticker {
+        background: #FBF7F0 !important;
+        color: #2B1D14 !important;
+        border-color: rgba(43, 29, 20, 0.12) !important;
+    }
+
+    body:not(.diwali-festival-active) .top-ticker-bar.diwali-ticker * {
+        color: #2B1D14 !important;
+    }
+
+    body:not(.diwali-festival-active) .top-ticker-bar.diwali-ticker .diwali-ticker-label {
+        color: #7A1030 !important;
+        animation: none;
+    }
+
+    body.diwali-festival-active .top-ticker-bar.diwali-ticker {
+        background: linear-gradient(90deg, #481C16 0%, #71311D 50%, #481C16 100%) !important;
+        color: #FBF7F0 !important;
+    }
+
+    body:not(.diwali-festival-active) .top-ticker-bar.diwali-ticker .diwali-ticker-lamp {
+        display: none;
+    }
+
     .top-ticker-bar.diwali-ticker,
     .top-ticker-bar.diwali-ticker * {
         background-color: transparent !important;
     }
 
-    .top-ticker-bar.diwali-ticker .diwali-ticker-label {
+    body.diwali-festival-active .top-ticker-bar.diwali-ticker .diwali-ticker-label {
         animation: diwali-ticker-glow 2.4s ease-in-out infinite;
     }
 
-    .top-ticker-bar.diwali-ticker .diwali-ticker-lamp {
+    body.diwali-festival-active .top-ticker-bar.diwali-ticker .diwali-ticker-lamp {
         display: inline-block;
         transform-origin: center bottom;
         animation: diwali-lamp-flicker 2s ease-in-out infinite;
@@ -26,64 +50,64 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .top-ticker-bar.diwali-ticker .diwali-ticker-label,
-        .top-ticker-bar.diwali-ticker .diwali-ticker-lamp {
+        body.diwali-festival-active .top-ticker-bar.diwali-ticker .diwali-ticker-label,
+        body.diwali-festival-active .top-ticker-bar.diwali-ticker .diwali-ticker-lamp {
             animation: none;
         }
     }
 </style>
 <!-- ============ TOP INFINITE MOVING TICKER ANNOUNCEMENT BAR (DIWALI) ============ -->
-<div style="background: linear-gradient(90deg, #481C16 0%, #71311D 50%, #481C16 100%) !important; color: #FBF7F0 !important;" class="top-ticker-bar diwali-ticker w-full py-2.5 px-0 shadow-md border-b border-[#D98E2B]/60 relative z-30 overflow-hidden min-h-[40px] flex items-center select-none">
+<div class="top-ticker-bar diwali-ticker w-full py-2.5 px-0 shadow-md border-b border-[#D98E2B]/60 relative z-30 overflow-hidden min-h-[40px] flex items-center select-none">
     <div class="animate-top-ticker flex items-center whitespace-nowrap">
         <!-- Loop Item Group 1 -->
         <div class="flex items-center gap-8 px-4 text-xs sm:text-[13px] font-medium tracking-wide">
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
+            <span class="inline-flex items-center gap-2">
                 <span class="diwali-ticker-lamp" aria-hidden="true">🪔</span>
-                <span class="diwali-ticker-label uppercase tracking-wider font-bold" style="color: #FFD27A !important;">SHUBH DEEPAWALI:</span>
-                <span>Celebrate with Flat 20% OFF! Use Code: <span class="font-bold tracking-wider" style="color: #FFD27A !important;">DIWALI20</span></span>
+                <span class="diwali-ticker-label uppercase tracking-wider font-bold">ALORA RADIANCE:</span>
+                <span>Botanical skincare for radiant, healthy skin</span>
                 <span class="diwali-ticker-lamp" aria-hidden="true">🪔</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #FFD27A !important;">✦</span>
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">SPECIAL COMBOS SALE:</span>
+            <span class="ticker-star text-[11px] opacity-75">✦</span>
+            <span class="inline-flex items-center gap-2">
+                <span class="uppercase tracking-wider font-bold">SPECIAL COMBOS SALE:</span>
                 <span>Save Extra on Skincare Bundles &amp; Value Kits!</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">FREE SHIPPING:</span>
+            <span class="ticker-star text-[11px] opacity-75">✦</span>
+            <span class="inline-flex items-center gap-2">
+                <span class="uppercase tracking-wider font-bold">FREE SHIPPING:</span>
                 <span>On All Orders Above <span style="font-family: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">&#8377;</span>499 Across India!</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">DERMATOLOGIST TESTED:</span>
+            <span class="ticker-star text-[11px] opacity-75">✦</span>
+            <span class="inline-flex items-center gap-2">
+                <span class="uppercase tracking-wider font-bold">DERMATOLOGIST TESTED:</span>
                 <span>100% Toxin-Free &amp; Cruelty-Free Formulations!</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
+            <span class="ticker-star text-[11px] opacity-75">✦</span>
         </div>
         <!-- Loop Item Group 2 (Duplicate for Seamless Infinite Scroll) -->
         <div class="flex items-center gap-8 px-4 text-xs sm:text-[13px] font-medium tracking-wide">
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
+            <span class="inline-flex items-center gap-2">
                 <span class="diwali-ticker-lamp" aria-hidden="true">🪔</span>
-                <span class="diwali-ticker-label uppercase tracking-wider font-bold" style="color: #FFD27A !important;">SHUBH DEEPAWALI:</span>
-                <span>Celebrate with Flat 20% OFF! Use Code: <span class="font-bold tracking-wider" style="color: #FFD27A !important;">DIWALI20</span></span>
+                <span class="diwali-ticker-label uppercase tracking-wider font-bold">ALORA RADIANCE:</span>
+                <span>Botanical skincare for radiant, healthy skin</span>
                 <span class="diwali-ticker-lamp" aria-hidden="true">🪔</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #FFD27A !important;">✦</span>
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">SPECIAL COMBOS SALE:</span>
+            <span class="ticker-star text-[11px] opacity-75">✦</span>
+            <span class="inline-flex items-center gap-2">
+                <span class="uppercase tracking-wider font-bold">SPECIAL COMBOS SALE:</span>
                 <span>Save Extra on Skincare Bundles &amp; Value Kits!</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">FREE SHIPPING:</span>
+            <span class="ticker-star text-[11px] opacity-75">✦</span>
+            <span class="inline-flex items-center gap-2">
+                <span class="uppercase tracking-wider font-bold">FREE SHIPPING:</span>
                 <span>On All Orders Above <span style="font-family: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">&#8377;</span>499 Across India!</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">DERMATOLOGIST TESTED:</span>
+            <span class="ticker-star text-[11px] opacity-75">✦</span>
+            <span class="inline-flex items-center gap-2">
+                <span class="uppercase tracking-wider font-bold">DERMATOLOGIST TESTED:</span>
                 <span>100% Toxin-Free &amp; Cruelty-Free Formulations!</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
+            <span class="ticker-star text-[11px] opacity-75">✦</span>
         </div>
     </div>
 </div>

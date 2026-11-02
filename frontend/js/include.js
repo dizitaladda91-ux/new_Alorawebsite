@@ -1,8 +1,8 @@
 function loadDiwaliEffects() {
-    if (document.getElementById("alora-diwali-effects-script")) return;
+    if (document.getElementById("alora-diwali-mode-script")) return;
     const script = document.createElement("script");
-    script.id = "alora-diwali-effects-script";
-    script.src = location.protocol === "file:" ? "./js/diwali-effects.js" : "/js/diwali-effects.js";
+    script.id = "alora-diwali-mode-script";
+    script.src = location.protocol === "file:" ? "./js/diwali-mode.js" : "/js/diwali-mode.js";
     document.head.appendChild(script);
 }
 
