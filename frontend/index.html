@@ -669,6 +669,60 @@
             object-fit: cover;
             border-radius: 50%;
         }
+        #reviews .review-stars,
+        #reviews .reviews-rating-stars {
+            color: #f5b301;
+        }
+        #reviews .reviews-carousel {
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        #reviews .reviews-carousel::-webkit-scrollbar {
+            display: none;
+        }
+        #reviews .reviews-track {
+            display: flex;
+            width: max-content;
+        }
+        #reviews .reviews-track > div {
+            flex: 0 0 calc(100vw - 2rem);
+            margin-right: 1rem;
+        }
+        #reviews .reviews-carousel.is-animated {
+            overflow: hidden;
+        }
+        #reviews .reviews-carousel.is-animated .reviews-track {
+            animation: reviews-scroll 48s linear infinite;
+            will-change: transform;
+        }
+        #reviews .reviews-carousel.is-animated:hover .reviews-track,
+        #reviews .reviews-carousel.is-animated:focus-within .reviews-track {
+            animation-play-state: paused;
+        }
+        @keyframes reviews-scroll {
+            to {
+                transform: translateX(-50%);
+            }
+        }
+        @media (min-width: 640px) {
+            #reviews .reviews-track > div {
+                flex-basis: calc((100vw - 4rem) / 2);
+            }
+        }
+        @media (min-width: 1024px) {
+            #reviews .reviews-track > div {
+                flex-basis: calc((min(100vw, 80rem) - 7rem) / 4);
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #reviews .reviews-carousel.is-animated {
+                overflow-x: auto;
+            }
+            #reviews .reviews-carousel.is-animated .reviews-track {
+                animation: none;
+                will-change: auto;
+            }
+        }
     </style>
     <script>
         (function() {
@@ -2024,7 +2078,7 @@
 
         <!-- Overall Rating Counter Bar -->
         <div class="inline-flex items-center justify-center gap-3 mt-4 text-xs font-semibold text-[#2B1D14] bg-white py-1.5 px-4 rounded-full border border-[#2B1D14]/12 shadow-xs select-none">
-            <span class="text-[#D98E2B] font-bold text-xs flex gap-0.5">
+            <span class="reviews-rating-stars font-bold text-xs flex gap-0.5">
                 <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
             </span>
             <span class="font-bold">4.9 / 5.0 Rating</span>
@@ -2035,9 +2089,9 @@
         </div>
     </div>
 
-    <!-- Static Grid (8 Cards: 2 Rows of 4 Columns) -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+    <!-- Auto-scrolling customer reviews carousel -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reviews-carousel" role="region" aria-roledescription="carousel" aria-label="Customer reviews">
+        <div class="reviews-track">
         <!-- Review Card: MEGHA PARASHAR -->
         <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-[#2B1D14]/10 shadow-[0_2px_12px_rgba(43,29,20,0.04)] hover:shadow-[0_6px_20px_rgba(43,29,20,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
             <div>
@@ -2053,9 +2107,9 @@
                     </div>
                 </div>
 
-                <!-- 5 Stars -->
-                <div class="flex text-[#D98E2B] text-xs gap-0.5 mb-2">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <div class="review-stars flex text-xs gap-0.5 mb-2" aria-label="Rated 4.5 out of 5 stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                    <span class="ml-1 font-semibold">4.5</span>
                 </div>
 
                 <!-- Title -->
@@ -2093,9 +2147,9 @@
                     </div>
                 </div>
 
-                <!-- 5 Stars -->
-                <div class="flex text-[#D98E2B] text-xs gap-0.5 mb-2">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <div class="review-stars flex text-xs gap-0.5 mb-2" aria-label="Rated 4 out of 5 stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                    <span class="ml-1 font-semibold">4.0</span>
                 </div>
 
                 <!-- Title -->
@@ -2133,9 +2187,9 @@
                     </div>
                 </div>
 
-                <!-- 5 Stars -->
-                <div class="flex text-[#D98E2B] text-xs gap-0.5 mb-2">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <div class="review-stars flex text-xs gap-0.5 mb-2" aria-label="Rated 4.5 out of 5 stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                    <span class="ml-1 font-semibold">4.5</span>
                 </div>
 
                 <!-- Title -->
@@ -2173,9 +2227,9 @@
                     </div>
                 </div>
 
-                <!-- 5 Stars -->
-                <div class="flex text-[#D98E2B] text-xs gap-0.5 mb-2">
+                <div class="review-stars flex text-xs gap-0.5 mb-2" aria-label="Rated 5 out of 5 stars">
                     <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <span class="ml-1 font-semibold">5.0</span>
                 </div>
 
                 <!-- Title -->
@@ -2213,9 +2267,9 @@
                     </div>
                 </div>
 
-                <!-- 5 Stars -->
-                <div class="flex text-[#D98E2B] text-xs gap-0.5 mb-2">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <div class="review-stars flex text-xs gap-0.5 mb-2" aria-label="Rated 4 out of 5 stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                    <span class="ml-1 font-semibold">4.0</span>
                 </div>
 
                 <!-- Title -->
@@ -2253,9 +2307,9 @@
                     </div>
                 </div>
 
-                <!-- 5 Stars -->
-                <div class="flex text-[#D98E2B] text-xs gap-0.5 mb-2">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <div class="review-stars flex text-xs gap-0.5 mb-2" aria-label="Rated 4.5 out of 5 stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                    <span class="ml-1 font-semibold">4.5</span>
                 </div>
 
                 <!-- Title -->
@@ -2293,9 +2347,9 @@
                     </div>
                 </div>
 
-                <!-- 5 Stars -->
-                <div class="flex text-[#D98E2B] text-xs gap-0.5 mb-2">
+                <div class="review-stars flex text-xs gap-0.5 mb-2" aria-label="Rated 5 out of 5 stars">
                     <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <span class="ml-1 font-semibold">5.0</span>
                 </div>
 
                 <!-- Title -->
@@ -2333,9 +2387,9 @@
                     </div>
                 </div>
 
-                <!-- 5 Stars -->
-                <div class="flex text-[#D98E2B] text-xs gap-0.5 mb-2">
-                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <div class="review-stars flex text-xs gap-0.5 mb-2" aria-label="Rated 4 out of 5 stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                    <span class="ml-1 font-semibold">4.0</span>
                 </div>
 
                 <!-- Title -->
@@ -2363,6 +2417,25 @@
     </div>
 
 </section>
+
+<script>
+    (function() {
+        const carousel = document.querySelector("#reviews .reviews-carousel");
+        const track = carousel && carousel.querySelector(".reviews-track");
+        if (!carousel || !track || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        const cards = Array.from(track.children);
+        if (cards.length < 2) return;
+
+        cards.forEach((card) => {
+            const clone = card.cloneNode(true);
+            clone.setAttribute("aria-hidden", "true");
+            clone.setAttribute("inert", "");
+            track.appendChild(clone);
+        });
+        carousel.classList.add("is-animated");
+    })();
+</script>
 
     <!-- ============ FAQ SECTION (LOADED MODULARLY VIA FAQ-SECTION.HTML) ============ -->
     <div id="faq-placeholder"></div>
