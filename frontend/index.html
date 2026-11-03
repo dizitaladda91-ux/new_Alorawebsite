@@ -685,7 +685,7 @@
             width: max-content;
         }
         #reviews .reviews-track > div {
-            flex: 0 0 calc(100vw - 2rem);
+            flex: 0 0 calc(var(--reviews-width, 100vw) - 1rem);
             margin-right: 1rem;
         }
         #reviews .reviews-carousel.is-animated {
@@ -706,12 +706,12 @@
         }
         @media (min-width: 640px) {
             #reviews .reviews-track > div {
-                flex-basis: calc((100vw - 4rem) / 2);
+                flex-basis: calc((var(--reviews-width, 100vw) - 2rem) / 2);
             }
         }
         @media (min-width: 1024px) {
             #reviews .reviews-track > div {
-                flex-basis: calc((min(100vw, 80rem) - 7rem) / 4);
+                flex-basis: calc((var(--reviews-width, 100vw) - 4rem) / 4);
             }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -2090,7 +2090,7 @@
     </div>
 
     <!-- Auto-scrolling customer reviews carousel -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reviews-carousel" role="region" aria-roledescription="carousel" aria-label="Customer reviews">
+    <div class="reviews-carousel" role="region" aria-roledescription="carousel" aria-label="Customer reviews">
         <div class="reviews-track">
         <!-- Review Card: MEGHA PARASHAR -->
         <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-[#2B1D14]/10 shadow-[0_2px_12px_rgba(43,29,20,0.04)] hover:shadow-[0_6px_20px_rgba(43,29,20,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
@@ -2422,7 +2422,15 @@
     (function() {
         const carousel = document.querySelector("#reviews .reviews-carousel");
         const track = carousel && carousel.querySelector(".reviews-track");
-        if (!carousel || !track || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        if (!carousel || !track) return;
+
+        const setCarouselWidth = () => {
+            carousel.style.setProperty("--reviews-width", `${document.documentElement.clientWidth}px`);
+        };
+        setCarouselWidth();
+        window.addEventListener("resize", setCarouselWidth);
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
         const cards = Array.from(track.children);
         if (cards.length < 2) return;
