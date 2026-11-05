@@ -1,13 +1,12 @@
-import BASE_URL, { getAuthHeaders } from "./config.js";
+import BASE_URL, { getAuthHeaders, getImageUrl } from "./config.js";
 
 const form = document.getElementById("homepage-ingredients-form");
+const editorList = document.getElementById("ingredient-editor-list");
 const statusEl = document.getElementById("ingredients-form-status");
-const uploadButton = document.getElementById("ingredients-upload-button");
 const saveButton = document.getElementById("ingredients-save-button");
-const imageFileInput = document.getElementById("ingredients-image-file");
-const imageUrlInput = document.getElementById("ingredients-image-url");
-const imageAltInput = document.getElementById("ingredients-image-alt");
-const imagePreview = document.getElementById("ingredients-image-preview");
+const addButton = document.getElementById("add-ingredient-button");
+let ingredients = [];
+let products = [];
 
 function showStatus(message, isError = false) {
     statusEl.textContent = message;
@@ -16,57 +15,158 @@ function showStatus(message, isError = false) {
         : "bg-emerald-50 text-emerald-700 border border-emerald-200"}`;
 }
 
-function setImagePreview(url, alt = "") {
-    imagePreview.src = url;
-    imagePreview.alt = alt;
+function escapeHtml(value = "") {
+    return String(value).replace(/[&<>'"]/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;"
+    })[character]);
 }
 
-async function loadSection() {
-    try {
-        const response = await fetch(`${BASE_URL}/api/homepage-ingredients`, { cache: "no-cache" });
-        const result = await response.json();
-        if (!response.ok || !result.success || !result.data) {
-            throw new Error(result.message || "Could not load homepage section settings.");
-        }
-
-        const content = result.data;
-        form.elements.eyebrow.value = content.eyebrow || "";
-        form.elements.heading.value = content.heading || "";
-        form.elements.description.value = content.description || "";
-        form.elements.buttonText.value = content.buttonText || "";
-        form.elements.buttonUrl.value = content.buttonUrl || "";
-        imageUrlInput.value = content.imageUrl || "";
-        imageAltInput.value = content.imageAlt || "";
-        form.elements.isEnabled.checked = content.isEnabled !== false;
-        setImagePreview(content.imageUrl || "./static/placeholder.png", content.imageAlt || "");
-    } catch (error) {
-        console.error("Could not load homepage section settings:", error);
-        showStatus(error.message, true);
-    }
+function createEmptyIngredient() {
+    return {
+        name: "",
+        shortDescription: "",
+        fullDescription: "",
+        imageUrl: "",
+        imageAlt: "",
+        recommendedProducts: []
+    };
 }
 
-imageUrlInput.addEventListener("input", () => {
-    if (imageUrlInput.value.trim()) setImagePreview(imageUrlInput.value.trim(), imageAltInput.value);
-});
+function collectIngredients() {
+    return [...editorList.querySelectorAll("[data-ingredient-card]")].map(card => {
+        const productIds = [...card.querySelectorAll("[data-product-id]:checked")].map(input => input.value);
+        return {
+            name: card.querySelector('[data-field="name"]').value.trim(),
+            shortDescription: card.querySelector('[data-field="shortDescription"]').value.trim(),
+            fullDescription: card.querySelector('[data-field="fullDescription"]').value.trim(),
+            imageUrl: card.querySelector('[data-field="imageUrl"]').value.trim(),
+            imageAlt: card.querySelector('[data-field="imageAlt"]').value.trim(),
+            recommendedProducts: productIds
+        };
+    });
+}
 
-imageAltInput.addEventListener("input", () => {
-    imagePreview.alt = imageAltInput.value;
-});
+function renderIngredients() {
+    editorList.replaceChildren();
+    ingredients.forEach((ingredient, index) => {
+        const card = document.createElement("fieldset");
+        card.dataset.ingredientCard = "";
+        card.className = "rounded-2xl border border-slate-200 bg-slate-50/60 p-4 sm:p-6 space-y-5";
 
-uploadButton.addEventListener("click", async () => {
-    const file = imageFileInput.files?.[0];
+        const selectedIds = new Set((ingredient.recommendedProducts || []).map(product =>
+            String(typeof product === "string" ? product : product?._id || "")
+        ));
+        const productOptions = products.length
+            ? products.map(product => `
+                <label class="flex items-center gap-2 rounded-lg bg-white p-2 text-xs text-slate-700 border border-slate-200 cursor-pointer">
+                    <input type="checkbox" data-product-id value="${escapeHtml(product._id)}" ${selectedIds.has(String(product._id)) ? "checked" : ""} class="h-4 w-4 accent-amber-600">
+                    <span class="min-w-0 flex-1 truncate">${escapeHtml(product.name)}</span>
+                </label>
+            `).join("")
+            : '<p class="text-xs text-rose-600">Product catalog could not be loaded.</p>';
+
+        card.innerHTML = `
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-3">
+                <legend class="font-bold text-slate-900">Ingredient ${index + 1}</legend>
+                <button type="button" data-action="remove" class="rounded-lg border border-rose-200 bg-white px-3 py-1.5 text-xs font-bold text-rose-700 hover:bg-rose-50 transition" ${ingredients.length <= 1 ? "disabled" : ""}>
+                    <i class="fa-solid fa-trash-can mr-1"></i> Remove
+                </button>
+            </div>
+
+            <div class="grid lg:grid-cols-[minmax(0,1.3fr)_minmax(230px,0.7fr)] gap-5">
+                <div class="space-y-4">
+                    <label class="block space-y-1.5">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Ingredient name</span>
+                        <input data-field="name" type="text" maxlength="100" required value="${escapeHtml(ingredient.name)}" class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">
+                    </label>
+                    <label class="block space-y-1.5">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Card summary</span>
+                        <textarea data-field="shortDescription" rows="2" maxlength="220" required class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">${escapeHtml(ingredient.shortDescription)}</textarea>
+                    </label>
+                    <label class="block space-y-1.5">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Full Read More details</span>
+                        <textarea data-field="fullDescription" rows="5" maxlength="3000" required class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">${escapeHtml(ingredient.fullDescription)}</textarea>
+                        <span class="block text-[11px] text-slate-500">Plain text. Up to 3,000 characters.</span>
+                    </label>
+                </div>
+
+                <div class="space-y-3">
+                    <p class="text-xs font-bold uppercase tracking-wider text-slate-700">Ingredient image</p>
+                    <div class="aspect-[4/3] overflow-hidden rounded-xl border border-slate-200 bg-[#F1E6D3]">
+                        <img data-image-preview src="${escapeHtml(getImageUrl(ingredient.imageUrl || "/static/placeholder.png"))}" alt="${escapeHtml(ingredient.imageAlt)}" class="h-full w-full object-cover">
+                    </div>
+                    <input data-image-file type="file" accept="image/jpeg,image/png,image/webp" class="block w-full text-xs rounded-xl border border-slate-300 p-2.5 bg-white font-medium cursor-pointer">
+                    <p class="text-[11px] text-slate-500">JPG, PNG, or WEBP; maximum 5 MB.</p>
+                    <button type="button" data-action="upload-image" class="rounded-xl bg-slate-800 px-4 py-2.5 text-xs font-bold text-white hover:bg-slate-700 transition">
+                        <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Upload Image
+                    </button>
+                    <label class="block space-y-1.5">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Image URL</span>
+                        <input data-field="imageUrl" type="text" maxlength="1000" required value="${escapeHtml(ingredient.imageUrl)}" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs bg-white font-mono">
+                    </label>
+                    <label class="block space-y-1.5">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Image alt text</span>
+                        <input data-field="imageAlt" type="text" maxlength="180" required value="${escapeHtml(ingredient.imageAlt)}" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs bg-white">
+                    </label>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-200 pt-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700">Recommended products</h4>
+                <p class="mt-1 text-[11px] text-slate-500">Choose up to 6 products to show in this ingredient's Read More panel.</p>
+                <div class="mt-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-56 overflow-y-auto">${productOptions}</div>
+            </div>
+        `;
+
+        card.addEventListener("input", event => {
+            if (event.target.matches('[data-field="imageUrl"]')) {
+                const image = card.querySelector("[data-image-preview]");
+                image.src = getImageUrl(event.target.value.trim() || "/static/placeholder.png");
+            }
+            if (event.target.matches('[data-field="imageAlt"]')) {
+                card.querySelector("[data-image-preview]").alt = event.target.value;
+            }
+        });
+        card.querySelector("[data-image-file]").addEventListener("change", event => {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            if (file.size > 5 * 1024 * 1024) {
+                showStatus("Image must be 5 MB or smaller.", true);
+                event.target.value = "";
+                return;
+            }
+            card.querySelector("[data-image-preview]").src = URL.createObjectURL(file);
+        });
+        card.addEventListener("click", event => {
+            const action = event.target.closest("[data-action]")?.dataset.action;
+            if (action === "remove") {
+                if (ingredients.length <= 1) return;
+                ingredients = collectIngredients();
+                ingredients.splice(index, 1);
+                renderIngredients();
+            } else if (action === "upload-image") {
+                uploadIngredientImage(card);
+            }
+        });
+        editorList.append(card);
+    });
+}
+
+async function uploadIngredientImage(card) {
+    const file = card.querySelector("[data-image-file]").files?.[0];
     if (!file) {
-        showStatus("Choose an image file first.", true);
-        return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-        showStatus("Image must be 5 MB or smaller.", true);
+        showStatus("Choose an image file for this ingredient first.", true);
         return;
     }
 
-    const originalText = uploadButton.innerHTML;
-    uploadButton.disabled = true;
-    uploadButton.textContent = "Uploading...";
+    const button = card.querySelector('[data-action="upload-image"]');
+    const originalText = button.innerHTML;
+    button.disabled = true;
+    button.textContent = "Uploading...";
     try {
         const body = new FormData();
         body.append("image", file);
@@ -81,32 +181,83 @@ uploadButton.addEventListener("click", async () => {
             throw new Error(result.message || "Image upload failed.");
         }
 
-        imageUrlInput.value = result.imageUrl;
-        setImagePreview(result.imageUrl, imageAltInput.value);
-        showStatus("Image uploaded. Save the section to publish it.");
+        card.querySelector('[data-field="imageUrl"]').value = result.imageUrl;
+        card.querySelector("[data-image-preview]").src = getImageUrl(result.imageUrl);
+        showStatus("Ingredient image uploaded. Save the section to publish it.");
     } catch (error) {
-        console.error("Homepage image upload failed:", error);
+        console.error("Ingredient image upload failed:", error);
         showStatus(error.message, true);
     } finally {
-        uploadButton.disabled = false;
-        uploadButton.innerHTML = originalText;
+        button.disabled = false;
+        button.innerHTML = originalText;
     }
+}
+
+async function loadSection() {
+    try {
+        const [contentResponse, productsResponse] = await Promise.all([
+            fetch(`${BASE_URL}/api/homepage-ingredients`, { cache: "no-cache" }),
+            fetch(`${BASE_URL}/api/product/all`, { cache: "no-cache" })
+        ]);
+        const [contentResult, productResult] = await Promise.all([
+            contentResponse.json(),
+            productsResponse.json()
+        ]);
+        if (!contentResponse.ok || !contentResult.success || !contentResult.data) {
+            throw new Error(contentResult.message || "Could not load homepage section settings.");
+        }
+        if (!productsResponse.ok) {
+            throw new Error(productResult.message || productResult.error || "Could not load the product catalog.");
+        }
+
+        ingredients = Array.isArray(contentResult.data.ingredients) ? contentResult.data.ingredients : [];
+        products = Array.isArray(productResult) ? productResult : (productResult.products || productResult.data || []);
+        products = products.filter(product => product?._id && product.isAvailable !== false);
+        if (!ingredients.length) ingredients = [createEmptyIngredient()];
+
+        form.elements.eyebrow.value = contentResult.data.eyebrow || "Discover";
+        form.elements.heading.value = contentResult.data.heading || "Skin-Saving Actives";
+        form.elements.buttonText.value = contentResult.data.buttonText || "Explore our Ingredients";
+        form.elements.buttonUrl.value = contentResult.data.buttonUrl || "/products";
+        form.elements.isEnabled.checked = contentResult.data.isEnabled !== false;
+        renderIngredients();
+    } catch (error) {
+        console.error("Could not load homepage section settings:", error);
+        showStatus(error.message, true);
+    }
+}
+
+addButton.addEventListener("click", () => {
+    ingredients = collectIngredients();
+    if (ingredients.length >= 12) {
+        showStatus("You can add up to 12 ingredient cards.", true);
+        return;
+    }
+    ingredients.push(createEmptyIngredient());
+    renderIngredients();
 });
 
-form.addEventListener("submit", async (event) => {
+form.addEventListener("submit", async event => {
     event.preventDefault();
+    ingredients = collectIngredients();
+    if (ingredients.length < 1 || ingredients.length > 12) {
+        showStatus("Keep between 1 and 12 ingredient cards.", true);
+        return;
+    }
+    if (ingredients.some(ingredient => ingredient.recommendedProducts.length > 6)) {
+        showStatus("Each ingredient can have up to 6 recommended products.", true);
+        return;
+    }
+
     saveButton.disabled = true;
     saveButton.textContent = "Saving...";
-
     const payload = {
         eyebrow: form.elements.eyebrow.value.trim(),
         heading: form.elements.heading.value.trim(),
-        description: form.elements.description.value.trim(),
         buttonText: form.elements.buttonText.value.trim(),
         buttonUrl: form.elements.buttonUrl.value.trim(),
-        imageUrl: imageUrlInput.value.trim(),
-        imageAlt: imageAltInput.value.trim(),
-        isEnabled: form.elements.isEnabled.checked
+        isEnabled: form.elements.isEnabled.checked,
+        ingredients
     };
 
     try {
@@ -120,9 +271,9 @@ form.addEventListener("submit", async (event) => {
         if (!response.ok || !result.success) {
             throw new Error(result.message || "Could not save homepage section.");
         }
-        showStatus("Homepage section saved successfully.");
+        showStatus("Homepage ingredient cards saved successfully.");
     } catch (error) {
-        console.error("Homepage section save failed:", error);
+        console.error("Homepage ingredient cards save failed:", error);
         showStatus(error.message, true);
     } finally {
         saveButton.disabled = false;

@@ -1076,39 +1076,48 @@
 </section>
 
     <!-- ============ DISCOVER SKIN-LOVING INGREDIENTS ============ -->
-    <section id="ingredients-discovery" class="w-full py-10 sm:py-16">
+    <section id="ingredients-discovery" class="w-full py-10 sm:py-16" aria-labelledby="ingredients-discovery-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 items-center overflow-hidden rounded-3xl bg-[#F1E6D3]">
-                <div class="relative min-h-[260px] sm:min-h-[360px] md:min-h-[440px]">
-                    <img
-                        id="ingredients-discovery-image"
-                        src="./static/4.webp"
-                        alt="Alora Radiance skincare with botanical ingredients"
-                        width="1920"
-                        height="1000"
-                        loading="lazy"
-                        decoding="async"
-                        class="absolute inset-0 w-full h-full object-cover"
-                    >
-                </div>
-                <div class="px-6 py-9 sm:px-10 sm:py-14 md:px-12 lg:px-16">
-                    <span id="ingredients-discovery-eyebrow" class="inline-flex text-[11px] sm:text-xs font-semibold tracking-[0.2em] uppercase text-[#8B5C2A] mb-3">
-                        Discover
-                    </span>
-                    <h2 id="ingredients-discovery-heading" class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-[#2B1D14] leading-tight">
-                        Skin-Loving Actives
+            <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5 mb-7 sm:mb-9">
+                <div>
+                    <span id="ingredients-discovery-eyebrow" class="block text-lg sm:text-2xl font-light text-[#2B1D14]/80">Discover</span>
+                    <h2 id="ingredients-discovery-heading" class="text-3xl sm:text-4xl font-heading font-bold uppercase text-[#2B1D14] leading-tight">
+                        Skin-Saving Actives
                     </h2>
-                    <p id="ingredients-discovery-description" class="mt-4 text-sm sm:text-base text-[#2B1D14]/75 leading-relaxed max-w-lg">
-                        Meet the thoughtful ingredients behind our everyday skincare rituals, chosen to nourish, care for, and bring out your skin's natural radiance.
-                    </p>
-                    <a id="ingredients-discovery-link" href="/products" class="inline-flex items-center gap-2 mt-6 text-sm sm:text-base font-semibold text-[#2B1D14] border-b border-[#D98E2B] pb-1 hover:text-[#8B5C2A] transition-colors">
-                        <span id="ingredients-discovery-link-text">Explore Our Ingredients</span>
-                        <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
-                    </a>
                 </div>
+                <a id="ingredients-discovery-link" href="/products" class="inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-[#2B1D14] hover:text-[#8B5C2A] transition-colors">
+                    <span id="ingredients-discovery-link-text">Explore our Ingredients</span>
+                    <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                </a>
+            </div>
+
+            <div id="ingredients-discovery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" aria-live="polite">
+                <div class="aspect-[4/3] rounded-2xl bg-[#F1E6D3] animate-pulse"></div>
+                <div class="aspect-[4/3] rounded-2xl bg-[#F1E6D3] animate-pulse hidden sm:block"></div>
+                <div class="aspect-[4/3] rounded-2xl bg-[#F1E6D3] animate-pulse hidden lg:block"></div>
             </div>
         </div>
     </section>
+
+    <dialog id="ingredient-detail-dialog" class="w-[min(94vw,900px)] max-w-none max-h-[90vh] overflow-y-auto rounded-3xl p-0 text-[#2B1D14] shadow-2xl backdrop:bg-black/60">
+        <div class="relative bg-[#FBF7F0]">
+            <button id="ingredient-dialog-close" type="button" class="absolute right-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#2B1D14] shadow hover:bg-white" aria-label="Close ingredient details">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+            <div class="grid md:grid-cols-2">
+                <img id="ingredient-dialog-image" src="./static/placeholder.png" alt="" class="w-full h-56 md:h-full min-h-[280px] object-cover">
+                <div class="p-6 sm:p-8">
+                    <span class="text-xs font-semibold uppercase tracking-[0.18em] text-[#8B5C2A]">Ingredient guide</span>
+                    <h2 id="ingredient-dialog-title" class="mt-2 text-3xl sm:text-4xl font-heading font-bold"></h2>
+                    <p id="ingredient-dialog-description" class="mt-4 text-sm sm:text-base leading-relaxed text-[#2B1D14]/80 whitespace-pre-line"></p>
+                    <div class="mt-7">
+                        <h3 class="text-lg font-heading font-bold">Recommended for this ingredient</h3>
+                        <div id="ingredient-dialog-products" class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dialog>
 
     <!-- ============ WATCH IT. LOVE IT. VIDEO REELS CAROUSEL SECTION ============ -->
     <!-- NOTE: You can change the 'data-video-url' attribute on any card below to your desired video link (YouTube embed, Instagram Reel URL, or MP4 file) -->

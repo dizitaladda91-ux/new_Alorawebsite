@@ -18,18 +18,16 @@
             <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-950 flex items-center justify-center font-bold shadow-md shadow-amber-500/20">
                 <i class="fa-solid fa-leaf text-sm"></i>
             </div>
-            <h1 class="text-sm sm:text-base font-extrabold tracking-wider uppercase font-fraunces text-white">ALORA HOMEPAGE STUDIO</h1>
+            <h1 class="text-sm sm:text-base font-extrabold tracking-wider uppercase font-fraunces text-[#172033]">ALORA HOMEPAGE STUDIO</h1>
         </div>
-        <div class="flex items-center gap-2 sm:gap-4">
-            <a href="./index.html" target="_blank" rel="noopener" class="text-xs font-bold text-white hover:text-amber-300 transition flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 px-3.5 py-2 rounded-lg border border-slate-600">
-                <i class="fa-solid fa-arrow-up-right-from-square text-amber-400"></i> View Live Site
-            </a>
-        </div>
+        <a href="./index.html" target="_blank" rel="noopener" class="text-xs font-bold text-white hover:text-amber-300 transition flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 px-3.5 py-2 rounded-lg border border-slate-600">
+            <i class="fa-solid fa-arrow-up-right-from-square text-amber-400"></i> View Live Site
+        </a>
     </nav>
 
     <div class="min-h-[calc(100vh-4rem)] lg:flex">
         <aside class="bg-[#FBF7F0] lg:w-64 p-4 border-b lg:border-b-0 lg:border-r border-[#2B1D14]/10">
-            <p class="px-2 pt-2 text-[11px] font-extrabold text-slate-300 uppercase tracking-wider font-mono mb-3">Content Navigation</p>
+            <p class="px-2 pt-2 text-[11px] font-extrabold text-slate-600 uppercase tracking-wider font-mono mb-3">Content Navigation</p>
             <nav aria-label="SEO Studio">
                 <ul class="flex flex-wrap lg:flex-col gap-2">
                     <li><a href="./seoadmin.html" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-700 bg-white border border-slate-200 hover:bg-amber-50 transition"><i class="fa-solid fa-layer-group text-amber-700"></i> All Blog Posts</a></li>
@@ -43,22 +41,18 @@
         </aside>
 
         <main class="flex-1 p-4 sm:p-8 overflow-y-auto">
-            <div class="max-w-5xl mx-auto space-y-6">
+            <div class="max-w-6xl mx-auto space-y-6">
                 <header class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-slate-800">
-                    <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-500/15 text-amber-300 text-[11px] font-bold tracking-widest uppercase font-mono border border-amber-400/30 mb-2">
-                        Homepage Content &amp; SEO
-                    </span>
-                    <h2 class="text-2xl sm:text-3xl font-fraunces font-bold text-white">Discover Ingredients Section</h2>
-                    <p class="text-sm text-slate-300 mt-2 max-w-2xl leading-relaxed">
-                        Edit the homepage ingredient feature, upload its image, add descriptive alt text, and choose where the call-to-action leads.
-                    </p>
+                    <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-500/15 text-amber-300 text-[11px] font-bold tracking-widest uppercase font-mono border border-amber-400/30 mb-2">Homepage Content &amp; SEO</span>
+                    <h2 class="text-2xl sm:text-3xl font-fraunces font-bold text-white">Discover Ingredients</h2>
+                    <p class="text-sm text-slate-300 mt-2 max-w-2xl leading-relaxed">Manage ingredient cards, detailed Read More content, imagery, alt text, and products recommended for each ingredient.</p>
                 </header>
 
                 <form id="homepage-ingredients-form" class="bg-white rounded-3xl shadow-xl border border-slate-200/80 p-5 sm:p-8 space-y-6">
                     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
                         <div>
-                            <h3 class="font-bold text-slate-900">Section details</h3>
-                            <p class="text-xs text-slate-500 mt-1">Changes appear on the home page after saving.</p>
+                            <h3 class="font-bold text-slate-900">Section heading</h3>
+                            <p class="text-xs text-slate-500 mt-1">This title and link appear above the ingredient cards.</p>
                         </div>
                         <label class="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 cursor-pointer">
                             <input id="ingredients-enabled" name="isEnabled" type="checkbox" class="h-4 w-4 accent-amber-600">
@@ -72,56 +66,29 @@
                             <input id="ingredients-eyebrow" name="eyebrow" type="text" maxlength="60" required class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">
                         </label>
                         <label class="block space-y-1.5">
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Heading</span>
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Section heading</span>
                             <input id="ingredients-heading" name="heading" type="text" maxlength="100" required class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">
                         </label>
-                    </div>
-
-                    <label class="block space-y-1.5">
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Description</span>
-                        <textarea id="ingredients-description" name="description" rows="4" maxlength="500" required class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white"></textarea>
-                        <span class="block text-[11px] text-slate-500">Up to 500 characters.</span>
-                    </label>
-
-                    <div class="grid md:grid-cols-2 gap-5">
                         <label class="block space-y-1.5">
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Button text</span>
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Top link text</span>
                             <input id="ingredients-button-text" name="buttonText" type="text" maxlength="50" required class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">
                         </label>
                         <label class="block space-y-1.5">
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Button destination</span>
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Top link destination</span>
                             <input id="ingredients-button-url" name="buttonUrl" type="text" maxlength="500" placeholder="/products or https://example.com" required class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">
                         </label>
                     </div>
 
-                    <div class="grid lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.8fr)] gap-6 border-t border-slate-100 pt-6">
-                        <div class="space-y-4">
-                            <div>
-                                <label for="ingredients-image-file" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Upload section image</label>
-                                <input id="ingredients-image-file" type="file" accept="image/jpeg,image/png,image/webp" class="block w-full text-xs rounded-xl border border-slate-300 p-2.5 bg-white font-medium cursor-pointer">
-                                <p class="mt-1.5 text-[11px] text-slate-500">JPG, PNG, or WEBP. Maximum file size: 5 MB.</p>
-                            </div>
-                            <button id="ingredients-upload-button" type="button" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition">
-                                <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> Upload Image
-                            </button>
-                            <label class="block space-y-1.5">
-                                <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Image URL</span>
-                                <input id="ingredients-image-url" name="imageUrl" type="text" maxlength="1000" required class="w-full rounded-xl border border-slate-300 p-3 text-xs bg-white font-mono">
-                                <span class="block text-[11px] text-slate-500">Uploading fills this automatically. You may also use a site path or HTTPS URL.</span>
-                            </label>
-                            <label class="block space-y-1.5">
-                                <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Image alt text</span>
-                                <input id="ingredients-image-alt" name="imageAlt" type="text" maxlength="180" required class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">
-                                <span class="block text-[11px] text-slate-500">Describe the image for accessibility and search engines.</span>
-                            </label>
-                        </div>
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-6">
                         <div>
-                            <p class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Image preview</p>
-                            <div class="aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-[#F1E6D3]">
-                                <img id="ingredients-image-preview" src="./static/4.webp" alt="" class="w-full h-full object-cover">
-                            </div>
+                            <h3 class="font-bold text-slate-900">Ingredient cards</h3>
+                            <p class="text-xs text-slate-500 mt-1">Each card has a short preview. Read More opens full details and recommended products.</p>
                         </div>
+                        <button id="add-ingredient-button" type="button" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition">
+                            <i class="fa-solid fa-plus mr-1"></i> Add Ingredient
+                        </button>
                     </div>
+                    <div id="ingredient-editor-list" class="space-y-5"></div>
 
                     <div id="ingredients-form-status" role="status" aria-live="polite" class="hidden rounded-xl p-3 text-sm"></div>
                     <div class="flex justify-end border-t border-slate-100 pt-5">

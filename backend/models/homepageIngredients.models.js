@@ -1,5 +1,42 @@
 import mongoose from "mongoose";
 
+const ingredientCardSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true,
+        maxlength: 100
+    },
+    shortDescription: {
+        type: String,
+        required: true,
+        trim: true,
+        maxlength: 220
+    },
+    fullDescription: {
+        type: String,
+        required: true,
+        trim: true,
+        maxlength: 3000
+    },
+    imageUrl: {
+        type: String,
+        required: true,
+        trim: true,
+        maxlength: 1000
+    },
+    imageAlt: {
+        type: String,
+        required: true,
+        trim: true,
+        maxlength: 180
+    },
+    recommendedProducts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "SimpleProduct"
+    }]
+});
+
 const homepageIngredientsSchema = new mongoose.Schema({
     key: {
         type: String,
@@ -9,25 +46,19 @@ const homepageIngredientsSchema = new mongoose.Schema({
     },
     eyebrow: {
         type: String,
-        default: "DISCOVER",
+        default: "Discover",
         trim: true,
         maxlength: 60
     },
     heading: {
         type: String,
-        default: "Skin-Loving Actives",
+        default: "Skin-Saving Actives",
         trim: true,
         maxlength: 100
     },
-    description: {
-        type: String,
-        default: "Meet the thoughtful ingredients behind our everyday skincare rituals, chosen to nourish, care for, and bring out your skin's natural radiance.",
-        trim: true,
-        maxlength: 500
-    },
     buttonText: {
         type: String,
-        default: "Explore Our Ingredients",
+        default: "Explore our Ingredients",
         trim: true,
         maxlength: 50
     },
@@ -37,17 +68,9 @@ const homepageIngredientsSchema = new mongoose.Schema({
         trim: true,
         maxlength: 500
     },
-    imageUrl: {
-        type: String,
-        default: "/static/4.webp",
-        trim: true,
-        maxlength: 1000
-    },
-    imageAlt: {
-        type: String,
-        default: "Alora Radiance skincare with botanical ingredients",
-        trim: true,
-        maxlength: 180
+    ingredients: {
+        type: [ingredientCardSchema],
+        default: []
     },
     isEnabled: {
         type: Boolean,
