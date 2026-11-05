@@ -345,7 +345,7 @@ export const renderProductSsr = (templateHtml, product, faqs = []) => {
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": String(product.rating || 4.5),
-            "reviewCount": String(product.numReviews || 12)
+            "reviewCount": String(product.totalReviews || 0)
         }
     };
 
@@ -358,7 +358,7 @@ export const renderProductSsr = (templateHtml, product, faqs = []) => {
     html = html.replace(/<img id="main-product-image"[^>]*>/i, `<img id="main-product-image" src="${mainImg}" alt="${escapeHtml(product.name)}" class="w-full h-full object-cover" decoding="async" fetchpriority="high" onerror="this.onerror=null; this.src='/static/placeholder.png'">`);
     html = html.replace(/<span id="product-category-badge"[^>]*>.*?<\/span>/i, `<span id="product-category-badge" class="text-[11px] font-bold tracking-widest text-clay uppercase bg-sand/60 px-3 py-1 rounded-full border border-gold/20">${escapeHtml(product.category || 'ALORA RADIANCE')}</span>`);
     html = html.replace(/<h1 id="product-title"[^>]*>.*?<\/h1>/i, `<h1 id="product-title" class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-ink mt-3 leading-tight">${escapeHtml(product.name)}</h1>`);
-    html = html.replace(/<span id="reviews-count">.*?<\/span>/i, `<span id="reviews-count">${product.numReviews || 0}</span>`);
+    html = html.replace(/<span id="reviews-count">.*?<\/span>/i, `<span id="reviews-count">${product.totalReviews || 0}</span>`);
 
     // Pricing
     html = html.replace(/<span id="product-price"[^>]*>.*?<\/span>/i, `<span id="product-price" class="text-2xl sm:text-3xl font-serif font-bold text-clay">₹ ${price}</span>`);

@@ -20,11 +20,15 @@ test("product SSR replaces every crawlable loading placeholder", () => {
     usageInstructions: "Massage onto damp skin and rinse.",
     category: "face",
     imagepath: "/static/face-wash.png",
+    rating: 4.8,
+    totalReviews: 5,
     variants: [{ volume: "200ml", price: 499, comparePrice: 599, stock: 10 }]
   });
 
   assert.match(html, /Purifying Glow Face Wash/);
   assert.match(html, /₹ 499/);
+  assert.match(html, /<span id="reviews-count">5<\/span>/);
+  assert.match(html, /"reviewCount": "5"/);
   assert.match(html, /Saffron Extract, Salicylic Acid, Niacinamide/);
   assert.doesNotMatch(html, /Loading product formulation details|Loading details|Loading benefits|Loading usage|Loading ingredients/);
 });

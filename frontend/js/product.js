@@ -280,7 +280,7 @@ async function loadProductDetails() {
         }
         setPurchaseAvailability();
         renderGoodToKnowFaqs(product);
-        fetchAndRenderReviews(productId);
+        fetchAndRenderReviews(product._id || product.slug || productId);
     } catch (error) {
         console.error("Error loading product details:", error);
     }
@@ -373,8 +373,12 @@ function updateQty(change) {
     qtyInput.value = currentQty;
 }
 function getProductIdFromURL() {
+    if (currentProductData?._id || currentProductData?.slug) {
+        return currentProductData._id || currentProductData.slug;
+    }
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('id') || 'alora-radiance-serum';
+    const pathMatch = window.location.pathname.match(/^\/product\/([^/?#]+)\/?$/i);
+    return urlParams.get('id') || (pathMatch ? decodeURIComponent(pathMatch[1]) : null);
 }
 function initReviewsFeature() {
     const starButtons = document.querySelectorAll('.star-btn');
@@ -407,6 +411,10 @@ function initReviewsFeature() {
             const commentInput = document.getElementById('review-comment');
             const ratingValue = parseInt(ratingInput ? ratingInput.value : 0);
             const productId = getProductIdFromURL();
+            if (!productId) {
+                window.showToast("Product is still loading. Please try again.", "warning");
+                return;
+            }
             if (ratingValue === 0) {
                 window.showToast("Please select at least 1 star rating before submitting.", "warning");
                 return;
@@ -454,10 +462,15 @@ async function fetchAndRenderReviews(productId) {
     try {
         const response = await fetch(`${REVIEWS_API_URL}/${productId}`);
         const result = await response.json();
+        if (!response.ok || !result.success || !Array.isArray(result.data)) {
+            throw new Error(result.message || "Unable to load reviews for this product.");
+        }
         const staticHeading = reviewsListContainer.querySelector('h3');
         reviewsListContainer.innerHTML = '';
         if (staticHeading) reviewsListContainer.appendChild(staticHeading);
-        if (result.success && result.data && result.data.length > 0) {
+        const reviewCount = document.getElementById('reviews-count');
+        if (reviewCount) reviewCount.textContent = String(result.count ?? result.data.length);
+        if (result.data.length > 0) {
             if (noReviewsMsg) noReviewsMsg.style.display = 'none';
             result.data.forEach(review => {
                 const reviewElement = document.createElement('div');
@@ -493,6 +506,15 @@ async function fetchAndRenderReviews(productId) {
         }
     } catch (error) {
         console.error('Error fetching/rendering reviews dataset:', error);
+        const reviewCount = document.getElementById('reviews-count');
+        if (reviewCount) reviewCount.textContent = '—';
+        const staticHeading = reviewsListContainer.querySelector('h3');
+        reviewsListContainer.innerHTML = '';
+        if (staticHeading) reviewsListContainer.appendChild(staticHeading);
+        const errorMessage = document.createElement('p');
+        errorMessage.className = 'text-sm text-ash italic';
+        errorMessage.textContent = 'Reviews could not be loaded. Please try again later.';
+        reviewsListContainer.appendChild(errorMessage);
     }
 }
 function escapeHTML(str) {

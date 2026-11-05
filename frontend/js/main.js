@@ -504,21 +504,6 @@ async function loadSliderProducts() {
                             ${initialComparePrice ? `M.R.P.: <span class="product-mrp line-through text-stone-400 font-mono">₹${initialComparePrice}</span> <span class="discount-badge text-emerald-800 font-bold">(${pct}% off)</span>` : ''}
                         </div>
 
-                        <!-- Offer note -->
-                        <p class="text-[11px] text-[#2B1D14]/80 leading-tight mb-2 font-medium">
-                            Extra discount with code <span class="font-bold text-[#D98E2B]">GLOW10</span>
-                        </p>
-
-                        <!-- Delivery Row -->
-                        <div class="text-xs leading-snug mb-2.5">
-                            <p class="text-stone-900 font-normal">
-                                <span class="font-bold text-[#2B1D14]">FREE delivery</span> on orders above ₹499
-                            </p>
-                            <p class="text-emerald-700 font-semibold text-[11px] mt-0.5">
-                                In stock • Dispatches within 24 hours
-                            </p>
-                        </div>
-
                         <!-- Size Variant Selection Buttons -->
                         ${sizeButtonsHTML ? `
                         <div class="flex items-center gap-1.5 flex-wrap my-1 size-btn-container">
