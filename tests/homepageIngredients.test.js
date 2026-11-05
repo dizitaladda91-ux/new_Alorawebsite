@@ -34,3 +34,10 @@ test("homepage ingredient defaults include complete, editable guides", () => {
     assert.ok(fs.existsSync(imagePath), `${ingredient.name} image should exist`);
   }
 });
+
+test("Vercel routes ingredient guide URLs to the SSR handler", () => {
+  const vercelConfig = JSON.parse(fs.readFileSync(path.join(projectRoot, "vercel.json"), "utf8"));
+  const ingredientRoute = vercelConfig.routes.find(route => route.src === "/ingredients/[^/]+/?");
+
+  assert.equal(ingredientRoute?.dest, "/api/index.js");
+});

@@ -56,6 +56,10 @@
       "dest": "/api/index.js"
     },
     {
+      "src": "/ingredients/[^/]+/?",
+      "dest": "/api/index.js"
+    },
+    {
       "src": "/about/?",
       "dest": "/frontend/aboutus"
     },
