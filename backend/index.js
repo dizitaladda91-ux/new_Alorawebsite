@@ -17,6 +17,7 @@ import affiliateRoutes from "./routes/affiliate.routes.js";
 import chatbotRoutes from "./routes/chatbot.routes.js";
 import wishlistRoutes from "./routes/wishlist.routes.js";
 import faqRoutes from "./routes/faq.routes.js";
+import homepageIngredientsRoutes from "./routes/homepageIngredients.routes.js";
 import dns from "dns";
 import fs from "fs";
 import path from "path";
@@ -401,6 +402,7 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/chatbot', chatbotRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use(['/api/faqs', '/api/faq'], faqRoutes);
+app.use('/api/homepage-ingredients', homepageIngredientsRoutes);
 
 app.get('/favicon.ico', (req, res) => {
   const target = path.join(frontendRoot, 'static', 'favicon.ico');

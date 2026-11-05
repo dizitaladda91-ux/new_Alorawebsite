@@ -1075,7 +1075,40 @@
 </div>
 </section>
 
-
+    <!-- ============ DISCOVER SKIN-LOVING INGREDIENTS ============ -->
+    <section id="ingredients-discovery" class="w-full py-10 sm:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 items-center overflow-hidden rounded-3xl bg-[#F1E6D3]">
+                <div class="relative min-h-[260px] sm:min-h-[360px] md:min-h-[440px]">
+                    <img
+                        id="ingredients-discovery-image"
+                        src="./static/4.webp"
+                        alt="Alora Radiance skincare with botanical ingredients"
+                        width="1920"
+                        height="1000"
+                        loading="lazy"
+                        decoding="async"
+                        class="absolute inset-0 w-full h-full object-cover"
+                    >
+                </div>
+                <div class="px-6 py-9 sm:px-10 sm:py-14 md:px-12 lg:px-16">
+                    <span id="ingredients-discovery-eyebrow" class="inline-flex text-[11px] sm:text-xs font-semibold tracking-[0.2em] uppercase text-[#8B5C2A] mb-3">
+                        Discover
+                    </span>
+                    <h2 id="ingredients-discovery-heading" class="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-[#2B1D14] leading-tight">
+                        Skin-Loving Actives
+                    </h2>
+                    <p id="ingredients-discovery-description" class="mt-4 text-sm sm:text-base text-[#2B1D14]/75 leading-relaxed max-w-lg">
+                        Meet the thoughtful ingredients behind our everyday skincare rituals, chosen to nourish, care for, and bring out your skin's natural radiance.
+                    </p>
+                    <a id="ingredients-discovery-link" href="/products" class="inline-flex items-center gap-2 mt-6 text-sm sm:text-base font-semibold text-[#2B1D14] border-b border-[#D98E2B] pb-1 hover:text-[#8B5C2A] transition-colors">
+                        <span id="ingredients-discovery-link-text">Explore Our Ingredients</span>
+                        <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- ============ WATCH IT. LOVE IT. VIDEO REELS CAROUSEL SECTION ============ -->
     <!-- NOTE: You can change the 'data-video-url' attribute on any card below to your desired video link (YouTube embed, Instagram Reel URL, or MP4 file) -->
@@ -2086,6 +2119,7 @@
     </script>
     <script src="./js/include.min.js" async defer></script>
     <script type="module" src="./js/navbar-interactions.min.js"></script>
+    <script type="module" src="./js/homepageIngredients.min.js"></script>
     <script type="module" src="./js/main.min.js"></script>
     <script>
         // Defer secondary interaction scripts (cart.js, auth.js, app.js, lead.js) to idle time to eliminate unused JS on initial render

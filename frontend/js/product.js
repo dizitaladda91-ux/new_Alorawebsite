@@ -571,10 +571,6 @@ function renderGoodToKnowFaqs(product) {
             }
         ];
 
-    const half = Math.ceil(faqsToRender.length / 2);
-    const col1 = faqsToRender.slice(0, half);
-    const col2 = faqsToRender.slice(half);
-
     const renderCard = (faq, idx) => `
         <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md" ${idx === 0 ? 'open' : ''}>
             <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
@@ -589,13 +585,9 @@ function renderGoodToKnowFaqs(product) {
         </details>
     `;
 
-    faqList.className = "grid grid-cols-1 lg:grid-cols-2 gap-3.5 sm:gap-5 text-left items-start";
-    faqList.innerHTML = `
-        <div class="space-y-3.5 sm:space-y-4">
-            ${col1.map((f, i) => renderCard(f, i)).join('')}
-        </div>
-        <div class="space-y-3.5 sm:space-y-4">
-            ${col2.map((f, i) => renderCard(f, i + half)).join('')}
-        </div>
-    `;
+    faqList.className = "faq-list-collapsible flex flex-col gap-3.5 sm:gap-4 text-left";
+    faqList.innerHTML = faqsToRender.map((faq, idx) => renderCard(faq, idx)).join('');
+    if (typeof window.setupFaqToggle === 'function') {
+        window.setupFaqToggle(faqList, document.getElementById('product-faq-toggle'));
+    }
 }

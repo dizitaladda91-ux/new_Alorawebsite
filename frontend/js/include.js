@@ -98,9 +98,28 @@ async function loadPartial(selector, url) {
     }
 }
 
+window.setupFaqToggle = function(container, button) {
+    if (!container || !button) return;
+
+    const faqCount = container.querySelectorAll(':scope > details').length;
+    const isExpanded = container.classList.contains('faq-expanded');
+
+    button.hidden = faqCount <= 4;
+    button.setAttribute('aria-expanded', String(isExpanded));
+    button.textContent = isExpanded ? 'View Less' : 'View More';
+    button.onclick = () => {
+        const expanded = container.classList.toggle('faq-expanded');
+        button.setAttribute('aria-expanded', String(expanded));
+        button.textContent = expanded ? 'View Less' : 'View More';
+    };
+};
+
 async function refreshPageFaqs() {
     const container = document.getElementById('global-faq-list');
     if (!container) return;
+    const toggle = document.getElementById('global-faq-toggle');
+    container.className = "faq-list-collapsible flex flex-col gap-3.5 sm:gap-4 text-left";
+    window.setupFaqToggle(container, toggle);
 
     const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:";
     const baseUrl = (window.BASE_URL !== undefined && window.BASE_URL !== null) ? window.BASE_URL : (isLocal ? "http://localhost:5000" : "");
@@ -146,20 +165,9 @@ async function refreshPageFaqs() {
                 `;
             };
 
-            const list = data.data;
-            const half = Math.ceil(list.length / 2);
-            const col1 = list.slice(0, half);
-            const col2 = list.slice(half);
-
-            container.className = "grid grid-cols-1 lg:grid-cols-2 gap-3.5 sm:gap-5 text-left items-start";
-            container.innerHTML = `
-                <div class="space-y-3.5 sm:space-y-4">
-                    ${col1.map((f, i) => renderFaqCard(f, i)).join('')}
-                </div>
-                <div class="space-y-3.5 sm:space-y-4">
-                    ${col2.map((f, i) => renderFaqCard(f, i + half)).join('')}
-                </div>
-            `;
+            container.innerHTML = data.data.map((faq, idx) => renderFaqCard(faq, idx)).join('');
+            container.classList.remove('faq-expanded');
+            window.setupFaqToggle(container, toggle);
         }
     } catch (err) {
         // keep fallback HTML if fetch fails

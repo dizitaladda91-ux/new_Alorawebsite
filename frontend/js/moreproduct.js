@@ -179,7 +179,7 @@ function renderProductCatalog(products) {
                 <!-- Product Info Section (Amazon Card Style from Image) -->
                 <div class="px-3.5 sm:px-4 pt-3 pb-2 flex flex-col text-left">
                     <!-- Title -->
-                    <h3 class="text-sm sm:text-[15px] font-bold text-[#2B1D14] leading-snug line-clamp-2 hover:text-[#D98E2B] transition-colors mb-1.5 product-name">
+                    <h3 class="text-sm sm:text-[15px] font-sans font-bold text-[#2B1D14] leading-snug line-clamp-2 hover:text-[#D98E2B] transition-colors mb-1.5 product-name">
                         <a href="${product.productUrl}">${product.name}</a>
                     </h3>
 

@@ -27,6 +27,7 @@ const ALLOWED_MIME_TYPES = [
   'image/jpeg', 'image/png', 'image/webp', 'image/jpg',
   'video/mp4', 'video/webm', 'video/quicktime', 'video/x-matroska', 'video/avi'
 ];
+const ALLOWED_IMAGE_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
 
 const fileFilter = (req, file, cb) => {
   if (ALLOWED_MIME_TYPES.includes(file.mimetype) || (file.mimetype && (file.mimetype.startsWith('image/') || file.mimetype.startsWith('video/')))) {
@@ -46,6 +47,25 @@ const upload = multer({
     fieldNameSize: 200
   }
 });
+
+const uploadContentImage = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (ALLOWED_IMAGE_MIME_TYPES.includes(file.mimetype)) {
+      return cb(null, true);
+    }
+    const error = new Error('Unsupported image format. Please use JPG, PNG, or WEBP.');
+    error.status = 400;
+    return cb(error);
+  },
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+    fieldSize: 1024 * 1024,
+    fieldNameSize: 200
+  }
+});
+
+export { uploadContentImage };
 
 export const deleteFromCloudinary = async (mediaUrl) => {
   try {

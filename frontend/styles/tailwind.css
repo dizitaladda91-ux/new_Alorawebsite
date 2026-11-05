@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.faq-list-collapsible:not(.faq-expanded) > details:nth-of-type(n + 5) {
+  display: none;
+}
+
 :root {
   --site-font: 'Jost', 'Jost-Fallback', Arial, sans-serif;
   --font-heading: 'Cormorant Garamond', 'Cormorant-Fallback', Georgia, serif;
