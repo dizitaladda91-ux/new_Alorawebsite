@@ -22,7 +22,7 @@ function createBlogCard(blog) {
     image.alt = blog.title || "Alora Radiance blog";
     image.loading = "lazy";
     image.decoding = "async";
-    image.className = "aspect-[4/3] w-full bg-[#F1E6D3] object-contain";
+    image.className = "block h-auto w-full";
 
     const content = document.createElement("div");
     content.className = "flex flex-1 flex-col p-4 sm:p-5";
