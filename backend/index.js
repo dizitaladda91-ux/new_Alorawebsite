@@ -18,6 +18,7 @@ import chatbotRoutes from "./routes/chatbot.routes.js";
 import wishlistRoutes from "./routes/wishlist.routes.js";
 import faqRoutes from "./routes/faq.routes.js";
 import homepageIngredientsRoutes from "./routes/homepageIngredients.routes.js";
+import { getHomepageIngredientBySlug } from "./controllers/homepageIngredients.controllers.js";
 import dns from "dns";
 import fs from "fs";
 import path from "path";
@@ -28,7 +29,7 @@ import Product from "./models/product.models.js";
 import Post from "./models/blog.models.js"; 
 import { generateSitemapXml } from "./services/sitemap.service.js"; 
 import { parseAndNormalizeSchemas } from "./services/contentSanitizer.service.js"; 
-import { renderBlogArticleSsr, renderBlogListSsr, renderProductSsr, renderProductListSsr } from "./services/ssr.service.js";
+import { renderBlogArticleSsr, renderBlogListSsr, renderIngredientSsr, renderProductSsr, renderProductListSsr } from "./services/ssr.service.js";
 import { setSecurityHeaders, sanitizeNoSql, createRateLimiter } from "./middlewares/security.middleware.js"; 
 
 if (!process.env.VERCEL) {
@@ -211,6 +212,27 @@ app.get('/product/:id', async (req, res) => {
     return res.status(200).send(renderedHtml);
   } catch (err) {
     return sendSsrUnavailable(res, 'Product', err);
+  }
+});
+
+app.get('/ingredients/:slug', async (req, res) => {
+  const slug = String(req.params.slug || '').trim().toLowerCase();
+  if (!slug) return res.status(404).type('html').send('<!doctype html><title>Ingredient not found</title><meta name="robots" content="noindex">Ingredient not found.');
+
+  try {
+    await db();
+    const ingredient = await getHomepageIngredientBySlug(slug);
+    if (!ingredient) {
+      return res.status(404).type('html').send('<!doctype html><title>Ingredient not found</title><meta name="robots" content="noindex">Ingredient not found.');
+    }
+
+    const templateHtml = await fs.promises.readFile(path.join(frontendRoot, 'ingredient.html'), 'utf8');
+    const renderedHtml = renderIngredientSsr(templateHtml, ingredient);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+    return res.status(200).send(renderedHtml);
+  } catch (err) {
+    return sendSsrUnavailable(res, 'Ingredient guide', err);
   }
 });
 

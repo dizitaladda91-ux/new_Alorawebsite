@@ -27,9 +27,18 @@ function escapeHtml(value = "") {
 
 function createEmptyIngredient() {
     return {
+        slug: "",
         name: "",
+        seoTitle: "",
+        seoDescription: "",
         shortDescription: "",
         fullDescription: "",
+        articleIntro: "",
+        pageSections: [
+            { heading: "What is this ingredient?", body: "" },
+            { heading: "Why is it used in skincare?", body: "" },
+            { heading: "How to use it", body: "" }
+        ],
         imageUrl: "",
         imageAlt: "",
         recommendedProducts: []
@@ -39,10 +48,20 @@ function createEmptyIngredient() {
 function collectIngredients() {
     return [...editorList.querySelectorAll("[data-ingredient-card]")].map(card => {
         const productIds = [...card.querySelectorAll("[data-product-id]:checked")].map(input => input.value);
+        const name = card.querySelector('[data-field="name"]').value.trim();
+        const articleIntro = card.querySelector('[data-field="articleIntro"]').value.trim();
         return {
-            name: card.querySelector('[data-field="name"]').value.trim(),
+            slug: card.querySelector('[data-field="slug"]').value.trim(),
+            name,
+            seoTitle: card.querySelector('[data-field="seoTitle"]').value.trim() || `${name} in Skincare | Alora Radiance`,
+            seoDescription: card.querySelector('[data-field="seoDescription"]').value.trim() || card.querySelector('[data-field="shortDescription"]').value.trim(),
             shortDescription: card.querySelector('[data-field="shortDescription"]').value.trim(),
-            fullDescription: card.querySelector('[data-field="fullDescription"]').value.trim(),
+            fullDescription: articleIntro,
+            articleIntro,
+            pageSections: [...card.querySelectorAll("[data-page-section]")].map(section => ({
+                heading: section.querySelector("[data-section-heading]").value.trim(),
+                body: section.querySelector("[data-section-body]").value.trim()
+            })),
             imageUrl: card.querySelector('[data-field="imageUrl"]').value.trim(),
             imageAlt: card.querySelector('[data-field="imageAlt"]').value.trim(),
             recommendedProducts: productIds
@@ -68,6 +87,22 @@ function renderIngredients() {
                 </label>
             `).join("")
             : '<p class="text-xs text-rose-600">Product catalog could not be loaded.</p>';
+        const articleSections = (ingredient.pageSections || []).map((section, sectionIndex) => `
+            <fieldset data-page-section class="rounded-xl border border-slate-200 bg-white p-3 space-y-3">
+                <div class="flex items-center justify-between gap-2">
+                    <legend class="text-xs font-bold text-slate-700">Article section ${sectionIndex + 1}</legend>
+                    <button type="button" data-action="remove-section" data-section-index="${sectionIndex}" class="text-xs font-bold text-rose-700 hover:text-rose-900" ${ingredient.pageSections.length <= 2 ? "disabled" : ""}>Remove section</button>
+                </div>
+                <label class="block space-y-1">
+                    <span class="text-[11px] font-semibold uppercase tracking-wide text-slate-600">Section heading</span>
+                    <input data-section-heading type="text" maxlength="120" required value="${escapeHtml(section.heading)}" class="w-full rounded-lg border border-slate-300 p-2.5 text-sm">
+                </label>
+                <label class="block space-y-1">
+                    <span class="text-[11px] font-semibold uppercase tracking-wide text-slate-600">Article text</span>
+                    <textarea data-section-body rows="5" maxlength="5000" required class="w-full rounded-lg border border-slate-300 p-2.5 text-sm">${escapeHtml(section.body)}</textarea>
+                </label>
+            </fieldset>
+        `).join("");
 
         card.innerHTML = `
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-3">
@@ -84,13 +119,27 @@ function renderIngredients() {
                         <input data-field="name" type="text" maxlength="100" required value="${escapeHtml(ingredient.name)}" class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">
                     </label>
                     <label class="block space-y-1.5">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Page URL slug</span>
+                        <input data-field="slug" type="text" maxlength="120" required value="${escapeHtml(ingredient.slug || "")}" placeholder="e.g. saffron" class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white font-mono">
+                    </label>
+                    <div class="grid md:grid-cols-2 gap-3">
+                        <label class="block space-y-1.5">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-700">SEO title</span>
+                            <input data-field="seoTitle" type="text" maxlength="160" required value="${escapeHtml(ingredient.seoTitle || "")}" class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">
+                        </label>
+                        <label class="block space-y-1.5">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-700">SEO description</span>
+                            <textarea data-field="seoDescription" rows="2" maxlength="320" required class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">${escapeHtml(ingredient.seoDescription || "")}</textarea>
+                        </label>
+                    </div>
+                    <label class="block space-y-1.5">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Card summary</span>
                         <textarea data-field="shortDescription" rows="2" maxlength="220" required class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">${escapeHtml(ingredient.shortDescription)}</textarea>
                     </label>
                     <label class="block space-y-1.5">
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Full Read More details</span>
-                        <textarea data-field="fullDescription" rows="5" maxlength="3000" required class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">${escapeHtml(ingredient.fullDescription)}</textarea>
-                        <span class="block text-[11px] text-slate-500">Plain text. Up to 3,000 characters.</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Article introduction</span>
+                        <textarea data-field="articleIntro" rows="5" maxlength="5000" required class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white">${escapeHtml(ingredient.articleIntro || ingredient.fullDescription || "")}</textarea>
+                        <span class="block text-[11px] text-slate-500">This appears at the start of the full ingredient guide.</span>
                     </label>
                 </div>
 
@@ -116,13 +165,35 @@ function renderIngredients() {
             </div>
 
             <div class="border-t border-slate-200 pt-4">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700">Full ingredient article</h4>
+                        <p class="mt-1 text-[11px] text-slate-500">Create at least 2 sections. Each section appears as a heading and long-form content on its own page.</p>
+                    </div>
+                    <button type="button" data-action="add-section" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100">Add article section</button>
+                </div>
+                <div data-article-sections class="mt-3 space-y-3">${articleSections}</div>
+            </div>
+
+            <div class="border-t border-slate-200 pt-4">
                 <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700">Recommended products</h4>
-                <p class="mt-1 text-[11px] text-slate-500">Choose up to 6 products to show in this ingredient's Read More panel.</p>
+                <p class="mt-1 text-[11px] text-slate-500">Choose up to 6 products to feature near the end of this ingredient's guide page.</p>
                 <div class="mt-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-56 overflow-y-auto">${productOptions}</div>
             </div>
         `;
 
         card.addEventListener("input", event => {
+            if (event.target.matches('[data-field="name"]')) {
+                const slugInput = card.querySelector('[data-field="slug"]');
+                if (!slugInput.dataset.edited) {
+                    slugInput.value = event.target.value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+                }
+                const seoTitle = card.querySelector('[data-field="seoTitle"]');
+                if (!seoTitle.dataset.edited) seoTitle.value = event.target.value.trim() ? `${event.target.value.trim()} in Skincare | Alora Radiance` : "";
+            }
+            if (event.target.matches('[data-field="slug"], [data-field="seoTitle"], [data-field="seoDescription"]')) {
+                event.target.dataset.edited = "true";
+            }
             if (event.target.matches('[data-field="imageUrl"]')) {
                 const image = card.querySelector("[data-image-preview]");
                 image.src = getImageUrl(event.target.value.trim() || "/static/placeholder.png");
@@ -147,6 +218,19 @@ function renderIngredients() {
                 if (ingredients.length <= 1) return;
                 ingredients = collectIngredients();
                 ingredients.splice(index, 1);
+                renderIngredients();
+            } else if (action === "add-section" || action === "remove-section") {
+                ingredients = collectIngredients();
+                if (action === "add-section") {
+                    if (ingredients[index].pageSections.length >= 12) {
+                        showStatus("Each ingredient can have up to 12 article sections.", true);
+                        return;
+                    }
+                    ingredients[index].pageSections.push({ heading: "", body: "" });
+                } else {
+                    if (ingredients[index].pageSections.length <= 2) return;
+                    ingredients[index].pageSections.splice(Number(event.target.closest("[data-action]").dataset.sectionIndex), 1);
+                }
                 renderIngredients();
             } else if (action === "upload-image") {
                 uploadIngredientImage(card);

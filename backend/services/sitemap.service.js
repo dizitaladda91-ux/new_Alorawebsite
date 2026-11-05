@@ -3,6 +3,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import Blog from "../models/blog.models.js";
 import SimpleProduct from "../models/product.models.js";
+import HomepageIngredients from "../models/homepageIngredients.models.js";
+import { DEFAULT_HOMEPAGE_INGREDIENTS } from "../controllers/homepageIngredients.controllers.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -61,6 +63,31 @@ export async function generateSitemapXml() {
         });
     } catch (e) {
         console.warn("Sitemap generator blog fetch warning:", e.message);
+    }
+
+    // 4. Ingredient guides
+    try {
+        const content = await HomepageIngredients.findOne(
+            { key: "homepage-ingredients" },
+            "ingredients.slug ingredients.name updatedAt"
+        ).lean();
+        const ingredients = content?.ingredients?.length
+            ? content.ingredients
+            : DEFAULT_HOMEPAGE_INGREDIENTS.ingredients;
+        const modDate = content?.updatedAt ? new Date(content.updatedAt).toISOString().split('T')[0] : today;
+
+        ingredients.forEach(ingredient => {
+            const slug = String(ingredient.slug || ingredient.name || "")
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-+|-+$/g, "");
+            if (slug) {
+                xml += `  <url>\n    <loc>${baseUrl}/ingredients/${encodeURIComponent(slug)}</loc>\n    <lastmod>${modDate}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
+            }
+        });
+    } catch (e) {
+        console.warn("Sitemap generator ingredient guide warning:", e.message);
     }
 
     xml += `</urlset>\n`;

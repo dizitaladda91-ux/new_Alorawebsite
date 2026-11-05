@@ -1099,26 +1099,6 @@
         </div>
     </section>
 
-    <dialog id="ingredient-detail-dialog" class="w-[min(94vw,900px)] max-w-none max-h-[90vh] overflow-y-auto rounded-3xl p-0 text-[#2B1D14] shadow-2xl backdrop:bg-black/60">
-        <div class="relative bg-[#FBF7F0]">
-            <button id="ingredient-dialog-close" type="button" class="absolute right-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#2B1D14] shadow hover:bg-white" aria-label="Close ingredient details">
-                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-            </button>
-            <div class="grid md:grid-cols-2">
-                <img id="ingredient-dialog-image" src="./static/placeholder.png" alt="" class="w-full h-56 md:h-full min-h-[280px] object-cover">
-                <div class="p-6 sm:p-8">
-                    <span class="text-xs font-semibold uppercase tracking-[0.18em] text-[#8B5C2A]">Ingredient guide</span>
-                    <h2 id="ingredient-dialog-title" class="mt-2 text-3xl sm:text-4xl font-heading font-bold"></h2>
-                    <p id="ingredient-dialog-description" class="mt-4 text-sm sm:text-base leading-relaxed text-[#2B1D14]/80 whitespace-pre-line"></p>
-                    <div class="mt-7">
-                        <h3 class="text-lg font-heading font-bold">Recommended for this ingredient</h3>
-                        <div id="ingredient-dialog-products" class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </dialog>
-
     <!-- ============ WATCH IT. LOVE IT. VIDEO REELS CAROUSEL SECTION ============ -->
     <!-- NOTE: You can change the 'data-video-url' attribute on any card below to your desired video link (YouTube embed, Instagram Reel URL, or MP4 file) -->
 
@@ -2095,6 +2075,30 @@
     })();
 </script>
 
+    <!-- ============ LATEST BLOGS ============ -->
+    <section id="latest-blogs-section" class="w-full bg-[#FBF7F0] py-12 sm:py-16" aria-labelledby="latest-blogs-heading">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mb-7 flex flex-wrap items-end justify-between gap-4 sm:mb-9">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B5C2A]">From our journal</span>
+                    <h2 id="latest-blogs-heading" class="mt-2 font-heading text-3xl font-bold text-[#2B1D14] sm:text-4xl">Our Latest Blogs</h2>
+                    <p class="mt-2 text-sm text-[#6B625A]">Skincare guides, ingredient insights, and everyday routine tips.</p>
+                </div>
+            </div>
+            <div id="latest-blogs-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4" aria-live="polite">
+                <div class="aspect-[4/5] animate-pulse rounded-2xl bg-[#F1E6D3]"></div>
+                <div class="hidden aspect-[4/5] animate-pulse rounded-2xl bg-[#F1E6D3] sm:block"></div>
+                <div class="hidden aspect-[4/5] animate-pulse rounded-2xl bg-[#F1E6D3] lg:block"></div>
+                <div class="hidden aspect-[4/5] animate-pulse rounded-2xl bg-[#F1E6D3] lg:block"></div>
+            </div>
+            <div class="mt-8 text-center">
+                <a href="/blog" class="inline-flex items-center gap-2 rounded-full border border-[#2B1D14]/20 px-6 py-3 text-sm font-semibold text-[#2B1D14] transition hover:border-[#8B5C2A] hover:bg-[#F1E6D3]">
+                    View More Blogs <span aria-hidden="true">&rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- ============ FAQ SECTION (LOADED MODULARLY VIA FAQ-SECTION.HTML) ============ -->
     <div id="faq-placeholder"></div>
 
@@ -2129,6 +2133,7 @@
     <script src="./js/include.min.js" async defer></script>
     <script type="module" src="./js/navbar-interactions.min.js"></script>
     <script type="module" src="./js/homepageIngredients.min.js"></script>
+    <script type="module" src="./js/homepageLatestBlogs.min.js"></script>
     <script type="module" src="./js/main.min.js"></script>
     <script>
         // Defer secondary interaction scripts (cart.js, auth.js, app.js, lead.js) to idle time to eliminate unused JS on initial render

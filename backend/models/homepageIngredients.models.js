@@ -1,11 +1,44 @@
 import mongoose from "mongoose";
 
+const ingredientArticleSectionSchema = new mongoose.Schema({
+    heading: {
+        type: String,
+        required: true,
+        trim: true,
+        maxlength: 120
+    },
+    body: {
+        type: String,
+        required: true,
+        trim: true,
+        maxlength: 5000
+    }
+}, { _id: false });
+
 const ingredientCardSchema = new mongoose.Schema({
+    slug: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true,
+        maxlength: 120,
+        match: /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+    },
     name: {
         type: String,
         required: true,
         trim: true,
         maxlength: 100
+    },
+    seoTitle: {
+        type: String,
+        trim: true,
+        maxlength: 160
+    },
+    seoDescription: {
+        type: String,
+        trim: true,
+        maxlength: 320
     },
     shortDescription: {
         type: String,
@@ -17,7 +50,17 @@ const ingredientCardSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        maxlength: 3000
+        maxlength: 5000
+    },
+    articleIntro: {
+        type: String,
+        required: true,
+        trim: true,
+        maxlength: 5000
+    },
+    pageSections: {
+        type: [ingredientArticleSectionSchema],
+        default: []
     },
     imageUrl: {
         type: String,

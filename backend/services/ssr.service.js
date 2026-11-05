@@ -47,6 +47,15 @@ export const getBlogSlugUrl = (post) => {
     return `${DOMAIN}/blog/${encodeURIComponent(slug || "article")}`;
 };
 
+export const getIngredientSlugUrl = (ingredient) => {
+    const slug = String(ingredient?.slug || ingredient?.name || "ingredient")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    return `${DOMAIN}/ingredients/${encodeURIComponent(slug || "ingredient")}`;
+};
+
 const generateStarsHtml = (rating = 4) => {
     const rounded = Math.round(Number(rating) || 4);
     let html = '';
@@ -230,6 +239,82 @@ export const renderBlogArticleSsr = (templateHtml, blog, relatedProducts = []) =
         html = html.replace(/<div id="related-products-grid"[^>]*>[\s\S]*?<\/div>/i, `<div id="related-products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">${cardsHtml}</div>`);
     }
 
+    return html;
+};
+
+export const renderIngredientSsr = (templateHtml, ingredient) => {
+    if (!ingredient) return templateHtml;
+
+    const name = String(ingredient.name || "Ingredient");
+    const title = escapeHtml(ingredient.seoTitle || `${name} in Skincare | Alora Radiance`);
+    const description = escapeHtml(ingredient.seoDescription || ingredient.shortDescription || `Learn about ${name} and how it is used in skincare.`);
+    const canonicalUrl = getIngredientSlugUrl(ingredient);
+    const imageUrl = formatImageUrl(ingredient.imageUrl);
+    const paragraphs = (value) => String(value || "")
+        .split(/\n{2,}/)
+        .map(paragraph => paragraph.trim())
+        .filter(Boolean)
+        .map(paragraph => `<p class="mt-4 text-base leading-8 text-[#4E443B]">${escapeHtml(paragraph).replace(/\n/g, "<br>")}</p>`)
+        .join("");
+    const pageSections = Array.isArray(ingredient.pageSections) ? ingredient.pageSections : [];
+    const tocHtml = pageSections.map((section, index) =>
+        `<a href="#ingredient-section-${index + 1}" class="block border-l-2 border-[#E8DCCB] py-2 pl-4 text-sm text-[#4E443B] hover:border-[#8B5C2A] hover:text-[#8B5C2A]">${escapeHtml(section.heading)}</a>`
+    ).join("");
+    const sectionsHtml = pageSections.map((section, index) => `
+        <section id="ingredient-section-${index + 1}" class="scroll-mt-24 border-b border-[#E8DCCB] py-8 sm:py-10">
+            <h2 class="font-heading text-3xl font-bold leading-tight text-[#2B1D14] sm:text-4xl">${escapeHtml(section.heading)}</h2>
+            ${paragraphs(section.body)}
+        </section>
+    `).join("");
+    const products = (ingredient.recommendedProducts || []).filter(product => product && product.isAvailable !== false);
+    const productsHtml = products.length ? products.map(product => {
+        const price = product.price === null || product.price === undefined ? "" : `₹${escapeHtml(product.price)}`;
+        return `
+            <a href="${escapeHtml(getProductSlugUrl(product))}" class="group overflow-hidden rounded-2xl border border-[#E8DCCB] bg-white transition hover:-translate-y-1 hover:shadow-lg">
+                <img src="${escapeHtml(formatImageUrl(product.imagepath))}" alt="${escapeHtml(product.name || "Alora Radiance product")}" loading="lazy" class="aspect-square w-full bg-[#F1E6D3] object-cover">
+                <span class="block p-4">
+                    <span class="block font-semibold text-[#2B1D14]">${escapeHtml(product.name || "Alora Radiance product")}</span>
+                    <span class="mt-2 flex items-center justify-between text-sm text-[#8B5C2A]">
+                        <span>${price}</span>
+                        <span class="font-semibold">View product <span aria-hidden="true">&rarr;</span></span>
+                    </span>
+                </span>
+            </a>
+        `;
+    }).join("") : '<p class="col-span-full text-sm leading-7 text-[#6B625A]">Products related to this ingredient will be added soon.</p>';
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": name,
+        "description": ingredient.seoDescription || ingredient.shortDescription || "",
+        "image": imageUrl,
+        "author": { "@type": "Organization", "name": "Alora Radiance", "url": DOMAIN },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Alora Radiance",
+            "logo": { "@type": "ImageObject", "url": `${DOMAIN}/static/logo2.png` }
+        },
+        "mainEntityOfPage": { "@type": "WebPage", "@id": canonicalUrl }
+    };
+
+    let html = templateHtml;
+    html = html.replace(/<title id="ingredient-page-title">.*?<\/title>/i, `<title id="ingredient-page-title">${title}</title>`);
+    html = html.replace(/<meta id="ingredient-meta-description" name="description" content="[^"]*">/i, `<meta id="ingredient-meta-description" name="description" content="${description}">`);
+    html = html.replace(/<meta id="ingredient-meta-keywords" name="keywords" content="[^"]*">/i, `<meta id="ingredient-meta-keywords" name="keywords" content="${escapeHtml(`${name}, ${name} in skincare, skincare ingredients, Alora Radiance`)}">`);
+    html = html.replace(/<link id="ingredient-canonical" rel="canonical" href="[^"]*"\s*\/?>/i, `<link id="ingredient-canonical" rel="canonical" href="${escapeHtml(canonicalUrl)}" />`);
+    html = html.replace(/<meta id="ingredient-og-title" property="og:title" content="[^"]*">/i, `<meta id="ingredient-og-title" property="og:title" content="${title}">`);
+    html = html.replace(/<meta id="ingredient-og-description" property="og:description" content="[^"]*">/i, `<meta id="ingredient-og-description" property="og:description" content="${description}">`);
+    html = html.replace(/<meta id="ingredient-og-image" property="og:image" content="[^"]*">/i, `<meta id="ingredient-og-image" property="og:image" content="${escapeHtml(imageUrl)}">`);
+    html = html.replace(/<meta id="ingredient-og-url" property="og:url" content="[^"]*">/i, `<meta id="ingredient-og-url" property="og:url" content="${escapeHtml(canonicalUrl)}">`);
+    html = html.replace(/<script id="ingredient-json-ld" type="application\/ld\+json">[\s\S]*?<\/script>/i, `<script id="ingredient-json-ld" type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>`);
+    html = html.replace(/<span id="ingredient-breadcrumb-name"[^>]*>.*?<\/span>/i, `<span id="ingredient-breadcrumb-name" aria-current="page">${escapeHtml(name)}</span>`);
+    html = html.replace(/<span id="ingredient-eyebrow"[^>]*>.*?<\/span>/i, `<span id="ingredient-eyebrow" class="text-xs font-semibold uppercase tracking-[0.22em] text-[#8B5C2A]">${escapeHtml(ingredient.eyebrow || "Ingredient Guide")}</span>`);
+    html = html.replace(/<h1 id="ingredient-title"[^>]*>.*?<\/h1>/i, `<h1 id="ingredient-title" class="mt-3 font-heading text-5xl font-bold leading-tight text-[#2B1D14] sm:text-6xl">${escapeHtml(name)}</h1>`);
+    html = html.replace(/<div id="ingredient-introduction"[^>]*>[\s\S]*?<\/div>/i, `<div id="ingredient-introduction" class="mt-6 max-w-3xl text-lg leading-8 text-[#4E443B]">${paragraphs(ingredient.articleIntro || ingredient.fullDescription || ingredient.shortDescription)}</div>`);
+    html = html.replace(/<img id="ingredient-hero-image"[^>]*>/i, `<img id="ingredient-hero-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(ingredient.imageAlt || name)}" class="h-full min-h-[320px] w-full rounded-3xl object-cover shadow-sm" fetchpriority="high">`);
+    html = html.replace("<!-- INGREDIENT_TOC -->", tocHtml);
+    html = html.replace("<!-- INGREDIENT_SECTIONS -->", sectionsHtml);
+    html = html.replace("<!-- INGREDIENT_PRODUCTS -->", productsHtml);
     return html;
 };
 
