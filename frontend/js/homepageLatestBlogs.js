@@ -22,7 +22,7 @@ function createBlogCard(blog) {
     image.alt = blog.title || "Alora Radiance blog";
     image.loading = "lazy";
     image.decoding = "async";
-    image.className = "aspect-[4/3] w-full bg-[#F1E6D3] object-cover";
+    image.className = "aspect-[4/3] w-full bg-[#F1E6D3] object-contain";
 
     const content = document.createElement("div");
     content.className = "flex flex-1 flex-col p-4 sm:p-5";
@@ -63,14 +63,14 @@ async function loadLatestBlogs() {
     if (!section || !grid) return;
 
     try {
-        const response = await fetch(`${BASE_URL}/api/blogs/all?limit=4`, { cache: "no-cache" });
+        const response = await fetch(`${BASE_URL}/api/blogs/all?limit=3`, { cache: "no-cache" });
         const result = await response.json();
         if (!response.ok || !result.success) {
             throw new Error(result.message || "Could not load the latest blogs.");
         }
 
         const blogs = Array.isArray(result.blogs) ? result.blogs : (Array.isArray(result.data) ? result.data : []);
-        const latestBlogs = blogs.slice(0, 4).filter(blog => blog && (blog.slug || blog.title));
+        const latestBlogs = blogs.slice(0, 3).filter(blog => blog && (blog.slug || blog.title));
         if (!latestBlogs.length) {
             section.hidden = true;
             return;
