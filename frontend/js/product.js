@@ -234,11 +234,13 @@ async function loadProductDetails() {
         const ingredientsEl = document.getElementById('product-ingredients');
         if (ingredientsEl) ingredientsEl.innerText = product.ingredients || "Ingredients info not specified.";
         const ratingCount = Math.round(product.rating || 4);
-        const starsContainer = document.querySelector('.text-gold.text-sm');
+        const starsContainer = document.getElementById('product-rating-stars');
         if (starsContainer) {
             let starsHTML = '';
             for (let i = 1; i <= 5; i++) {
-                starsHTML += i <= ratingCount ? `<i class="fa-solid fa-star"></i>` : `<i class="fa-regular fa-star text-accent"></i>`;
+                starsHTML += i <= ratingCount
+                    ? `<i class="fa-solid fa-star text-[#D98E2B]"></i>`
+                    : `<i class="fa-regular fa-star text-[#D98E2B]"></i>`;
             }
             starsContainer.innerHTML = starsHTML;
         }
@@ -469,16 +471,16 @@ async function fetchAndRenderReviews(productId) {
                 });
                 let starsHTML = '';
                 for (let i = 1; i <= 5; i++) {
-                    starsHTML += i <= review.rating 
-                        ? '<i class="fa-solid fa-star mr-0.5"></i>' 
-                        : '<i class="fa-regular fa-star mr-0.5"></i>';
+                    starsHTML += i <= review.rating
+                        ? '<i class="fa-solid fa-star text-[#D98E2B] mr-0.5"></i>'
+                        : '<i class="fa-regular fa-star text-[#D98E2B] mr-0.5"></i>';
                 }
                 reviewElement.innerHTML = `
                     <div class="flex justify-between items-center mb-1">
                         <span class="font-medium text-ink text-sm">${escapeHTML(review.username)}</span>
                         <span class="text-xs text-ash">${reviewDate}</span>
                     </div>
-                    <div class="flex text-gold text-xs mb-2">
+                    <div class="flex text-[#D98E2B] text-xs mb-2">
                         ${starsHTML}
                     </div>
                     <p class="text-xs text-text leading-relaxed">${escapeHTML(review.comment)}</p>
