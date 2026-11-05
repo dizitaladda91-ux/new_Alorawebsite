@@ -72,7 +72,7 @@ function renderBlogTable(blogs) {
             </td>
             <td class="px-6 py-4">
                 <div class="font-bold text-slate-900 line-clamp-1 text-sm font-fraunces">${safeTitle}</div>
-                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 mt-1 rounded-md text-[10px] font-extrabold bg-amber-100/80 text-[#8B4513] border border-amber-300/60 uppercase tracking-wider">
+                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 mt-1 rounded-md text-[10px] font-extrabold bg-amber-100/80 text-accent-hover border border-amber-300/60 uppercase tracking-wider">
                     <i class="fa-solid fa-tag text-[9px]"></i> ${safeCategory}
                 </span>
             </td>
@@ -80,7 +80,7 @@ function renderBlogTable(blogs) {
                 <span class="bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 text-slate-700">/blog/${blog.slug}</span>
             </td>
             <td class="px-6 py-4 text-right whitespace-nowrap space-x-2">
-                <button data-id="${blogId}" class="edit-btn inline-flex items-center gap-1.5 bg-amber-50 text-[#8B4513] hover:bg-[#8B4513] hover:text-white border border-amber-300 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shadow-xs">
+                <button data-id="${blogId}" class="edit-btn inline-flex items-center gap-1.5 bg-amber-50 text-accent-hover hover:bg-accent-hover hover:text-white border border-amber-300 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shadow-xs">
                     <i class="fa-solid fa-pen-to-square"></i> Edit
                 </button>
                 <button data-id="${blogId}" class="delete-btn inline-flex items-center gap-1.5 bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white border border-rose-200 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shadow-xs">

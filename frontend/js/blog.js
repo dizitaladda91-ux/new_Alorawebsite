@@ -79,7 +79,7 @@ async function renderBlogCards() {
                             <img src="${escapeHtml(absoluteCoverImage)}" alt="${safeTitle}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='./static/logo2.png'">
                             <!-- Category Badge Pill in Upper Left Corner -->
                             <div style="position: absolute; top: 12px; left: 12px; z-index: 10;">
-                                <span style="background-color: rgba(255, 255, 255, 0.95); color: #152219; border: 1.5px solid #800000; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 9999px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); letter-spacing: 0.025em; display: inline-block;">
+                                <span style="background-color: rgb(var(--bg-rgb) / 0.95); color: var(--text); border: 1.5px solid var(--primary); font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 9999px; box-shadow: 0 1px 3px rgb(var(--text-rgb) / 0.12); letter-spacing: 0.025em; display: inline-block;">
                                     ${categoryName}
                                 </span>
                             </div>
@@ -88,7 +88,7 @@ async function renderBlogCards() {
                         <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-3">
                             <div>
                                 <!-- Rich Maroon Title -->
-                                <h3 class="text-lg sm:text-xl font-bold font-sans leading-snug text-[#800000] group-hover:text-[#8B0000] transition-colors duration-200 line-clamp-2 mb-2">
+                                <h3 class="text-lg sm:text-xl font-bold font-sans leading-snug text-primary group-hover:text-primary transition-colors duration-200 line-clamp-2 mb-2">
                                     ${safeTitle}
                                 </h3>
                                 <!-- Description Snippet -->
@@ -98,7 +98,7 @@ async function renderBlogCards() {
                             </div>
                             <!-- Footer Bar: Publisher | Date & Read More Button -->
                             <div class="pt-3 border-t border-slate-100 flex items-center justify-between mt-auto">
-                                <span class="text-xs font-bold text-[#800000] tracking-wide">
+                                <span class="text-xs font-bold text-primary tracking-wide">
                                     ${publisherName} | ${escapeHtml(formattedDate)}
                                 </span>
                                 <span class="bg-black hover:bg-slate-900 text-white text-xs font-extrabold px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 shadow-sm group-hover:scale-105">

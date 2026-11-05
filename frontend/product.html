@@ -19,13 +19,13 @@
             theme: {
                 extend: {
                     colors: {
-                        parchment: '#FBF7F0',
-                        sand: '#EFE7D5',
-                        clay: '#D98E2B',
-                        'clay-dark': '#6E360F',
-                        gold: '#D98E2B',
-                        ink: '#1A1A1A',
-                        ash: '#555555'
+                        parchment: 'var(--bg)',
+                        sand: 'var(--bg)',
+                        clay: 'var(--accent)',
+                        'clay-dark': 'var(--accent-hover)',
+                        gold: 'var(--accent)',
+                        ink: 'var(--text)',
+                        ash: 'var(--text)'
                     },
                     fontFamily: {
                         serif: ['var(--font-heading)', 'serif'],
@@ -45,10 +45,10 @@
 
     <style>
         .star-rating input[type="radio"] { display: none; }
-        .star-rating label { cursor: pointer; color: #DCD3BA; font-size: 1.25rem; }
+        .star-rating label { cursor: pointer; color: var(--accent); font-size: 1.25rem; }
         .star-rating input[type="radio"]:checked ~ label,
         .star-rating label:hover,
-        .star-rating label:hover ~ label { color: #D98E2B; }
+        .star-rating label:hover ~ label { color: var(--accent); }
 
         /* On phones the gallery must scroll normally; otherwise the product
            details pass underneath the frozen image. */
@@ -92,7 +92,7 @@
                 <!-- LEFT SIDE: IMAGES & GALLERY -->
                 <div class="product-media-gallery space-y-4 relative z-0">
                     <div class="relative group">
-                        <div id="main-media-container" class="imagesection bg-white rounded-2xl md:rounded-3xl border border-[#E7DFC7] aspect-square flex items-center justify-center p-0 shadow-sm relative overflow-hidden">
+                        <div id="main-media-container" class="imagesection bg-white rounded-2xl md:rounded-3xl border border-bg aspect-square flex items-center justify-center p-0 shadow-sm relative overflow-hidden">
                             <!-- IMPORTANT: source image must be uploaded as 1:1 (square),
                                  e.g. 800x800 or 1200x1200 — object-cover will crop anything
                                  that isn't already square. -->
@@ -136,7 +136,7 @@
                     </div>
 
                     <!-- PRICING & DISCOUNTS -->
-                    <div class="flex items-baseline gap-3 border-y border-[#ECE4CE] py-4">
+                    <div class="flex items-baseline gap-3 border-y border-bg py-4">
                         <span id="product-price" class="text-2xl sm:text-3xl font-serif font-bold text-clay">₹0</span>
                         <span id="product-mrp" class="text-sm sm:text-base text-ash line-through">₹0</span>
                         <span id="product-discount-badge" class="bg-amber-100 text-clay text-xs font-bold px-2.5 py-0.5 rounded-md border border-clay/20 font-mono">SAVE SPECIAL</span>
@@ -158,7 +158,7 @@
                     <!-- QUANTITY & ADD TO CART ACTION BAR -->
                     <div class="flex flex-col sm:flex-row gap-4 pt-2">
                         <!-- QUANTITY SELECTOR -->
-                        <div class="flex items-center border border-[#DCD3BA] rounded-xl bg-white h-12 w-32 justify-between px-3">
+                        <div class="flex items-center border border-accent rounded-xl bg-white h-12 w-32 justify-between px-3">
                             <button type="button" id="qty-minus" class="text-ash hover:text-clay font-bold text-base px-2">-</button>
                             <span id="qty-value" class="font-bold text-sm font-mono">1</span>
                             <button type="button" id="qty-plus" class="text-ash hover:text-clay font-bold text-base px-2">+</button>
@@ -170,50 +170,50 @@
                         </button>
 
                         <!-- WISHLIST BUTTON -->
-                        <button type="button" id="single-wishlist-btn" class="wishlist-toggle-btn h-12 w-12 rounded-xl bg-white hover:bg-rose-50 border border-[#DCD3BA] shadow-xs flex items-center justify-center transition-all cursor-pointer group/wish shrink-0" title="Add to Wishlist" aria-label="Add to Wishlist">
+                        <button type="button" id="single-wishlist-btn" class="wishlist-toggle-btn h-12 w-12 rounded-xl bg-white hover:bg-rose-50 border border-accent shadow-xs flex items-center justify-center transition-all cursor-pointer group/wish shrink-0" title="Add to Wishlist" aria-label="Add to Wishlist">
                             <i class="fa-regular fa-heart text-base text-stone-400 group-hover/wish:text-rose-600 transition-colors"></i>
                         </button>
                     </div>
 
                     <!-- ALSO AVAILABLE ON MARKETPLACES -->
-                    <div class="flex flex-wrap items-center justify-between gap-2 bg-[#FAF7F0] p-3 rounded-2xl border border-[#E7DFC7] shadow-xs">
+                    <div class="flex flex-wrap items-center justify-between gap-2 bg-bg p-3 rounded-2xl border border-bg shadow-xs">
                         <span class="text-[11px] font-bold uppercase tracking-wider text-ash flex items-center gap-1.5">
                             <i class="fa-solid fa-bag-shopping text-amber-600 text-xs"></i> Also Available On:
                         </span>
                         <div class="flex items-center gap-2">
                             <a href="https://www.amazon.in/s?k=ALORA+RADIANCE&ref=nb_sb_noss" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-amber-50 text-slate-800 hover:text-amber-800 px-3 py-1.5 rounded-xl border border-stone-300 text-[11px] font-bold transition-all flex items-center gap-1.5 shadow-2xs">
-                                <i class="fa-brands fa-amazon text-xs text-[#FF9900]"></i> Amazon
+                                <i class="fa-brands fa-amazon text-xs text-accent"></i> Amazon
                             </a>
                             <a href="https://www.flipkart.com/search?q=alora%20radiance&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-blue-50 text-slate-800 hover:text-blue-800 px-3 py-1.5 rounded-xl border border-stone-300 text-[11px] font-bold transition-all flex items-center gap-1.5 shadow-2xs">
-                                <i class="fa-solid fa-cart-shopping text-[10px] text-[#2874F0]"></i> Flipkart
+                                <i class="fa-solid fa-cart-shopping text-[10px] text-text"></i> Flipkart
                             </a>
                         </div>
                     </div>
 
                     <!-- ACCORDION TABS: BENEFITS, USAGE, INGREDIENTS -->
-                    <div class="border-t border-[#ECE4CE] pt-4 space-y-3">
-                        <details class="group py-3 border-b border-[#ECE4CE]" open>
+                    <div class="border-t border-bg pt-4 space-y-3">
+                        <details class="group py-3 border-b border-bg" open>
                             <summary class="flex justify-between items-center font-serif font-semibold text-sm text-ink cursor-pointer list-none">
                                 <span>Product Overview &amp; Story</span>
                                 <span class="transition group-open:rotate-45 text-clay"><i class="fa-solid fa-plus text-xs"></i></span>
                             </summary>
                             <p id="product-details" class="text-xs text-ash mt-2 leading-relaxed">Loading details...</p>
                         </details>
-                        <details class="group py-3 border-b border-[#ECE4CE]">
+                        <details class="group py-3 border-b border-bg">
                             <summary class="flex justify-between items-center font-serif font-semibold text-sm text-ink cursor-pointer list-none">
                                 <span>Key Benefits</span>
                                 <span class="transition group-open:rotate-45 text-clay"><i class="fa-solid fa-plus text-xs"></i></span>
                             </summary>
                             <p id="product-benefits" class="text-xs text-ash mt-2 leading-relaxed">Loading benefits...</p>
                         </details>
-                        <details class="group py-3 border-b border-[#ECE4CE]">
+                        <details class="group py-3 border-b border-bg">
                             <summary class="flex justify-between items-center font-serif font-semibold text-sm text-ink cursor-pointer list-none">
                                 <span>How to Use</span>
                                 <span class="transition group-open:rotate-45 text-clay"><i class="fa-solid fa-plus text-xs"></i></span>
                             </summary>
                             <p id="product-usage" class="text-xs text-ash mt-2 leading-relaxed">Loading usage...</p>
                         </details>
-                        <details class="group py-3 border-b border-[#ECE4CE]">
+                        <details class="group py-3 border-b border-bg">
                             <summary class="flex justify-between items-center font-serif font-semibold text-sm text-ink cursor-pointer list-none">
                                 <span>Full Ingredients List</span>
                                 <span class="transition group-open:rotate-45 text-clay"><i class="fa-solid fa-plus text-xs"></i></span>
@@ -228,17 +228,17 @@
 
         <!-- REVIEWS & RATINGS SECTION -->
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
-            <div class="bg-white p-6 sm:p-10 rounded-2xl shadow-sm border border-[#ECE4CE]">
+            <div class="bg-white p-6 sm:p-10 rounded-2xl shadow-sm border border-bg">
                 <h2 class="text-xl sm:text-2xl font-serif font-semibold text-ink mb-8">Customer Reviews &amp; Ratings</h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Left Side: Review Form -->
-                    <div class="md:col-span-1 border-b md:border-b-0 md:border-r border-[#ECE4CE] pb-6 md:pb-0 md:pr-8">
+                    <div class="md:col-span-1 border-b md:border-b-0 md:border-r border-bg pb-6 md:pb-0 md:pr-8">
                         <h3 class="text-md font-semibold text-ink mb-4">Write a Review</h3>
                         <form id="review-form" class="space-y-4">
                             <div>
                                 <label class="block text-xs font-bold text-ash uppercase tracking-wider mb-2">Your Name</label>
-                                <input type="text" id="review-username" required class="w-full border border-[#DCD3BA] rounded-lg px-3 py-2 text-sm bg-parchment/30 focus:outline-none focus:border-clay">
+                                <input type="text" id="review-username" required class="w-full border border-accent rounded-lg px-3 py-2 text-sm bg-parchment/30 focus:outline-none focus:border-clay">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-ash uppercase tracking-wider mb-2">Your Rating</label>
@@ -253,7 +253,7 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-ash uppercase tracking-wider mb-2">Review Comments</label>
-                                <textarea id="review-comment" rows="4" required class="w-full border border-[#DCD3BA] rounded-lg px-3 py-2 text-sm bg-parchment/30 focus:outline-none focus:border-clay" placeholder="Share your experience with this product..."></textarea>
+                                <textarea id="review-comment" rows="4" required class="w-full border border-accent rounded-lg px-3 py-2 text-sm bg-parchment/30 focus:outline-none focus:border-clay" placeholder="Share your experience with this product..."></textarea>
                             </div>
                             <button type="submit" class="w-full bg-clay hover:bg-clay-dark text-white py-2.5 font-semibold text-xs tracking-wider uppercase transition">
                                 Submit Review
@@ -273,13 +273,13 @@
         <!-- ============ PRODUCT FAQ SECTION (GOOD TO KNOW - 2 COLUMNS: 5 ON LEFT, 5 ON RIGHT) ============ -->
         <section id="product-faq-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
             <div class="max-w-2xl mx-auto text-center mb-8 sm:mb-12">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-[#F1E6D3] text-[#2B1D14] text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase border border-[#2B1D14]/10 mb-2.5 select-none">
-                    <i class="fa-solid fa-circle-question text-[#D98E2B]"></i> Frequently Asked Questions
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-bg text-text text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase border border-text/10 mb-2.5 select-none">
+                    <i class="fa-solid fa-circle-question text-accent"></i> Frequently Asked Questions
                 </span>
-                <h2 class="text-2xl sm:text-4xl font-heading font-bold text-[#2B1D14] leading-tight">
+                <h2 class="text-2xl sm:text-4xl font-heading font-bold text-text leading-tight">
                     Good To Know
                 </h2>
-                <p class="text-xs sm:text-sm text-[#2B1D14]/70 mt-1.5 font-body">
+                <p class="text-xs sm:text-sm text-text/70 mt-1.5 font-body">
                     Have questions about usage, ingredients, or daily routines? Find fast answers below.
                 </p>
             </div>

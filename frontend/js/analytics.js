@@ -124,16 +124,16 @@
       right: 20px;
       max-width: 480px;
       margin: 0 auto;
-      background: #2A2A24;
-      color: #FAF7EE;
+      background: var(--text);
+      color: var(--bg);
       padding: 16px 20px;
       border-radius: 16px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 12px 30px rgb(var(--text-rgb) / 0.3);
       z-index: 999999;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: 13px;
       line-height: 1.5;
-      border: 1px solid rgba(236, 228, 206, 0.2);
+      border: 1px solid rgb(var(--bg-rgb) / 0.2);
       transform: translateY(100px);
       opacity: 0;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -144,13 +144,13 @@
         <div style="display: flex; align-items: flex-start; gap: 10px;">
           <span style="font-size: 18px; line-height: 1;">✨</span>
           <div>
-            <strong style="display: block; font-size: 13px; color: #FAF7EE; margin-bottom: 2px;">Privacy & Analytics</strong>
-            <span style="color: #D3CEBF; font-size: 12px;">Hum behtar experience aur visitor insights ke liye analytics cookies use karte hain.</span>
+            <strong style="display: block; font-size: 13px; color: var(--bg); margin-bottom: 2px;">Privacy & Analytics</strong>
+            <span style="color: var(--accent); font-size: 12px;">Hum behtar experience aur visitor insights ke liye analytics cookies use karte hain.</span>
           </div>
         </div>
-        <div style="display: flex; gap: 10px; justify-content: flex-end; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-          <button id="alora-cookie-decline" style="background: transparent; color: #D3CEBF; border: 1px solid #555; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: background 0.2s;">Decline</button>
-          <button id="alora-cookie-accept" style="background: #C5A880; color: #2A2A24; border: none; padding: 6px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 12px; transition: opacity 0.2s;">Accept</button>
+        <div style="display: flex; gap: 10px; justify-content: flex-end; align-items: center; border-top: 1px solid rgb(var(--bg-rgb) / 0.1); padding-top: 10px;">
+          <button id="alora-cookie-decline" style="background: transparent; color: var(--accent); border: 1px solid var(--text); padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: background 0.2s;">Decline</button>
+          <button id="alora-cookie-accept" style="background: var(--accent); color: var(--text); border: none; padding: 6px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 12px; transition: opacity 0.2s;">Accept</button>
         </div>
       </div>
     `;

@@ -74,14 +74,14 @@
       position: sticky;
       top: 0;
       z-index: 999999;
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      color: #ffffff;
+      background: linear-gradient(135deg, var(--text), var(--text));
+      color: var(--bg);
       padding: 10px 16px;
       text-align: center;
       font-family: system-ui, -apple-system, sans-serif;
       font-size: 14px;
       font-weight: 600;
-      box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);
+      box-shadow: 0 4px 15px rgb(var(--text-rgb) / 0.35);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -91,7 +91,7 @@
     const message = document.createElement('span');
     const code = document.createElement('code');
     code.textContent = activeRefCode;
-    code.style.cssText = 'background:rgba(255,255,255,0.2);padding:2px 6px;border-radius:4px;';
+    code.style.cssText = 'background:rgb(var(--bg-rgb) / 0.2);padding:2px 6px;border-radius:4px;';
     message.append('🎉 ', `${discountPercent}% Partner Discount Active! (Ref Code: `);
     message.append(code, ') — Auto-applied at checkout!');
 
@@ -100,7 +100,7 @@
     closeButton.type = 'button';
     closeButton.setAttribute('aria-label', 'Close partner discount banner');
     closeButton.textContent = '×';
-    closeButton.style.cssText = 'background:none;border:none;color:#fff;font-size:18px;cursor:pointer;opacity:0.8;line-height:1;';
+    closeButton.style.cssText = 'background:none;border:none;color:var(--bg);font-size:18px;cursor:pointer;opacity:0.8;line-height:1;';
     banner.append(message, closeButton);
 
     document.body.insertBefore(banner, document.body.firstChild);
@@ -191,7 +191,7 @@
 
         element.dataset.aloraOriginalPrice = originalText;
         element.textContent = formatDiscountedPrice(originalText, amount);
-        element.style.color = '#c026d3';
+        element.style.color = 'var(--text)';
         element.style.fontWeight = '700';
         element.dataset.aloraPriceApplied = 'true';
 
@@ -200,7 +200,7 @@
           badge.className = 'alora-discount-badge';
           badge.textContent = `${discountPercent}% OFF`;
           badge.setAttribute('aria-label', `${discountPercent} percent affiliate discount`);
-          badge.style.cssText = 'display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:#dcfce7;color:#166534;font:700 11px/1.35 system-ui,-apple-system,sans-serif;vertical-align:middle;white-space:nowrap;';
+          badge.style.cssText = 'display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:var(--bg);color:var(--text);font:700 11px/1.35 system-ui,-apple-system,sans-serif;vertical-align:middle;white-space:nowrap;';
           element.insertAdjacentElement('afterend', badge);
         }
       });

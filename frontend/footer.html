@@ -1,15 +1,15 @@
 <!-- footer.html -->
 <style>
   footer.alora-footer {
-    background-color: #2B1D14 !important;
-    color: #FBF7F0 !important;
+    background-color: var(--primary) !important;
+    color: var(--on-brand) !important;
     font-family: var(--font-body) !important;
     line-height: 1.6 !important;
-    border-top: 1px solid #2B1D14 !important;
+    border-top: 1px solid var(--primary) !important;
     overflow: visible;
   }
   .footer-heading {
-    color: #D98E2B !important;
+    color: var(--accent) !important;
     font-family: var(--font-heading) !important;
     font-weight: 600 !important;
     letter-spacing: -0.01em !important;
@@ -17,7 +17,7 @@
     font-size: 0.82rem !important;
   }
   .footer-link-item {
-    color: rgba(251, 247, 240, 0.8) !important;
+    color: rgb(var(--bg-rgb) / 0.8) !important;
     font-family: var(--font-body) !important;
     font-size: 0.85rem !important;
     font-weight: 400 !important;
@@ -25,7 +25,7 @@
     display: inline-block !important;
   }
   .footer-link-item:hover {
-    color: #D98E2B !important;
+    color: var(--accent) !important;
   }
   .diwali-footer-diyas {
     display: none;
@@ -48,15 +48,15 @@
     display: block;
     font-size: 19px;
     line-height: 1;
-    filter: drop-shadow(0 0 5px rgba(255, 190, 75, 0.65));
+    filter: drop-shadow(0 0 5px rgb(var(--accent-rgb) / 0.65));
     animation: diwali-footer-diya-glow 2.4s ease-in-out infinite alternate;
   }
   .diwali-footer-diyas span:nth-child(2n) {
     animation-delay: -1.2s;
   }
   @keyframes diwali-footer-diya-glow {
-    from { opacity: 0.78; filter: drop-shadow(0 0 2px rgba(255, 190, 75, 0.4)); }
-    to { opacity: 1; filter: drop-shadow(0 0 7px rgba(255, 190, 75, 0.85)); }
+    from { opacity: 0.78; filter: drop-shadow(0 0 2px rgb(var(--accent-rgb) / 0.4)); }
+    to { opacity: 1; filter: drop-shadow(0 0 7px rgb(var(--accent-rgb) / 0.85)); }
   }
   @media (prefers-reduced-motion: reduce) {
     .diwali-footer-diyas span {
@@ -66,19 +66,19 @@
 </style>
 
 <footer class="alora-footer pt-16 pb-8 w-full">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#FBF7F0]/15 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-bg/15 relative">
 
     <!-- Col 1: Brand & Overview -->
     <div class="space-y-4">
-      <a href="/" class="text-2xl font-medium tracking-[5px] uppercase text-[#FBF7F0] block leading-none select-none">
+      <a href="/" class="text-2xl font-medium tracking-[5px] uppercase text-bg block leading-none select-none">
         ALORA
       </a>
-      <p class="text-xs text-[#FBF7F0]/80 leading-relaxed font-normal">
+      <p class="text-xs text-bg/80 leading-relaxed font-normal">
         Thoughtful botanical skincare formulated for radiant, healthy skin. Dermatologist-tested, clean formulations infused with pure saffron and clinically backed active science.
       </p>
       <div class="pt-2">
-        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-[3px] bg-[#F1E6D3] text-[#2B1D14] text-[11px] font-semibold uppercase tracking-wider">
-          <i class="fa-solid fa-leaf text-[#D98E2B]"></i> 100% Ayurvedic &amp; Clean
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-[3px] bg-bg text-text text-[11px] font-semibold uppercase tracking-wider">
+          <i class="fa-solid fa-leaf text-accent"></i> 100% Ayurvedic &amp; Clean
         </span>
       </div>
     </div>
@@ -112,13 +112,13 @@
     <!-- Col 4: Experience Center & Contact -->
     <div class="space-y-4">
       <h3 class="footer-heading">Experience Center</h3>
-      <div class="w-full h-28 rounded-[12px] overflow-hidden border border-[#FBF7F0]/20 bg-[#F1E6D3]">
+      <div class="w-full h-28 rounded-[12px] overflow-hidden border border-bg/20 bg-bg">
         <iframe src="https://maps.google.com/maps?q=Alora%20Radiance&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <div class="text-xs space-y-1">
-        <p class="font-medium text-[#D98E2B] uppercase tracking-wide">Alora Radiance HQ</p>
-        <p class="text-[11px] text-[#FBF7F0]/75">53, Ground Floor, Hargovind Enclave, Rajpur, Chhatarpur, New Delhi 110065</p>
-        <a href="https://share.google/GfIte9pX9tj2VCSAe" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-[11px] text-[#D98E2B] hover:text-[#C47D1F] font-semibold mt-1">
+        <p class="font-medium text-accent uppercase tracking-wide">Alora Radiance HQ</p>
+        <p class="text-[11px] text-bg/75">53, Ground Floor, Hargovind Enclave, Rajpur, Chhatarpur, New Delhi 110065</p>
+        <a href="https://share.google/GfIte9pX9tj2VCSAe" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-[11px] text-accent hover:text-accent-hover font-semibold mt-1">
           <span>Open in Google Maps</span>
           <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </a>
@@ -132,12 +132,12 @@
   </div>
 
   <!-- Copyright Bottom Bar -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#FBF7F0]/60 gap-4">
-    <p>Copyright &copy; 2026 <strong class="text-[#FBF7F0] font-medium">Alora Radiance</strong>. All Rights Reserved.</p>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-bg/60 gap-4">
+    <p>Copyright &copy; 2026 <strong class="text-bg font-medium">Alora Radiance</strong>. All Rights Reserved.</p>
     <div class="flex items-center gap-4 text-xs">
-      <a href="/sitemap.html" class="hover:text-[#D98E2B] transition">Sitemap</a>
+      <a href="/sitemap.html" class="hover:text-accent transition">Sitemap</a>
       <span>&bull;</span>
-      <span class="text-[#D98E2B]">Crafted for Pure Radiance</span>
+      <span class="text-accent">Crafted for Pure Radiance</span>
     </div>
   </div>
 </footer>

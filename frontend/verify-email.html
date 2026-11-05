@@ -21,22 +21,22 @@
     </style>
     <link rel="stylesheet" href="./styles/typography.css">
 </head>
-<body class="bg-[#FBF7F0] text-[#2B1D14] min-h-screen flex flex-col antialiased">
+<body class="bg-bg text-text min-h-screen flex flex-col antialiased">
     <!-- Navigation Header -->
     <div id="navbar-placeholder"></div>
 
     <main class="flex-1 flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
         <h1 class="sr-only">Verify your Alora Radiance email address</h1>
-        <div class="max-w-md w-full bg-white rounded-3xl border border-[#ECE4CE] shadow-lg p-6 sm:p-10 text-center relative overflow-hidden">
+        <div class="max-w-md w-full bg-white rounded-3xl border border-bg shadow-lg p-6 sm:p-10 text-center relative overflow-hidden">
             <!-- Decorative Accent Top Bar -->
-            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-600 via-[#D98E2B] to-amber-700"></div>
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-600 via-accent to-amber-700"></div>
 
             <!-- Toast / Message Box -->
             <div id="verify-toast" class="hidden mb-4 p-3.5 rounded-xl text-xs font-semibold text-left transition-all"></div>
 
             <!-- 1. LOADING STATE (Token Verification in Progress) -->
             <div id="state-loading" class="hidden py-8 space-y-4">
-                <div class="w-16 h-16 rounded-full bg-amber-50 text-[#D98E2B] mx-auto flex items-center justify-center text-2xl border border-amber-200">
+                <div class="w-16 h-16 rounded-full bg-amber-50 text-accent mx-auto flex items-center justify-center text-2xl border border-amber-200">
                     <i class="fa-solid fa-spinner fa-spin"></i>
                 </div>
                 <h2 class="text-xl sm:text-2xl font-fraunces font-bold text-slate-900">Verifying Your Email...</h2>
@@ -57,10 +57,10 @@
                 </div>
 
                 <div class="pt-4 space-y-2.5">
-                    <a href="/login.html" class="w-full bg-[#D98E2B] hover:bg-[#6F370F] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
+                    <a href="/login.html" class="w-full bg-accent hover:bg-accent-hover text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
                         <i class="fa-solid fa-arrow-right-to-bracket"></i> Continue to Login
                     </a>
-                    <a href="/products" class="w-full bg-amber-50 hover:bg-amber-100 text-[#D98E2B] py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition border border-amber-200 flex items-center justify-center gap-2">
+                    <a href="/products" class="w-full bg-amber-50 hover:bg-amber-100 text-accent py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition border border-amber-200 flex items-center justify-center gap-2">
                         <i class="fa-solid fa-bag-shopping"></i> Explore Collection
                     </a>
                 </div>
@@ -86,11 +86,11 @@
                             <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
                                 <i class="fa-regular fa-envelope text-sm"></i>
                             </span>
-                            <input type="email" id="req-email" required placeholder="name@example.com" class="w-full bg-[#FBF7F0]/60 border border-[#DCD3BA] rounded-xl pl-10 pr-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:border-[#D98E2B] focus:ring-2 focus:ring-[#D98E2B]/20 transition">
+                            <input type="email" id="req-email" required placeholder="name@example.com" class="w-full bg-bg/60 border border-accent rounded-xl pl-10 pr-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition">
                         </div>
                     </div>
 
-                    <button type="submit" id="btn-send-link" class="w-full bg-[#D98E2B] hover:bg-[#6F370F] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                    <button type="submit" id="btn-send-link" class="w-full bg-accent hover:bg-accent-hover text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
                         <i class="fa-solid fa-paper-plane"></i> Send Verification Link
                     </button>
                 </form>
@@ -119,10 +119,10 @@
                 </div>
 
                 <div class="pt-3 space-y-2.5">
-                    <button type="button" onclick="showRequestFormAgain()" class="w-full bg-amber-50 hover:bg-amber-100 text-[#D98E2B] py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition border border-amber-200 flex items-center justify-center gap-2 cursor-pointer">
+                    <button type="button" onclick="showRequestFormAgain()" class="w-full bg-amber-50 hover:bg-amber-100 text-accent py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition border border-amber-200 flex items-center justify-center gap-2 cursor-pointer">
                         <i class="fa-solid fa-rotate-right"></i> Try Another Email
                     </button>
-                    <a href="/login.html" class="w-full bg-[#D98E2B] hover:bg-[#6F370F] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
+                    <a href="/login.html" class="w-full bg-accent hover:bg-accent-hover text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2">
                         <i class="fa-solid fa-arrow-right-to-bracket"></i> Back to Login
                     </a>
                 </div>
@@ -139,7 +139,7 @@
                 </div>
 
                 <div class="pt-3 space-y-2.5">
-                    <button type="button" onclick="showRequestFormAgain()" class="w-full bg-[#D98E2B] hover:bg-[#6F370F] text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                    <button type="button" onclick="showRequestFormAgain()" class="w-full bg-accent hover:bg-accent-hover text-white py-3.5 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
                         <i class="fa-solid fa-paper-plane"></i> Get New Verification Link
                     </button>
                     <a href="/login.html" class="w-full bg-stone-100 hover:bg-stone-200 text-stone-700 py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition border border-stone-200 flex items-center justify-center gap-2">

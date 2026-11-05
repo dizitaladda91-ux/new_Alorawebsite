@@ -52,7 +52,7 @@
             .replace(/>/g, "&gt;");
         formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         formatted = formatted.replace(/`(.*?)`/g, '<code class="bg-amber-100 text-amber-900 px-1 py-0.5 rounded text-[11px] font-mono">$1</code>');
-        formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="text-[#8B4513] font-semibold underline hover:text-amber-800">$1</a>');
+        formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="text-accent-hover font-semibold underline hover:text-amber-800">$1</a>');
         formatted = formatted.replace(/(?:^|\n)[•-]\s*(.*?)(?=\n|$)/g, '<li class="ml-3 list-disc text-slate-700 my-0.5">$1</li>');
         formatted = formatted.replace(/\n/g, '<br>');
         return formatted;
@@ -63,7 +63,7 @@
         const msgDiv = document.createElement("div");
         msgDiv.className = "flex items-end justify-end space-x-2 animate-fadeIn";
         msgDiv.innerHTML = `
-            <div class="bg-gradient-to-r from-[#8B4513] to-[#A0522D] text-white p-3 rounded-2xl rounded-br-none shadow-sm max-w-[85%] text-xs sm:text-sm">
+            <div class="bg-gradient-to-r from-accent-hover to-accent text-white p-3 rounded-2xl rounded-br-none shadow-sm max-w-[85%] text-xs sm:text-sm">
                 ${formatMessageText(text)}
             </div>
         `;
@@ -90,7 +90,7 @@
                                     <h4 class="text-xs font-bold text-slate-800 truncate">${p.name}</h4>
                                     <p class="text-[11px] text-amber-900 font-semibold mt-0.5">₹${p.price} ${p.comparePrice ? `<span class="line-through text-slate-400 font-normal text-[10px] ml-1">₹${p.comparePrice}</span>` : ''}</p>
                                 </div>
-                                <a href="${pUrl}" class="px-2.5 py-1 text-[11px] bg-[#8B4513] text-white rounded-lg font-medium hover:bg-[#70360D] transition-colors flex-shrink-0">
+                                <a href="${pUrl}" class="px-2.5 py-1 text-[11px] bg-accent-hover text-white rounded-lg font-medium hover:bg-accent-hover transition-colors flex-shrink-0">
                                     View
                                 </a>
                             </div>
@@ -100,7 +100,7 @@
             `;
         }
         msgDiv.innerHTML = `
-            <div class="w-7 h-7 rounded-full bg-[#8B4513] text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-sm">
+            <div class="w-7 h-7 rounded-full bg-accent-hover text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-sm">
                 <i class="fa-solid fa-spa text-xs"></i>
             </div>
             <div class="bg-white border border-amber-900/10 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] text-xs sm:text-sm text-slate-800 leading-relaxed">
@@ -118,7 +118,7 @@
         typingDiv.id = "alora-chat-typing";
         typingDiv.className = "flex items-start space-x-2.5 animate-pulse";
         typingDiv.innerHTML = `
-            <div class="w-7 h-7 rounded-full bg-[#8B4513] text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-sm">
+            <div class="w-7 h-7 rounded-full bg-accent-hover text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-sm">
                 <i class="fa-solid fa-spa text-xs"></i>
             </div>
             <div class="bg-white border border-amber-900/10 px-3.5 py-2.5 rounded-2xl rounded-tl-none shadow-sm flex items-center space-x-1.5 text-slate-400">
@@ -186,7 +186,7 @@
         if (!container) return;
         container.innerHTML = `
             <div class="flex items-start space-x-2.5">
-                <div class="w-7 h-7 rounded-full bg-[#8B4513] text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-sm">
+                <div class="w-7 h-7 rounded-full bg-accent-hover text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-sm">
                     <i class="fa-solid fa-spa text-xs"></i>
                 </div>
                 <div class="bg-white border border-amber-900/10 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] space-y-2">

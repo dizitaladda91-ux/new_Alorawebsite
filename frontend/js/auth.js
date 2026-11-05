@@ -17,7 +17,7 @@ export function showSuccessModal(title, message, callback) {
             </div>
             <h3 class="text-lg font-bold text-gray-900 mb-1">${title}</h3>
             <p class="text-gray-500 text-sm mb-6">${message}</p>
-            <button id="modal-ok-btn" class="w-full bg-[#2A2A24] hover:bg-amber-800 text-white font-semibold py-2.5 rounded-xl transition shadow-md focus:outline-none cursor-pointer">
+            <button id="modal-ok-btn" class="w-full bg-text hover:bg-amber-800 text-white font-semibold py-2.5 rounded-xl transition shadow-md focus:outline-none cursor-pointer">
                 OK
             </button>
         </div>
@@ -48,10 +48,10 @@ export function showVerificationWaitingModal(userEmail, callback, emailSent = tr
     modal.innerHTML = `
         <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-amber-900/10 text-center relative overflow-hidden">
             <!-- Top Accent Bar -->
-            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-600 via-[#8B4513] to-amber-700"></div>
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-600 via-accent-hover to-amber-700"></div>
 
             <!-- Rotating Spinner State -->
-            <div id="polling-spinner-container" class="w-16 h-16 mx-auto mb-3 bg-amber-50 text-[#8B4513] rounded-2xl border border-amber-200 flex items-center justify-center text-3xl shadow-inner">
+            <div id="polling-spinner-container" class="w-16 h-16 mx-auto mb-3 bg-amber-50 text-accent-hover rounded-2xl border border-amber-200 flex items-center justify-center text-3xl shadow-inner">
                 <i class="fa-solid fa-spinner fa-spin"></i>
             </div>
 
@@ -69,11 +69,11 @@ export function showVerificationWaitingModal(userEmail, callback, emailSent = tr
                 ${emailSent
                     ? `Verification link sent to <strong class="text-slate-900 font-mono select-all">${escapeHtml(userEmail)}</strong>.`
                     : `We could not send a verification link to <strong class="text-slate-900 font-mono select-all">${escapeHtml(userEmail)}</strong>. Use the resend button to try again.`}
-                <br><span class="text-[#8B4513] font-semibold mt-1 block">Verify your email, then log in to continue.</span>
+                <br><span class="text-accent-hover font-semibold mt-1 block">Verify your email, then log in to continue.</span>
             </p>
 
             <div id="polling-actions" class="space-y-2 pt-1">
-                <button id="modal-resend-btn" type="button" class="w-full bg-[#8B4513] hover:bg-amber-900 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl transition shadow-md cursor-pointer flex items-center justify-center gap-2">
+                <button id="modal-resend-btn" type="button" class="w-full bg-accent-hover hover:bg-amber-900 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl transition shadow-md cursor-pointer flex items-center justify-center gap-2">
                     <i class="fa-solid fa-paper-plane"></i> Resend Verification Email
                 </button>
                 <button id="modal-close-btn" type="button" class="w-full bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-xs uppercase tracking-wider py-2.5 rounded-xl transition border border-stone-200 cursor-pointer">
@@ -160,7 +160,7 @@ export function showVerificationWaitingModal(userEmail, callback, emailSent = tr
                 if (descEl) descEl.innerHTML = "<span class='text-emerald-700 font-bold'>Your account is verified. Log in to continue.</span>";
                 if (actionsEl) {
                     actionsEl.innerHTML = `
-                        <button id="modal-continue-btn" type="button" class="w-full bg-[#8B4513] hover:bg-amber-900 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl transition shadow-md cursor-pointer">
+                        <button id="modal-continue-btn" type="button" class="w-full bg-accent-hover hover:bg-amber-900 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl transition shadow-md cursor-pointer">
                             Continue to Login
                         </button>
                     `;
@@ -658,7 +658,7 @@ export function renderNavbarState() {
     const updateUI = (authContainer) => {
         if (!storedUserStr) {
             authContainer.innerHTML = `
-                <a href="./login.html" aria-label="User Account Login" title="User Account Login" class="p-2 text-[#2B1D14] hover:text-[#D98E2B] transition flex items-center justify-center"><svg class="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span class="sr-only">User Account Login</span></a>
+                <a href="./login.html" aria-label="User Account Login" title="User Account Login" class="p-2 text-text hover:text-accent transition flex items-center justify-center"><svg class="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span class="sr-only">User Account Login</span></a>
             `;
             return;
         }
@@ -677,10 +677,10 @@ export function renderNavbarState() {
                 authContainer.innerHTML = `
                     <!-- Desktop View: Full Controls -->
                     <div class="hidden md:flex items-center gap-2.5 text-sm font-medium text-black normal-case">
-                        <a href="./account.html" class="hover:text-[#A0522D] transition flex items-center gap-1">
-                            <span class="whitespace-nowrap">Hi, <b class="text-[#2A2A24] font-bold uppercase">${userName}</b></span>
+                        <a href="./account.html" class="hover:text-accent transition flex items-center gap-1">
+                            <span class="whitespace-nowrap">Hi, <b class="text-text font-bold uppercase">${userName}</b></span>
                         </a>
-                        <a href="./account.html" class="bg-amber-100 hover:bg-amber-200 text-[#8B4513] text-[11px] px-2.5 py-1.5 rounded-lg transition uppercase tracking-wider font-extrabold shadow-xs flex items-center gap-1.5 border border-amber-300">
+                        <a href="./account.html" class="bg-amber-100 hover:bg-amber-200 text-accent-hover text-[11px] px-2.5 py-1.5 rounded-lg transition uppercase tracking-wider font-extrabold shadow-xs flex items-center gap-1.5 border border-amber-300">
                             <i class="fa-solid fa-user-circle text-xs"></i> My Account
                         </a>
                         <button type="button" class="logout-btn-trigger bg-black hover:bg-orange-600 text-white text-[10px] px-2.5 py-1.5 rounded-lg transition uppercase tracking-wider font-bold shadow-sm cursor-pointer">
@@ -689,8 +689,8 @@ export function renderNavbarState() {
                     </div>
                     <!-- Mobile View: Compact Sleek User Profile Icon -->
                     <div class="flex md:hidden items-center">
-                        <a href="./account.html" class="relative text-[#152219] hover:text-[#8B4513] transition p-1.5 flex items-center justify-center rounded-full bg-amber-50 border border-amber-200/80 shadow-2xs" title="My Account (${userName})">
-                            <i class="fa-solid fa-user text-sm text-[#8B4513]"></i>
+                        <a href="./account.html" class="relative text-text hover:text-accent-hover transition p-1.5 flex items-center justify-center rounded-full bg-amber-50 border border-amber-200/80 shadow-2xs" title="My Account (${userName})">
+                            <i class="fa-solid fa-user text-sm text-accent-hover"></i>
                             <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white"></span>
                         </a>
                     </div>
@@ -701,7 +701,7 @@ export function renderNavbarState() {
                     mobileDrawerAuth.innerHTML = `
                         <div class="p-3 bg-amber-50/90 rounded-2xl border border-amber-200/80 shadow-2xs mb-1">
                             <div class="flex items-center gap-2 mb-2">
-                                <div class="w-8 h-8 rounded-full bg-[#8B4513] text-white flex items-center justify-center text-xs font-bold uppercase shrink-0">
+                                <div class="w-8 h-8 rounded-full bg-accent-hover text-white flex items-center justify-center text-xs font-bold uppercase shrink-0">
                                     ${userName.charAt(0)}
                                 </div>
                                 <div class="min-w-0 flex-1">
@@ -712,7 +712,7 @@ export function renderNavbarState() {
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-2 mt-2">
-                                <a href="./account.html" class="bg-amber-100 hover:bg-amber-200 text-[#8B4513] text-[11px] py-1.5 px-2 rounded-lg text-center font-bold flex items-center justify-center gap-1 border border-amber-300">
+                                <a href="./account.html" class="bg-amber-100 hover:bg-amber-200 text-accent-hover text-[11px] py-1.5 px-2 rounded-lg text-center font-bold flex items-center justify-center gap-1 border border-amber-300">
                                     <i class="fa-solid fa-user-circle text-[10px]"></i> My Account
                                 </a>
                                 <button type="button" class="logout-btn-trigger bg-slate-900 text-white text-[11px] py-1.5 px-2 rounded-lg text-center font-bold cursor-pointer">

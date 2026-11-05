@@ -76,9 +76,9 @@ document.addEventListener("DOMContentLoaded", () => {
         dots.forEach((dot, index) => {
             if (index === currentIndex) {
                 dot.classList.remove("bg-amber-200");
-                dot.classList.add("bg-[#8B4513]", "w-2.5", "scale-110");
+                dot.classList.add("bg-accent-hover", "w-2.5", "scale-110");
             } else {
-                dot.classList.remove("bg-[#8B4513]", "scale-110");
+                dot.classList.remove("bg-accent-hover", "scale-110");
                 dot.classList.add("bg-amber-200", "w-2.5");
             }
         });
@@ -269,7 +269,7 @@ function selectSize(size, price, mrp, element) {
     currentCard.querySelectorAll('.size-btn').forEach(btn => {
         btn.className = "size-btn text-xs border border-gray-300 px-3 py-1 rounded hover:bg-gray-100 text-gray-600 font-medium transition";
     });
-    element.className = "size-btn text-xs border border-[#0f2c3d] px-3 py-1 rounded bg-[#0f2c3d] text-white font-medium transition shadow-sm";
+    element.className = "size-btn text-xs border border-text px-3 py-1 rounded bg-text text-white font-medium transition shadow-sm";
 }
 function updateQty(change, element) {
     const currentCard = element.closest('.product-card');
@@ -430,8 +430,8 @@ async function loadSliderProducts() {
                 sizeButtonsHTML = product.variants.map((v, vIndex) => {
                     const isActive = vIndex === 0;
                     const activeClasses = isActive
-                        ? 'bg-[#2B1D14] text-[#FBF7F0] border-[#2B1D14]'
-                        : 'border-stone-300 text-stone-700 hover:border-[#2B1D14]';
+                        ? 'bg-text text-bg border-text'
+                        : 'border-stone-300 text-stone-700 hover:border-text';
                     return `
                         <button
                             type="button"
@@ -458,7 +458,7 @@ async function loadSliderProducts() {
             <div data-product-id="${prodId}" class="relative w-[calc(80%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center product-card bg-white rounded-xl shadow-xs hover:shadow-md border border-stone-200/90 flex flex-col justify-between overflow-hidden transition-shadow duration-300">
                 <div>
                     <!-- Product Image Container -->
-                    <div class="relative w-full aspect-square overflow-hidden bg-[#FAF7F2] p-2 flex items-center justify-center">
+                    <div class="relative w-full aspect-square overflow-hidden bg-bg p-2 flex items-center justify-center">
                         <a href="${getProductUrl(product)}" class="w-full h-full block">
                             <img src="${fullImgUrl}" alt="${product.name}" loading="lazy" decoding="async" class="product-card-img w-full h-full object-contain mix-blend-multiply transition-transform duration-300 hover:scale-105">
                         </a>
@@ -473,12 +473,12 @@ async function loadSliderProducts() {
                     <div class="px-3.5 sm:px-4 pt-3 pb-2 flex flex-col text-left">
                         
                         <!-- Title (2 lines clamp, Times New Roman, bold) -->
-                        <h3 class="text-sm sm:text-[15px] font-bold text-[#2B1D14] leading-snug line-clamp-2 hover:text-[#D98E2B] transition-colors mb-1.5">
+                        <h3 class="text-sm sm:text-[15px] font-bold text-text leading-snug line-clamp-2 hover:text-accent transition-colors mb-1.5">
                             <a href="${getProductUrl(product)}" class="block">${product.name}</a>
                         </h3>
 
                         <!-- Rating Row: "4.8 ★★★★★ ⌵ (1794)" -->
-                        <div class="flex items-center gap-1.5 text-xs text-[#2B1D14] mb-2">
+                        <div class="flex items-center gap-1.5 text-xs text-text mb-2">
                             <span class="font-bold text-amber-700 text-xs">${ratingScore}</span>
                             <div class="flex gap-0.5 text-xs">${starsHTML}</div>
                             <svg class="w-3 h-3 text-stone-400 inline" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
@@ -487,15 +487,15 @@ async function loadSliderProducts() {
 
                         <!-- Deal / Promo Badge (Crimson banner like in user screenshot) -->
                         <div class="mb-2">
-                            <span class="inline-block bg-[#C43826] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xs">
+                            <span class="inline-block bg-primary text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xs">
                                 ${product.isBestseller ? 'Bestseller Deal' : (pct > 0 ? `${pct}% OFF DEAL` : 'Special Offer')}
                             </span>
                         </div>
 
                         <!-- Price Row (Amazon Layout: bold large rupee + price + unit size) -->
                         <div class="flex items-baseline flex-wrap gap-1 mb-0.5">
-                            <span class="text-xs font-semibold text-[#2B1D14] align-super">₹</span>
-                            <span class="product-price text-2xl font-bold text-[#2B1D14] tracking-tight leading-none">${initialPrice}</span>
+                            <span class="text-xs font-semibold text-text align-super">₹</span>
+                            <span class="product-price text-2xl font-bold text-text tracking-tight leading-none">${initialPrice}</span>
                             <span class="unit-size-text text-[11px] text-stone-500 font-normal">(${initialSizeLabel})</span>
                         </div>
 
@@ -505,14 +505,14 @@ async function loadSliderProducts() {
                         </div>
 
                         <!-- Offer note -->
-                        <p class="text-[11px] text-[#2B1D14]/80 leading-tight mb-2 font-medium">
-                            Extra discount with code <span class="font-bold text-[#D98E2B]">GLOW10</span>
+                        <p class="text-[11px] text-text/80 leading-tight mb-2 font-medium">
+                            Extra discount with code <span class="font-bold text-accent">GLOW10</span>
                         </p>
 
                         <!-- Delivery Row -->
                         <div class="text-xs leading-snug mb-2.5">
                             <p class="text-stone-900 font-normal">
-                                <span class="font-bold text-[#2B1D14]">FREE delivery</span> on orders above ₹499
+                                <span class="font-bold text-text">FREE delivery</span> on orders above ₹499
                             </p>
                             <p class="text-emerald-700 font-semibold text-[11px] mt-0.5">
                                 In stock • Dispatches within 24 hours
@@ -531,7 +531,7 @@ async function loadSliderProducts() {
 
                 <!-- Add to Cart CTA Button -->
                 <div class="px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-1">
-                    <button type="button" onclick="toggleCartState(this)" class="w-full bg-[#D98E2B] hover:bg-[#C47D1F] text-[#2B1D14] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
+                    <button type="button" onclick="toggleCartState(this)" class="w-full bg-accent hover:bg-accent-hover text-text font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
                         <svg class="w-4 h-4 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                         <span>Add to Cart</span>
                     </button>
@@ -549,10 +549,10 @@ function changeCardSize(volume, price, comparePrice, buttonElement) {
     if (!card) return;
     const buttons = card.querySelectorAll('.size-btn');
     buttons.forEach(btn => {
-        btn.classList.remove('bg-[#2B1D14]', 'text-[#FBF7F0]', 'border-[#2B1D14]');
+        btn.classList.remove('bg-text', 'text-bg', 'border-text');
         btn.classList.add('border-stone-300', 'text-stone-700');
     });
-    buttonElement.classList.add('bg-[#2B1D14]', 'text-[#FBF7F0]', 'border-[#2B1D14]');
+    buttonElement.classList.add('bg-text', 'text-bg', 'border-text');
     buttonElement.classList.remove('border-stone-300', 'text-stone-700');
 
     const priceEl = card.querySelector('.product-price');

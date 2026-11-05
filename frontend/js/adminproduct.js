@@ -44,7 +44,7 @@ async function loadAllProducts(){
                     </div>
                 </td>
                 <td class="px-6 py-4">
-                    <div class="text-base font-extrabold text-[#a35242]">₹${startingPrice}<span class="text-[10px] text-gray-400 font-normal"> up</span></div>
+                    <div class="text-base font-extrabold text-accent">₹${startingPrice}<span class="text-[10px] text-gray-400 font-normal"> up</span></div>
                 </td>
                 <td class="px-6 py-4">${stockBadge}</td>
                 <td class="px-6 py-4">
@@ -95,7 +95,7 @@ function viewProduct(button){
                 return `
                     <tr class="hover:bg-gray-50/50 transition">
                         <td class="px-4 py-2 font-bold text-gray-700">${v.volume}</td>
-                        <td class="px-4 py-2 font-extrabold text-[#a35242]">₹${v.price}</td>
+                        <td class="px-4 py-2 font-extrabold text-accent">₹${v.price}</td>
                         <td class="px-4 py-2 text-gray-400 line-through">${v.comparePrice ? '₹' + v.comparePrice : '-'}</td>
                         <td class="px-4 py-2 font-semibold text-green-600">Always available</td>
                     </tr>

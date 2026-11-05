@@ -2,9 +2,88 @@
   --site-font: 'Manrope', Arial, sans-serif;
   --font-heading: var(--site-font);
   --font-body: var(--site-font);
+  --primary: #5A2A2E;
+  --accent: #B05A3A;
+  --bg: #FAF5F0;
+  --text: #2B1A1C;
+  --on-brand: #FFFFFF;
+  --accent-hover: #96492D;
+  --primary-rgb: 90 42 46;
+  --accent-rgb: 176 90 58;
+  --bg-rgb: 250 245 240;
+  --text-rgb: 43 26 28;
+  --on-brand-rgb: 255 255 255;
+  --accent-hover-rgb: 150 73 45;
 }
 
 html body,
 html body *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab) {
   font-family: var(--site-font) !important;
+}
+
+html body {
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+nav,
+footer.alora-footer,
+.top-ticker-bar {
+  background-color: var(--primary) !important;
+  color: var(--on-brand) !important;
+}
+
+nav *,
+footer.alora-footer *,
+.top-ticker-bar * {
+  color: var(--on-brand) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--primary) !important;
+}
+
+nav h1,
+nav h2,
+nav h3,
+nav h4,
+nav h5,
+nav h6,
+footer.alora-footer h1,
+footer.alora-footer h2,
+footer.alora-footer h3,
+footer.alora-footer h4,
+footer.alora-footer h5,
+footer.alora-footer h6 {
+  color: var(--on-brand) !important;
+}
+
+nav a:hover,
+footer.alora-footer a:hover,
+a:hover:not([class*="bg-"]) {
+  color: var(--accent) !important;
+}
+
+.bg-white {
+  background-color: var(--bg) !important;
+}
+
+.text-white {
+  color: var(--on-brand) !important;
+}
+
+button[class*="border-text"]:not([class*="bg-accent"]):not([class*="bg-primary"]),
+a[class*="border-text"]:not([class*="bg-accent"]):not([class*="bg-primary"]) {
+  border-color: var(--primary) !important;
+}
+
+button[class*="border-text"]:not([class*="bg-accent"]):not([class*="bg-primary"]):hover,
+a[class*="border-text"]:not([class*="bg-accent"]):not([class*="bg-primary"]):hover {
+  background-color: var(--primary) !important;
+  color: var(--on-brand) !important;
 }

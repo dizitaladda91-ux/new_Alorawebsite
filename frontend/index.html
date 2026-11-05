@@ -354,8 +354,8 @@
     <link rel="stylesheet" href="./styles/tailwind.min.css">
     <style>
         html, body {
-            background-color: #FBF7F0 !important;
-            color: #2B1D14;
+            background-color: var(--bg) !important;
+            color: var(--text);
             margin: 0;
             padding: 0;
             font-family: var(--font-body) !important;
@@ -368,14 +368,14 @@
         }
         #navbar-placeholder {
             min-height: 64px;
-            background-color: #FBF7F0;
+            background-color: var(--bg);
         }
 
         .hero-slider-container {
             width: 100% !important;
             position: relative !important;
             overflow: hidden !important;
-            background-color: #FBF7F0 !important;
+            background-color: var(--bg) !important;
             aspect-ratio: 1229 / 1536 !important;
             height: auto !important;
             min-height: 0 !important;
@@ -424,11 +424,11 @@
             margin: 6px auto 2px auto !important;
             width: fit-content !important;
             border-radius: 9999px !important;
-            background-color: rgba(250, 246, 238, 0.75) !important;
+            background-color: rgb(var(--bg-rgb) / 0.75) !important;
             backdrop-filter: blur(6px) !important;
             -webkit-backdrop-filter: blur(6px) !important;
-            border: 1px solid rgba(184, 70, 14, 0.12) !important;
-            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04) !important;
+            border: 1px solid rgb(var(--accent-hover-rgb) / 0.12) !important;
+            box-shadow: 0 1px 6px rgb(var(--text-rgb) / 0.04) !important;
         }
         @media (max-width: 640px) {
             #hero-slider-dots {
@@ -441,7 +441,7 @@
             height: 7px !important;
             width: 7px !important;
             border-radius: 50% !important;
-            background-color: rgba(184, 70, 14, 0.25) !important;
+            background-color: rgb(var(--accent-hover-rgb) / 0.25) !important;
             border: none !important;
             transition: all 0.3s ease !important;
             cursor: pointer !important;
@@ -450,15 +450,15 @@
             outline: none !important;
         }
         .hero-dot:hover {
-            background-color: rgba(184, 70, 14, 0.6) !important;
+            background-color: rgb(var(--accent-hover-rgb) / 0.6) !important;
             transform: scale(1.2) !important;
         }
         .hero-dot.active {
             width: 9px !important;
             height: 9px !important;
-            background-color: #FBF7F0 !important;
+            background-color: var(--bg) !important;
             border-radius: 50% !important;
-            box-shadow: 0 1px 6px rgba(184, 70, 14, 0.35) !important;
+            box-shadow: 0 1px 6px rgb(var(--accent-hover-rgb) / 0.35) !important;
         }
 
         /* 🚀 WCAG Touch Target Compliance: Expands interactive touch target of .dot buttons to 28px x 28px */
@@ -536,17 +536,17 @@
         .product-card-img {
             image-rendering: -webkit-optimize-contrast;
             image-rendering: high-quality;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.06));
+            filter: drop-shadow(0 4px 8px rgb(var(--text-rgb) / 0.06));
             transform: translateZ(0);
             backface-visibility: hidden;
         }
         .product-card:hover .add-to-cart-btn { transform: translateY(0); opacity: 1; }
         .label-perforation {
-            background-image: radial-gradient(circle, #E4DCC9 1.5px, transparent 1.5px);
+            background-image: radial-gradient(circle, var(--accent) 1.5px, transparent 1.5px);
             background-size: 8px 8px;
         }
         .dotted-rule {
-            background-image: linear-gradient(to right, #C9BE9F 40%, transparent 0%);
+            background-image: linear-gradient(to right, var(--accent) 40%, transparent 0%);
             background-position: bottom;
             background-size: 10px 1.5px;
             background-repeat: repeat-x;
@@ -602,7 +602,7 @@
         #search-input {
             width: 60%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid var(--accent);
             border-radius: 4px;
             font-size: 16px;
         }
@@ -614,7 +614,7 @@
             border: none;
             cursor: pointer;
             margin-left: 15px;
-            color: black;
+            color: var(--text);
         }
 
         @media (max-width: 767px) {
@@ -669,6 +669,63 @@
             object-fit: cover;
             border-radius: 50%;
         }
+<<<<<<< Updated upstream
+=======
+        #reviews .review-stars,
+        #reviews .reviews-rating-stars {
+            color: var(--accent);
+        }
+        #reviews .reviews-carousel {
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        #reviews .reviews-carousel::-webkit-scrollbar {
+            display: none;
+        }
+        #reviews .reviews-track {
+            display: flex;
+            width: max-content;
+        }
+        #reviews .reviews-track > div {
+            flex: 0 0 calc(var(--reviews-width, 100vw) - 1rem);
+            margin-right: 1rem;
+        }
+        #reviews .reviews-carousel.is-animated {
+            overflow: hidden;
+        }
+        #reviews .reviews-carousel.is-animated .reviews-track {
+            animation: reviews-scroll 48s linear infinite;
+            will-change: transform;
+        }
+        #reviews .reviews-carousel.is-animated:hover .reviews-track,
+        #reviews .reviews-carousel.is-animated:focus-within .reviews-track {
+            animation-play-state: paused;
+        }
+        @keyframes reviews-scroll {
+            to {
+                transform: translateX(-50%);
+            }
+        }
+        @media (min-width: 640px) {
+            #reviews .reviews-track > div {
+                flex-basis: calc((var(--reviews-width, 100vw) - 2rem) / 2);
+            }
+        }
+        @media (min-width: 1024px) {
+            #reviews .reviews-track > div {
+                flex-basis: calc((var(--reviews-width, 100vw) - 4rem) / 4);
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #reviews .reviews-carousel.is-animated {
+                overflow-x: auto;
+            }
+            #reviews .reviews-carousel.is-animated .reviews-track {
+                animation: none;
+                will-change: auto;
+            }
+        }
+>>>>>>> Stashed changes
     </style>
     <script>
         (function() {
@@ -702,67 +759,67 @@
 </script>
     <link rel="stylesheet" href="./styles/typography.css">
 </head>
-<body style="background-color: #FBF7F0;" class="bg-parchment font-sans text-[#2B1D14] antialiased">
+<body style="background-color: var(--bg);" class="bg-parchment font-sans text-text antialiased">
 
    <div id="navbar-placeholder" class="w-full">
 <!-- announcement bar & navbar.html -->
 <!-- ============ TOP INFINITE MOVING TICKER ANNOUNCEMENT BAR (DEEP BROWN) ============ -->
-<div style="background-color: #2B1D14 !important; color: #FBF7F0 !important;" class="top-ticker-bar w-full py-2.5 px-0 shadow-md border-b border-[#2B1D14]/50 relative z-30 overflow-hidden min-h-[40px] flex items-center select-none">
+<div style="background-color: var(--text) !important; color: var(--bg) !important;" class="top-ticker-bar w-full py-2.5 px-0 shadow-md border-b border-text/50 relative z-30 overflow-hidden min-h-[40px] flex items-center select-none">
     <div class="animate-top-ticker flex items-center whitespace-nowrap">
         <!-- Loop Item Group 1 -->
         <div class="flex items-center gap-8 px-4 text-xs sm:text-[13px] font-medium tracking-wide">
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">ALORA RADIANCE:</span>
+            <span class="inline-flex items-center gap-2" style="color: var(--bg) !important;">
+                <span class="uppercase tracking-wider font-bold" style="color: var(--accent) !important;">ALORA RADIANCE:</span>
                 <span>Thoughtful skincare for radiant, healthy skin</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">SPECIAL COMBOS SALE:</span>
+            <span class="ticker-star text-[11px] opacity-75" style="color: var(--accent) !important;">✦</span>
+            <span class="inline-flex items-center gap-2" style="color: var(--bg) !important;">
+                <span class="uppercase tracking-wider font-bold" style="color: var(--accent) !important;">SPECIAL COMBOS SALE:</span>
                 <span>Save Extra on Skincare Bundles &amp; Value Kits!</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">FREE SHIPPING:</span>
+            <span class="ticker-star text-[11px] opacity-75" style="color: var(--accent) !important;">✦</span>
+            <span class="inline-flex items-center gap-2" style="color: var(--bg) !important;">
+                <span class="uppercase tracking-wider font-bold" style="color: var(--accent) !important;">FREE SHIPPING:</span>
                 <span>On All Orders Above <span style="font-family: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">&#8377;</span>499 Across India!</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">DERMATOLOGIST TESTED:</span>
+            <span class="ticker-star text-[11px] opacity-75" style="color: var(--accent) !important;">✦</span>
+            <span class="inline-flex items-center gap-2" style="color: var(--bg) !important;">
+                <span class="uppercase tracking-wider font-bold" style="color: var(--accent) !important;">DERMATOLOGIST TESTED:</span>
                 <span>100% Toxin-Free &amp; Cruelty-Free Formulations!</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
+            <span class="ticker-star text-[11px] opacity-75" style="color: var(--accent) !important;">✦</span>
         </div>
         <!-- Loop Item Group 2 (Duplicate for Seamless Infinite Scroll) -->
         <div class="flex items-center gap-8 px-4 text-xs sm:text-[13px] font-medium tracking-wide">
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">ALORA RADIANCE:</span>
+            <span class="inline-flex items-center gap-2" style="color: var(--bg) !important;">
+                <span class="uppercase tracking-wider font-bold" style="color: var(--accent) !important;">ALORA RADIANCE:</span>
                 <span>Thoughtful skincare for radiant, healthy skin</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">SPECIAL COMBOS SALE:</span>
+            <span class="ticker-star text-[11px] opacity-75" style="color: var(--accent) !important;">✦</span>
+            <span class="inline-flex items-center gap-2" style="color: var(--bg) !important;">
+                <span class="uppercase tracking-wider font-bold" style="color: var(--accent) !important;">SPECIAL COMBOS SALE:</span>
                 <span>Save Extra on Skincare Bundles &amp; Value Kits!</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">FREE SHIPPING:</span>
+            <span class="ticker-star text-[11px] opacity-75" style="color: var(--accent) !important;">✦</span>
+            <span class="inline-flex items-center gap-2" style="color: var(--bg) !important;">
+                <span class="uppercase tracking-wider font-bold" style="color: var(--accent) !important;">FREE SHIPPING:</span>
                 <span>On All Orders Above <span style="font-family: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">&#8377;</span>499 Across India!</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
-            <span class="inline-flex items-center gap-2" style="color: #FBF7F0 !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">DERMATOLOGIST TESTED:</span>
+            <span class="ticker-star text-[11px] opacity-75" style="color: var(--accent) !important;">✦</span>
+            <span class="inline-flex items-center gap-2" style="color: var(--bg) !important;">
+                <span class="uppercase tracking-wider font-bold" style="color: var(--accent) !important;">DERMATOLOGIST TESTED:</span>
                 <span>100% Toxin-Free &amp; Cruelty-Free Formulations!</span>
             </span>
-            <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
+            <span class="ticker-star text-[11px] opacity-75" style="color: var(--accent) !important;">✦</span>
         </div>
     </div>
 </div>
-<nav class="bg-[#FBF7F0] text-[#2B1D14] sticky top-0 z-50 border-b border-[#2B1D14]/10 transition-colors">
+<nav class="bg-bg text-text sticky top-0 z-50 border-b border-text/10 transition-colors">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 flex items-center justify-between relative">
 
     <!-- Left: Brand Logo (Alora Official Graphic Logo) -->
     <div class="flex items-center gap-4 sm:gap-6">
-      <button id="menu-btn" onclick="window.openMobileDrawer(event)" type="button" class="md:hidden text-2xl text-[#2B1D14] focus:outline-none p-1.5 cursor-pointer relative z-10" aria-label="Open Menu">
+      <button id="menu-btn" onclick="window.openMobileDrawer(event)" type="button" class="md:hidden text-2xl text-text focus:outline-none p-1.5 cursor-pointer relative z-10" aria-label="Open Menu">
         <svg class="w-6 h-6 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
 
@@ -773,40 +830,40 @@
 
     <!-- Center/Right: Desktop Menu Links (Bigger, Clear, DM Sans) -->
     <div class="hidden md:flex items-center">
-      <ul class="flex items-center gap-8 lg:gap-10 text-[16px] lg:text-[17px] font-semibold tracking-wide uppercase text-[#2B1D14]">
-        <li><a href="/" class="hover:text-[#D98E2B] transition-colors py-1">HOME</a></li>
-        <li><a href="/products" class="hover:text-[#D98E2B] transition-colors py-1">SHOP</a></li>
-        <li><a href="/blog" class="hover:text-[#D98E2B] transition-colors py-1">BLOGS</a></li>
-        <li><a href="/about" class="hover:text-[#D98E2B] transition-colors py-1">ABOUT US</a></li>
+      <ul class="flex items-center gap-8 lg:gap-10 text-[16px] lg:text-[17px] font-semibold tracking-wide uppercase text-text">
+        <li><a href="/" class="hover:text-accent transition-colors py-1">HOME</a></li>
+        <li><a href="/products" class="hover:text-accent transition-colors py-1">SHOP</a></li>
+        <li><a href="/blog" class="hover:text-accent transition-colors py-1">BLOGS</a></li>
+        <li><a href="/about" class="hover:text-accent transition-colors py-1">ABOUT US</a></li>
       </ul>
     </div>
 
     <!-- Right: Actions Container (Search, Cart, Login) -->
-    <div id="nav-auth-container" class="flex items-center gap-3 sm:gap-4 text-[#2B1D14]">
+    <div id="nav-auth-container" class="flex items-center gap-3 sm:gap-4 text-text">
 
       <!-- Search Button -->
-      <button id="search-open-btn" type="button" aria-label="Search products" title="Search products" class="p-2 text-[#2B1D14] hover:text-[#D98E2B] transition cursor-pointer flex items-center justify-center">
+      <button id="search-open-btn" type="button" aria-label="Search products" title="Search products" class="p-2 text-text hover:text-accent transition cursor-pointer flex items-center justify-center">
         <svg class="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       </button>
 
       <!-- Floating Overlay Search Bar -->
-      <div id="search-container" class="hidden absolute top-full left-0 right-0 w-full bg-[#FBF7F0] p-4 shadow-lg border-b border-[#2B1D14]/15 z-50 flex items-center justify-between gap-3 px-4 md:px-8">
+      <div id="search-container" class="hidden absolute top-full left-0 right-0 w-full bg-bg p-4 shadow-lg border-b border-text/15 z-50 flex items-center justify-between gap-3 px-4 md:px-8">
         <div class="relative w-full max-w-2xl mx-auto flex items-center">
-          <input type="text" placeholder="Search products..." id="search-input" class="w-full text-sm text-[#2B1D14] bg-[#F1E6D3] border border-[#2B1D14]/20 rounded px-4 py-2 pr-10 focus:outline-none focus:border-[#D98E2B]" autocomplete="off">
-          <button id="search-close-btn" type="button" aria-label="Close search" class="absolute right-3 text-xl text-[#2B1D14] hover:text-[#D98E2B]">&times;</button>
-          <div id="search-suggestions" class="absolute left-0 right-0 top-full bg-[#FBF7F0] text-[#2B1D14] shadow-xl rounded-b hidden z-[9999] max-h-60 overflow-y-auto border border-[#2B1D14]/15 mt-1"></div>
+          <input type="text" placeholder="Search products..." id="search-input" class="w-full text-sm text-text bg-bg border border-text/20 rounded px-4 py-2 pr-10 focus:outline-none focus:border-accent" autocomplete="off">
+          <button id="search-close-btn" type="button" aria-label="Close search" class="absolute right-3 text-xl text-text hover:text-accent">&times;</button>
+          <div id="search-suggestions" class="absolute left-0 right-0 top-full bg-bg text-text shadow-xl rounded-b hidden z-[9999] max-h-60 overflow-y-auto border border-text/15 mt-1"></div>
         </div>
       </div>
 
       <!-- Cart Section -->
-      <a href="./cart.html" aria-label="Shopping Cart" title="Shopping Cart" class="p-2 text-[#2B1D14] hover:text-[#D98E2B] transition relative flex items-center justify-center">
+      <a href="./cart.html" aria-label="Shopping Cart" title="Shopping Cart" class="p-2 text-text hover:text-accent transition relative flex items-center justify-center">
         <svg class="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-        <span id="global-cart-badge" class="absolute -top-1 -right-1 bg-[#D98E2B] text-[#2B1D14] text-[10px] font-bold leading-none w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#FBF7F0]">0</span>
+        <span id="global-cart-badge" class="absolute -top-1 -right-1 bg-accent text-text text-[10px] font-bold leading-none w-5 h-5 rounded-full flex items-center justify-center border-2 border-bg">0</span>
       </a>
 
       <!-- Dynamic Auth Section -->
       <div id="auth-actions" class="flex items-center">
-        <a href="./login.html" aria-label="User Account Login" title="User Account Login" class="p-2 text-[#2B1D14] hover:text-[#D98E2B] transition flex items-center justify-center">
+        <a href="./login.html" aria-label="User Account Login" title="User Account Login" class="p-2 text-text hover:text-accent transition flex items-center justify-center">
           <svg class="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           <span class="sr-only">User Account Login</span>
         </a>
@@ -817,27 +874,27 @@
   </div>
 
   <!-- MOBILE MENU SLIDE-OVER DRAWER -->
-  <div id="mobile-menu" onclick="if(event.target===this) window.closeMobileDrawer(event)" class="fixed inset-0 bg-[#2B1D14]/60 z-[9999] hidden opacity-0 transition-opacity duration-300 pointer-events-none">
-    <div id="mobile-menu-drawer" class="fixed top-0 left-0 w-72 bg-[#FBF7F0] h-full shadow-2xl p-6 flex flex-col justify-between transform -translate-x-full transition-transform duration-300 ease-in-out z-[10000] pointer-events-auto border-r border-[#2B1D14]/10">
+  <div id="mobile-menu" onclick="if(event.target===this) window.closeMobileDrawer(event)" class="fixed inset-0 bg-text/60 z-[9999] hidden opacity-0 transition-opacity duration-300 pointer-events-none">
+    <div id="mobile-menu-drawer" class="fixed top-0 left-0 w-72 bg-bg h-full shadow-2xl p-6 flex flex-col justify-between transform -translate-x-full transition-transform duration-300 ease-in-out z-[10000] pointer-events-auto border-r border-text/10">
       <div>
-        <div class="flex justify-between items-center pb-4 border-b border-[#2B1D14]/15">
+        <div class="flex justify-between items-center pb-4 border-b border-text/15">
           <img src="./static/logo2.png" alt="Alora Radiance Logo" class="h-10 w-auto object-contain">
-          <button id="menu-close-btn" onclick="window.closeMobileDrawer(event)" type="button" class="text-2xl text-[#2B1D14] focus:outline-none p-1 cursor-pointer">
+          <button id="menu-close-btn" onclick="window.closeMobileDrawer(event)" type="button" class="text-2xl text-text focus:outline-none p-1 cursor-pointer">
             <svg class="w-6 h-6 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         </div>
 
-        <ul class="mt-8 space-y-5 text-base font-semibold uppercase tracking-wide text-[#2B1D14]">
-          <li><a href="/" class="block py-1 hover:text-[#D98E2B]">Home</a></li>
-          <li><a href="/products" class="block py-1 hover:text-[#D98E2B]">Shop</a></li>
-          <li><a href="/blog" class="block py-1 hover:text-[#D98E2B]">Blogs</a></li>
-          <li><a href="/about" class="block py-1 hover:text-[#D98E2B]">About Us</a></li>
-          <li><a href="/cart.html" class="block py-1 hover:text-[#D98E2B]">Cart</a></li>
+        <ul class="mt-8 space-y-5 text-base font-semibold uppercase tracking-wide text-text">
+          <li><a href="/" class="block py-1 hover:text-accent">Home</a></li>
+          <li><a href="/products" class="block py-1 hover:text-accent">Shop</a></li>
+          <li><a href="/blog" class="block py-1 hover:text-accent">Blogs</a></li>
+          <li><a href="/about" class="block py-1 hover:text-accent">About Us</a></li>
+          <li><a href="/cart.html" class="block py-1 hover:text-accent">Cart</a></li>
         </ul>
       </div>
 
-      <div class="pt-6 border-t border-[#2B1D14]/15">
-        <a href="./login.html" class="flex items-center gap-3 text-sm font-semibold uppercase tracking-wider text-[#2B1D14] hover:text-[#D98E2B]">
+      <div class="pt-6 border-t border-text/15">
+        <a href="./login.html" class="flex items-center gap-3 text-sm font-semibold uppercase tracking-wider text-text hover:text-accent">
           <svg class="w-4 h-4 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           <span>My Account / Login</span>
         </a>
@@ -854,37 +911,37 @@
     <div id="slider-track" class="flex w-full h-full transition-transform duration-700 ease-in-out">
 
     <!-- 1st Slide: All Products -->
-    <a href="/products" class="hero-slide-link w-full shrink-0 block h-full bg-[#FBF7F0]">
+    <a href="/products" class="hero-slide-link w-full shrink-0 block h-full bg-bg">
         <img src="./static/hero_banner_allproducts_desk.webp" alt="Alora Radiance Complete Skincare Collection Desktop" width="2560" height="800" fetchpriority="high" loading="eager" decoding="async" class="hero-desk-img">
         <img src="./static/hero_banner_allproducts_mob_hd.webp" alt="Alora Radiance Complete Skincare Collection Mobile" width="1229" height="1536" fetchpriority="high" loading="eager" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 2nd Slide: Face Wash -->
-    <a href="/product/purifying-glow-face-wash" class="hero-slide-link w-full shrink-0 block h-full bg-[#FBF7F0]">
+    <a href="/product/purifying-glow-face-wash" class="hero-slide-link w-full shrink-0 block h-full bg-bg">
         <img src="./static/hero_banner_facewash.webp" alt="Purifying Glow Face Wash Banner Desktop" width="2560" height="800" loading="lazy" decoding="async" class="hero-desk-img">
         <img src="./static/hero_banner_facewash_mob_hd.webp" alt="Purifying Glow Face Wash Banner Mobile" width="1229" height="1536" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 3rd Slide: Body Lotion -->
-    <a href="/product/soothing-body-lotion" class="hero-slide-link w-full shrink-0 block h-full bg-[#FBF7F0]">
+    <a href="/product/soothing-body-lotion" class="hero-slide-link w-full shrink-0 block h-full bg-bg">
         <img src="./static/hero_banner_bodylotion.webp" alt="Soothing Body Lotion Banner Desktop" width="2560" height="800" loading="lazy" decoding="async" class="hero-desk-img">
         <img src="./static/hero_banner_bodylotion_mob_hd.webp" alt="Soothing Body Lotion Banner Mobile" width="1229" height="1536" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 4th Slide: Face Cream & Sunscreen -->
-    <a href="/product/face-cream-sunscreen-spf-30" class="hero-slide-link w-full shrink-0 block h-full bg-[#FBF7F0]">
+    <a href="/product/face-cream-sunscreen-spf-30" class="hero-slide-link w-full shrink-0 block h-full bg-bg">
         <img src="./static/hero_banner_daycream.webp" alt="Mulberry Face Cream &amp; Sunscreen SPF 30++ Banner Desktop" width="2560" height="800" loading="lazy" decoding="async" class="hero-desk-img">
         <img src="./static/hero_banner_facecream_mob_hd.webp" alt="Mulberry Face Cream &amp; Sunscreen SPF 30++ Banner Mobile" width="1229" height="1536" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 5th Slide: Face Serum -->
-    <a href="/product/brightening-hydrating-face-serum" class="hero-slide-link w-full shrink-0 block h-full bg-[#FBF7F0]">
+    <a href="/product/brightening-hydrating-face-serum" class="hero-slide-link w-full shrink-0 block h-full bg-bg">
         <img src="./static/hero_banner_faceserum.webp" alt="Brightening &amp; Hydrating Face Serum Banner Desktop" width="2560" height="800" loading="lazy" decoding="async" class="hero-desk-img">
         <img src="./static/hero_banner_faceserum_mob_hd.webp" alt="Brightening &amp; Hydrating Face Serum Banner Mobile" width="1229" height="1536" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 6th Slide: Walnut Scrub -->
-    <a href="/product/gentle-exfoliating-walnut-scrub" class="hero-slide-link w-full shrink-0 block h-full bg-[#FBF7F0]">
+    <a href="/product/gentle-exfoliating-walnut-scrub" class="hero-slide-link w-full shrink-0 block h-full bg-bg">
         <img src="./static/hero_banner_scrub_desk.webp" alt="Gentle Exfoliating Walnut Scrub Banner Desktop" width="2560" height="800" loading="lazy" decoding="async" class="hero-desk-img">
         <img src="./static/hero_banner_scrub_mob_hd.webp" alt="Gentle Exfoliating Walnut Scrub Banner Mobile" width="1229" height="1536" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
@@ -910,7 +967,7 @@
             <!-- Top Header Bar -->
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6 sm:mb-8">
                 <div>
-                    <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-100/80 text-[#D98E2B] text-[11px] font-bold tracking-widest uppercase font-roboto border border-amber-300/40 mb-2">
+                    <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-100/80 text-accent text-[11px] font-bold tracking-widest uppercase font-roboto border border-amber-300/40 mb-2">
                         Signature Formulations
                     </span>
                     <h2 class="text-2xl sm:text-4xl font-fraunces font-bold text-slate-900 leading-tight">Featured Collection</h2>
@@ -963,45 +1020,45 @@
             <!-- Left Hero Copy -->
             <div class="relative z-10 flex flex-col items-center md:items-start text-center md:text-left hero-copy w-full">
 
-                <span style="background-color: rgba(184, 70, 14, 0.12); color: #D98E2B; border: 1px solid rgba(184, 70, 14, 0.28);" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-widest mb-3 sm:mb-4">
+                <span style="background-color: rgb(var(--accent-hover-rgb) / 0.12); color: var(--accent); border: 1px solid rgb(var(--accent-hover-rgb) / 0.28);" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-widest mb-3 sm:mb-4">
                     Limited Edition Bundles
                 </span>
 
-                <h2 class="text-2xl sm:text-5xl md:text-6xl font-fraunces font-bold text-[#141E14] leading-tight mb-4 sm:mb-6">
-                    Glow More.<br> <span style="background: linear-gradient(90deg, #D98E2B, #D9541E, #D98E2B); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Save More.</span>
+                <h2 class="text-2xl sm:text-5xl md:text-6xl font-fraunces font-bold text-text leading-tight mb-4 sm:mb-6">
+                    Glow More.<br> <span style="background: linear-gradient(90deg, var(--accent), var(--accent-hover), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Save More.</span>
                 </h2>
 
-                <p class="text-[#2E3B2C]/90 text-xs sm:text-sm md:text-base mb-6 sm:mb-8 max-w-md leading-relaxed font-sans">
+                <p class="text-text/90 text-xs sm:text-sm md:text-base mb-6 sm:mb-8 max-w-md leading-relaxed font-sans">
                     Build a complete skincare ritual with our specially curated combo packs. Each set combines complementary products to cleanse, nourish, protect, and reveal healthy, radiant skin.
-                    <span style="color: #D98E2B;" class="font-bold block mt-1.5">Bundle Up &amp; Save Up to 25% Off.</span>
+                    <span style="color: var(--accent);" class="font-bold block mt-1.5">Bundle Up &amp; Save Up to 25% Off.</span>
                 </p>
 
                 <!-- CTA Buttons -->
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center md:justify-start gap-3 w-full sm:w-auto hero-actions">
-                    <a href="/products" style="background: linear-gradient(135deg, #D98E2B 0%, #D9541E 100%) !important; color: #FFFFFF !important; box-shadow: 0 6px 18px rgba(184, 70, 14, 0.38) !important;" class="font-bold px-7 py-3.5 rounded-xl transition-all duration-300 text-xs sm:text-sm tracking-wide text-center active:scale-98 hover:brightness-110 flex items-center justify-center gap-2">
+                    <a href="/products" style="background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%) !important; color: var(--on-brand) !important; box-shadow: 0 6px 18px rgb(var(--accent-hover-rgb) / 0.38) !important;" class="font-bold px-7 py-3.5 rounded-xl transition-all duration-300 text-xs sm:text-sm tracking-wide text-center active:scale-98 hover:brightness-110 flex items-center justify-center gap-2">
                         <span>Explore Bundles</span> <i class="fa-solid fa-arrow-right text-xs"></i>
                     </a>
-                    <a href="/products?filter=bestseller" style="background-color: #FBF7F0; color: #141E14; border: 1.5px solid #CEBE96;" class="font-semibold px-6 py-3.5 rounded-xl transition-all duration-300 text-xs sm:text-sm text-center shadow-xs active:scale-98 hover:bg-amber-50/60">
+                    <a href="/products?filter=bestseller" style="background-color: var(--bg); color: var(--text); border: 1.5px solid var(--accent);" class="font-semibold px-6 py-3.5 rounded-xl transition-all duration-300 text-xs sm:text-sm text-center shadow-xs active:scale-98 hover:bg-amber-50/60">
                         Bestsellers
                     </a>
                 </div>
 
                 <!-- Hero Stats Row -->
-                <div style="border-color: #CEBE96;" class="grid grid-cols-3 gap-2 sm:gap-6 mt-8 pt-6 border-t hero-stats w-full items-center text-center sm:text-left">
+                <div style="border-color: var(--accent);" class="grid grid-cols-3 gap-2 sm:gap-6 mt-8 pt-6 border-t hero-stats w-full items-center text-center sm:text-left">
 
                     <div class="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2">
-                        <i style="color: #D98E2B;" class="fa-solid fa-shield-halved text-sm sm:text-base shrink-0"></i>
-                        <p class="text-[9px] sm:text-xs font-medium text-[#2E3B2C] uppercase tracking-wider leading-tight">Dermatologically<br class="hidden sm:inline"> Tested</p>
+                        <i style="color: var(--accent);" class="fa-solid fa-shield-halved text-sm sm:text-base shrink-0"></i>
+                        <p class="text-[9px] sm:text-xs font-medium text-text uppercase tracking-wider leading-tight">Dermatologically<br class="hidden sm:inline"> Tested</p>
                     </div>
 
-                    <div style="border-color: #CEBE96;" class="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 border-x px-1 sm:px-4">
-                        <i style="color: #D98E2B;" class="fa-solid fa-leaf text-sm sm:text-base shrink-0"></i>
-                        <p class="text-[9px] sm:text-xs font-medium text-[#2E3B2C] uppercase tracking-wider leading-tight">Clean &amp; Safe<br class="hidden sm:inline"> Ingredients</p>
+                    <div style="border-color: var(--accent);" class="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 border-x px-1 sm:px-4">
+                        <i style="color: var(--accent);" class="fa-solid fa-leaf text-sm sm:text-base shrink-0"></i>
+                        <p class="text-[9px] sm:text-xs font-medium text-text uppercase tracking-wider leading-tight">Clean &amp; Safe<br class="hidden sm:inline"> Ingredients</p>
                     </div>
 
                     <div class="flex flex-col justify-center items-center sm:items-start">
-                        <p style="color: #D98E2B;" class="text-lg sm:text-2xl font-fraunces font-bold leading-none">4.9 ★</p>
-                        <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-[#2E3B2C]/80 mt-1 leading-none">Verified Buyers</p>
+                        <p style="color: var(--accent);" class="text-lg sm:text-2xl font-fraunces font-bold leading-none">4.9 ★</p>
+                        <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-text/80 mt-1 leading-none">Verified Buyers</p>
                     </div>
 
                 </div>
@@ -1009,21 +1066,21 @@
 
             <!-- Right Slider Container -->
             <div class="relative z-10 flex justify-center w-full min-w-0">
-                <div style="background-color: rgba(255, 255, 255, 0.7); border: 1.5px solid #CEBE96;" class="relative backdrop-blur-md p-2 sm:p-4 rounded-3xl shadow-xl w-full max-w-md overflow-hidden">
+                <div style="background-color: rgb(var(--bg-rgb) / 0.7); border: 1.5px solid var(--accent);" class="relative backdrop-blur-md p-2 sm:p-4 rounded-3xl shadow-xl w-full max-w-md overflow-hidden">
 
                     <!-- Dynamic Auto Slider Track -->
-                    <div id="auto-slider" style="background-color: rgba(255, 255, 255, 0.85); border: 1px solid rgba(206, 190, 150, 0.6);" class="rounded-2xl p-2 sm:p-4 flex overflow-x-auto scroll-smooth snap-x snap-mandatory gap-4 no-scrollbar">
+                    <div id="auto-slider" style="background-color: rgb(var(--bg-rgb) / 0.85); border: 1px solid rgb(var(--accent-rgb) / 0.6);" class="rounded-2xl p-2 sm:p-4 flex overflow-x-auto scroll-smooth snap-x snap-mandatory gap-4 no-scrollbar">
 
-                        <a href="/products" class="w-full flex-shrink-0 snap-center block rounded-xl overflow-hidden shadow-lg border border-[#CEBE96]/40 group">
+                        <a href="/products" class="w-full flex-shrink-0 snap-center block rounded-xl overflow-hidden shadow-lg border border-accent/40 group">
                             <img src="./static/combo1.webp" alt="Alora Combo" width="400" height="400" loading="lazy" decoding="async" class="w-full h-auto object-cover">
                         </a>
-                        <a href="/products" class="w-full flex-shrink-0 snap-center block rounded-xl overflow-hidden shadow-lg border border-[#CEBE96]/40 group">
+                        <a href="/products" class="w-full flex-shrink-0 snap-center block rounded-xl overflow-hidden shadow-lg border border-accent/40 group">
                             <img src="./static/combo2.webp" alt="Alora Combo" width="400" height="400" loading="lazy" decoding="async" class="w-full h-auto object-cover">
                         </a>
-                        <a href="/products" class="w-full flex-shrink-0 snap-center block rounded-xl overflow-hidden shadow-lg border border-[#CEBE96]/40 group">
+                        <a href="/products" class="w-full flex-shrink-0 snap-center block rounded-xl overflow-hidden shadow-lg border border-accent/40 group">
                             <img src="./static/combo3.webp" alt="Alora Combo" width="400" height="400" loading="lazy" decoding="async" class="w-full h-auto rounded-lg shadow-md">
                         </a>
-                        <a href="/products" target="_blank" class="w-full flex-shrink-0 snap-center block rounded-xl overflow-hidden shadow-lg border border-[#CEBE96]/40 group">
+                        <a href="/products" target="_blank" class="w-full flex-shrink-0 snap-center block rounded-xl overflow-hidden shadow-lg border border-accent/40 group">
                             <img src="./static/combo4.webp" alt="Alora Combo" width="400" height="400" loading="lazy" decoding="async" class="w-full h-auto rounded-lg shadow-md">
                         </a>
 
@@ -1046,18 +1103,18 @@
     <!-- Section Header with Margins -->
     <div class="w-full px-4 sm:px-6 md:px-8 mb-4 sm:mb-5 flex items-end justify-between">
         <div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-[#F1E6D3] text-[#2B1D14] text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase border border-[#2B1D14]/10 mb-2 select-none">
-                <i class="fa-solid fa-circle-play text-[#D98E2B]"></i> Video Spotlight
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] bg-bg text-text text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase border border-text/10 mb-2 select-none">
+                <i class="fa-solid fa-circle-play text-accent"></i> Video Spotlight
             </span>
-            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-heading font-bold text-[#2B1D14] leading-tight">Watch It. Love It.</h2>
-            <p class="text-xs sm:text-sm text-[#2B1D14]/70 mt-1 font-body">Real skincare routines &amp; results in action. Click any card to watch.</p>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-heading font-bold text-text leading-tight">Watch It. Love It.</h2>
+            <p class="text-xs sm:text-sm text-text/70 mt-1 font-body">Real skincare routines &amp; results in action. Click any card to watch.</p>
         </div>
         <!-- Desktop Scroll Arrows -->
         <div class="hidden sm:flex items-center gap-2 shrink-0">
-            <button type="button" onclick="scrollWatchItCarousel('left')" class="w-9 h-9 rounded-full bg-white hover:bg-[#D98E2B] text-[#2B1D14] hover:text-white border border-[#2B1D14]/15 flex items-center justify-center transition-all shadow-xs hover:shadow-md cursor-pointer select-none" aria-label="Previous Videos">
+            <button type="button" onclick="scrollWatchItCarousel('left')" class="w-9 h-9 rounded-full bg-white hover:bg-accent text-text hover:text-white border border-text/15 flex items-center justify-center transition-all shadow-xs hover:shadow-md cursor-pointer select-none" aria-label="Previous Videos">
                 <i class="fa-solid fa-chevron-left text-xs"></i>
             </button>
-            <button type="button" onclick="scrollWatchItCarousel('right')" class="w-9 h-9 rounded-full bg-white hover:bg-[#D98E2B] text-[#2B1D14] hover:text-white border border-[#2B1D14]/15 flex items-center justify-center transition-all shadow-xs hover:shadow-md cursor-pointer select-none" aria-label="Next Videos">
+            <button type="button" onclick="scrollWatchItCarousel('right')" class="w-9 h-9 rounded-full bg-white hover:bg-accent text-text hover:text-white border border-text/15 flex items-center justify-center transition-all shadow-xs hover:shadow-md cursor-pointer select-none" aria-label="Next Videos">
                 <i class="fa-solid fa-chevron-right text-xs"></i>
             </button>
         </div>
@@ -1068,14 +1125,14 @@
 
         <!-- Video Reel 1 -->
         <div class="reel-card-item shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1" style="width: clamp(160px, calc((100vw - 112px) / 7), 250px);">
-            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-text/12 bg-slate-900 cursor-pointer reel-video-trigger"
                  data-video-url="https://www.instagram.com/reel/Db003y_vnCo/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" 
                  data-poster="./static/reel1-thumbnail.png"
                  data-video-title="Alora Skincare Reel 1">
                 <img src="./static/reel1-thumbnail.png" alt="Alora Video Reel 1" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-accent group-hover:text-text group-hover:border-accent transition-all duration-300">
                         <i class="fa-solid fa-play text-xs ml-0.5"></i>
                     </div>
                 </div>
@@ -1090,14 +1147,14 @@
 
         <!-- Video Reel 2 -->
         <div class="reel-card-item shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1" style="width: clamp(160px, calc((100vw - 112px) / 7), 250px);">
-            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-text/12 bg-slate-900 cursor-pointer reel-video-trigger"
                  data-video-url="https://www.instagram.com/reel/DcLflVtTzKL/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" 
                  data-poster="./static/reel2-thumbnail.png"
                  data-video-title="Alora Skincare Reel 2">
                 <img src="./static/reel2-thumbnail.png" alt="Alora Video Reel 2" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-accent group-hover:text-text group-hover:border-accent transition-all duration-300">
                         <i class="fa-solid fa-play text-xs ml-0.5"></i>
                     </div>
                 </div>
@@ -1112,14 +1169,14 @@
 
         <!-- Video Reel 3 -->
         <div class="reel-card-item shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1" style="width: clamp(160px, calc((100vw - 112px) / 7), 250px);">
-            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-text/12 bg-slate-900 cursor-pointer reel-video-trigger"
                  data-video-url="https://www.instagram.com/reel/DcGaFCCoBWJ/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" 
                  data-poster="./static/reel3-thumbnail.png"
                  data-video-title="Alora Skincare Reel 3">
                 <img src="./static/reel3-thumbnail.png" alt="Alora Video Reel 3" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-accent group-hover:text-text group-hover:border-accent transition-all duration-300">
                         <i class="fa-solid fa-play text-xs ml-0.5"></i>
                     </div>
                 </div>
@@ -1134,14 +1191,14 @@
 
         <!-- Video Reel 4 -->
         <div class="reel-card-item shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1" style="width: clamp(160px, calc((100vw - 112px) / 7), 250px);">
-            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-text/12 bg-slate-900 cursor-pointer reel-video-trigger"
                  data-video-url="https://www.instagram.com/reel/DcTSaQhJrsJ/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" 
                  data-poster="./static/reel4-thumbnail.png"
                  data-video-title="Alora Skincare Reel 4">
                 <img src="./static/reel4-thumbnail.png" alt="Alora Video Reel 4" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-accent group-hover:text-text group-hover:border-accent transition-all duration-300">
                         <i class="fa-solid fa-play text-xs ml-0.5"></i>
                     </div>
                 </div>
@@ -1156,14 +1213,14 @@
 
         <!-- Video Reel 5 -->
         <div class="reel-card-item shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1" style="width: clamp(160px, calc((100vw - 112px) / 7), 250px);">
-            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-text/12 bg-slate-900 cursor-pointer reel-video-trigger"
                  data-video-url="https://www.instagram.com/reel/DcF7UytJq4c" 
                  data-poster="./static/reel5-thumbnail.png"
                  data-video-title="Alora Radiance Face Serum">
                 <img src="./static/reel5-thumbnail.png" alt="Alora Video Reel 5" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-accent group-hover:text-text group-hover:border-accent transition-all duration-300">
                         <i class="fa-solid fa-play text-xs ml-0.5"></i>
                     </div>
                 </div>
@@ -1178,14 +1235,14 @@
 
         <!-- Video Reel 6 -->
         <div class="reel-card-item shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1" style="width: clamp(160px, calc((100vw - 112px) / 7), 250px);">
-            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-text/12 bg-slate-900 cursor-pointer reel-video-trigger"
                  data-video-url="https://www.instagram.com/reel/Db003y_vnCo/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" 
                  data-poster="./static/reel1-thumbnail.png"
                  data-video-title="Alora Skincare Reel 1">
                 <img src="./static/reel1-thumbnail.png" alt="Alora Video Reel 6" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-accent group-hover:text-text group-hover:border-accent transition-all duration-300">
                         <i class="fa-solid fa-play text-xs ml-0.5"></i>
                     </div>
                 </div>
@@ -1200,14 +1257,14 @@
 
         <!-- Video Reel 7 -->
         <div class="reel-card-item shrink-0 snap-start group transition-all duration-300 hover:-translate-y-1" style="width: clamp(160px, calc((100vw - 112px) / 7), 250px);">
-            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-[#2B1D14]/12 bg-slate-900 cursor-pointer reel-video-trigger"
+            <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-text/12 bg-slate-900 cursor-pointer reel-video-trigger"
                  data-video-url="https://www.instagram.com/reel/DcLflVtTzKL/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==" 
                  data-poster="./static/reel2-thumbnail.png"
                  data-video-title="Alora Skincare Reel 2">
                 <img src="./static/reel2-thumbnail.png" alt="Alora Video Reel 7" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-[#D98E2B] group-hover:text-[#2B1D14] group-hover:border-[#D98E2B] transition-all duration-300">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/60 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-accent group-hover:text-text group-hover:border-accent transition-all duration-300">
                         <i class="fa-solid fa-play text-xs ml-0.5"></i>
                     </div>
                 </div>
@@ -1398,11 +1455,11 @@
 
             <!-- Top Header -->
             <div class="text-center mb-6 sm:mb-8">
-                <span class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-100/80 text-[#D98E2B] text-[11px] font-bold tracking-widest uppercase border border-amber-300/50 mb-2 sm:mb-3">
+                <span class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-100/80 text-accent text-[11px] font-bold tracking-widest uppercase border border-amber-300/50 mb-2 sm:mb-3">
                     100% Clean &amp; Safe Formulations
                 </span>
                 <h2 class="text-2xl sm:text-4xl font-fraunces font-bold text-slate-900 leading-tight">
-                    Nothing to Hide. <span class="text-[#A24C3D]">Nothing Harmful.</span>
+                    Nothing to Hide. <span class="text-accent">Nothing Harmful.</span>
                 </h2>
                 <p class="text-xs sm:text-sm text-slate-600 mt-2 max-w-lg mx-auto font-sans leading-relaxed">
                     Formulated without harsh chemicals or toxins. Every single ingredient is 100% dermatologically tested for ultimate safety.
@@ -1416,7 +1473,7 @@
                     <!-- Loop Item Group 1 -->
                     <div class="flex items-center gap-3 sm:gap-4 shrink-0">
                         <div class="bg-white px-4 py-3 rounded-2xl border border-amber-900/10 shadow-sm flex items-center gap-3 shrink-0 min-w-[165px]">
-                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-[#D98E2B] flex items-center justify-center shrink-0">
+                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-accent flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-ban text-xs"></i>
                             </div>
                             <div class="text-left">
@@ -1426,7 +1483,7 @@
                         </div>
 
                         <div class="bg-white px-4 py-3 rounded-2xl border border-amber-900/10 shadow-sm flex items-center gap-3 shrink-0 min-w-[165px]">
-                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-[#D98E2B] flex items-center justify-center shrink-0">
+                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-accent flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-ban text-xs"></i>
                             </div>
                             <div class="text-left">
@@ -1436,7 +1493,7 @@
                         </div>
 
                         <div class="bg-white px-4 py-3 rounded-2xl border border-amber-900/10 shadow-sm flex items-center gap-3 shrink-0 min-w-[165px]">
-                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-[#D98E2B] flex items-center justify-center shrink-0">
+                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-accent flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-ban text-xs"></i>
                             </div>
                             <div class="text-left">
@@ -1446,7 +1503,7 @@
                         </div>
 
                         <div class="bg-white px-4 py-3 rounded-2xl border border-amber-900/10 shadow-sm flex items-center gap-3 shrink-0 min-w-[165px]">
-                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-[#D98E2B] flex items-center justify-center shrink-0">
+                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-accent flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-ban text-xs"></i>
                             </div>
                             <div class="text-left">
@@ -1476,7 +1533,7 @@
                         </div>
 
                         <div class="bg-white px-4 py-3 rounded-2xl border border-amber-900/10 shadow-sm flex items-center gap-3 shrink-0 min-w-[165px]">
-                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-[#D98E2B] flex items-center justify-center shrink-0">
+                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-accent flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-user-doctor text-xs"></i>
                             </div>
                             <div class="text-left">
@@ -1499,7 +1556,7 @@
                     <!-- Loop Item Group 2 (Duplicate for Seamless Infinite Scroll) -->
                     <div class="flex items-center gap-3 sm:gap-4 shrink-0">
                         <div class="bg-white px-4 py-3 rounded-2xl border border-amber-900/10 shadow-sm flex items-center gap-3 shrink-0 min-w-[165px]">
-                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-[#D98E2B] flex items-center justify-center shrink-0">
+                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-accent flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-ban text-xs"></i>
                             </div>
                             <div class="text-left">
@@ -1509,7 +1566,7 @@
                         </div>
 
                         <div class="bg-white px-4 py-3 rounded-2xl border border-amber-900/10 shadow-sm flex items-center gap-3 shrink-0 min-w-[165px]">
-                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-[#D98E2B] flex items-center justify-center shrink-0">
+                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-accent flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-ban text-xs"></i>
                             </div>
                             <div class="text-left">
@@ -1519,7 +1576,7 @@
                         </div>
 
                         <div class="bg-white px-4 py-3 rounded-2xl border border-amber-900/10 shadow-sm flex items-center gap-3 shrink-0 min-w-[165px]">
-                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-[#D98E2B] flex items-center justify-center shrink-0">
+                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-accent flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-ban text-xs"></i>
                             </div>
                             <div class="text-left">
@@ -1529,7 +1586,7 @@
                         </div>
 
                         <div class="bg-white px-4 py-3 rounded-2xl border border-amber-900/10 shadow-sm flex items-center gap-3 shrink-0 min-w-[165px]">
-                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-[#D98E2B] flex items-center justify-center shrink-0">
+                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-accent flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-ban text-xs"></i>
                             </div>
                             <div class="text-left">
@@ -1561,7 +1618,7 @@
                         </div>
 
                         <div class="bg-white px-4 py-3 rounded-2xl border border-amber-900/10 shadow-sm flex items-center gap-3 shrink-0 min-w-[165px]">
-                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-[#D98E2B] flex items-center justify-center shrink-0">
+                            <div class="w-9 h-9 rounded-xl bg-amber-100/70 text-accent flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-user-doctor text-xs"></i>
                             </div>
                             <div class="text-left">
@@ -1623,7 +1680,7 @@
 
             <!-- Header -->
             <div class="max-w-2xl mx-auto mb-8 sm:mb-10">
-                <span class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-100/90 text-[#D98E2B] text-[11px] font-bold tracking-widest uppercase font-mono border border-amber-300/60 shadow-xs mb-3">
+                <span class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-100/90 text-accent text-[11px] font-bold tracking-widest uppercase font-mono border border-amber-300/60 shadow-xs mb-3">
                     Our Uncompromising Standard
                 </span>
                 <h2 class="text-3xl sm:text-4xl md:text-5xl font-fraunces font-bold text-slate-900 leading-tight mb-3">
@@ -1641,12 +1698,12 @@
                     <!-- Loop Item Group 1 -->
                     <div class="flex items-stretch gap-3 sm:gap-5 shrink-0">
                         <!-- 1. Transparency -->
-                        <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
+                        <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
                             <div class="absolute -top-10 -right-10 w-20 h-20 bg-amber-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-amber-400/30 transition-all"></div>
-                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-[#D98E2B] flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform duration-300">
-                                <i class="fa-solid fa-eye text-[#D98E2B]"></i>
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-accent flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform duration-300">
+                                <i class="fa-solid fa-eye text-accent"></i>
                             </div>
-                            <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-[#D98E2B] transition-colors">100% Transparency</h3>
+                            <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-accent transition-colors">100% Transparency</h3>
                             <p class="text-[11px] sm:text-xs text-slate-600 leading-normal">
                                 Full disclosure of ingredients and exact concentration ratios.
                             </p>
@@ -1656,7 +1713,7 @@
                         </div>
 
                         <!-- 2. Efficacy -->
-                        <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
+                        <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
                             <div class="absolute -top-10 -right-10 w-20 h-20 bg-emerald-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-emerald-400/30 transition-all"></div>
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-200/80 text-emerald-800 flex items-center justify-center text-lg mb-3 shadow-xs border border-emerald-300/60 group-hover:scale-105 transition-transform duration-300">
                                 <i class="fa-solid fa-flask-vial text-emerald-800"></i>
@@ -1671,12 +1728,12 @@
                         </div>
 
                         <!-- 3. Affordable Luxury -->
-                        <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
+                        <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
                             <div class="absolute -top-10 -right-10 w-20 h-20 bg-amber-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-amber-400/30 transition-all"></div>
-                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-[#D98E2B] flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform duration-300">
-                                <i class="fa-solid fa-crown text-[#D98E2B]"></i>
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-accent flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform duration-300">
+                                <i class="fa-solid fa-crown text-accent"></i>
                             </div>
-                            <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-[#D98E2B] transition-colors">Accessible Luxury</h3>
+                            <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-accent transition-colors">Accessible Luxury</h3>
                             <p class="text-[11px] sm:text-xs text-slate-600 leading-normal">
                                 Premium dermatological skincare made accessible for everyone.
                             </p>
@@ -1686,7 +1743,7 @@
                         </div>
 
                         <!-- 4. Global Pure Actives -->
-                        <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
+                        <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
                             <div class="absolute -top-10 -right-10 w-20 h-20 bg-emerald-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-emerald-400/30 transition-all"></div>
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-200/80 text-emerald-800 flex items-center justify-center text-lg mb-3 shadow-xs border border-emerald-300/60 group-hover:scale-105 transition-transform duration-300">
                                 <i class="fa-solid fa-earth-americas text-emerald-800"></i>
@@ -1704,12 +1761,12 @@
                     <!-- Loop Item Group 2 (Duplicate for Seamless Infinite Scroll) -->
                     <div class="flex items-stretch gap-3 sm:gap-5 shrink-0">
                         <!-- 1. Transparency -->
-                        <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
+                        <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
                             <div class="absolute -top-10 -right-10 w-20 h-20 bg-amber-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-amber-400/30 transition-all"></div>
-                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-[#D98E2B] flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform duration-300">
-                                <i class="fa-solid fa-eye text-[#D98E2B]"></i>
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-accent flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform duration-300">
+                                <i class="fa-solid fa-eye text-accent"></i>
                             </div>
-                            <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-[#D98E2B] transition-colors">100% Transparency</h3>
+                            <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-accent transition-colors">100% Transparency</h3>
                             <p class="text-[11px] sm:text-xs text-slate-600 leading-normal">
                                 Full disclosure of ingredients and exact concentration ratios.
                             </p>
@@ -1719,7 +1776,7 @@
                         </div>
 
                         <!-- 2. Efficacy -->
-                        <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
+                        <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
                             <div class="absolute -top-10 -right-10 w-20 h-20 bg-emerald-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-emerald-400/30 transition-all"></div>
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-200/80 text-emerald-800 flex items-center justify-center text-lg mb-3 shadow-xs border border-emerald-300/60 group-hover:scale-105 transition-transform duration-300">
                                 <i class="fa-solid fa-flask-vial text-emerald-800"></i>
@@ -1734,12 +1791,12 @@
                         </div>
 
                         <!-- 3. Affordable Luxury -->
-                        <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
+                        <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
                             <div class="absolute -top-10 -right-10 w-20 h-20 bg-amber-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-amber-400/30 transition-all"></div>
-                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-[#D98E2B] flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform duration-300">
-                                <i class="fa-solid fa-crown text-[#D98E2B]"></i>
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-accent flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform duration-300">
+                                <i class="fa-solid fa-crown text-accent"></i>
                             </div>
-                            <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-[#D98E2B] transition-colors">Accessible Luxury</h3>
+                            <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-accent transition-colors">Accessible Luxury</h3>
                             <p class="text-[11px] sm:text-xs text-slate-600 leading-normal">
                                 Premium dermatological skincare made accessible for everyone.
                             </p>
@@ -1749,7 +1806,7 @@
                         </div>
 
                         <!-- 4. Global Pure Actives -->
-                        <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
+                        <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden flex flex-col items-center text-center w-[190px] sm:w-[230px] shrink-0 justify-between">
                             <div class="absolute -top-10 -right-10 w-20 h-20 bg-emerald-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-emerald-400/30 transition-all"></div>
                             <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-200/80 text-emerald-800 flex items-center justify-center text-lg mb-3 shadow-xs border border-emerald-300/60 group-hover:scale-105 transition-transform duration-300">
                                 <i class="fa-solid fa-earth-americas text-emerald-800"></i>
@@ -1798,14 +1855,14 @@
                         <div class="flex items-stretch gap-3 sm:gap-5 shrink-0">
 
                             <!-- Card 1: Dermatologically Tested -->
-                            <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between w-[190px] sm:w-[230px] shrink-0">
+                            <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between w-[190px] sm:w-[230px] shrink-0">
                                 <div class="absolute -top-10 -right-10 w-20 h-20 bg-amber-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-amber-400/30 transition-all"></div>
 
                                 <div>
-                                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-[#D98E2B] flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform">
-                                        <i class="fa-solid fa-user-shield text-[#D98E2B]"></i>
+                                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-accent flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform">
+                                        <i class="fa-solid fa-user-shield text-accent"></i>
                                     </div>
-                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-[#D98E2B] transition-colors">Dermatologically Tested</h3>
+                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-accent transition-colors">Dermatologically Tested</h3>
                                     <p class="text-[11px] sm:text-xs text-slate-600 leading-normal">
                                         Clinically tested on sensitive human skin to guarantee gentle safety.
                                     </p>
@@ -1820,7 +1877,7 @@
                             </div>
 
                             <!-- Card 2: FDA Approved Standards -->
-                            <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between w-[190px] sm:w-[230px] shrink-0">
+                            <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between w-[190px] sm:w-[230px] shrink-0">
                                 <div class="absolute -top-10 -right-10 w-20 h-20 bg-emerald-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-emerald-400/30 transition-all"></div>
 
                                 <div>
@@ -1842,14 +1899,14 @@
                             </div>
 
                             <!-- Card 3: Made Safe Certified -->
-                            <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between w-[190px] sm:w-[230px] shrink-0">
+                            <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between w-[190px] sm:w-[230px] shrink-0">
                                 <div class="absolute -top-10 -right-10 w-20 h-20 bg-amber-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-amber-400/30 transition-all"></div>
 
                                 <div>
-                                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-[#D98E2B] flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform">
-                                        <i class="fa-solid fa-shield-heart text-[#D98E2B]"></i>
+                                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-accent flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform">
+                                        <i class="fa-solid fa-shield-heart text-accent"></i>
                                     </div>
-                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-[#D98E2B] transition-colors">Made Safe Certified</h3>
+                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-accent transition-colors">Made Safe Certified</h3>
                                     <p class="text-[11px] sm:text-xs text-slate-600 leading-normal">
                                         Guarantees zero endocrine disruptors, neurotoxins, or harsh chemical additives.
                                     </p>
@@ -1869,14 +1926,14 @@
                         <div class="flex items-stretch gap-3 sm:gap-5 shrink-0">
 
                             <!-- Card 1: Dermatologically Tested -->
-                            <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between w-[190px] sm:w-[230px] shrink-0">
+                            <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between w-[190px] sm:w-[230px] shrink-0">
                                 <div class="absolute -top-10 -right-10 w-20 h-20 bg-amber-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-amber-400/30 transition-all"></div>
 
                                 <div>
-                                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-[#D98E2B] flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform">
-                                        <i class="fa-solid fa-user-shield text-[#D98E2B]"></i>
+                                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-accent flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform">
+                                        <i class="fa-solid fa-user-shield text-accent"></i>
                                     </div>
-                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-[#D98E2B] transition-colors">Dermatologically Tested</h3>
+                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-accent transition-colors">Dermatologically Tested</h3>
                                     <p class="text-[11px] sm:text-xs text-slate-600 leading-normal">
                                         Clinically tested on sensitive human skin to guarantee gentle safety.
                                     </p>
@@ -1891,7 +1948,7 @@
                             </div>
 
                             <!-- Card 2: FDA Approved Standards -->
-                            <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between w-[190px] sm:w-[230px] shrink-0">
+                            <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between w-[190px] sm:w-[230px] shrink-0">
                                 <div class="absolute -top-10 -right-10 w-20 h-20 bg-emerald-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-emerald-400/30 transition-all"></div>
 
                                 <div>
@@ -1913,14 +1970,14 @@
                             </div>
 
                             <!-- Card 3: Made Safe Certified -->
-                            <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between w-[190px] sm:w-[230px] shrink-0">
+                            <div class="bg-gradient-to-b from-bg via-white to-bg p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between w-[190px] sm:w-[230px] shrink-0">
                                 <div class="absolute -top-10 -right-10 w-20 h-20 bg-amber-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-amber-400/30 transition-all"></div>
 
                                 <div>
-                                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-[#D98E2B] flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform">
-                                        <i class="fa-solid fa-shield-heart text-[#D98E2B]"></i>
+                                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-accent flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform">
+                                        <i class="fa-solid fa-shield-heart text-accent"></i>
                                     </div>
-                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-[#D98E2B] transition-colors">Made Safe Certified</h3>
+                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-accent transition-colors">Made Safe Certified</h3>
                                     <p class="text-[11px] sm:text-xs text-slate-600 leading-normal">
                                         Guarantees zero endocrine disruptors, neurotoxins, or harsh chemical additives.
                                     </p>
@@ -1949,7 +2006,7 @@
 
 
             <div class="max-w-xl mx-auto mb-8">
-                <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-100/80 text-[#D98E2B] text-[11px] font-bold tracking-widest uppercase font-mono border border-amber-300/40 mb-2">
+                <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-100/80 text-accent text-[11px] font-bold tracking-widest uppercase font-mono border border-amber-300/40 mb-2">
                     Targeted Formulations
                 </span>
                 <h2 class="text-2xl sm:text-4xl font-fraunces font-bold text-slate-900">Shop By Skin Concern</h2>
@@ -1963,7 +2020,7 @@
                     <div class="overflow-hidden rounded-2xl mb-3 bg-amber-50 aspect-square w-full border border-amber-900/10">
                         <img src="./static/before and after image.webp" alt="Uneven Tone" width="300" height="300" loading="lazy" decoding="async" class="w-full h-full object-cover transform group-hover:scale-108 transition-all duration-500">
                     </div>
-                    <span class="font-fraunces font-bold text-sm sm:text-base text-slate-900 group-hover:text-[#D98E2B] transition-colors block">Uneven Tone</span>
+                    <span class="font-fraunces font-bold text-sm sm:text-base text-slate-900 group-hover:text-accent transition-colors block">Uneven Tone</span>
                     <span class="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-md mt-1.5 inline-block font-mono">
                         Brightening Ritual →
                     </span>
@@ -1974,7 +2031,7 @@
                     <div class="overflow-hidden rounded-2xl mb-3 bg-amber-50 aspect-square w-full border border-amber-900/10">
                         <img src="./static/faceskin2.webp" alt="Acne Control" class="w-full h-full object-cover transform group-hover:scale-108 transition-all duration-500">
                     </div>
-                    <span class="font-fraunces font-bold text-sm sm:text-base text-slate-900 group-hover:text-[#D98E2B] transition-colors block">Acne Control</span>
+                    <span class="font-fraunces font-bold text-sm sm:text-base text-slate-900 group-hover:text-accent transition-colors block">Acne Control</span>
                     <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded-md mt-1.5 inline-block font-mono">
                         Clarifying Ritual →
                     </span>
@@ -1985,7 +2042,7 @@
                     <div class="overflow-hidden rounded-2xl mb-3 bg-amber-50 aspect-square w-full border border-amber-900/10">
                         <img src="./static/faceskin3.webp" alt="Oiliness Balance" class="w-full h-full object-cover transform group-hover:scale-108 transition-all duration-500">
                     </div>
-                    <span class="font-fraunces font-bold text-sm sm:text-base text-slate-900 group-hover:text-[#D98E2B] transition-colors block">Oiliness &amp; Sebum</span>
+                    <span class="font-fraunces font-bold text-sm sm:text-base text-slate-900 group-hover:text-accent transition-colors block">Oiliness &amp; Sebum</span>
                     <span class="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-md mt-1.5 inline-block font-mono">
                         Pore Balancing →
                     </span>
@@ -1996,7 +2053,7 @@
                     <div class="overflow-hidden rounded-2xl mb-3 bg-amber-50 aspect-square w-full border border-amber-900/10">
                         <img src="./static/faceskin4.webp" alt="Anti Aging Wrinkles" class="w-full h-full object-cover transform group-hover:scale-108 transition-all duration-500">
                     </div>
-                    <span class="font-fraunces font-bold text-sm sm:text-base text-slate-900 group-hover:text-[#D98E2B] transition-colors block">Fine Lines &amp; Firming</span>
+                    <span class="font-fraunces font-bold text-sm sm:text-base text-slate-900 group-hover:text-accent transition-colors block">Fine Lines &amp; Firming</span>
                     <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded-md mt-1.5 inline-block font-mono">
                         Youth Rejuvenation →
                     </span>
@@ -2012,24 +2069,29 @@
 <section id="reviews" class="w-full py-12 sm:py-16 relative overflow-hidden bg-transparent">
 
     <div class="max-w-3xl mx-auto text-center px-4 mb-8 sm:mb-12">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] text-[11px] font-semibold tracking-wider uppercase bg-[#F1E6D3] text-[#2B1D14] border border-[#2B1D14]/10 mb-3 select-none">
-            <i class="fa-solid fa-star text-[#D98E2B] text-[10px]"></i> 1,200+ Verified Customer Reviews
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] text-[11px] font-semibold tracking-wider uppercase bg-bg text-text border border-text/10 mb-3 select-none">
+            <i class="fa-solid fa-star text-accent text-[10px]"></i> 1,200+ Verified Customer Reviews
         </span>
-        <h2 class="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-[#2B1D14] tracking-tight">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-text tracking-tight">
             What Our Customers Say
         </h2>
-        <p class="text-[#2B1D14]/75 text-xs sm:text-sm mt-2 max-w-xl mx-auto font-body">
+        <p class="text-text/75 text-xs sm:text-sm mt-2 max-w-xl mx-auto font-body">
             Real routines, authentic skin feedback &amp; visible radiance from verified buyers across India.
         </p>
 
         <!-- Overall Rating Counter Bar -->
+<<<<<<< Updated upstream
         <div class="inline-flex items-center justify-center gap-3 mt-4 text-xs font-semibold text-[#2B1D14] bg-white py-1.5 px-4 rounded-full border border-[#2B1D14]/12 shadow-xs select-none">
             <span class="text-[#D98E2B] font-bold text-xs flex gap-0.5">
+=======
+        <div class="inline-flex items-center justify-center gap-3 mt-4 text-xs font-semibold text-text bg-white py-1.5 px-4 rounded-full border border-text/12 shadow-xs select-none">
+            <span class="reviews-rating-stars font-bold text-xs flex gap-0.5">
+>>>>>>> Stashed changes
                 <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
             </span>
             <span class="font-bold">4.9 / 5.0 Rating</span>
-            <span class="text-[#2B1D14]/20">|</span>
-            <span class="text-[#2B1D14] font-medium flex items-center gap-1">
+            <span class="text-text/20">|</span>
+            <span class="text-text font-medium flex items-center gap-1">
                 <i class="fa-solid fa-circle-check text-emerald-600"></i> 99.4% Positive Feedback
             </span>
         </div>
@@ -2039,17 +2101,17 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
         <!-- Review Card: MEGHA PARASHAR -->
-        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-[#2B1D14]/10 shadow-[0_2px_12px_rgba(43,29,20,0.04)] hover:shadow-[0_6px_20px_rgba(43,29,20,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
+        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-text/10 shadow-[0_2px_12px_rgb(var(--text-rgb) / 0.04)] hover:shadow-[0_6px_20px_rgb(var(--text-rgb) / 0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
             <div>
                 <!-- Top Row: Avatar + Name + Verified Badge -->
                 <div class="flex items-center gap-3 mb-3">
-                    <img src="./static/customer-review-1.jpg" alt="MEGHA PARASHAR" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 16%" class="review-avatar border-2 border-[#D98E2B]/40 shadow-xs shrink-0">
+                    <img src="./static/customer-review-1.jpg" alt="MEGHA PARASHAR" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 16%" class="review-avatar border-2 border-accent/40 shadow-xs shrink-0">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5 flex-wrap">
-                            <h4 class="font-bold text-[#2B1D14] text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">MEGHA PARASHAR</h4>
+                            <h4 class="font-bold text-text text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">MEGHA PARASHAR</h4>
                             <i class="fa-solid fa-circle-check text-sky-500 text-xs shrink-0" title="Verified Buyer"></i>
                         </div>
-                        <span class="text-[10.5px] text-[#2B1D14]/55 font-body block truncate mt-0.5">Mumbai, India</span>
+                        <span class="text-[10.5px] text-text/55 font-body block truncate mt-0.5">Mumbai, India</span>
                     </div>
                 </div>
 
@@ -2059,37 +2121,37 @@
                 </div>
 
                 <!-- Title -->
-                <h5 class="font-bold text-[#2B1D14] text-[13.5px] leading-snug font-heading">Just Love It!</h5>
+                <h5 class="font-bold text-text text-[13.5px] leading-snug font-heading">Just Love It!</h5>
 
                 <!-- Review Comment Body -->
-                <p class="text-[#2B1D14]/75 text-[12px] leading-relaxed mt-1.5 font-body">
+                <p class="text-text/75 text-[12px] leading-relaxed mt-1.5 font-body">
                     "I've been using Alora Saffron Day Cream for a month now. It's lightweight & quick-absorbing. Reduces dullness with a natural dewy finish. A must-buy!"
                 </p>
             </div>
 
             <!-- Bottom: Recommends Product (Reference Image Style) -->
-            <div class="mt-4 pt-3 border-t border-[#2B1D14]/8 flex items-center justify-between text-[11px] font-body">
+            <div class="mt-4 pt-3 border-t border-text/8 flex items-center justify-between text-[11px] font-body">
                 <div class="truncate max-w-[65%]">
-                    <span class="text-[#2B1D14]/50 text-[10px] block leading-none">Recommends</span>
-                    <span class="font-bold text-[#2B1D14] text-[11px] truncate block mt-0.5">Saffron Day Cream SPF 30++</span>
+                    <span class="text-text/50 text-[10px] block leading-none">Recommends</span>
+                    <span class="font-bold text-text text-[11px] truncate block mt-0.5">Saffron Day Cream SPF 30++</span>
                 </div>
-                <a href="/products" class="text-[#D98E2B] font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
+                <a href="/products" class="text-accent font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
                     SHOP NOW &gt;&gt;
                 </a>
             </div>
         </div>
         <!-- Review Card: RESHMA SATHEESH -->
-        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-[#2B1D14]/10 shadow-[0_2px_12px_rgba(43,29,20,0.04)] hover:shadow-[0_6px_20px_rgba(43,29,20,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
+        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-text/10 shadow-[0_2px_12px_rgb(var(--text-rgb) / 0.04)] hover:shadow-[0_6px_20px_rgb(var(--text-rgb) / 0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
             <div>
                 <!-- Top Row: Avatar + Name + Verified Badge -->
                 <div class="flex items-center gap-3 mb-3">
-                    <img src="./static/customer-review-2.jpg" alt="RESHMA SATHEESH" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 35%" class="review-avatar border-2 border-[#D98E2B]/40 shadow-xs shrink-0">
+                    <img src="./static/customer-review-2.jpg" alt="RESHMA SATHEESH" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 35%" class="review-avatar border-2 border-accent/40 shadow-xs shrink-0">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5 flex-wrap">
-                            <h4 class="font-bold text-[#2B1D14] text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">RESHMA SATHEESH</h4>
+                            <h4 class="font-bold text-text text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">RESHMA SATHEESH</h4>
                             <i class="fa-solid fa-circle-check text-sky-500 text-xs shrink-0" title="Verified Buyer"></i>
                         </div>
-                        <span class="text-[10.5px] text-[#2B1D14]/55 font-body block truncate mt-0.5">Bengaluru, India</span>
+                        <span class="text-[10.5px] text-text/55 font-body block truncate mt-0.5">Bengaluru, India</span>
                     </div>
                 </div>
 
@@ -2099,37 +2161,37 @@
                 </div>
 
                 <!-- Title -->
-                <h5 class="font-bold text-[#2B1D14] text-[13.5px] leading-snug font-heading">Blends In No Time</h5>
+                <h5 class="font-bold text-text text-[13.5px] leading-snug font-heading">Blends In No Time</h5>
 
                 <!-- Review Comment Body -->
-                <p class="text-[#2B1D14]/75 text-[12px] leading-relaxed mt-1.5 font-body">
+                <p class="text-text/75 text-[12px] leading-relaxed mt-1.5 font-body">
                     "This is my second bottle of the Kumkumadi Night Elixir. Zero breakouts, non-greasy formula, and morning redness is gone. Just love it!"
                 </p>
             </div>
 
             <!-- Bottom: Recommends Product (Reference Image Style) -->
-            <div class="mt-4 pt-3 border-t border-[#2B1D14]/8 flex items-center justify-between text-[11px] font-body">
+            <div class="mt-4 pt-3 border-t border-text/8 flex items-center justify-between text-[11px] font-body">
                 <div class="truncate max-w-[65%]">
-                    <span class="text-[#2B1D14]/50 text-[10px] block leading-none">Recommends</span>
-                    <span class="font-bold text-[#2B1D14] text-[11px] truncate block mt-0.5">Kumkumadi Night Elixir</span>
+                    <span class="text-text/50 text-[10px] block leading-none">Recommends</span>
+                    <span class="font-bold text-text text-[11px] truncate block mt-0.5">Kumkumadi Night Elixir</span>
                 </div>
-                <a href="/products" class="text-[#D98E2B] font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
+                <a href="/products" class="text-accent font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
                     SHOP NOW &gt;&gt;
                 </a>
             </div>
         </div>
         <!-- Review Card: MUSKAN CHOWDHURY -->
-        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-[#2B1D14]/10 shadow-[0_2px_12px_rgba(43,29,20,0.04)] hover:shadow-[0_6px_20px_rgba(43,29,20,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
+        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-text/10 shadow-[0_2px_12px_rgb(var(--text-rgb) / 0.04)] hover:shadow-[0_6px_20px_rgb(var(--text-rgb) / 0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
             <div>
                 <!-- Top Row: Avatar + Name + Verified Badge -->
                 <div class="flex items-center gap-3 mb-3">
-                    <img src="./static/customer-review-3.jpg" alt="MUSKAN CHOWDHURY" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 16%" class="review-avatar border-2 border-[#D98E2B]/40 shadow-xs shrink-0">
+                    <img src="./static/customer-review-3.jpg" alt="MUSKAN CHOWDHURY" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 16%" class="review-avatar border-2 border-accent/40 shadow-xs shrink-0">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5 flex-wrap">
-                            <h4 class="font-bold text-[#2B1D14] text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">MUSKAN CHOWDHURY</h4>
+                            <h4 class="font-bold text-text text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">MUSKAN CHOWDHURY</h4>
                             <i class="fa-solid fa-circle-check text-sky-500 text-xs shrink-0" title="Verified Buyer"></i>
                         </div>
-                        <span class="text-[10.5px] text-[#2B1D14]/55 font-body block truncate mt-0.5">Delhi NCR, India</span>
+                        <span class="text-[10.5px] text-text/55 font-body block truncate mt-0.5">Delhi NCR, India</span>
                     </div>
                 </div>
 
@@ -2139,37 +2201,37 @@
                 </div>
 
                 <!-- Title -->
-                <h5 class="font-bold text-[#2B1D14] text-[13.5px] leading-snug font-heading">No More Dry Skin</h5>
+                <h5 class="font-bold text-text text-[13.5px] leading-snug font-heading">No More Dry Skin</h5>
 
                 <!-- Review Comment Body -->
-                <p class="text-[#2B1D14]/75 text-[12px] leading-relaxed mt-1.5 font-body">
+                <p class="text-text/75 text-[12px] leading-relaxed mt-1.5 font-body">
                     "The pure Kashmiri saffron protects the natural skin barrier while deeply hydrating. Also calms redness & sensitive skin. Truly clean!"
                 </p>
             </div>
 
             <!-- Bottom: Recommends Product (Reference Image Style) -->
-            <div class="mt-4 pt-3 border-t border-[#2B1D14]/8 flex items-center justify-between text-[11px] font-body">
+            <div class="mt-4 pt-3 border-t border-text/8 flex items-center justify-between text-[11px] font-body">
                 <div class="truncate max-w-[65%]">
-                    <span class="text-[#2B1D14]/50 text-[10px] block leading-none">Recommends</span>
-                    <span class="font-bold text-[#2B1D14] text-[11px] truncate block mt-0.5">Glow Face Wash</span>
+                    <span class="text-text/50 text-[10px] block leading-none">Recommends</span>
+                    <span class="font-bold text-text text-[11px] truncate block mt-0.5">Glow Face Wash</span>
                 </div>
-                <a href="/products" class="text-[#D98E2B] font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
+                <a href="/products" class="text-accent font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
                     SHOP NOW &gt;&gt;
                 </a>
             </div>
         </div>
         <!-- Review Card: SONAL SAREEI -->
-        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-[#2B1D14]/10 shadow-[0_2px_12px_rgba(43,29,20,0.04)] hover:shadow-[0_6px_20px_rgba(43,29,20,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
+        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-text/10 shadow-[0_2px_12px_rgb(var(--text-rgb) / 0.04)] hover:shadow-[0_6px_20px_rgb(var(--text-rgb) / 0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
             <div>
                 <!-- Top Row: Avatar + Name + Verified Badge -->
                 <div class="flex items-center gap-3 mb-3">
-                    <img src="./static/customer-review-4.png" alt="SONAL SAREEI" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 16%" class="review-avatar border-2 border-[#D98E2B]/40 shadow-xs shrink-0">
+                    <img src="./static/customer-review-4.png" alt="SONAL SAREEI" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 16%" class="review-avatar border-2 border-accent/40 shadow-xs shrink-0">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5 flex-wrap">
-                            <h4 class="font-bold text-[#2B1D14] text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">SONAL SAREEI</h4>
+                            <h4 class="font-bold text-text text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">SONAL SAREEI</h4>
                             <i class="fa-solid fa-circle-check text-sky-500 text-xs shrink-0" title="Verified Buyer"></i>
                         </div>
-                        <span class="text-[10.5px] text-[#2B1D14]/55 font-body block truncate mt-0.5">Pune, India</span>
+                        <span class="text-[10.5px] text-text/55 font-body block truncate mt-0.5">Pune, India</span>
                     </div>
                 </div>
 
@@ -2179,37 +2241,37 @@
                 </div>
 
                 <!-- Title -->
-                <h5 class="font-bold text-[#2B1D14] text-[13.5px] leading-snug font-heading">It Actually Works!</h5>
+                <h5 class="font-bold text-text text-[13.5px] leading-snug font-heading">It Actually Works!</h5>
 
                 <!-- Review Comment Body -->
-                <p class="text-[#2B1D14]/75 text-[12px] leading-relaxed mt-1.5 font-body">
+                <p class="text-text/75 text-[12px] leading-relaxed mt-1.5 font-body">
                     "I have been using this scrub twice weekly. My skin looks visibly brighter and feels velvety smooth. The rose & saffron aroma is pure luxury."
                 </p>
             </div>
 
             <!-- Bottom: Recommends Product (Reference Image Style) -->
-            <div class="mt-4 pt-3 border-t border-[#2B1D14]/8 flex items-center justify-between text-[11px] font-body">
+            <div class="mt-4 pt-3 border-t border-text/8 flex items-center justify-between text-[11px] font-body">
                 <div class="truncate max-w-[65%]">
-                    <span class="text-[#2B1D14]/50 text-[10px] block leading-none">Recommends</span>
-                    <span class="font-bold text-[#2B1D14] text-[11px] truncate block mt-0.5">Radiance Body Scrub</span>
+                    <span class="text-text/50 text-[10px] block leading-none">Recommends</span>
+                    <span class="font-bold text-text text-[11px] truncate block mt-0.5">Radiance Body Scrub</span>
                 </div>
-                <a href="/products" class="text-[#D98E2B] font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
+                <a href="/products" class="text-accent font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
                     SHOP NOW &gt;&gt;
                 </a>
             </div>
         </div>
         <!-- Review Card: ADITI VERMA -->
-        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-[#2B1D14]/10 shadow-[0_2px_12px_rgba(43,29,20,0.04)] hover:shadow-[0_6px_20px_rgba(43,29,20,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
+        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-text/10 shadow-[0_2px_12px_rgb(var(--text-rgb) / 0.04)] hover:shadow-[0_6px_20px_rgb(var(--text-rgb) / 0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
             <div>
                 <!-- Top Row: Avatar + Name + Verified Badge -->
                 <div class="flex items-center gap-3 mb-3">
-                    <img src="./static/customer-review-5.jpg" alt="ADITI VERMA" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 16%" class="review-avatar border-2 border-[#D98E2B]/40 shadow-xs shrink-0">
+                    <img src="./static/customer-review-5.jpg" alt="ADITI VERMA" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 16%" class="review-avatar border-2 border-accent/40 shadow-xs shrink-0">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5 flex-wrap">
-                            <h4 class="font-bold text-[#2B1D14] text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">ADITI VERMA</h4>
+                            <h4 class="font-bold text-text text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">ADITI VERMA</h4>
                             <i class="fa-solid fa-circle-check text-sky-500 text-xs shrink-0" title="Verified Buyer"></i>
                         </div>
-                        <span class="text-[10.5px] text-[#2B1D14]/55 font-body block truncate mt-0.5">Hyderabad, India</span>
+                        <span class="text-[10.5px] text-text/55 font-body block truncate mt-0.5">Hyderabad, India</span>
                     </div>
                 </div>
 
@@ -2219,37 +2281,37 @@
                 </div>
 
                 <!-- Title -->
-                <h5 class="font-bold text-[#2B1D14] text-[13.5px] leading-snug font-heading">Waking Up Radiant</h5>
+                <h5 class="font-bold text-text text-[13.5px] leading-snug font-heading">Waking Up Radiant</h5>
 
                 <!-- Review Comment Body -->
-                <p class="text-[#2B1D14]/75 text-[12px] leading-relaxed mt-1.5 font-body">
+                <p class="text-text/75 text-[12px] leading-relaxed mt-1.5 font-body">
                     "Waking up with super dewy, hydrated skin every morning. Makeup glides on effortlessly without flaking. Ordered another bottle for mom!"
                 </p>
             </div>
 
             <!-- Bottom: Recommends Product (Reference Image Style) -->
-            <div class="mt-4 pt-3 border-t border-[#2B1D14]/8 flex items-center justify-between text-[11px] font-body">
+            <div class="mt-4 pt-3 border-t border-text/8 flex items-center justify-between text-[11px] font-body">
                 <div class="truncate max-w-[65%]">
-                    <span class="text-[#2B1D14]/50 text-[10px] block leading-none">Recommends</span>
-                    <span class="font-bold text-[#2B1D14] text-[11px] truncate block mt-0.5">Saffron Serum</span>
+                    <span class="text-text/50 text-[10px] block leading-none">Recommends</span>
+                    <span class="font-bold text-text text-[11px] truncate block mt-0.5">Saffron Serum</span>
                 </div>
-                <a href="/products" class="text-[#D98E2B] font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
+                <a href="/products" class="text-accent font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
                     SHOP NOW &gt;&gt;
                 </a>
             </div>
         </div>
         <!-- Review Card: PRIYA SHARMA -->
-        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-[#2B1D14]/10 shadow-[0_2px_12px_rgba(43,29,20,0.04)] hover:shadow-[0_6px_20px_rgba(43,29,20,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
+        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-text/10 shadow-[0_2px_12px_rgb(var(--text-rgb) / 0.04)] hover:shadow-[0_6px_20px_rgb(var(--text-rgb) / 0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
             <div>
                 <!-- Top Row: Avatar + Name + Verified Badge -->
                 <div class="flex items-center gap-3 mb-3">
-                    <img src="./static/customer-review-6.png" alt="PRIYA SHARMA" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 18%" class="review-avatar border-2 border-[#D98E2B]/40 shadow-xs shrink-0">
+                    <img src="./static/customer-review-6.png" alt="PRIYA SHARMA" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 18%" class="review-avatar border-2 border-accent/40 shadow-xs shrink-0">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5 flex-wrap">
-                            <h4 class="font-bold text-[#2B1D14] text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">PRIYA SHARMA</h4>
+                            <h4 class="font-bold text-text text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">PRIYA SHARMA</h4>
                             <i class="fa-solid fa-circle-check text-sky-500 text-xs shrink-0" title="Verified Buyer"></i>
                         </div>
-                        <span class="text-[10.5px] text-[#2B1D14]/55 font-body block truncate mt-0.5">Jaipur, India</span>
+                        <span class="text-[10.5px] text-text/55 font-body block truncate mt-0.5">Jaipur, India</span>
                     </div>
                 </div>
 
@@ -2259,37 +2321,37 @@
                 </div>
 
                 <!-- Title -->
-                <h5 class="font-bold text-[#2B1D14] text-[13.5px] leading-snug font-heading">Top-Notch Packaging</h5>
+                <h5 class="font-bold text-text text-[13.5px] leading-snug font-heading">Top-Notch Packaging</h5>
 
                 <!-- Review Comment Body -->
-                <p class="text-[#2B1D14]/75 text-[12px] leading-relaxed mt-1.5 font-body">
+                <p class="text-text/75 text-[12px] leading-relaxed mt-1.5 font-body">
                     "Arrived in 2 days in beautiful eco-luxury packaging. The product texture and calming scent easily beat expensive imported luxury brands."
                 </p>
             </div>
 
             <!-- Bottom: Recommends Product (Reference Image Style) -->
-            <div class="mt-4 pt-3 border-t border-[#2B1D14]/8 flex items-center justify-between text-[11px] font-body">
+            <div class="mt-4 pt-3 border-t border-text/8 flex items-center justify-between text-[11px] font-body">
                 <div class="truncate max-w-[65%]">
-                    <span class="text-[#2B1D14]/50 text-[10px] block leading-none">Recommends</span>
-                    <span class="font-bold text-[#2B1D14] text-[11px] truncate block mt-0.5">Face Wash & Cream Kit</span>
+                    <span class="text-text/50 text-[10px] block leading-none">Recommends</span>
+                    <span class="font-bold text-text text-[11px] truncate block mt-0.5">Face Wash & Cream Kit</span>
                 </div>
-                <a href="/products" class="text-[#D98E2B] font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
+                <a href="/products" class="text-accent font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
                     SHOP NOW &gt;&gt;
                 </a>
             </div>
         </div>
         <!-- Review Card: KAVITA RAO -->
-        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-[#2B1D14]/10 shadow-[0_2px_12px_rgba(43,29,20,0.04)] hover:shadow-[0_6px_20px_rgba(43,29,20,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
+        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-text/10 shadow-[0_2px_12px_rgb(var(--text-rgb) / 0.04)] hover:shadow-[0_6px_20px_rgb(var(--text-rgb) / 0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
             <div>
                 <!-- Top Row: Avatar + Name + Verified Badge -->
                 <div class="flex items-center gap-3 mb-3">
-                    <img src="./static/customer-review-7.png" alt="KAVITA RAO" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 18%" class="review-avatar border-2 border-[#D98E2B]/40 shadow-xs shrink-0">
+                    <img src="./static/customer-review-7.png" alt="KAVITA RAO" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 18%" class="review-avatar border-2 border-accent/40 shadow-xs shrink-0">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5 flex-wrap">
-                            <h4 class="font-bold text-[#2B1D14] text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">KAVITA RAO</h4>
+                            <h4 class="font-bold text-text text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">KAVITA RAO</h4>
                             <i class="fa-solid fa-circle-check text-sky-500 text-xs shrink-0" title="Verified Buyer"></i>
                         </div>
-                        <span class="text-[10.5px] text-[#2B1D14]/55 font-body block truncate mt-0.5">Chennai, India</span>
+                        <span class="text-[10.5px] text-text/55 font-body block truncate mt-0.5">Chennai, India</span>
                     </div>
                 </div>
 
@@ -2299,37 +2361,37 @@
                 </div>
 
                 <!-- Title -->
-                <h5 class="font-bold text-[#2B1D14] text-[13.5px] leading-snug font-heading">Zero White Cast</h5>
+                <h5 class="font-bold text-text text-[13.5px] leading-snug font-heading">Zero White Cast</h5>
 
                 <!-- Review Comment Body -->
-                <p class="text-[#2B1D14]/75 text-[12px] leading-relaxed mt-1.5 font-body">
+                <p class="text-text/75 text-[12px] leading-relaxed mt-1.5 font-body">
                     "Most sunscreens leave a chalky film, but Alora melts into the skin like water. Leaves a healthy radiant sheen through humid days."
                 </p>
             </div>
 
             <!-- Bottom: Recommends Product (Reference Image Style) -->
-            <div class="mt-4 pt-3 border-t border-[#2B1D14]/8 flex items-center justify-between text-[11px] font-body">
+            <div class="mt-4 pt-3 border-t border-text/8 flex items-center justify-between text-[11px] font-body">
                 <div class="truncate max-w-[65%]">
-                    <span class="text-[#2B1D14]/50 text-[10px] block leading-none">Recommends</span>
-                    <span class="font-bold text-[#2B1D14] text-[11px] truncate block mt-0.5">SPF 30++ Day Cream</span>
+                    <span class="text-text/50 text-[10px] block leading-none">Recommends</span>
+                    <span class="font-bold text-text text-[11px] truncate block mt-0.5">SPF 30++ Day Cream</span>
                 </div>
-                <a href="/products" class="text-[#D98E2B] font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
+                <a href="/products" class="text-accent font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
                     SHOP NOW &gt;&gt;
                 </a>
             </div>
         </div>
         <!-- Review Card: TANVI JOSHI -->
-        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-[#2B1D14]/10 shadow-[0_2px_12px_rgba(43,29,20,0.04)] hover:shadow-[0_6px_20px_rgba(43,29,20,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
+        <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-text/10 shadow-[0_2px_12px_rgb(var(--text-rgb) / 0.04)] hover:shadow-[0_6px_20px_rgb(var(--text-rgb) / 0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between text-left select-none">
             <div>
                 <!-- Top Row: Avatar + Name + Verified Badge -->
                 <div class="flex items-center gap-3 mb-3">
-                    <img src="./static/customer-review-8.png" alt="TANVI JOSHI" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 25%" class="review-avatar border-2 border-[#D98E2B]/40 shadow-xs shrink-0">
+                    <img src="./static/customer-review-8.png" alt="TANVI JOSHI" width="64" height="64" loading="lazy" decoding="async" style="object-position: 50% 25%" class="review-avatar border-2 border-accent/40 shadow-xs shrink-0">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5 flex-wrap">
-                            <h4 class="font-bold text-[#2B1D14] text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">TANVI JOSHI</h4>
+                            <h4 class="font-bold text-text text-[12.5px] sm:text-[13px] uppercase tracking-wide leading-tight font-heading truncate">TANVI JOSHI</h4>
                             <i class="fa-solid fa-circle-check text-sky-500 text-xs shrink-0" title="Verified Buyer"></i>
                         </div>
-                        <span class="text-[10.5px] text-[#2B1D14]/55 font-body block truncate mt-0.5">Ahmedabad, India</span>
+                        <span class="text-[10.5px] text-text/55 font-body block truncate mt-0.5">Ahmedabad, India</span>
                     </div>
                 </div>
 
@@ -2339,21 +2401,21 @@
                 </div>
 
                 <!-- Title -->
-                <h5 class="font-bold text-[#2B1D14] text-[13.5px] leading-snug font-heading">Cleared My Pigmentation</h5>
+                <h5 class="font-bold text-text text-[13.5px] leading-snug font-heading">Cleared My Pigmentation</h5>
 
                 <!-- Review Comment Body -->
-                <p class="text-[#2B1D14]/75 text-[12px] leading-relaxed mt-1.5 font-body">
+                <p class="text-text/75 text-[12px] leading-relaxed mt-1.5 font-body">
                     "I struggled with uneven pigmentation for years. After 4 weeks of consistent night routine, my skin tone is visibly even and luminous."
                 </p>
             </div>
 
             <!-- Bottom: Recommends Product (Reference Image Style) -->
-            <div class="mt-4 pt-3 border-t border-[#2B1D14]/8 flex items-center justify-between text-[11px] font-body">
+            <div class="mt-4 pt-3 border-t border-text/8 flex items-center justify-between text-[11px] font-body">
                 <div class="truncate max-w-[65%]">
-                    <span class="text-[#2B1D14]/50 text-[10px] block leading-none">Recommends</span>
-                    <span class="font-bold text-[#2B1D14] text-[11px] truncate block mt-0.5">Kumkumadi Night Elixir</span>
+                    <span class="text-text/50 text-[10px] block leading-none">Recommends</span>
+                    <span class="font-bold text-text text-[11px] truncate block mt-0.5">Kumkumadi Night Elixir</span>
                 </div>
-                <a href="/products" class="text-[#D98E2B] font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
+                <a href="/products" class="text-accent font-extrabold text-[10.5px] hover:underline uppercase shrink-0">
                     SHOP NOW &gt;&gt;
                 </a>
             </div>

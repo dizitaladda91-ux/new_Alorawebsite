@@ -264,21 +264,21 @@ async function renderRelatedProducts(blog) {
                         <a href="${prodUrl}" class="w-full h-full block">
                             <img src="${prodImg}" alt="${prodName}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='./static/logo2.png'">
                         </a>
-                        ${prodMrp > prodPrice ? `<span class="absolute top-2 left-2 z-10 bg-[#800000] text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-xs pointer-events-none">SALE</span>` : ''}
+                        ${prodMrp > prodPrice ? `<span class="absolute top-2 left-2 z-10 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-xs pointer-events-none">SALE</span>` : ''}
                         <button type="button" onclick="window.handleCardWishlistToggle && window.handleCardWishlistToggle('${product._id || product.id}', this, event)" style="position: absolute !important; top: 8px !important; right: 8px !important; left: auto !important; margin: 0 !important; z-index: 20 !important;" class="wishlist-toggle-btn absolute top-2 right-2 w-7 h-7 rounded-full bg-white/95 hover:bg-rose-50 border border-stone-200/80 shadow-2xs flex items-center justify-center transition-all cursor-pointer group/wish z-20" title="Add to Wishlist" aria-label="Add to Wishlist">
                             <i class="fa-regular fa-heart text-xs text-stone-400 group-hover/wish:text-rose-600 transition-colors"></i>
                         </button>
                     </div>
                     <div>
-                        <a href="${prodUrl}" class="font-bold text-sm text-slate-900 hover:text-[#8B4513] transition-colors line-clamp-2 mb-1">
+                        <a href="${prodUrl}" class="font-bold text-sm text-slate-900 hover:text-accent-hover transition-colors line-clamp-2 mb-1">
                             ${prodName}
                         </a>
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="font-extrabold text-sm text-[#800000]">₹${prodPrice}</span>
+                            <span class="font-extrabold text-sm text-primary">₹${prodPrice}</span>
                             ${prodMrp > prodPrice ? `<span class="text-xs text-slate-400 line-through">₹${prodMrp}</span>` : ''}
                         </div>
                     </div>
-                    <a href="${prodUrl}" class="w-full bg-[#152219] hover:bg-amber-950 text-white text-xs font-bold py-2 rounded-xl text-center transition-colors flex items-center justify-center gap-1.5 shadow-xs">
+                    <a href="${prodUrl}" class="w-full bg-text hover:bg-amber-950 text-white text-xs font-bold py-2 rounded-xl text-center transition-colors flex items-center justify-center gap-1.5 shadow-xs">
                         <i class="fa-solid fa-bag-shopping text-[11px]"></i> Shop Now
                     </a>
                 </div>
@@ -328,14 +328,14 @@ function generateTableOfContents() {
         const indentClass = isH3 ? 'pl-5 text-xs font-normal text-slate-500' : 'font-bold text-slate-800 text-xs sm:text-sm';
 
         tocHtml += `
-            <a href="#${heading.id}" data-heading-id="${heading.id}" class="toc-link group flex items-start gap-2 py-2 px-3 rounded-xl hover:bg-amber-100/60 text-slate-600 hover:text-[#8B4513] transition-all duration-200 ${indentClass}">
+            <a href="#${heading.id}" data-heading-id="${heading.id}" class="toc-link group flex items-start gap-2 py-2 px-3 rounded-xl hover:bg-amber-100/60 text-slate-600 hover:text-accent-hover transition-all duration-200 ${indentClass}">
                 <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0 group-hover:scale-125 transition-transform"></span>
                 <span class="line-clamp-2">${headingText}</span>
             </a>
         `;
 
         mobileTocHtml += `
-            <a href="#${heading.id}" class="mobile-toc-link block py-1.5 px-2 rounded-lg hover:bg-amber-100/50 text-slate-700 hover:text-[#8B4513] ${indentClass}">
+            <a href="#${heading.id}" class="mobile-toc-link block py-1.5 px-2 rounded-lg hover:bg-amber-100/50 text-slate-700 hover:text-accent-hover ${indentClass}">
                 ${headingText}
             </a>
         `;
@@ -371,18 +371,18 @@ function generateTableOfContents() {
 
         document.querySelectorAll('.toc-link').forEach((link) => {
             if (link.getAttribute('data-heading-id') === activeId) {
-                link.classList.add('bg-amber-100/90', 'text-[#8B4513]', 'font-extrabold', 'shadow-xs', 'border-l-4', 'border-[#8B4513]', 'pl-3');
+                link.classList.add('bg-amber-100/90', 'text-accent-hover', 'font-extrabold', 'shadow-xs', 'border-l-4', 'border-accent-hover', 'pl-3');
                 activeDesktopLink = link;
             } else {
-                link.classList.remove('bg-amber-100/90', 'text-[#8B4513]', 'font-extrabold', 'shadow-xs', 'border-l-4', 'border-[#8B4513]', 'pl-3');
+                link.classList.remove('bg-amber-100/90', 'text-accent-hover', 'font-extrabold', 'shadow-xs', 'border-l-4', 'border-accent-hover', 'pl-3');
             }
         });
 
         document.querySelectorAll('.mobile-toc-link').forEach((link) => {
             if (link.getAttribute('href') === `#${activeId}`) {
-                link.classList.add('bg-amber-100', 'text-[#8B4513]', 'font-bold');
+                link.classList.add('bg-amber-100', 'text-accent-hover', 'font-bold');
             } else {
-                link.classList.remove('bg-amber-100', 'text-[#8B4513]', 'font-bold');
+                link.classList.remove('bg-amber-100', 'text-accent-hover', 'font-bold');
             }
         });
 

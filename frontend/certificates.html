@@ -21,14 +21,14 @@
         theme: {
             extend: {
                 colors: {
-                    ink: '#2B1D14',
-                    'ink-light': '#2B1D14',
-                    parchment: '#FBF7F0',
-                    clay: '#A24C3D',
-                    'clay-dark': '#7E3A2F',
-                    sage: '#6C8763',
-                    gold: '#D98E2B',
-                    ash: '#6B685F',
+                    ink: 'var(--text)',
+                    'ink-light': 'var(--text)',
+                    parchment: 'var(--bg)',
+                    clay: 'var(--accent)',
+                    'clay-dark': 'var(--primary)',
+                    sage: 'var(--primary)',
+                    gold: 'var(--accent)',
+                    ash: 'var(--text)',
                 },
                 fontFamily: {
                     serif: ['var(--font-heading)', 'serif'],
@@ -40,7 +40,7 @@
     </script>
     <link rel="stylesheet" href="./styles/typography.css">
 </head>
-<body class="bg-parchment text-[#2B1D14] font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-parchment text-text font-sans antialiased min-h-screen flex flex-col justify-between">
 
     <!-- Header Navigation -->
     <div id="navbar-placeholder"></div>
@@ -65,22 +65,22 @@
 
         <!-- Quick Summary Badges -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-white p-5 rounded-2xl border border-[#ECE4CE] shadow-sm text-center">
+            <div class="bg-white p-5 rounded-2xl border border-bg shadow-sm text-center">
                 <i class="fa-solid fa-building-columns text-clay text-2xl mb-2"></i>
                 <h3 class="font-serif font-semibold text-ink text-sm">Govt Approved</h3>
                 <p class="text-xs text-ash mt-1">UP Food &amp; Drug Administration</p>
             </div>
-            <div class="bg-white p-5 rounded-2xl border border-[#ECE4CE] shadow-sm text-center">
+            <div class="bg-white p-5 rounded-2xl border border-bg shadow-sm text-center">
                 <i class="fa-solid fa-vial-circle-check text-sage text-2xl mb-2"></i>
                 <h3 class="font-serif font-semibold text-ink text-sm">48-Hr Patch Tested</h3>
                 <p class="text-xs text-ash mt-1">Zero Irritation / Adverse Reactions</p>
             </div>
-            <div class="bg-white p-5 rounded-2xl border border-[#ECE4CE] shadow-sm text-center">
+            <div class="bg-white p-5 rounded-2xl border border-bg shadow-sm text-center">
                 <i class="fa-solid fa-microscope text-gold text-2xl mb-2"></i>
                 <h3 class="font-serif font-semibold text-ink text-sm">Dermatologist Tested</h3>
                 <p class="text-xs text-ash mt-1">Clinical In-Vivo Verification</p>
             </div>
-            <div class="bg-white p-5 rounded-2xl border border-[#ECE4CE] shadow-sm text-center">
+            <div class="bg-white p-5 rounded-2xl border border-bg shadow-sm text-center">
                 <i class="fa-solid fa-leaf text-clay text-2xl mb-2"></i>
                 <h3 class="font-serif font-semibold text-ink text-sm">Non-Irritant Formula</h3>
                 <p class="text-xs text-ash mt-1">Safe for All Skin Types</p>
@@ -88,7 +88,7 @@
         </div>
 
         <!-- 1. Government Manufacturing License -->
-        <div id="govt-license" class="bg-white rounded-3xl border border-[#ECE4CE] shadow-sm p-6 sm:p-8 flex flex-col lg:flex-row gap-8 items-center scroll-mt-24">
+        <div id="govt-license" class="bg-white rounded-3xl border border-bg shadow-sm p-6 sm:p-8 flex flex-col lg:flex-row gap-8 items-center scroll-mt-24">
             <div class="lg:w-1/2 space-y-4">
                 <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-clay bg-clay/10 px-3 py-1 rounded-full">
                     <i class="fa-solid fa-certificate"></i> Government Approval
@@ -99,7 +99,7 @@
                 <p class="text-sm text-ash leading-relaxed">
                     Official Approval Letter issued by the <strong>Government of Uttar Pradesh - Head Quarter, Food Safety and Drug Administration</strong> (Licence No: <span class="font-mono font-bold text-ink">COS8UP2025000026</span>) authorizing additional product formulations under the Drugs &amp; Cosmetic Act - 1940.
                 </p>
-                <div class="bg-parchment p-4 rounded-xl border border-[#E7DFC7] text-xs space-y-1.5 font-mono text-ink">
+                <div class="bg-parchment p-4 rounded-xl border border-bg text-xs space-y-1.5 font-mono text-ink">
                     <p><strong>Licence No:</strong> COS8UP2025000026</p>
                     <p><strong>File No:</strong> UP/COS/FCOS-5/2025/00471</p>
                     <p><strong>Authority:</strong> Drug Licensing &amp; Controlling Authority, UP</p>
@@ -110,7 +110,7 @@
                     </a>
                 </div>
             </div>
-            <div class="lg:w-1/2 w-full bg-parchment/60 p-4 rounded-2xl border border-[#E7DFC7] flex flex-col items-center justify-center min-h-[300px]">
+            <div class="lg:w-1/2 w-full bg-parchment/60 p-4 rounded-2xl border border-bg flex flex-col items-center justify-center min-h-[300px]">
                 <div class="w-full h-80 rounded-xl overflow-hidden shadow border border-gray-200 bg-white relative group">
                     <iframe src="./static/certificates/govt-license-certificate.pdf" class="w-full h-full border-none pointer-events-none"></iframe>
                     <a href="./static/certificates/govt-license-certificate.pdf" target="_blank" class="absolute inset-0 bg-ink/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-semibold text-sm gap-2">
@@ -121,7 +121,7 @@
         </div>
 
         <!-- 2. Patch Test Declaration Report -->
-        <div id="patch-test" class="bg-white rounded-3xl border border-[#ECE4CE] shadow-sm p-6 sm:p-8 flex flex-col lg:flex-row gap-8 items-center scroll-mt-24">
+        <div id="patch-test" class="bg-white rounded-3xl border border-bg shadow-sm p-6 sm:p-8 flex flex-col lg:flex-row gap-8 items-center scroll-mt-24">
             <div class="lg:w-1/2 space-y-4">
                 <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-sage bg-sage/10 px-3 py-1 rounded-full">
                     <i class="fa-solid fa-vial-circle-check"></i> Safety Verification
@@ -132,7 +132,7 @@
                 <p class="text-sm text-ash leading-relaxed">
                     Independent cosmetic trial report certifying that formulations underwent 48-hour patch testing across human volunteer sample groups. Results confirmed <strong>zero adverse skin reactions, zero irritation, zero redness, and zero itching</strong>.
                 </p>
-                <div class="bg-parchment p-4 rounded-xl border border-[#E7DFC7] text-xs space-y-1.5 font-mono text-ink">
+                <div class="bg-parchment p-4 rounded-xl border border-bg text-xs space-y-1.5 font-mono text-ink">
                     <p><strong>Sample Size:</strong> 10 Human Volunteers</p>
                     <p><strong>Observation Duration:</strong> 48 Hours Continuous</p>
                     <p><strong>Clinical Result:</strong> Passed (No adverse side effects observed)</p>
@@ -143,7 +143,7 @@
                     </a>
                 </div>
             </div>
-            <div class="lg:w-1/2 w-full bg-parchment/60 p-4 rounded-2xl border border-[#E7DFC7] flex flex-col items-center justify-center min-h-[300px]">
+            <div class="lg:w-1/2 w-full bg-parchment/60 p-4 rounded-2xl border border-bg flex flex-col items-center justify-center min-h-[300px]">
                 <div class="w-full h-80 rounded-xl overflow-hidden shadow border border-gray-200 bg-white relative group">
                     <iframe src="./static/certificates/patch-test-declaration.pdf" class="w-full h-full border-none pointer-events-none"></iframe>
                     <a href="./static/certificates/patch-test-declaration.pdf" target="_blank" class="absolute inset-0 bg-ink/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-semibold text-sm gap-2">
@@ -154,7 +154,7 @@
         </div>
 
         <!-- 3. Face Wash Clinical Certificate -->
-        <div id="facewash-cert" class="bg-white rounded-3xl border border-[#ECE4CE] shadow-sm p-6 sm:p-8 flex flex-col lg:flex-row gap-8 items-center scroll-mt-24">
+        <div id="facewash-cert" class="bg-white rounded-3xl border border-bg shadow-sm p-6 sm:p-8 flex flex-col lg:flex-row gap-8 items-center scroll-mt-24">
             <div class="lg:w-1/2 space-y-4">
                 <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold bg-gold/10 px-3 py-1 rounded-full">
                     <i class="fa-solid fa-flask"></i> Clinical Lab Certification
@@ -165,7 +165,7 @@
                 <p class="text-sm text-ash leading-relaxed">
                     Evaluated by <strong>Mascot Spincontrol Clinical Research Centres</strong> under Dermatologist &amp; Principal Investigator supervision. Certified as <strong>Clinically Tested, Dermatologically Tested, and Non-irritant</strong> for all human skin types.
                 </p>
-                <div class="bg-parchment p-4 rounded-xl border border-[#E7DFC7] text-xs space-y-1.5 font-mono text-ink">
+                <div class="bg-parchment p-4 rounded-xl border border-bg text-xs space-y-1.5 font-mono text-ink">
                     <p><strong>Clinical Research Centre:</strong> Mascot Spincontrol</p>
                     <p><strong>Study Protocol Code:</strong> D01-6Q30-GV-AL26</p>
                     <p><strong>Evaluation Method:</strong> IS 4011:2018 3rd Revision Safety Standards</p>
@@ -176,7 +176,7 @@
                     </a>
                 </div>
             </div>
-            <div class="lg:w-1/2 w-full bg-parchment/60 p-4 rounded-2xl border border-[#E7DFC7] flex items-center justify-center">
+            <div class="lg:w-1/2 w-full bg-parchment/60 p-4 rounded-2xl border border-bg flex items-center justify-center">
                 <a href="./static/certificates/facewash-clinical-certificate.jpg" target="_blank" class="block w-full rounded-xl overflow-hidden shadow border border-gray-200 bg-white relative group">
                     <img src="./static/certificates/facewash-clinical-certificate.jpg" alt="Alora Purifying Glow Face Wash Certificate" class="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105">
                     <div class="absolute inset-0 bg-ink/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-semibold text-sm gap-2">
@@ -187,7 +187,7 @@
         </div>
 
         <!-- 4. Face Serum Clinical Certificate -->
-        <div id="serum-cert" class="bg-white rounded-3xl border border-[#ECE4CE] shadow-sm p-6 sm:p-8 flex flex-col lg:flex-row gap-8 items-center scroll-mt-24">
+        <div id="serum-cert" class="bg-white rounded-3xl border border-bg shadow-sm p-6 sm:p-8 flex flex-col lg:flex-row gap-8 items-center scroll-mt-24">
             <div class="lg:w-1/2 space-y-4">
                 <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold bg-gold/10 px-3 py-1 rounded-full">
                     <i class="fa-solid fa-droplet"></i> Clinical Lab Certification
@@ -198,7 +198,7 @@
                 <p class="text-sm text-ash leading-relaxed">
                     Independent clinical evaluation conducted by <strong>Mascot Spincontrol Clinical Research Centres</strong> on healthy human volunteers. Formally verified for safety, high skin tolerance, and non-irritating hydration.
                 </p>
-                <div class="bg-parchment p-4 rounded-xl border border-[#E7DFC7] text-xs space-y-1.5 font-mono text-ink">
+                <div class="bg-parchment p-4 rounded-xl border border-bg text-xs space-y-1.5 font-mono text-ink">
                     <p><strong>Clinical Research Centre:</strong> Mascot Spincontrol</p>
                     <p><strong>Study Protocol Code:</strong> D01-6Q30-GV-AL26</p>
                     <p><strong>Evaluation Method:</strong> IS 4011:2018 3rd Revision Safety Standards</p>
@@ -209,7 +209,7 @@
                     </a>
                 </div>
             </div>
-            <div class="lg:w-1/2 w-full bg-parchment/60 p-4 rounded-2xl border border-[#E7DFC7] flex items-center justify-center">
+            <div class="lg:w-1/2 w-full bg-parchment/60 p-4 rounded-2xl border border-bg flex items-center justify-center">
                 <a href="./static/certificates/faceserum-clinical-certificate.jpg" target="_blank" class="block w-full rounded-xl overflow-hidden shadow border border-gray-200 bg-white relative group">
                     <img src="./static/certificates/faceserum-clinical-certificate.jpg" alt="Alora Brightening & Hydrating Face Serum Certificate" class="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105">
                     <div class="absolute inset-0 bg-ink/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-semibold text-sm gap-2">
@@ -220,7 +220,7 @@
         </div>
 
         <!-- 5. Body Lotion Clinical Certificate -->
-        <div id="bodylotion-cert" class="bg-white rounded-3xl border border-[#ECE4CE] shadow-sm p-6 sm:p-8 flex flex-col lg:flex-row gap-8 items-center scroll-mt-24">
+        <div id="bodylotion-cert" class="bg-white rounded-3xl border border-bg shadow-sm p-6 sm:p-8 flex flex-col lg:flex-row gap-8 items-center scroll-mt-24">
             <div class="lg:w-1/2 space-y-4">
                 <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold bg-gold/10 px-3 py-1 rounded-full">
                     <i class="fa-solid fa-shield-heart"></i> Clinical Lab Certification
@@ -231,7 +231,7 @@
                 <p class="text-sm text-ash leading-relaxed">
                     Dermatologically tested and evaluated under Ethics Committee approved protocols at <strong>Mascot Spincontrol Clinical Research Centres</strong>. Approved as non-irritant and dermatologically safe for daily use.
                 </p>
-                <div class="bg-parchment p-4 rounded-xl border border-[#E7DFC7] text-xs space-y-1.5 font-mono text-ink">
+                <div class="bg-parchment p-4 rounded-xl border border-bg text-xs space-y-1.5 font-mono text-ink">
                     <p><strong>Clinical Research Centre:</strong> Mascot Spincontrol</p>
                     <p><strong>Study Protocol Code:</strong> D01-6Q30-GV-AL26</p>
                     <p><strong>Evaluation Method:</strong> IS 4011:2018 3rd Revision Safety Standards</p>
@@ -242,7 +242,7 @@
                     </a>
                 </div>
             </div>
-            <div class="lg:w-1/2 w-full bg-parchment/60 p-4 rounded-2xl border border-[#E7DFC7] flex items-center justify-center">
+            <div class="lg:w-1/2 w-full bg-parchment/60 p-4 rounded-2xl border border-bg flex items-center justify-center">
                 <a href="./static/certificates/bodylotion-clinical-certificate.jpg" target="_blank" class="block w-full rounded-xl overflow-hidden shadow border border-gray-200 bg-white relative group">
                     <img src="./static/certificates/bodylotion-clinical-certificate.jpg" alt="Alora Soothing Body Lotion Certificate" class="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105">
                     <div class="absolute inset-0 bg-ink/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-semibold text-sm gap-2">

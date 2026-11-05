@@ -14,7 +14,7 @@ export function showSuccessModal(title, message, callback) {
             </div>
             <h3 class="text-lg font-bold text-gray-900 mb-1">${title}</h3>
             <p class="text-gray-500 text-sm mb-6">${message}</p>
-            <button id="modal-ok-btn" class="w-full bg-[#2A2A24] hover:bg-amber-800 text-white font-semibold py-2.5 rounded-xl transition shadow-md focus:outline-none">
+            <button id="modal-ok-btn" class="w-full bg-text hover:bg-amber-800 text-white font-semibold py-2.5 rounded-xl transition shadow-md focus:outline-none">
                 OK
             </button>
         </div>
@@ -46,7 +46,7 @@ export function renderNavbarState() {
                 const displayName = user.name || "User";
                 authActions.innerHTML = `
                     <div class="flex items-center gap-3 text-sm font-medium text-black normal-case">
-                        <span>Hi, <b class="text-[#2A2A24] font-bold uppercase">${displayName}</b></span>
+                        <span>Hi, <b class="text-text font-bold uppercase">${displayName}</b></span>
                         <button id="logout-btn" class="bg-black hover:bg-orange-600 text-white text-[10px] px-2.5 py-1.5 rounded-lg transition uppercase tracking-wider font-bold shadow-sm">
                             Logout
                         </button>
@@ -64,7 +64,7 @@ export function renderNavbarState() {
         }
     } else {
         authActions.innerHTML = `
-            <a href="./login.html" aria-label="User Account Login" title="User Account Login" class="p-2 text-[#2B1D14] hover:text-[#D98E2B] transition flex items-center justify-center"><svg class="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span class="sr-only">User Account Login</span></a>
+            <a href="./login.html" aria-label="User Account Login" title="User Account Login" class="p-2 text-text hover:text-accent transition flex items-center justify-center"><svg class="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span class="sr-only">User Account Login</span></a>
         `;
     }
 }

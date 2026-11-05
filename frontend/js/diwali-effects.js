@@ -2,7 +2,7 @@
     const config = window.ALORA_DIWALI_CONFIG;
     if (!config || !window.isFestivalActive?.()) return;
 
-    const colors = ["#FFC83D", "#FF9933", "#F5C2E7", "#FFF6E5", "#D98E2B"];
+    const colors = ["var(--accent)", "var(--accent)", "var(--accent)", "var(--bg)", "var(--accent)"];
     const particles = [];
     const rockets = [];
     const sparkles = [];
@@ -78,12 +78,12 @@
         }
         const rangoli = createSvgElement(`
             <svg id="alora-diwali-rangoli" viewBox="0 0 100 100" aria-hidden="true">
-                <g transform="translate(50 50)" fill="none" stroke="#FFC83D" stroke-width="1.5">
+                <g transform="translate(50 50)" fill="none" stroke="var(--accent)" stroke-width="1.5">
                     ${Array.from({ length: 8 }, (_, index) => `<ellipse transform="rotate(${index * 45})" cy="-19" rx="8" ry="17"/>`).join("")}
                     <circle r="26"/>
-                    <circle r="12" stroke="#FF9933"/>
-                    <circle r="4" fill="#FFC83D"/>
-                    ${Array.from({ length: 8 }, (_, index) => `<circle transform="rotate(${index * 45})" cy="-31" r="2.2" fill="#FF9933" stroke="none"/>`).join("")}
+                    <circle r="12" stroke="var(--accent)"/>
+                    <circle r="4" fill="var(--accent)"/>
+                    ${Array.from({ length: 8 }, (_, index) => `<circle transform="rotate(${index * 45})" cy="-31" r="2.2" fill="var(--accent)" stroke="none"/>`).join("")}
                 </g>
             </svg>
         `);
@@ -248,7 +248,7 @@
         const sparkle = document.createElement("span");
         sparkle.className = "diwali-click-sparkle";
         sparkle.setAttribute("aria-hidden", "true");
-        sparkle.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:7px;height:7px;border-radius:50%;background:#FFC83D;box-shadow:0 0 10px 3px rgba(255,200,61,.7);pointer-events:none;z-index:30;animation:diwali-sparkle-out .55s ease-out forwards`;
+        sparkle.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px 3px rgb(var(--accent-rgb) / .7);pointer-events:none;z-index:30;animation:diwali-sparkle-out .55s ease-out forwards`;
         document.body.appendChild(sparkle);
         sparkles.push(sparkle);
         window.setTimeout(() => {

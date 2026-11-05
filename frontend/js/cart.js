@@ -147,10 +147,10 @@ function selectSize(size, price, mrp, btnEl) {
     card.dataset.mrp = mrp;
     card.querySelectorAll(".size-btn").forEach(b => {
         b.classList.remove("bg-ink", "text-parchment", "border-ink", "font-semibold");
-        b.classList.add("border-[#DCD3BA]", "text-ash");
+        b.classList.add("border-accent", "text-ash");
     });
     btnEl.classList.add("bg-ink", "text-parchment", "border-ink", "font-semibold");
-    btnEl.classList.remove("border-[#DCD3BA]", "text-ash");
+    btnEl.classList.remove("border-accent", "text-ash");
     const priceEl = card.querySelector(".product-price");
     const mrpEl = card.querySelector(".product-mrp");
     if (priceEl) priceEl.innerHTML = `<span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${price}`;
@@ -190,7 +190,7 @@ function flyToCartAnimation(imgElement) {
     clone.style.width = `${imgRect.width}px`;
     clone.style.height = `${imgRect.height}px`;
     clone.style.borderRadius = "50%";
-    clone.style.boxShadow = "0 10px 25px rgba(0,0,0,0.3)";
+    clone.style.boxShadow = "0 10px 25px rgb(var(--text-rgb) / 0.3)";
     clone.style.objectFit = "cover";
     clone.style.zIndex = "99999";
     clone.style.pointerEvents = "none";
@@ -308,9 +308,9 @@ function renderCartPage() {
     if (emptyState) emptyState.classList.add("hidden");
     if (summaryPanel) summaryPanel.classList.remove("hidden");
     listEl.innerHTML = cart.map(item => `
-        <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-[#ECE4CE] flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between transition hover:shadow-md" data-cart-id="${item.id}">
+        <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-bg flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between transition hover:shadow-md" data-cart-id="${item.id}">
             <div class="flex gap-4 items-center w-full sm:w-auto">
-                <div class="bg-white rounded-xl w-24 h-24 flex-shrink-0 flex items-center justify-center border border-[#E7DFC7] overflow-hidden">
+                <div class="bg-white rounded-xl w-24 h-24 flex-shrink-0 flex items-center justify-center border border-bg overflow-hidden">
                     <img src="${item.img}" alt="${item.name}" class="w-full h-full object-contain p-2 transition-transform duration-300 hover:scale-105">
                 </div>
                 <div>
@@ -321,15 +321,15 @@ function renderCartPage() {
                     <p class="text-xs text-emerald-600 font-semibold mt-1.5"><i class="fa-solid fa-check me-1"></i>In Stock</p>
                 </div>
             </div>
-            <div class="flex sm:flex-row flex-row-reverse sm:items-center justify-between sm:justify-end gap-6 w-full sm:w-auto pt-4 sm:pt-0 border-t sm:border-t-0 border-[#ECE4CE]">
+            <div class="flex sm:flex-row flex-row-reverse sm:items-center justify-between sm:justify-end gap-6 w-full sm:w-auto pt-4 sm:pt-0 border-t sm:border-t-0 border-bg">
                 <div class="text-right">
                     <span class="font-serif font-semibold text-ink text-lg block">₹${item.price * item.qty}</span>
                     <span class="text-xs text-ash block">₹${item.price} / unit</span>
                 </div>
-                <div class="flex items-center border border-[#DCD3BA] rounded-lg overflow-hidden bg-[#FAF7EE] h-9">
-                    <button type="button" onclick="changeCartQty('${item.id}', -1)" class="w-8 h-full bg-white text-ink hover:bg-[#F1EBD7] font-bold transition flex items-center justify-center text-sm">−</button>
+                <div class="flex items-center border border-accent rounded-lg overflow-hidden bg-bg h-9">
+                    <button type="button" onclick="changeCartQty('${item.id}', -1)" class="w-8 h-full bg-white text-ink hover:bg-bg font-bold transition flex items-center justify-center text-sm">−</button>
                     <input type="number" value="${item.qty}" min="1" readonly class="w-10 h-full bg-white text-center font-semibold text-ink text-xs focus:outline-none">
-                    <button type="button" onclick="changeCartQty('${item.id}', 1)" class="w-8 h-full bg-white text-ink hover:bg-[#F1EBD7] font-bold transition flex items-center justify-center text-sm">+</button>
+                    <button type="button" onclick="changeCartQty('${item.id}', 1)" class="w-8 h-full bg-white text-ink hover:bg-bg font-bold transition flex items-center justify-center text-sm">+</button>
                 </div>
                 <button type="button" onclick="removeFromCart('${item.id}')" class="text-ash hover:text-red-600 transition p-2 rounded-lg hover:bg-red-50" title="Remove item">
                     <i class="fa-regular fa-trash-can text-lg"></i>
@@ -592,7 +592,7 @@ async function loadCartMoreProducts() {
                 return `
                 <button type="button" 
                     onclick="selectSize('${vol}', ${p}, ${cp}, this)"
-                    class="size-btn px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md text-[10px] sm:text-[11px] font-semibold transition border ${index === 0 ? 'bg-ink text-parchment border-ink font-semibold' : 'border-[#DCD3BA] text-ash hover:border-ink'}">
+                    class="size-btn px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md text-[10px] sm:text-[11px] font-semibold transition border ${index === 0 ? 'bg-ink text-parchment border-ink font-semibold' : 'border-accent text-ash hover:border-ink'}">
                     ${vol}
                 </button>
                 `;
@@ -617,7 +617,7 @@ async function loadCartMoreProducts() {
                 </div>
                 <div class="flex-1 flex flex-col justify-between space-y-1 mb-2">
                     <div>
-                        <h3 class="product-name text-xs sm:text-sm font-fraunces font-bold text-slate-900 text-center leading-snug group-hover:text-[#8B4513] transition-colors capitalize line-clamp-1">${product.name}</h3>
+                        <h3 class="product-name text-xs sm:text-sm font-fraunces font-bold text-slate-900 text-center leading-snug group-hover:text-accent-hover transition-colors capitalize line-clamp-1">${product.name}</h3>
                         <p class="text-[10px] sm:text-[11px] text-slate-600 text-center font-sans mt-0.5 line-clamp-2 leading-tight">
                             ${product.description || 'Dermatologist-tested luxury skincare.'}
                         </p>
@@ -630,7 +630,7 @@ async function loadCartMoreProducts() {
                         ${sizeButtonsHTML}
                     </div>
                     <div class="flex items-baseline justify-center gap-1.5 pt-0.5">
-                        <span class="product-price font-fraunces font-bold text-[#8B4513] text-base"><span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${initialPrice}</span>
+                        <span class="product-price font-fraunces font-bold text-accent-hover text-base"><span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${initialPrice}</span>
                         <span class="product-mrp text-[11px] line-through text-slate-400 font-mono">${initialComparePrice ? '<span style="font-family:Arial,\'Noto Sans\',sans-serif">&#8377;</span>' + initialComparePrice : ''}</span>
                     </div>
                 </div>

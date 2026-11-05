@@ -21,14 +21,14 @@
         theme: {
             extend: {
                 colors: {
-                    ink: '#2B1D14',
-                    'ink-light': '#2B1D14',
-                    parchment: '#FBF7F0',
-                    clay: '#A24C3D',
-                    'clay-dark': '#7E3A2F',
-                    sage: '#6C8763',
-                    gold: '#D98E2B',
-                    ash: '#6B685F',
+                    ink: 'var(--text)',
+                    'ink-light': 'var(--text)',
+                    parchment: 'var(--bg)',
+                    clay: 'var(--accent)',
+                    'clay-dark': 'var(--primary)',
+                    sage: 'var(--primary)',
+                    gold: 'var(--accent)',
+                    ash: 'var(--text)',
                 },
                 fontFamily: {
                     serif: ['var(--font-heading)', 'serif'],
@@ -40,7 +40,7 @@
     </script>
     <link rel="stylesheet" href="./styles/typography.css">
 </head>
-<body class="bg-parchment text-[#2B1D14] font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-parchment text-text font-sans antialiased min-h-screen flex flex-col justify-between">
 
     <!-- Header Navigation -->
     <div id="navbar-placeholder"></div>
@@ -64,11 +64,11 @@
     <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full space-y-8">
 
         <!-- Search Input Box -->
-        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#ECE4CE] shadow-sm">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-bg shadow-sm">
             <form id="track-form" class="flex flex-col sm:flex-row gap-4">
                 <div class="relative flex-1">
                     <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-ash"></i>
-                    <input type="text" id="track-input" required placeholder="Enter Order ID / Payment ID / Phone Number..." class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-[#DCD3BA] focus:outline-none focus:ring-2 focus:ring-gold text-sm text-ink bg-parchment/30">
+                    <input type="text" id="track-input" required placeholder="Enter Order ID / Payment ID / Phone Number..." class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-accent focus:outline-none focus:ring-2 focus:ring-gold text-sm text-ink bg-parchment/30">
                 </div>
                 <button type="submit" id="track-btn" class="bg-clay hover:bg-clay-dark text-white font-semibold text-xs uppercase tracking-wider px-8 py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 shrink-0">
                     <i class="fa-solid fa-location-arrow"></i> Track Status
@@ -78,8 +78,8 @@
 
         <!-- Dynamic Results Container -->
         <div id="tracking-result-container">
-            <div class="bg-white rounded-3xl p-8 border border-[#ECE4CE] shadow-sm text-center space-y-6">
-                <div class="w-16 h-16 rounded-2xl bg-parchment text-clay flex items-center justify-center text-2xl mx-auto shadow-inner border border-[#E3DAC6]">
+            <div class="bg-white rounded-3xl p-8 border border-bg shadow-sm text-center space-y-6">
+                <div class="w-16 h-16 rounded-2xl bg-parchment text-clay flex items-center justify-center text-2xl mx-auto shadow-inner border border-accent">
                     <i class="fa-solid fa-truck-fast"></i>
                 </div>
                 <div>
@@ -90,22 +90,22 @@
                 </div>
 
                 <!-- 4-Step Stepper Visual Preview -->
-                <div class="py-4 border-t border-b border-[#ECE4CE]">
+                <div class="py-4 border-t border-b border-bg">
                     <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-ash mb-5">Order Progress Steps</p>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center max-w-xl mx-auto">
-                        <div class="bg-parchment/60 p-3 rounded-xl border border-[#E7DFC7]">
+                        <div class="bg-parchment/60 p-3 rounded-xl border border-bg">
                             <i class="fa-solid fa-check text-sage text-lg mb-1 block"></i>
                             <span class="text-xs font-bold text-ink">1. Order Placed</span>
                         </div>
-                        <div class="bg-parchment/60 p-3 rounded-xl border border-[#E7DFC7]">
+                        <div class="bg-parchment/60 p-3 rounded-xl border border-bg">
                             <i class="fa-solid fa-box text-sage text-lg mb-1 block"></i>
                             <span class="text-xs font-bold text-ink">2. Packed</span>
                         </div>
-                        <div class="bg-parchment/60 p-3 rounded-xl border border-[#E7DFC7]">
+                        <div class="bg-parchment/60 p-3 rounded-xl border border-bg">
                             <i class="fa-solid fa-truck-fast text-sage text-lg mb-1 block"></i>
                             <span class="text-xs font-bold text-ink">3. Out for Delivery</span>
                         </div>
-                        <div class="bg-parchment/60 p-3 rounded-xl border border-[#E7DFC7]">
+                        <div class="bg-parchment/60 p-3 rounded-xl border border-bg">
                             <i class="fa-solid fa-house-chimney-check text-sage text-lg mb-1 block"></i>
                             <span class="text-xs font-bold text-ink">4. Delivered</span>
                         </div>

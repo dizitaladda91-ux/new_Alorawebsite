@@ -106,7 +106,7 @@ async function loadProductDetails() {
                     btn.className = 'w-16 h-16 rounded-xl border-2 border-amber-600 shadow-md ring-2 ring-amber-500/30 overflow-hidden bg-white shrink-0 transition-all scale-105 relative group cursor-pointer';
                     btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 } else {
-                    btn.className = 'w-16 h-16 rounded-xl border border-[#E7DFC7] hover:border-amber-500/80 overflow-hidden bg-white shrink-0 transition-all opacity-80 hover:opacity-100 relative group cursor-pointer';
+                    btn.className = 'w-16 h-16 rounded-xl border border-bg hover:border-amber-500/80 overflow-hidden bg-white shrink-0 transition-all opacity-80 hover:opacity-100 relative group cursor-pointer';
                 }
             });
         }
@@ -140,7 +140,7 @@ async function loadProductDetails() {
             thumbnailsContainer.innerHTML = mediaList.map((item, idx) => {
                 if (item.type === 'image') {
                     return `
-                        <button type="button" aria-label="View Image ${idx + 1}" class="w-16 h-16 rounded-xl border ${idx === 0 ? 'border-2 border-amber-600 shadow-md ring-2 ring-amber-500/30' : 'border-[#E7DFC7]'} overflow-hidden bg-white shrink-0 transition-all cursor-pointer hover:border-amber-500/80 relative" onclick="window.selectMediaIndex(${idx})">
+                        <button type="button" aria-label="View Image ${idx + 1}" class="w-16 h-16 rounded-xl border ${idx === 0 ? 'border-2 border-amber-600 shadow-md ring-2 ring-amber-500/30' : 'border-bg'} overflow-hidden bg-white shrink-0 transition-all cursor-pointer hover:border-amber-500/80 relative" onclick="window.selectMediaIndex(${idx})">
                             <img src="${item.url}" alt="${product.name || 'Product'} image ${idx + 1}" loading="lazy" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/static/placeholder.png'">
                         </button>
                     `;
@@ -148,7 +148,7 @@ async function loadProductDetails() {
                     // Video Thumbnail with Snapshot & Play Icon Overlay
                     const poster = item.poster || '';
                     return `
-                        <button type="button" aria-label="Play Product Video" class="w-16 h-16 rounded-xl border ${idx === 0 ? 'border-2 border-amber-600 shadow-md ring-2 ring-amber-500/30' : 'border-[#E7DFC7]'} overflow-hidden bg-slate-900 shrink-0 transition-all cursor-pointer hover:border-amber-500/80 relative group" onclick="window.selectMediaIndex(${idx})" title="Play Product Video">
+                        <button type="button" aria-label="Play Product Video" class="w-16 h-16 rounded-xl border ${idx === 0 ? 'border-2 border-amber-600 shadow-md ring-2 ring-amber-500/30' : 'border-bg'} overflow-hidden bg-slate-900 shrink-0 transition-all cursor-pointer hover:border-amber-500/80 relative group" onclick="window.selectMediaIndex(${idx})" title="Play Product Video">
                             ${poster ? `<img src="${poster}" alt="Video preview" class="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition">` : `<video src="${getImageUrl(item.url, '')}#t=0.5" preload="metadata" class="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition"></video>`}
                             <div class="absolute inset-0 bg-black/25 flex items-center justify-center group-hover:bg-black/10 transition">
                                 <div class="w-7 h-7 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center shadow-lg transform group-hover:scale-110 transition">
@@ -238,7 +238,7 @@ async function loadProductDetails() {
         if (starsContainer) {
             let starsHTML = '';
             for (let i = 1; i <= 5; i++) {
-                starsHTML += i <= ratingCount ? `<i class="fa-solid fa-star"></i>` : `<i class="fa-regular fa-star text-[#D9D2BC]"></i>`;
+                starsHTML += i <= ratingCount ? `<i class="fa-solid fa-star"></i>` : `<i class="fa-regular fa-star text-accent"></i>`;
             }
             starsContainer.innerHTML = starsHTML;
         }
@@ -255,7 +255,7 @@ async function loadProductDetails() {
                     const isActive = v.volume === currentSelectedVariant.volume;
                     const activeClasses = isActive 
                         ? 'border-2 border-ink bg-ink text-parchment font-semibold' 
-                        : 'border border-[#DCD3BA] text-ash font-semibold hover:border-ink';
+                        : 'border border-accent text-ash font-semibold hover:border-ink';
                     return `
                         <button 
                             onclick="selectSize('${v.volume}', ${v.price}, ${v.comparePrice || 0}, ${v.stock || 0}, this)"
@@ -288,7 +288,7 @@ async function loadProductDetails() {
 window.selectSize = function(volume, price, comparePrice, stock, buttonElement) {
     if (!buttonElement) return;
     document.querySelectorAll('.size-btn').forEach(btn => {
-        btn.className = "size-btn text-sm px-4 py-2 rounded-full transition border border-[#DCD3BA] text-ash font-semibold hover:border-ink";
+        btn.className = "size-btn text-sm px-4 py-2 rounded-full transition border border-accent text-ash font-semibold hover:border-ink";
     });
     buttonElement.className = "size-btn text-sm px-4 py-2 rounded-full transition border-2 border-ink bg-ink text-parchment font-semibold";
     currentSelectedVariant = { volume, price, comparePrice, stock };
@@ -461,7 +461,7 @@ async function fetchAndRenderReviews(productId) {
             if (noReviewsMsg) noReviewsMsg.style.display = 'none';
             result.data.forEach(review => {
                 const reviewElement = document.createElement('div');
-                reviewElement.className = 'border-b border-[#FAF7EE] pb-4 mb-4 last:border-0';
+                reviewElement.className = 'border-b border-bg pb-4 mb-4 last:border-0';
                 const reviewDate = new Date(review.createdAt).toLocaleDateString('en-IN', {
                     day: 'numeric',
                     month: 'long',
@@ -481,7 +481,7 @@ async function fetchAndRenderReviews(productId) {
                     <div class="flex text-gold text-xs mb-2">
                         ${starsHTML}
                     </div>
-                    <p class="text-xs text-[#5C594E] leading-relaxed">${escapeHTML(review.comment)}</p>
+                    <p class="text-xs text-text leading-relaxed">${escapeHTML(review.comment)}</p>
                 `;
                 reviewsListContainer.appendChild(reviewElement);
             });
@@ -554,14 +554,14 @@ function renderGoodToKnowFaqs(product) {
     const col2 = faqsToRender.slice(half);
 
     const renderCard = (faq, idx) => `
-        <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md" ${idx === 0 ? 'open' : ''}>
-            <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+        <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-text/12 shadow-[0_2px_10px_rgb(var(--text-rgb) / 0.04)] hover:border-accent/50 transition-all duration-300 open:shadow-md" ${idx === 0 ? 'open' : ''}>
+            <summary class="flex justify-between items-center gap-3 font-heading font-bold text-text text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
                 <span class="leading-snug">${escapeHTML(faq.question)}</span>
-                <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200">
+                <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-bg text-accent flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200">
                     <i class="fa-solid fa-plus"></i>
                 </span>
             </summary>
-            <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+            <p class="text-xs sm:text-[13px] text-text/75 mt-3 pl-3.5 border-l-2 border-accent leading-relaxed font-body">
                 ${escapeHTML(faq.answer)}
             </p>
         </details>

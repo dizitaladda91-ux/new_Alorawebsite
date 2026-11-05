@@ -237,7 +237,7 @@ button?.addEventListener("click", async (e) => {
                 "contact": phone
             },
             "theme": {
-                "color": "#A0522D"
+                "color": "var(--accent)"
             }
         };
         const rzp = new window.Razorpay(options);
@@ -257,31 +257,31 @@ function showPaymentSuccessPopup(orderInfo) {
     modal.innerHTML = `
         <div style="
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center;
+            background: rgb(var(--text-rgb) / 0.6); display: flex; align-items: center; justify-content: center;
             z-index: 9999; font-family: sans-serif;
         ">
             <div style="
-                background: #ffffff; padding: 30px; border-radius: 12px;
-                text-align: center; max-width: 380px; width: 85%; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                background: var(--bg); padding: 30px; border-radius: 12px;
+                text-align: center; max-width: 380px; width: 85%; box-shadow: 0 10px 25px rgb(var(--text-rgb) / 0.2);
             ">
                 <div style="font-size: 48px; margin-bottom: 12px;">${isDiwaliCampaignActive ? "🪔" : "🎉"}</div>
-                <h2 style="margin: 0 0 8px 0; color: ${isDiwaliCampaignActive ? "#A0522D" : "#2e7d32"}; font-size: 22px;">${isDiwaliCampaignActive ? "Happy Diwali!" : "Payment Successful!"}</h2>
-                <p style="color: #555; margin: 0 0 20px 0; font-size: 14px; line-height: 1.4;">
+                <h2 style="margin: 0 0 8px 0; color: ${isDiwaliCampaignActive ? "var(--accent)" : "var(--text)"}; font-size: 22px;">${isDiwaliCampaignActive ? "Happy Diwali!" : "Payment Successful!"}</h2>
+                <p style="color: var(--text); margin: 0 0 20px 0; font-size: 14px; line-height: 1.4;">
                     ${isDiwaliCampaignActive ? "Thank you for placing your order with Alora Radiance. Your order is confirmed." : "Aapka order successfully place ho gaya hai."}
                 </p>
                 ${isDiwaliCampaignActive ? `
-                <div style="background: #fff8eb; border: 1px solid #f0d7a4; border-radius: 10px; padding: 14px; margin-bottom: 18px; text-align: left; color: #5c3928; font-size: 13px; line-height: 1.6;">
+                <div style="background: var(--bg); border: 1px solid var(--accent); border-radius: 10px; padding: 14px; margin-bottom: 18px; text-align: left; color: var(--accent-hover); font-size: 13px; line-height: 1.6;">
                     <p style="margin: 0 0 8px;">Dear Customer,</p>
                     <p style="margin: 0 0 8px;">Thank you for choosing Alora Radiance. May this Diwali bring you and your family light, joy, and beautiful moments.</p>
                     <p style="margin: 0;">With gratitude,<br><strong>Team Alora Radiance</strong></p>
                 </div>` : ""}
                 <button id="download-receipt-btn" style="
-                    background-color: #2e7d32; color: white; border: none;
+                    background-color: var(--primary); color: var(--on-brand); border: none;
                     padding: 10px 20px; font-size: 14px; border-radius: 6px; cursor: pointer;
                     width: 100%; font-weight: 600; margin-bottom: 10px;
                 ">📄 Print / Download Receipt</button>
                 <button id="success-ok-btn" style="
-                    background-color: #A0522D; color: white; border: none;
+                    background-color: var(--accent); color: var(--on-brand); border: none;
                     padding: 12px 24px; font-size: 14px; border-radius: 6px; cursor: pointer;
                     width: 100%; font-weight: 600;
                 ">Back to Store</button>
@@ -301,11 +301,11 @@ function printReceipt(info) {
     if (!info) return;
     const itemsRows = (info.cart || []).map((item, idx) => `
         <tr>
-            <td style="padding: 8px; border-bottom: 1px solid #eee;">${idx + 1}</td>
-            <td style="padding: 8px; border-bottom: 1px solid #eee;">${item.name} (${item.size || 'Std'})</td>
-            <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: center;">${item.qty}</td>
-            <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">₹${item.price}</td>
-            <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">₹${item.price * item.qty}</td>
+            <td style="padding: 8px; border-bottom: 1px solid var(--bg);">${idx + 1}</td>
+            <td style="padding: 8px; border-bottom: 1px solid var(--bg);">${item.name} (${item.size || 'Std'})</td>
+            <td style="padding: 8px; border-bottom: 1px solid var(--bg); text-align: center;">${item.qty}</td>
+            <td style="padding: 8px; border-bottom: 1px solid var(--bg); text-align: right;">₹${item.price}</td>
+            <td style="padding: 8px; border-bottom: 1px solid var(--bg); text-align: right;">₹${item.price * item.qty}</td>
         </tr>
     `).join('');
     const win = window.open('', '_blank');
@@ -315,18 +315,18 @@ function printReceipt(info) {
         <head>
             <title>Order Receipt - ${info.order_id}</title>
             <style>
-                body { font-family: Arial, sans-serif; padding: 20px; color: #333; }
-                .box { max-width: 600px; margin: auto; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
-                .hdr { border-bottom: 2px solid #A0522D; padding-bottom: 10px; display: flex; justify-content: space-between; }
+                body { font-family: Arial, sans-serif; padding: 20px; color: var(--text); }
+                .box { max-width: 600px; margin: auto; border: 1px solid var(--accent); padding: 20px; border-radius: 8px; }
+                .hdr { border-bottom: 2px solid var(--accent); padding-bottom: 10px; display: flex; justify-content: space-between; }
                 table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-                th { background: #f5f5f5; text-align: left; padding: 8px; }
+                th { background: var(--bg); text-align: left; padding: 8px; }
             </style>
         </head>
         <body>
             <div class="box">
                 <div class="hdr">
                     <div>
-                        <h2 style="margin:0; color:#A0522D;">ALORA PRODUCTS</h2>
+                        <h2 style="margin:0; color:var(--accent);">ALORA PRODUCTS</h2>
                         <small>Purchase Receipt</small>
                     </div>
                     <div style="text-align:right;">

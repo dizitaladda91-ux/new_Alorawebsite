@@ -121,7 +121,7 @@ function renderProductCatalog(products) {
             const isActive = idx === 0;
             const activeClasses = isActive 
                 ? 'bg-ink text-parchment border-ink font-semibold' 
-                : 'border-[#DCD3BA] text-ash hover:border-ink';
+                : 'border-accent text-ash hover:border-ink';
             return `
                 <button 
                     type="button"
@@ -165,7 +165,7 @@ function renderProductCatalog(products) {
         <div data-product-id="${product.id}" class="animate-fade-in relative w-full flex-shrink-0 product-card bg-white rounded-xl shadow-xs hover:shadow-md border border-stone-200/90 flex flex-col justify-between overflow-hidden transition-shadow duration-300">
             <div>
                 <!-- Product Image Container -->
-                <div class="relative w-full aspect-square overflow-hidden bg-[#FAF7F2] p-2 flex items-center justify-center">
+                <div class="relative w-full aspect-square overflow-hidden bg-bg p-2 flex items-center justify-center">
                     <a href="${product.productUrl}" class="w-full h-full block">
                         <img src="${product.baseImg}" alt="${product.name}" class="product-card-img w-full h-full object-contain mix-blend-multiply transition-transform duration-300 hover:scale-105">
                     </a>
@@ -179,12 +179,12 @@ function renderProductCatalog(products) {
                 <!-- Product Info Section (Amazon Card Style from Image) -->
                 <div class="px-3.5 sm:px-4 pt-3 pb-2 flex flex-col text-left">
                     <!-- Title -->
-                    <h3 class="text-sm sm:text-[15px] font-bold text-[#2B1D14] leading-snug line-clamp-2 hover:text-[#D98E2B] transition-colors mb-1.5 product-name">
+                    <h3 class="text-sm sm:text-[15px] font-bold text-text leading-snug line-clamp-2 hover:text-accent transition-colors mb-1.5 product-name">
                         <a href="${product.productUrl}">${product.name}</a>
                     </h3>
 
                     <!-- Rating Stars & Review Count -->
-                    <div class="flex items-center gap-1.5 text-xs text-[#2B1D14] mb-2">
+                    <div class="flex items-center gap-1.5 text-xs text-text mb-2">
                         <span class="font-bold text-amber-700 text-xs">${(product.rating || 4.8).toFixed(1)}</span>
                         <div class="flex gap-0.5 text-xs">${starsHTML}</div>
                         <svg class="w-3 h-3 text-stone-400 inline" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
@@ -193,15 +193,15 @@ function renderProductCatalog(products) {
 
                     <!-- Deal / Promo Badge -->
                     <div class="mb-2">
-                        <span class="inline-block bg-[#C43826] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xs">
+                        <span class="inline-block bg-primary text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xs">
                             ${product.isBestseller ? 'Bestseller Deal' : (pct > 0 ? `${pct}% OFF DEAL` : 'Special Offer')}
                         </span>
                     </div>
 
                     <!-- Price Row -->
                     <div class="flex items-baseline flex-wrap gap-1 mb-0.5">
-                        <span class="text-xs font-semibold text-[#2B1D14] align-super">₹</span>
-                        <span class="product-price text-2xl font-bold text-[#2B1D14] tracking-tight leading-none">${initialSize.price}</span>
+                        <span class="text-xs font-semibold text-text align-super">₹</span>
+                        <span class="product-price text-2xl font-bold text-text tracking-tight leading-none">${initialSize.price}</span>
                         <span class="unit-size-text text-[11px] text-stone-500 font-normal">(${initialSize.label})</span>
                     </div>
 
@@ -211,14 +211,14 @@ function renderProductCatalog(products) {
                     </div>
 
                     <!-- Promo note -->
-                    <p class="text-[11px] text-[#2B1D14]/80 leading-tight mb-2 font-medium">
-                        Extra discount with code <span class="font-bold text-[#D98E2B]">GLOW10</span>
+                    <p class="text-[11px] text-text/80 leading-tight mb-2 font-medium">
+                        Extra discount with code <span class="font-bold text-accent">GLOW10</span>
                     </p>
 
                     <!-- Delivery Row -->
                     <div class="text-xs leading-snug mb-2.5">
                         <p class="text-stone-900 font-normal">
-                            <span class="font-bold text-[#2B1D14]">FREE delivery</span> on orders above ₹499
+                            <span class="font-bold text-text">FREE delivery</span> on orders above ₹499
                         </p>
                         <p class="text-emerald-700 font-semibold text-[11px] mt-0.5">
                             In stock • Dispatches within 24 hours
@@ -234,7 +234,7 @@ function renderProductCatalog(products) {
 
             <!-- Add to Cart Action Bar -->
             <div class="px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-1">
-                <button type="button" onclick="handleCartButtonClick('${product.id}', this)" class="w-full bg-[#D98E2B] hover:bg-[#C47D1F] text-[#2B1D14] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
+                <button type="button" onclick="handleCartButtonClick('${product.id}', this)" class="w-full bg-accent hover:bg-accent-hover text-text font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
                     <svg class="w-4 h-4 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                     <span>Add to Cart</span>
                 </button>
@@ -280,7 +280,7 @@ function changeCardSize(sizeLabel, exactPrice, exactMrp, element) {
         }
     }
     currentCard.querySelectorAll('.size-btn').forEach(btn => {
-        btn.className = "size-btn text-[11px] px-2.5 py-1 rounded-full border border-[#DCD3BA] text-ash hover:border-ink transition";
+        btn.className = "size-btn text-[11px] px-2.5 py-1 rounded-full border border-accent text-ash hover:border-ink transition";
     });
     element.className = "size-btn text-[11px] px-2.5 py-1 rounded-full border border-ink bg-ink text-parchment font-semibold transition";
 }
@@ -337,9 +337,9 @@ function updateQuickFilterUI() {
     const buttons = document.querySelectorAll('[onclick*="applyQuickFilter"]');
     buttons.forEach(btn => {
         if (btn.getAttribute('onclick').includes(activeQuickTag)) {
-            btn.classList.add('border-[#E3D9BC]', 'bg-clay/10', 'font-bold');
+            btn.classList.add('border-accent', 'bg-clay/10', 'font-bold');
         } else {
-            btn.classList.remove('border-[#E3D9BC]', 'bg-clay/10', 'font-bold');
+            btn.classList.remove('border-accent', 'bg-clay/10', 'font-bold');
         }
     });
 }
@@ -497,10 +497,10 @@ function commitProductToCart(productId, actionBtnElement) {
     }
     const backupText = actionBtnElement.innerHTML;
     actionBtnElement.innerHTML = `<i class="fa-solid fa-circle-check text-xs"></i> Item Added!`;
-    actionBtnElement.classList.replace('bg-[#A0522D]', 'bg-green-600');
+    actionBtnElement.classList.replace('bg-accent', 'bg-green-600');
     setTimeout(() => {
         actionBtnElement.innerHTML = backupText;
-        actionBtnElement.classList.replace('bg-green-600', 'bg-[#A0522D]');
+        actionBtnElement.classList.replace('bg-green-600', 'bg-accent');
         const inputQty = cardElement.querySelector('.quantity');
         if (inputQty) inputQty.value = 1;
     }, 1200);

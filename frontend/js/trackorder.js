@@ -25,7 +25,7 @@ async function performTrackingLookup(query) {
     if (!container) return;
     container.classList.remove('hidden');
     container.innerHTML = `
-        <div class="bg-white rounded-3xl p-8 border border-[#ECE4CE] shadow-sm text-center space-y-4 animate-pulse">
+        <div class="bg-white rounded-3xl p-8 border border-bg shadow-sm text-center space-y-4 animate-pulse">
             <i class="fa-solid fa-spinner fa-spin text-clay text-3xl"></i>
             <p class="text-sm font-semibold text-ink">Searching shipment details...</p>
         </div>
@@ -92,9 +92,9 @@ function renderTrackingDetails(order) {
     }).join('');
     const courierCode = order.courierTrackingNumber || order.trackingNumber || '';
     container.innerHTML = `
-        <div class="bg-white rounded-3xl border border-[#ECE4CE] shadow-sm p-6 sm:p-8 space-y-8">
+        <div class="bg-white rounded-3xl border border-bg shadow-sm p-6 sm:p-8 space-y-8">
             <!-- Top Header Info -->
-            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-[#ECE4CE] pb-6">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-bg pb-6">
                 <div>
                     <div class="flex items-center gap-3">
                         <h2 class="text-2xl font-serif font-bold text-ink">Order #${String(order.razorpayOrderId || order._id).slice(-8)}</h2>
@@ -147,14 +147,14 @@ function renderTrackingDetails(order) {
                 </div>
             </div>
             <!-- Items Purchased -->
-            <div class="border-t border-[#ECE4CE] pt-6 space-y-4">
+            <div class="border-t border-bg pt-6 space-y-4">
                 <h3 class="text-xs font-bold uppercase tracking-[0.2em] text-ash">Items in Order</h3>
                 <div class="space-y-1">
                     ${itemsHTML}
                 </div>
             </div>
             <!-- Delivery Details Box -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-parchment/60 p-5 rounded-2xl border border-[#E7DFC7] text-xs">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-parchment/60 p-5 rounded-2xl border border-bg text-xs">
                 <div>
                     <strong class="text-ink text-sm block mb-1">Delivery Recipient:</strong>
                     <p class="font-semibold text-ink">${order.customer?.name || 'Customer'}</p>

@@ -96,8 +96,8 @@ const renderProgressStepper = (step) => {
     <div class="grid grid-cols-5 gap-1 mt-4">
         ${stages.map((stage, index) => `
             <div class="text-center">
-                <div class="h-1.5 rounded-full ${index <= step ? "bg-[#8B4513]" : "bg-stone-200"} transition-all"></div>
-                <p class="mt-1.5 text-[9px] sm:text-[10px] ${index <= step ? "text-[#8B4513] font-bold" : "text-stone-400"}">${stage}</p>
+                <div class="h-1.5 rounded-full ${index <= step ? "bg-accent-hover" : "bg-stone-200"} transition-all"></div>
+                <p class="mt-1.5 text-[9px] sm:text-[10px] ${index <= step ? "text-accent-hover font-bold" : "text-stone-400"}">${stage}</p>
             </div>
         `).join("")}
     </div>`;
@@ -141,7 +141,7 @@ export function filterOrders(type, btnEl) {
         btn.className = "order-filter-btn px-3 py-1.5 rounded-lg text-stone-600 hover:text-stone-900 transition cursor-pointer";
     });
     if (btnEl) {
-        btnEl.className = "order-filter-btn px-3 py-1.5 rounded-lg bg-[#8B4513] text-white font-bold transition";
+        btnEl.className = "order-filter-btn px-3 py-1.5 rounded-lg bg-accent-hover text-white font-bold transition";
     }
     renderFilteredOrders();
 }
@@ -177,19 +177,19 @@ function renderFilteredOrders() {
         const trackingNumber = String(order.trackingNumber || "").trim();
         const courierLink = String(order.courierLink || "").trim();
         const trackingDetails = trackingNumber || courierLink ? `
-            <div class="mt-3 pt-3 border-t border-[#ECE4CE] text-xs">
-                <p class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-[#8B4513]"></i> Tracking details</p>
+            <div class="mt-3 pt-3 border-t border-bg text-xs">
+                <p class="font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-accent-hover"></i> Tracking details</p>
                 ${trackingNumber ? `<p class="mt-1 text-stone-600">Tracking number: <span class="font-mono font-bold text-slate-800 select-all">${escapeHtml(trackingNumber)}</span></p>` : ""}
-                ${courierLink ? `<a href="${escapeHtml(courierLink)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 mt-2 font-bold text-[#8B4513] hover:underline">Track shipment <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>` : ""}
+                ${courierLink ? `<a href="${escapeHtml(courierLink)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 mt-2 font-bold text-accent-hover hover:underline">Track shipment <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>` : ""}
             </div>` : "";
 
         return `
-        <article class="bg-[#FAF7EE]/50 rounded-2xl border border-[#ECE4CE] p-4 sm:p-6 transition hover:shadow-md">
+        <article class="bg-bg/50 rounded-2xl border border-bg p-4 sm:p-6 transition hover:shadow-md">
             <!-- Order Header -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-200/80 pb-4">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="text-xs font-bold uppercase tracking-wider text-[#8B4513]">Order ID</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-accent-hover">Order ID</span>
                         <span class="font-mono text-xs font-semibold text-slate-800 bg-white px-2 py-0.5 rounded border border-stone-200 select-all">${escapeHtml(order.razorpayOrderId)}</span>
                     </div>
                     <p class="text-xs text-stone-500 mt-1">Placed on ${orderDate}</p>
@@ -198,26 +198,26 @@ function renderFilteredOrders() {
                     <span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${isPaid ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 text-amber-800'}">
                         ${escapeHtml(order.paymentStatus)}
                     </span>
-                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#8B4513]/10 text-[#8B4513] border border-[#8B4513]/20">
+                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-accent-hover/10 text-accent-hover border border-accent-hover/20">
                         ${escapeHtml(status.label)}
                     </span>
-                    <button type="button" onclick="window.trackThisOrder('${escapeHtml(order.trackingNumber || order.razorpayOrderId || order._id)}')" class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-100 hover:bg-amber-200 text-[#8B4513] border border-amber-300 transition cursor-pointer flex items-center gap-1">
+                    <button type="button" onclick="window.trackThisOrder('${escapeHtml(order.trackingNumber || order.razorpayOrderId || order._id)}')" class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-100 hover:bg-amber-200 text-accent-hover border border-amber-300 transition cursor-pointer flex items-center gap-1">
                         <i class="fa-solid fa-location-arrow text-[10px]"></i> Track
                     </button>
                 </div>
             </div>
 
             <!-- Delivery Progress Card -->
-            <div class="mt-4 rounded-xl bg-white border border-[#ECE4CE] p-4 shadow-2xs">
+            <div class="mt-4 rounded-xl bg-white border border-bg p-4 shadow-2xs">
                 <div class="flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-full bg-amber-100 text-[#8B4513] flex items-center justify-center text-sm shrink-0">
+                    <div class="w-8 h-8 rounded-full bg-amber-100 text-accent-hover flex items-center justify-center text-sm shrink-0">
                         <i class="fa-solid fa-truck-fast"></i>
                     </div>
                     <div class="min-w-0 flex-1">
                         <p class="text-xs sm:text-sm font-bold text-slate-900">${escapeHtml(status.label)}</p>
                         <p class="text-xs text-stone-600 mt-0.5">${escapeHtml(status.message)}</p>
                         ${status.step >= 0 && status.step < 4 ? `
-                            <p class="text-xs font-semibold text-[#8B4513] mt-1.5 flex items-center gap-1.5">
+                            <p class="text-xs font-semibold text-accent-hover mt-1.5 flex items-center gap-1.5">
                                 <i class="fa-regular fa-clock text-xs"></i> Est. Delivery: ${escapeHtml(expectedDelivery)}
                             </p>
                         ` : ''}
@@ -232,7 +232,7 @@ function renderFilteredOrders() {
                 ${order.items.map(item => `
                     <div class="py-3 flex items-center justify-between gap-4">
                         <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-12 h-12 bg-white rounded-lg border border-[#ECE4CE] flex items-center justify-center p-1 shrink-0 overflow-hidden">
+                            <div class="w-12 h-12 bg-white rounded-lg border border-bg flex items-center justify-center p-1 shrink-0 overflow-hidden">
                                 <img src="${item.image || item.imageUrl || '/static/placeholder.png'}" alt="${escapeHtml(item.name)}" class="w-full h-full object-contain" onerror="this.src='/static/placeholder.png'">
                             </div>
                             <div class="min-w-0">
@@ -244,7 +244,7 @@ function renderFilteredOrders() {
                         </div>
                         <div class="text-right shrink-0">
                             <span class="font-bold text-slate-900 text-sm">${money(item.lineTotal || (item.price * (item.quantity || 1)))}</span>
-                            <button type="button" onclick="quickReorder('${escapeHtml(item.name)}', '${escapeHtml(item.variant || 'Standard')}', ${item.price || 0})" class="block text-[11px] text-[#8B4513] font-bold hover:underline mt-0.5">
+                            <button type="button" onclick="quickReorder('${escapeHtml(item.name)}', '${escapeHtml(item.variant || 'Standard')}', ${item.price || 0})" class="block text-[11px] text-accent-hover font-bold hover:underline mt-0.5">
                                 Re-order <i class="fa-solid fa-arrow-right text-[9px]"></i>
                             </button>
                         </div>
@@ -316,8 +316,8 @@ export async function performAccountTrackingLookup(query) {
 
     resultContainer.classList.remove("hidden");
     resultContainer.innerHTML = `
-        <div class="py-10 text-center text-stone-500 bg-[#FAF7EE]/50 rounded-2xl border border-[#ECE4CE] animate-pulse">
-            <i class="fa-solid fa-spinner fa-spin text-2xl text-[#8B4513] mb-2"></i>
+        <div class="py-10 text-center text-stone-500 bg-bg/50 rounded-2xl border border-bg animate-pulse">
+            <i class="fa-solid fa-spinner fa-spin text-2xl text-accent-hover mb-2"></i>
             <p class="text-xs sm:text-sm font-semibold text-slate-800">Searching courier and shipment updates...</p>
         </div>
     `;
@@ -371,12 +371,12 @@ function renderAccountTrackingDetails(order) {
     const items = order.items || [];
 
     resultContainer.innerHTML = `
-        <article class="bg-[#FAF7EE]/60 rounded-2xl border border-[#ECE4CE] p-5 sm:p-7 shadow-xs space-y-6">
+        <article class="bg-bg/60 rounded-2xl border border-bg p-5 sm:p-7 shadow-xs space-y-6">
             <!-- Header Status -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-200/80 pb-4">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="text-xs font-bold uppercase tracking-wider text-[#8B4513]">Order ID</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-accent-hover">Order ID</span>
                         <span class="font-mono text-xs font-semibold text-slate-800 bg-white px-2 py-0.5 rounded border border-stone-200 select-all">${escapeHtml(order.razorpayOrderId || order._id)}</span>
                     </div>
                     <p class="text-xs text-stone-500 mt-1">Booked on ${orderDate}</p>
@@ -385,30 +385,30 @@ function renderAccountTrackingDetails(order) {
                     <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
                         ${escapeHtml(order.paymentStatus || 'Paid')}
                     </span>
-                    <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#8B4513] text-white">
+                    <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-accent-hover text-white">
                         ${escapeHtml(status.label)}
                     </span>
                 </div>
             </div>
 
             <!-- Courier & Tracking Box -->
-            <div class="bg-white rounded-2xl border border-[#ECE4CE] p-4 sm:p-5 shadow-2xs space-y-4">
+            <div class="bg-white rounded-2xl border border-bg p-4 sm:p-5 shadow-2xs space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <p class="text-xs font-extrabold uppercase tracking-wider text-[#8B4513] flex items-center gap-1.5">
+                        <p class="text-xs font-extrabold uppercase tracking-wider text-accent-hover flex items-center gap-1.5">
                             <i class="fa-solid fa-truck-ramp-box"></i> Live Courier Status
                         </p>
                         <h3 class="text-base sm:text-lg font-bold text-slate-900 mt-0.5">${escapeHtml(status.label)}</h3>
                         <p class="text-xs text-stone-600 mt-0.5">${escapeHtml(status.message)}</p>
                         ${trackingNumber ? `
                             <p class="text-xs text-slate-800 mt-2 font-medium">
-                                Tracking AWB: <span class="font-mono font-bold text-[#8B4513] bg-amber-50 px-2 py-0.5 rounded border border-amber-200 select-all">${escapeHtml(trackingNumber)}</span>
+                                Tracking AWB: <span class="font-mono font-bold text-accent-hover bg-amber-50 px-2 py-0.5 rounded border border-amber-200 select-all">${escapeHtml(trackingNumber)}</span>
                             </p>
                         ` : ''}
                     </div>
 
                     ${courierLink ? `
-                        <a href="${escapeHtml(courierLink)}" target="_blank" rel="noopener noreferrer" class="bg-[#8B4513] hover:bg-amber-900 text-white px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs transition shrink-0">
+                        <a href="${escapeHtml(courierLink)}" target="_blank" rel="noopener noreferrer" class="bg-accent-hover hover:bg-amber-900 text-white px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs transition shrink-0">
                             <span>Open Courier Portal</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                         </a>
                     ` : ''}
@@ -418,7 +418,7 @@ function renderAccountTrackingDetails(order) {
                 ${renderProgressStepper(status.step)}
 
                 <div class="pt-2 flex items-center justify-between text-xs text-stone-500 border-t border-stone-100">
-                    <span class="flex items-center gap-1.5 font-semibold text-[#8B4513]">
+                    <span class="flex items-center gap-1.5 font-semibold text-accent-hover">
                         <i class="fa-regular fa-calendar-check"></i> Est. Delivery: ${escapeHtml(expectedDelivery)}
                     </span>
                     <span>Recipient: <b class="text-slate-800">${escapeHtml(order.customer?.name || 'Customer')}</b></span>
@@ -428,7 +428,7 @@ function renderAccountTrackingDetails(order) {
             <!-- Items in this Shipment -->
             <div class="space-y-3">
                 <h4 class="text-xs font-bold uppercase tracking-wider text-stone-600">Items in this Package (${items.length})</h4>
-                <div class="bg-white rounded-2xl border border-[#ECE4CE] p-3 sm:p-4 divide-y divide-stone-100">
+                <div class="bg-white rounded-2xl border border-bg p-3 sm:p-4 divide-y divide-stone-100">
                     ${items.map(item => `
                         <div class="py-2.5 flex items-center justify-between gap-3 first:pt-0 last:pb-0">
                             <div class="flex items-center gap-3">
@@ -485,9 +485,9 @@ async function loadBuyAgainItems() {
             const img = p.imagepath || p.imageUrl || p.image || "/static/placeholder.png";
 
             return `
-            <div class="product-card bg-[#FAF7EE]/60 rounded-2xl p-4 border border-[#ECE4CE] flex flex-col justify-between hover:shadow-md transition">
+            <div class="product-card bg-bg/60 rounded-2xl p-4 border border-bg flex flex-col justify-between hover:shadow-md transition">
                 <div>
-                    <div class="w-full h-36 bg-[#F8F5EE]/60 rounded-xl border border-[#ECE4CE]/60 flex items-center justify-center p-2 mb-3 overflow-hidden">
+                    <div class="w-full h-36 bg-bg/60 rounded-xl border border-bg/60 flex items-center justify-center p-2 mb-3 overflow-hidden">
                         <a href="/product/${encodeURIComponent(slug)}" class="w-full h-full flex items-center justify-center">
                             <img src="${img}" alt="${escapeHtml(p.name)}" style="mix-blend-mode: multiply;" class="w-full h-full object-contain mix-blend-multiply" onerror="this.src='/static/placeholder.png'">
                         </a>
@@ -495,12 +495,12 @@ async function loadBuyAgainItems() {
                     <h3 class="product-name font-fraunces font-bold text-sm text-slate-900 line-clamp-1 capitalize">${escapeHtml(p.name)}</h3>
                     <p class="text-[11px] text-stone-500 line-clamp-1 mt-0.5">${escapeHtml(p.preferredVariant || 'Standard')}</p>
                     <div class="flex items-baseline gap-2 mt-2">
-                        <span class="product-price font-fraunces font-bold text-[#8B4513] text-base">${money(initialPrice)}</span>
+                        <span class="product-price font-fraunces font-bold text-accent-hover text-base">${money(initialPrice)}</span>
                         ${comparePrice > initialPrice ? `<span class="product-mrp text-xs line-through text-stone-400">${money(comparePrice)}</span>` : ''}
                     </div>
                 </div>
                 <div class="mt-4 pt-2">
-                    <button type="button" onclick="buyAgainAddToCart(this, '${escapeHtml(p.name)}', '${escapeHtml(p.preferredVariant || 'Standard')}', ${initialPrice}, '${img}')" class="w-full bg-[#8B4513] hover:bg-[#6F370F] text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
+                    <button type="button" onclick="buyAgainAddToCart(this, '${escapeHtml(p.name)}', '${escapeHtml(p.preferredVariant || 'Standard')}', ${initialPrice}, '${img}')" class="w-full bg-accent-hover hover:bg-accent-hover text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
                         <i class="fa-solid fa-cart-shopping text-xs"></i> Add to Cart
                     </button>
                 </div>
@@ -602,21 +602,21 @@ async function loadWishlistTab() {
             const productLink = isObj ? getProductUrl(item) : `/product?id=${id}`;
 
             return `
-            <div class="bg-[#FAF7EE]/60 rounded-2xl p-4 border border-[#ECE4CE] flex flex-col justify-between hover:shadow-md transition relative group">
+            <div class="bg-bg/60 rounded-2xl p-4 border border-bg flex flex-col justify-between hover:shadow-md transition relative group">
                 <button type="button" onclick="removeFromWishlistTab('${id}', this)" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white text-stone-400 hover:text-rose-600 border border-stone-200 flex items-center justify-center transition shadow-2xs z-10 cursor-pointer" title="Remove from wishlist">
                     <i class="fa-solid fa-trash text-xs"></i>
                 </button>
                 <div>
-                    <div class="w-full h-36 bg-[#F8F5EE]/60 rounded-xl border border-[#ECE4CE]/60 flex items-center justify-center p-2 mb-3 overflow-hidden">
+                    <div class="w-full h-36 bg-bg/60 rounded-xl border border-bg/60 flex items-center justify-center p-2 mb-3 overflow-hidden">
                         <a href="${productLink}" class="w-full h-full flex items-center justify-center">
                             <img src="${img}" alt="${escapeHtml(name)}" style="mix-blend-mode: multiply;" class="w-full h-full object-contain mix-blend-multiply" onerror="this.src='/static/placeholder.png'">
                         </a>
                     </div>
                     <h3 class="font-fraunces font-bold text-sm text-slate-900 line-clamp-1 capitalize">${escapeHtml(name)}</h3>
-                    <p class="font-fraunces font-bold text-[#8B4513] text-base mt-1.5">${money(price)}</p>
+                    <p class="font-fraunces font-bold text-accent-hover text-base mt-1.5">${money(price)}</p>
                 </div>
                 <div class="mt-4 pt-2">
-                    <button type="button" onclick="moveWishlistToCart('${id}', '${escapeHtml(name)}', ${price}, '${img}', this)" class="w-full bg-[#8B4513] hover:bg-[#6F370F] text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
+                    <button type="button" onclick="moveWishlistToCart('${id}', '${escapeHtml(name)}', ${price}, '${img}', this)" class="w-full bg-accent-hover hover:bg-accent-hover text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
                         <i class="fa-solid fa-cart-shopping text-xs"></i> Move to Cart
                     </button>
                 </div>
