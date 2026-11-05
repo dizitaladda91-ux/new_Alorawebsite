@@ -3,7 +3,7 @@ import test from "node:test";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { renderBlogArticleSsr, renderProductSsr } from "../backend/services/ssr.service.js";
+import { renderBlogArticleSsr, renderIngredientSsr, renderProductSsr } from "../backend/services/ssr.service.js";
 
 const testDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(testDirectory, "..");
@@ -47,4 +47,29 @@ test("blog SSR includes article copy in the response HTML", () => {
   assert.match(html, /A Salicylic Acid Guide/);
   assert.match(html, /It helps unclog pores\./);
   assert.match(html, /href="#heading-1-what-it-does"/);
+});
+
+test("ingredient SSR includes the editable guide content and its sections", () => {
+  const template = fs.readFileSync(path.join(projectRoot, "frontend", "ingredient.html"), "utf8");
+  const html = renderIngredientSsr(template, {
+    slug: "walnut",
+    name: "Walnut",
+    seoTitle: "Walnut in Skincare | Alora Radiance",
+    seoDescription: "Learn how walnut-derived ingredients are used in exfoliating skincare.",
+    shortDescription: "A plant-derived exfoliating ingredient.",
+    articleIntro: "Walnut-derived ingredients are used in some rinse-off exfoliating products.",
+    imageUrl: "/static/hero_banner_scrub_desk.webp",
+    imageAlt: "Alora Radiance Walnut Scrub",
+    pageSections: [
+      { heading: "What does walnut mean in skincare?", body: "Walnut shell powder is used in some rinse-off formulas." },
+      { heading: "How to use a walnut scrub gently", body: "Use light pressure and follow the product label." }
+    ],
+    recommendedProducts: []
+  });
+
+  assert.match(html, /Walnut in Skincare \| Alora Radiance/);
+  assert.match(html, /Walnut-derived ingredients are used in some rinse-off exfoliating products/);
+  assert.match(html, /What does walnut mean in skincare\?/);
+  assert.match(html, /Walnut shell powder is used in some rinse-off formulas/);
+  assert.match(html, /href="#ingredient-section-2"/);
 });

@@ -121,6 +121,9 @@ function renderIngredients() {
                     <label class="block space-y-1.5">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Page URL slug</span>
                         <input data-field="slug" type="text" maxlength="120" required value="${escapeHtml(ingredient.slug || "")}" placeholder="e.g. saffron" class="w-full rounded-xl border border-slate-300 p-3 text-sm bg-white font-mono">
+                        <a data-guide-preview href="/ingredients/${encodeURIComponent(ingredient.slug || "")}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 hover:text-amber-900">
+                            Preview full guide <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                        </a>
                     </label>
                     <div class="grid md:grid-cols-2 gap-3">
                         <label class="block space-y-1.5">
@@ -193,6 +196,9 @@ function renderIngredients() {
             }
             if (event.target.matches('[data-field="slug"], [data-field="seoTitle"], [data-field="seoDescription"]')) {
                 event.target.dataset.edited = "true";
+            }
+            if (event.target.matches('[data-field="slug"]')) {
+                card.querySelector("[data-guide-preview]").href = `/ingredients/${encodeURIComponent(event.target.value.trim())}`;
             }
             if (event.target.matches('[data-field="imageUrl"]')) {
                 const image = card.querySelector("[data-image-preview]");
