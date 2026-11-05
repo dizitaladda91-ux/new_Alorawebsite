@@ -111,6 +111,10 @@ const homepageIngredientsSchema = new mongoose.Schema({
         trim: true,
         maxlength: 500
     },
+    ingredientSeedVersion: {
+        type: Number,
+        min: 0
+    },
     ingredients: {
         type: [ingredientCardSchema],
         default: []

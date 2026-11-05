@@ -78,8 +78,49 @@ const DEFAULT_INGREDIENTS = [
         imageUrl: "/static/3.webp",
         imageAlt: "Alora Radiance face cream with nourishing ingredients",
         productSlugs: ["alora-intense-hydration-body-lotion", "alora-deep-nourishing-face-cream"]
+    },
+    {
+        slug: "salicylic-acid",
+        name: "Salicylic Acid",
+        seoTitle: "Salicylic Acid in Skincare: How to Use It | Alora Radiance",
+        seoDescription: "Learn how salicylic acid is used in skincare, how to introduce it carefully, and what to consider when choosing a cleanser.",
+        shortDescription: "A beta hydroxy acid used in cleansers and other targeted skincare formulas.",
+        fullDescription: "Salicylic acid is a beta hydroxy acid found in some cleansers and leave-on skincare products. Product strengths and directions differ, so use only as directed and avoid combining new active products all at once.",
+        articleIntro: "Salicylic acid is a beta hydroxy acid (BHA) used in a range of skincare formulas, including cleansers. Because products differ in concentration, format, and directions, it is important to follow the label and introduce a new product thoughtfully. This guide covers how salicylic acid is used and what to keep in mind when adding it to a routine.",
+        pageSections: [
+            { heading: "What is salicylic acid?", body: "Salicylic acid is a beta hydroxy acid used as an ingredient in some skincare products. It may be included in rinse-off cleansers or leave-on formulas. The amount, supporting ingredients, and intended use vary, so check the product label rather than assuming all salicylic acid products are interchangeable." },
+            { heading: "Why is it used in skincare?", body: "Salicylic acid is used in formulas intended to exfoliate the surface of the skin and help cleanse pores. Results and tolerability depend on the complete product and how it is used. It is not a guaranteed treatment for acne or other skin conditions." },
+            { heading: "How to introduce it into a routine", body: "Follow the directions and frequency printed on the product. If you are new to salicylic acid, start with one product and avoid adding several exfoliating or active products at the same time. Use sunscreen during the day and stop using the product if persistent irritation occurs." },
+            { heading: "Who should take extra care?", body: "If you have sensitive or compromised skin, are pregnant or breastfeeding, use prescription skin treatments, or have a diagnosed skin condition, ask a qualified healthcare professional whether the product is appropriate for you. Avoid applying it to irritated or broken skin unless a healthcare professional advises otherwise." },
+            { heading: "Choosing a salicylic acid product", body: "Choose a product format that suits your routine and review the full ingredient list, directions, and precautions. A rinse-off cleanser is used differently from a leave-on formula. Do not exceed the recommended use, and consult a dermatologist for ongoing or severe skin concerns." }
+        ],
+        imageUrl: "/static/hero_banner_facewash.webp",
+        imageAlt: "Alora Radiance Purifying Glow Face Wash featuring salicylic acid",
+        productSlugs: ["purifying-glow-face-wash"]
+    },
+    {
+        slug: "walnut",
+        name: "Walnut",
+        seoTitle: "Walnut in Skincare: Exfoliation and Use | Alora Radiance",
+        seoDescription: "Learn how walnut-derived ingredients are used in exfoliating skincare and how to use a face scrub gently and as directed.",
+        shortDescription: "A plant-derived exfoliating ingredient used in some face scrub formulas.",
+        fullDescription: "Walnut shell powder is used in some rinse-off exfoliating products. Scrubs can feel different on different skin, so use gentle pressure, follow the product directions, and avoid using on irritated skin.",
+        articleIntro: "Walnut-derived ingredients, such as walnut shell powder, are used in some physical exfoliating products. Scrubs vary in texture and intended use, so gentle application and the product directions matter. This guide explains what to look for and how to use an exfoliating scrub with care.",
+        pageSections: [
+            { heading: "What does walnut mean in a skincare formula?", body: "In exfoliating skincare, walnut usually refers to walnut shell powder or another walnut-derived ingredient included in a rinse-off formula. Check the ingredient declaration to see exactly which ingredient is used in a particular product." },
+            { heading: "Why is walnut used in face scrubs?", body: "Walnut shell powder can provide physical exfoliation as the product is massaged over the skin and rinsed away. The experience depends on particle size, formula, and application. A scrub should not be expected to treat acne or replace advice from a dermatologist." },
+            { heading: "How to use a walnut scrub gently", body: "Follow the product label, use light pressure, and rinse thoroughly. Avoid scrubbing for longer or more often than directed, and do not use on broken, irritated, or freshly sensitized skin. Stop if stinging or persistent redness occurs." },
+            { heading: "Is a physical scrub right for everyone?", body: "A physical exfoliant may not suit every skin type or routine. If your skin is sensitive, you have an active skin condition, or you use prescription treatments, ask a dermatologist before adding a scrub. Avoid using it at the same time as other exfoliants unless a professional advises you to." },
+            { heading: "Choosing an exfoliating scrub", body: "Review the full ingredient list, directions, and warnings before use. Choose a product that feels comfortable when applied gently and use it only as directed. For persistent concerns such as acne or irritation, seek advice from a qualified healthcare professional." }
+        ],
+        imageUrl: "/static/hero_banner_scrub_desk.webp",
+        imageAlt: "Alora Radiance Gentle Exfoliating Walnut Scrub",
+        productSlugs: ["gentle-exfoliating-walnut-scrub"]
     }
 ];
+
+const INGREDIENT_SEED_VERSION = 2;
+const NEW_DEFAULT_INGREDIENT_SLUGS = new Set(["salicylic-acid", "walnut"]);
 
 export const DEFAULT_HOMEPAGE_INGREDIENTS = {
     eyebrow: "Discover",
@@ -109,9 +150,78 @@ const enrichIngredient = (ingredient) => {
         slug,
         seoTitle: ingredient.seoTitle || fallback?.seoTitle || `${name} in Skincare | Alora Radiance`,
         seoDescription: ingredient.seoDescription || fallback?.seoDescription || ingredient.shortDescription || "",
+        shortDescription: ingredient.shortDescription || fallback?.shortDescription || "",
+        fullDescription: ingredient.fullDescription || fallback?.fullDescription || "",
         articleIntro: ingredient.articleIntro || fallback?.articleIntro || ingredient.fullDescription || "",
-        pageSections: ingredient.pageSections?.length ? ingredient.pageSections : (fallback?.pageSections || [])
+        pageSections: ingredient.pageSections?.length ? ingredient.pageSections : (fallback?.pageSections || []),
+        imageUrl: ingredient.imageUrl || fallback?.imageUrl || "",
+        imageAlt: ingredient.imageAlt || fallback?.imageAlt || ""
     };
+};
+
+const loadHomepageContentWithSeededIngredients = async () => {
+    let content = await HomepageIngredients.findOne({ key: "homepage-ingredients" }).lean();
+    if (!content?.ingredients?.length || (content.ingredientSeedVersion || 0) >= INGREDIENT_SEED_VERSION) {
+        return content;
+    }
+
+    const existingSlugs = new Set(content.ingredients.map(item => item.slug).filter(Boolean));
+    const additions = DEFAULT_INGREDIENTS
+        .filter(item => NEW_DEFAULT_INGREDIENT_SLUGS.has(item.slug) && !existingSlugs.has(item.slug));
+    const seedsNeedingProducts = DEFAULT_INGREDIENTS.filter(seed =>
+        additions.some(item => item.slug === seed.slug)
+        || content.ingredients.some(item => item.slug === seed.slug && !item.recommendedProducts?.length)
+    );
+    const productSlugs = [...new Set(seedsNeedingProducts.flatMap(item => item.productSlugs || []))];
+    const products = productSlugs.length
+        ? await SimpleProduct.find({
+            slug: { $in: productSlugs },
+            isAvailable: { $ne: false }
+        }).select("_id slug").lean()
+        : [];
+    const productIdsBySlug = new Map(products.map(product => [product.slug, String(product._id)]));
+    const existingIngredients = content.ingredients.map(ingredient => {
+        const seed = DEFAULT_INGREDIENTS.find(item => item.slug === ingredient.slug);
+        if (!seed) return ingredient;
+        return {
+            ...ingredient,
+            seoTitle: ingredient.seoTitle || seed.seoTitle,
+            seoDescription: ingredient.seoDescription || seed.seoDescription,
+            shortDescription: ingredient.shortDescription || seed.shortDescription,
+            fullDescription: ingredient.fullDescription || seed.fullDescription,
+            articleIntro: ingredient.articleIntro || seed.articleIntro,
+            pageSections: ingredient.pageSections?.length ? ingredient.pageSections : seed.pageSections,
+            imageUrl: ingredient.imageUrl || seed.imageUrl,
+            imageAlt: ingredient.imageAlt || seed.imageAlt,
+            recommendedProducts: ingredient.recommendedProducts?.length
+                ? ingredient.recommendedProducts
+                : (seed.productSlugs || []).map(slug => productIdsBySlug.get(slug)).filter(Boolean)
+        };
+    });
+    const cardsToAdd = additions.map(({ productSlugs: slugs, ...ingredient }) => ({
+        ...ingredient,
+        recommendedProducts: (slugs || []).map(slug => productIdsBySlug.get(slug)).filter(Boolean)
+    }));
+
+    const migratedContent = await HomepageIngredients.findOneAndUpdate(
+        {
+            key: "homepage-ingredients",
+            $or: [
+                { ingredientSeedVersion: { $exists: false } },
+                { ingredientSeedVersion: { $lt: INGREDIENT_SEED_VERSION } }
+            ]
+        },
+        {
+            $set: {
+                ingredientSeedVersion: INGREDIENT_SEED_VERSION,
+                ingredients: [...existingIngredients, ...cardsToAdd]
+            }
+        },
+        { new: true, runValidators: true }
+    ).lean();
+
+    return migratedContent
+        || HomepageIngredients.findOne({ key: "homepage-ingredients" }).lean();
 };
 
 const validateText = (value, field, maxLength) => {
@@ -181,7 +291,7 @@ const resolveProducts = async (ingredients, useDefaults = false) => {
 
 const getHomepageIngredients = async (req, res) => {
     try {
-        const content = await HomepageIngredients.findOne({ key: "homepage-ingredients" }).lean();
+        const content = await loadHomepageContentWithSeededIngredients();
         const useDefaults = !content?.ingredients?.length;
         const sourceIngredients = (useDefaults ? DEFAULT_INGREDIENTS : content.ingredients).map(enrichIngredient);
         const ingredients = await resolveProducts(
@@ -203,7 +313,7 @@ const getHomepageIngredients = async (req, res) => {
 };
 
 const getHomepageIngredientBySlug = async (slug) => {
-    const content = await HomepageIngredients.findOne({ key: "homepage-ingredients" }).lean();
+    const content = await loadHomepageContentWithSeededIngredients();
     const useDefaults = !content?.ingredients?.length;
     const sourceIngredients = (useDefaults ? DEFAULT_INGREDIENTS : content.ingredients).map(enrichIngredient);
     const ingredient = sourceIngredients.find(item => item.slug === slug);
@@ -277,6 +387,7 @@ const updateHomepageIngredients = async (req, res) => {
         }
 
         const payload = {
+            ingredientSeedVersion: INGREDIENT_SEED_VERSION,
             eyebrow: validateText(req.body.eyebrow, "Eyebrow", 60),
             heading: validateText(req.body.heading, "Heading", 100),
             buttonText: validateText(req.body.buttonText, "Button text", 50),
