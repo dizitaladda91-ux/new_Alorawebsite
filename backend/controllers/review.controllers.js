@@ -24,6 +24,7 @@ export const createReview = async (req, res) => {
 
 export const getReviewsByProduct = async (req, res) => {
     try {
+        res.set('Cache-Control', 'no-store');
         const { productId } = req.params;
         const candidates = [productId];
 

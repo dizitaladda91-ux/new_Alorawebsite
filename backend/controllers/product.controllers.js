@@ -1,4 +1,5 @@
 import SimpleProduct from "../models/product.models.js";
+import Review from "../models/review.models.js";
 import fs from "fs";
 import db from "../config/db.js";
 import { deleteFromCloudinary } from "../middlewares/cloudinaryUpload.js";
@@ -75,6 +76,21 @@ export const readproduct = async (req, res) => {
     try {
         await db();
         const products = await SimpleProduct.find().lean();
+        const productIds = products.flatMap((product) => [
+            String(product._id),
+            product.slug
+        ].filter(Boolean));
+        const reviewCounts = await Review.aggregate([
+            { $match: { productId: { $in: productIds } } },
+            { $group: { _id: "$productId", count: { $sum: 1 } } }
+        ]);
+        const countsByProductId = new Map(
+            reviewCounts.map(({ _id, count }) => [String(_id), count])
+        );
+        products.forEach((product) => {
+            product.reviewsCount = (countsByProductId.get(String(product._id)) || 0)
+                + (product.slug ? countsByProductId.get(product.slug) || 0 : 0);
+        });
         res.status(200).json(products);
     } catch (err) {
         console.error("readproduct error:", err);

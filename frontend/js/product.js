@@ -72,7 +72,13 @@ async function loadProductDetails() {
         const nextMediaBtn = document.getElementById('next-media-btn');
 
         const mediaList = [];
-        const galleryImgs = [product.imagepath, ...(product.galleryImages || [])].filter(Boolean);
+        const galleryImages = Array.isArray(product.galleryImages)
+            ? product.galleryImages
+            : typeof product.galleryImages === 'string'
+                ? [product.galleryImages]
+                : [];
+        const galleryImgs = [product.imagepath, ...galleryImages]
+            .filter(img => typeof img === 'string' && img.trim());
         galleryImgs.forEach(img => {
             mediaList.push({
                 type: 'image',
@@ -234,13 +240,11 @@ async function loadProductDetails() {
         const ingredientsEl = document.getElementById('product-ingredients');
         if (ingredientsEl) ingredientsEl.innerText = product.ingredients || "Ingredients info not specified.";
         const ratingCount = Math.round(product.rating || 4);
-        const starsContainer = document.getElementById('product-rating-stars');
+        const starsContainer = document.querySelector('.text-gold.text-sm');
         if (starsContainer) {
             let starsHTML = '';
             for (let i = 1; i <= 5; i++) {
-                starsHTML += i <= ratingCount
-                    ? `<i class="fa-solid fa-star text-[#D98E2B]"></i>`
-                    : `<i class="fa-regular fa-star text-[#D98E2B]"></i>`;
+                starsHTML += i <= ratingCount ? `<i class="fa-solid fa-star"></i>` : `<i class="fa-regular fa-star text-accent"></i>`;
             }
             starsContainer.innerHTML = starsHTML;
         }
@@ -375,8 +379,11 @@ function updateQty(change) {
     qtyInput.value = currentQty;
 }
 function getProductIdFromURL() {
+    if (currentProductData?._id) return String(currentProductData._id);
+    const pathMatch = window.location.pathname.match(/^\/product\/([^/?#]+)\/?$/i);
+    if (pathMatch) return decodeURIComponent(pathMatch[1]);
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('id') || 'alora-radiance-serum';
+    return urlParams.get('id') || '';
 }
 function initReviewsFeature() {
     const starButtons = document.querySelectorAll('.star-btn');
@@ -409,6 +416,10 @@ function initReviewsFeature() {
             const commentInput = document.getElementById('review-comment');
             const ratingValue = parseInt(ratingInput ? ratingInput.value : 0);
             const productId = getProductIdFromURL();
+            if (!productId) {
+                window.showToast("Product details are still loading. Please try again.", "error");
+                return;
+            }
             if (ratingValue === 0) {
                 window.showToast("Please select at least 1 star rating before submitting.", "warning");
                 return;
@@ -420,7 +431,10 @@ function initReviewsFeature() {
                 comment: commentInput.value.trim()
             };
             try {
-                const token = getAuthToken();
+                const token = localStorage.getItem('token')
+                    || localStorage.getItem('userToken')
+                    || sessionStorage.getItem('token')
+                    || '';
                 const response = await fetch(REVIEWS_API_URL, {
                     method: 'POST',
                     headers: { 
@@ -456,6 +470,10 @@ async function fetchAndRenderReviews(productId) {
     try {
         const response = await fetch(`${REVIEWS_API_URL}/${productId}`);
         const result = await response.json();
+        const reviewsCountEl = document.getElementById('reviews-count');
+        if (reviewsCountEl && result.success) {
+            reviewsCountEl.textContent = String(result.count ?? result.data?.length ?? 0);
+        }
         const staticHeading = reviewsListContainer.querySelector('h3');
         reviewsListContainer.innerHTML = '';
         if (staticHeading) reviewsListContainer.appendChild(staticHeading);
@@ -472,15 +490,15 @@ async function fetchAndRenderReviews(productId) {
                 let starsHTML = '';
                 for (let i = 1; i <= 5; i++) {
                     starsHTML += i <= review.rating
-                        ? '<i class="fa-solid fa-star text-[#D98E2B] mr-0.5"></i>'
-                        : '<i class="fa-regular fa-star text-[#D98E2B] mr-0.5"></i>';
+                        ? '<i class="fa-solid fa-star mr-0.5"></i>'
+                        : '<i class="fa-regular fa-star mr-0.5"></i>';
                 }
                 reviewElement.innerHTML = `
                     <div class="flex justify-between items-center mb-1">
                         <span class="font-medium text-ink text-sm">${escapeHTML(review.username)}</span>
                         <span class="text-xs text-ash">${reviewDate}</span>
                     </div>
-                    <div class="flex text-[#D98E2B] text-xs mb-2">
+                    <div class="flex text-gold text-xs mb-2">
                         ${starsHTML}
                     </div>
                     <p class="text-xs text-text leading-relaxed">${escapeHTML(review.comment)}</p>

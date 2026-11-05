@@ -452,7 +452,7 @@ async function loadSliderProducts() {
                 ? Math.round(((Number(initialComparePrice) - Number(initialPrice)) / Number(initialComparePrice)) * 100)
                 : 0;
 
-            const reviewCount = product.reviewsCount || Math.floor(450 + (Number(product.rating) || 4.8) * 280);
+            const reviewCount = Number(product.reviewsCount) || 0;
 
             return `
             <div data-product-id="${prodId}" class="relative w-[calc(80%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center product-card bg-white rounded-xl shadow-xs hover:shadow-md border border-stone-200/90 flex flex-col justify-between overflow-hidden transition-shadow duration-300">

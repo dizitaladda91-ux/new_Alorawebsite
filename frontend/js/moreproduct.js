@@ -72,8 +72,13 @@ function normalizeAndAssignBestsellers(rawProducts) {
             category: rawCategory, 
             isBestseller: backendIsBestseller,
             rating: product.rating || 4,
+            reviewsCount: Number(product.reviewsCount) || 0,
             baseImg: imageSrc,
-            galleryImages: (product.galleryImages || []).map(img => getImageUrl(img, '')).filter(Boolean),
+            galleryImages: (Array.isArray(product.galleryImages)
+                ? product.galleryImages
+                : typeof product.galleryImages === 'string'
+                    ? [product.galleryImages]
+                    : []).map(img => getImageUrl(img, '')).filter(Boolean),
             description: product.description || 'No description available', 
             sizes
         };
@@ -155,7 +160,7 @@ function renderProductCatalog(products) {
             </div>
         `;
         const skinType = product.category ? (product.category.toLowerCase().includes('sun') || product.category.toLowerCase().includes('spf') ? 'All Skin Types' : product.category.toLowerCase().includes('body') ? 'Deep Hydration' : 'All Skin Types') : 'All Skin Types';
-        const reviewCount = Math.floor(450 + (product.rating || 4.8) * 280);
+        const reviewCount = Number(product.reviewsCount) || 0;
 
         const pct = (initialSize.mrp && Number(initialSize.mrp) > Number(initialSize.price))
             ? Math.round(((Number(initialSize.mrp) - Number(initialSize.price)) / Number(initialSize.mrp)) * 100)

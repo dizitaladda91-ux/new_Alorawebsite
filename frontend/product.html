@@ -45,10 +45,10 @@
 
     <style>
         .star-rating input[type="radio"] { display: none; }
-        .star-rating label { cursor: pointer; color: #D98E2B; font-size: 1.25rem; }
+        .star-rating label { cursor: pointer; color: var(--accent); font-size: 1.25rem; }
         .star-rating input[type="radio"]:checked ~ label,
-        .star-rating label:hover { color: #D98E2B; }
-        .star-rating label:hover ~ label { color: #D98E2B; }
+        .star-rating label:hover,
+        .star-rating label:hover ~ label { color: var(--accent); }
 
         /* On phones the gallery must scroll normally; otherwise the product
            details pass underneath the frozen image. */
@@ -124,7 +124,7 @@
 
                         <!-- REVIEWS & RATING SUMMARY -->
                         <div class="flex items-center gap-3 mt-3">
-                            <div id="product-rating-stars" class="flex text-[#D98E2B] text-sm">
+                            <div class="flex text-gold text-sm">
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
@@ -242,7 +242,7 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-ash uppercase tracking-wider mb-2">Your Rating</label>
-                                <div class="flex gap-2 text-xl text-[#D98E2B]" id="star-rating-selector">
+                                <div class="flex gap-2 text-xl text-gold" id="star-rating-selector">
                                     <i class="fa-regular fa-star cursor-pointer star-btn" data-value="1"></i>
                                     <i class="fa-regular fa-star cursor-pointer star-btn" data-value="2"></i>
                                     <i class="fa-regular fa-star cursor-pointer star-btn" data-value="3"></i>
