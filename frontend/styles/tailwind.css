@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --site-font: 'Manrope', Arial, sans-serif;
-  --font-heading: var(--site-font);
+  --site-font: 'Jost', 'Jost-Fallback', Arial, sans-serif;
+  --font-heading: 'Cormorant Garamond', 'Cormorant-Fallback', Georgia, serif;
   --font-body: var(--site-font);
 
   /* ==========================================================================
@@ -33,8 +33,18 @@ html, body {
   line-height: 1.6 !important;
 }
 
-html body *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab) {
+html body *:where(:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab)) {
   font-family: var(--site-font) !important;
+}
+
+html body h1,
+html body h2,
+html body h3,
+html body h4,
+html body h5,
+html body h6 {
+  font-family: var(--font-heading) !important;
+  font-weight: 600 !important;
 }
 
 /* Body Text, Paragraphs, Lists & Common Content */
@@ -105,12 +115,16 @@ input, select, textarea {
 }
 
 /* Utility Font Class Overrides */
-.font-sans, .font-manrope, .font-body, .font-roboto, .font-\[\'Manrope\'\] {
+.font-sans, .font-body {
   font-family: var(--font-body) !important;
 }
 
-.font-serif, .font-fraunces, .font-heading, .font-\[\'Fraunces\'\] {
+.font-serif, .font-fraunces, .font-heading {
   font-family: var(--font-heading) !important;
+}
+
+.font-roboto {
+  font-family: 'Roboto Mono', monospace !important;
 }
 
 /* FontAwesome Safety - Icons must never inherit text font */

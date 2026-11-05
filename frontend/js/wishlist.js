@@ -84,7 +84,7 @@ export function openWishlistAuthModal(productId = null, btnEl = null) {
 
                 <!-- Title & Subtitle -->
                 <p style="color: #8B4513; letter-spacing: 0.12em;" class="text-[10px] font-extrabold uppercase mb-0.5">Alora Beauty Club</p>
-                <h3 style="color: #2D241E; font-family: 'Fraunces', Georgia, serif;" class="text-xl sm:text-2xl font-bold tracking-tight leading-snug">Save to Your Wishlist</h3>
+                <h3 style="color: #2D241E; font-family: var(--font-heading);" class="text-xl sm:text-2xl font-bold tracking-tight leading-snug">Save to Your Wishlist</h3>
                 <p style="color: #63564A; line-height: 1.5;" class="text-xs mt-1 mb-4 font-medium">
                     Create an account to save your favorite skincare products and access them anytime.
                 </p>

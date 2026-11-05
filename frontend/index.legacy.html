@@ -334,10 +334,10 @@
     </script>
 
     <!-- Preconnect & DNS-Prefetch to Font & CDN Domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Jost:wght@400;500;600;700&amp;family=Roboto+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="dns-prefetch" href="https://res.cloudinary.com">
 
     <link rel="preload" as="image" href="./static/hero_banner_allproducts_desk.webp" media="(min-width: 768px)" type="image/webp" fetchpriority="high">
@@ -356,7 +356,7 @@
             color: #2B1D14;
             margin: 0;
             padding: 0;
-            font-family: 'Times New Roman', Times, serif !important;
+            font-family: var(--font-body) !important;
         }
         #navbar-placeholder {
             min-height: 64px;
@@ -476,9 +476,6 @@
         }
 
         /* 🚀 Font Display Swap & Font Metric Overrides (Zero Layout Shift on Font Load) */
-        @font-face { font-family: 'Times New Roman', Times, serif; src: local('Georgia'); font-display: swap; }
-        @font-face { font-family: 'Times New Roman', Times, serif; src: local('Arial'); font-display: swap; }
-        @font-face { font-family: 'Times New Roman', Times, serif; src: local('Helvetica'); font-display: swap; }
         @font-face { font-family: 'Roboto Mono'; src: local('Courier New'); font-display: swap; }
         @font-face {
             font-family: 'Font Awesome 6 Free';
@@ -496,7 +493,7 @@
         }
 
         @font-face {
-            font-family: 'Fraunces-Fallback';
+            font-family: 'Cormorant-Fallback';
             src: local('Georgia'), local('Times New Roman');
             font-display: swap;
             ascent-override: 96%;
@@ -505,16 +502,7 @@
             size-adjust: 100%;
         }
         @font-face {
-            font-family: 'PTSans-Fallback';
-            src: local('Arial'), local('Helvetica'), local('sans-serif');
-            font-display: swap;
-            ascent-override: 90%;
-            descent-override: 20%;
-            line-gap-override: 0%;
-            size-adjust: 100%;
-        }
-        @font-face {
-            font-family: 'Manrope-Fallback';
+            font-family: 'Jost-Fallback';
             src: local('Arial'), local('Helvetica'), local('sans-serif');
             font-display: swap;
             ascent-override: 90%;
@@ -929,7 +917,7 @@
                     </div>
 
                     <div class="flex flex-col justify-center items-center sm:items-start">
-                        <p style="color: #D98E2B;" class="text-lg sm:text-2xl font-fraunces font-bold leading-none">4.9 ★</p>
+                        <p style="color: #D98E2B;" class="text-lg sm:text-2xl font-sans font-bold leading-none">4.9 ★</p>
                         <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-[#2E3B2C]/80 mt-1 leading-none">Verified Buyers</p>
                     </div>
 
@@ -1465,7 +1453,7 @@
                         <i class="fa-solid fa-user-doctor text-xl sm:text-3xl text-amber-800"></i>
                     </div>
                     <div>
-                        <p class="text-xs sm:text-sm font-bold font-fraunces text-slate-900 uppercase tracking-wide flex items-center gap-1.5">
+                        <p class="text-xs sm:text-sm font-semibold font-sans text-slate-900 uppercase tracking-wide flex items-center gap-1.5">
                             <i class="fa-solid fa-shield-check text-amber-700 text-xs"></i> 100% Dermatologist Approved
                         </p>
                         <p class="text-[11px] sm:text-xs text-slate-600 mt-0.5">Gentle &amp; non-irritating on all Indian skin types.</p>
@@ -1477,7 +1465,7 @@
                         <i class="fa-solid fa-flask-vial text-xl sm:text-3xl text-amber-800"></i>
                     </div>
                     <div>
-                        <p class="text-xs sm:text-sm font-bold font-fraunces text-slate-900 uppercase tracking-wide flex items-center gap-1.5">
+                        <p class="text-xs sm:text-sm font-semibold font-sans text-slate-900 uppercase tracking-wide flex items-center gap-1.5">
                             <i class="fa-solid fa-vial-circle-check text-amber-700 text-xs"></i> Biocompatible Clean Science
                         </p>
                         <p class="text-[11px] sm:text-xs text-slate-600 mt-0.5">Potent botanical extracts for visible radiance.</p>
@@ -1836,7 +1824,7 @@
                     <div class="overflow-hidden rounded-2xl mb-3 bg-amber-50 aspect-square w-full border border-amber-900/10">
                         <img src="./static/before and after image.webp" alt="Uneven Tone" width="300" height="300" loading="lazy" decoding="async" class="w-full h-full object-cover transform group-hover:scale-108 transition-all duration-500">
                     </div>
-                    <span class="font-fraunces font-bold text-sm sm:text-base text-slate-900 group-hover:text-[#D98E2B] transition-colors block">Uneven Tone</span>
+                    <span class="font-sans font-semibold text-sm sm:text-base text-slate-900 group-hover:text-[#D98E2B] transition-colors block">Uneven Tone</span>
                     <span class="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-md mt-1.5 inline-block font-mono">
                         Brightening Ritual →
                     </span>
@@ -1847,7 +1835,7 @@
                     <div class="overflow-hidden rounded-2xl mb-3 bg-amber-50 aspect-square w-full border border-amber-900/10">
                         <img src="./static/faceskin2.webp" alt="Acne Control" class="w-full h-full object-cover transform group-hover:scale-108 transition-all duration-500">
                     </div>
-                    <span class="font-fraunces font-bold text-sm sm:text-base text-slate-900 group-hover:text-[#D98E2B] transition-colors block">Acne Control</span>
+                    <span class="font-sans font-semibold text-sm sm:text-base text-slate-900 group-hover:text-[#D98E2B] transition-colors block">Acne Control</span>
                     <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded-md mt-1.5 inline-block font-mono">
                         Clarifying Ritual →
                     </span>
@@ -1858,7 +1846,7 @@
                     <div class="overflow-hidden rounded-2xl mb-3 bg-amber-50 aspect-square w-full border border-amber-900/10">
                         <img src="./static/faceskin3.webp" alt="Oiliness Balance" class="w-full h-full object-cover transform group-hover:scale-108 transition-all duration-500">
                     </div>
-                    <span class="font-fraunces font-bold text-sm sm:text-base text-slate-900 group-hover:text-[#D98E2B] transition-colors block">Oiliness &amp; Sebum</span>
+                    <span class="font-sans font-semibold text-sm sm:text-base text-slate-900 group-hover:text-[#D98E2B] transition-colors block">Oiliness &amp; Sebum</span>
                     <span class="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-md mt-1.5 inline-block font-mono">
                         Pore Balancing →
                     </span>
@@ -1869,7 +1857,7 @@
                     <div class="overflow-hidden rounded-2xl mb-3 bg-amber-50 aspect-square w-full border border-amber-900/10">
                         <img src="./static/faceskin4.webp" alt="Anti Aging Wrinkles" class="w-full h-full object-cover transform group-hover:scale-108 transition-all duration-500">
                     </div>
-                    <span class="font-fraunces font-bold text-sm sm:text-base text-slate-900 group-hover:text-[#D98E2B] transition-colors block">Fine Lines &amp; Firming</span>
+                    <span class="font-sans font-semibold text-sm sm:text-base text-slate-900 group-hover:text-[#D98E2B] transition-colors block">Fine Lines &amp; Firming</span>
                     <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded-md mt-1.5 inline-block font-mono">
                         Youth Rejuvenation →
                     </span>

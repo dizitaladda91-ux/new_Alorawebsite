@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${product.imagepath || product.image || './static/logo2.png'}" alt="${product.name || product.title}" class="w-10 h-10 object-cover rounded">
                     <div>
                         <h4 class="text-sm font-medium text-black">${product.name || product.title}</h4>
-                        ${displayPrice ? `<p class="text-xs text-gold font-serif font-semibold" style="font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Segoe UI Symbol', sans-serif;">${displayPrice}</p>` : ''}
+                        ${displayPrice ? `<p class="text-xs text-gold font-sans font-semibold">${displayPrice}</p>` : ''}
                     </div>
                 </a>
             `;

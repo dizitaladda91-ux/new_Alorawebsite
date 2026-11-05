@@ -1,10 +1,20 @@
 :root {
-  --site-font: 'Manrope', Arial, sans-serif;
-  --font-heading: var(--site-font);
+  --site-font: 'Jost', 'Jost-Fallback', Arial, sans-serif;
+  --font-heading: 'Cormorant Garamond', 'Cormorant-Fallback', Georgia, serif;
   --font-body: var(--site-font);
 }
 
 html body,
-html body *:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab) {
+html body *:where(:not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab)) {
   font-family: var(--site-font) !important;
+}
+
+html body h1,
+html body h2,
+html body h3,
+html body h4,
+html body h5,
+html body h6 {
+  font-family: var(--font-heading) !important;
+  font-weight: 600 !important;
 }

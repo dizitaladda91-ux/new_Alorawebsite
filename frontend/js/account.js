@@ -260,7 +260,7 @@ function renderFilteredOrders() {
                 </div>
                 <div class="text-right">
                     <span class="text-stone-500">Total Paid: </span>
-                    <span class="font-fraunces font-bold text-slate-900 text-base sm:text-lg">${money(order.totalAmount)}</span>
+                    <span class="font-sans font-semibold text-slate-900 text-base sm:text-lg">${money(order.totalAmount)}</span>
                 </div>
             </div>
         </article>`;
@@ -492,10 +492,10 @@ async function loadBuyAgainItems() {
                             <img src="${img}" alt="${escapeHtml(p.name)}" style="mix-blend-mode: multiply;" class="w-full h-full object-contain mix-blend-multiply" onerror="this.src='/static/placeholder.png'">
                         </a>
                     </div>
-                    <h3 class="product-name font-fraunces font-bold text-sm text-slate-900 line-clamp-1 capitalize">${escapeHtml(p.name)}</h3>
+                    <h3 class="product-name font-sans font-semibold text-base text-slate-900 line-clamp-1 capitalize">${escapeHtml(p.name)}</h3>
                     <p class="text-[11px] text-stone-500 line-clamp-1 mt-0.5">${escapeHtml(p.preferredVariant || 'Standard')}</p>
                     <div class="flex items-baseline gap-2 mt-2">
-                        <span class="product-price font-fraunces font-bold text-[#8B4513] text-base">${money(initialPrice)}</span>
+                        <span class="product-price font-sans font-semibold text-[#8B4513] text-base">${money(initialPrice)}</span>
                         ${comparePrice > initialPrice ? `<span class="product-mrp text-xs line-through text-stone-400">${money(comparePrice)}</span>` : ''}
                     </div>
                 </div>
@@ -612,8 +612,8 @@ async function loadWishlistTab() {
                             <img src="${img}" alt="${escapeHtml(name)}" style="mix-blend-mode: multiply;" class="w-full h-full object-contain mix-blend-multiply" onerror="this.src='/static/placeholder.png'">
                         </a>
                     </div>
-                    <h3 class="font-fraunces font-bold text-sm text-slate-900 line-clamp-1 capitalize">${escapeHtml(name)}</h3>
-                    <p class="font-fraunces font-bold text-[#8B4513] text-base mt-1.5">${money(price)}</p>
+                    <h3 class="font-sans font-semibold text-base text-slate-900 line-clamp-1 capitalize">${escapeHtml(name)}</h3>
+                    <p class="font-sans font-semibold text-[#8B4513] text-base mt-1.5">${money(price)}</p>
                 </div>
                 <div class="mt-4 pt-2">
                     <button type="button" onclick="moveWishlistToCart('${id}', '${escapeHtml(name)}', ${price}, '${img}', this)" class="w-full bg-[#8B4513] hover:bg-[#6F370F] text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">

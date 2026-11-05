@@ -71,7 +71,7 @@ function renderBlogTable(blogs) {
                 <img src="${imageSrc}" class="w-16 h-11 object-cover rounded-xl border border-slate-200 shadow-sm" alt="cover">
             </td>
             <td class="px-6 py-4">
-                <div class="font-bold text-slate-900 line-clamp-1 text-sm font-fraunces">${safeTitle}</div>
+                <div class="font-semibold text-slate-900 line-clamp-1 text-sm font-sans">${safeTitle}</div>
                 <span class="inline-flex items-center gap-1 px-2.5 py-0.5 mt-1 rounded-md text-[10px] font-extrabold bg-amber-100/80 text-[#8B4513] border border-amber-300/60 uppercase tracking-wider">
                     <i class="fa-solid fa-tag text-[9px]"></i> ${safeCategory}
                 </span>

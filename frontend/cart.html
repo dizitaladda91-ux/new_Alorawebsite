@@ -2,19 +2,16 @@
 <html lang="en">
 <head>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Jost:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alora Radiance - Cart</title>
     <link rel="icon" type="image/x-icon" href="./static/favicon.ico">
     <link rel="canonical" href="https://aloraradiance.com/cart.html" />
     <meta name="description" content="Review and proceed to checkout with your selected Alora Radiance luxury skincare products.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
-<link rel="stylesheet" href="./styles/tailwind.min.css">
+    <link rel="stylesheet" href="./styles/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
     tailwind.config = {
@@ -35,9 +32,10 @@
                     ash: '#6B685F',
                 },
                 fontFamily: {
-                    robot: ['var(--font-body)', 'sans-serif'],
-                    sans: ['var(--font-body)', 'sans-serif'],
-                    roboto: ['"Roboto Mono"', 'monospace'],
+                    serif: ['"Cormorant Garamond"', 'Cormorant-Fallback', 'Georgia', 'serif'],
+                    sans: ['Jost', 'Jost-Fallback', 'Arial', 'sans-serif'],
+                    roboto: ['Roboto Mono', 'monospace'],
+                    fraunces: ['"Cormorant Garamond"', 'Cormorant-Fallback', 'Georgia', 'serif'],
                 },
             }
         }
@@ -52,7 +50,7 @@
         <div id="navbar-placeholder"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <a href="./product.html" class="flex items-center gap-2 text-ink font-serif font-semibold text-xl tracking-tight">
+            <a href="./product.html" class="flex items-center gap-2 text-ink font-sans font-semibold text-xl tracking-tight">
                 Alora Radiance
             </a>
             <a href="/products" class="text-sm font-semibold text-ash hover:text-clay transition">
@@ -63,7 +61,7 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
         <p class="text-xs font-bold tracking-[0.25em] uppercase text-clay mb-2">Checkout</p>
-        <h1 class="text-2xl sm:text-3xl font-serif font-medium text-ink mb-8 flex items-center gap-3">
+        <h1 class="text-2xl sm:text-3xl font-serif font-semibold text-ink mb-8 flex items-center gap-3">
             <i class="fa-solid fa-bag-shopping text-clay text-2xl"></i> Your Shopping Bag
             <span id="cart-count-badge" class="text-xs bg-ink text-parchment px-3 py-1.5 rounded-full font-semibold tracking-wide font-sans">0 Items</span>
         </h1>
@@ -280,8 +278,8 @@
                         </div>
 
                         <div class="flex justify-between items-baseline pt-2">
-                            <span class="text-base font-serif font-semibold text-ink">Total Payable</span>
-                            <span id="bill-total" class="text-2xl font-serif font-semibold text-clay">₹ 0</span>
+                            <span class="text-base font-sans font-semibold text-ink">Total Payable</span>
+                            <span id="bill-total" class="text-2xl font-sans font-semibold text-clay">₹ 0</span>
                         </div>
                     </div>
 

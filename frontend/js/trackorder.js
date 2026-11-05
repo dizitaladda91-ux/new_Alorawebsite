@@ -106,7 +106,7 @@ function renderTrackingDetails(order) {
                 </div>
                 <div class="text-left sm:text-right">
                     <span class="text-xs text-ash block">Total Amount Paid</span>
-                    <span class="text-2xl font-serif font-bold text-ink">₹${order.totalAmount || order.totalPrice || 0}</span>
+                    <span class="text-2xl font-sans font-semibold text-ink">₹${order.totalAmount || order.totalPrice || 0}</span>
                 </div>
             </div>
             <!-- Stepper Timeline Progress Bar -->

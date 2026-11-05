@@ -1,6 +1,6 @@
 .seo-studio {
     color: #1e293b;
-    font-family: 'Manrope', Arial, sans-serif;
+    font-family: 'Jost', 'Jost-Fallback', Arial, sans-serif;
 }
 
 .seo-studio h1,
@@ -10,7 +10,7 @@
 .seo-studio h5,
 .seo-studio h6 {
     color: #172033 !important;
-    font-family: 'Manrope', Arial, sans-serif !important;
+    font-family: 'Jost', 'Jost-Fallback', Arial, sans-serif !important;
     font-weight: 700;
 }
 

@@ -323,7 +323,7 @@ function renderCartPage() {
             </div>
             <div class="flex sm:flex-row flex-row-reverse sm:items-center justify-between sm:justify-end gap-6 w-full sm:w-auto pt-4 sm:pt-0 border-t sm:border-t-0 border-[#ECE4CE]">
                 <div class="text-right">
-                    <span class="font-serif font-semibold text-ink text-lg block">₹${item.price * item.qty}</span>
+                    <span class="font-sans font-semibold text-ink text-lg block">₹${item.price * item.qty}</span>
                     <span class="text-xs text-ash block">₹${item.price} / unit</span>
                 </div>
                 <div class="flex items-center border border-[#DCD3BA] rounded-lg overflow-hidden bg-[#FAF7EE] h-9">
@@ -617,7 +617,7 @@ async function loadCartMoreProducts() {
                 </div>
                 <div class="flex-1 flex flex-col justify-between space-y-1 mb-2">
                     <div>
-                        <h3 class="product-name text-xs sm:text-sm font-fraunces font-bold text-slate-900 text-center leading-snug group-hover:text-[#8B4513] transition-colors capitalize line-clamp-1">${product.name}</h3>
+                        <h3 class="product-name text-xs sm:text-sm font-sans font-semibold text-slate-900 text-center leading-snug group-hover:text-[#8B4513] transition-colors capitalize line-clamp-1">${product.name}</h3>
                         <p class="text-[10px] sm:text-[11px] text-slate-600 text-center font-sans mt-0.5 line-clamp-2 leading-tight">
                             ${product.description || 'Dermatologist-tested luxury skincare.'}
                         </p>
@@ -630,7 +630,7 @@ async function loadCartMoreProducts() {
                         ${sizeButtonsHTML}
                     </div>
                     <div class="flex items-baseline justify-center gap-1.5 pt-0.5">
-                        <span class="product-price font-fraunces font-bold text-[#8B4513] text-base"><span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${initialPrice}</span>
+                        <span class="product-price font-sans font-semibold text-[#8B4513] text-base"><span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${initialPrice}</span>
                         <span class="product-mrp text-[11px] line-through text-slate-400 font-mono">${initialComparePrice ? '<span style="font-family:Arial,\'Noto Sans\',sans-serif">&#8377;</span>' + initialComparePrice : ''}</span>
                     </div>
                 </div>

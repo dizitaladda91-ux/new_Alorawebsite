@@ -12,19 +12,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Luxury Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-
-  <style>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Jost:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Jost', 'Jost-Fallback', Arial, sans-serif;
       user-select: none;
     }
     .font-fraunces { font-family: var(--font-heading); }
-    .font-outfit { font-family: 'Outfit', sans-serif; }
-    .font-jakarta { font-family: var(--font-body); }
 
     /* Figma Dot Grid Canvas */
     .figma-canvas-grid {
@@ -199,9 +195,9 @@
 
             <!-- Navbar -->
             <nav id="layerHeaderNav" data-layer-name="Navigation Header" class="figma-selectable bg-white/95 backdrop-blur-md px-10 py-4 flex items-center justify-between border-b border-stone-200 sticky top-0 z-30" onclick="selectLayer('HeaderNav', 'Navigation Header', '1440px', '72px', '#FFFFFF')">
-              <img src="./static/alora.png" alt="Alora Radiance" class="h-9 w-auto" onerror="this.outerHTML='<span class=\'font-fraunces font-bold text-2xl text-slate-900 tracking-wider\'>ALORA RADIANCE</span>'">
+              <img src="./static/alora.png" alt="Alora Radiance" class="h-9 w-auto" onerror="this.outerHTML='<span class=\'font-sans font-bold text-2xl text-slate-900 tracking-wider\'>ALORA RADIANCE</span>'">
 
-              <div class="flex items-center gap-8 text-sm font-semibold text-stone-700 font-jakarta">
+              <div class="flex items-center gap-8 text-sm font-semibold text-stone-700 font-sans">
                 <a href="javascript:void(0)" class="text-[#D9713A] border-b-2 border-[#D9713A] pb-1">Home</a>
                 <a href="javascript:void(0)" class="hover:text-[#D9713A] transition">All Products</a>
                 <a href="javascript:void(0)" class="hover:text-[#D9713A] transition">Serums &amp; Cleansers</a>
@@ -231,7 +227,7 @@
 
               <div class="grid grid-cols-2 gap-12 items-center relative z-10">
                 <div class="space-y-6 max-w-xl">
-                  <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-widest font-jakarta">
+                  <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-widest font-sans">
                     <i class="fa-solid fa-sparkles"></i> 100% Ayurvedic &amp; Science-Backed
                   </span>
 
@@ -254,9 +250,9 @@
                   </div>
 
                   <div class="grid grid-cols-3 gap-4 pt-6 border-t border-white/15 text-stone-300 text-xs">
-                    <div><p class="text-2xl font-bold font-fraunces text-amber-300">4.9 ★</p><p class="text-[11px] text-stone-400 mt-0.5">Over 15,000+ Reviews</p></div>
-                    <div><p class="text-2xl font-bold font-fraunces text-amber-300">100%</p><p class="text-[11px] text-stone-400 mt-0.5">Toxin &amp; Paraben Free</p></div>
-                    <div><p class="text-2xl font-bold font-fraunces text-amber-300">FDA</p><p class="text-[11px] text-stone-400 mt-0.5">Approved Formulations</p></div>
+                    <div><p class="text-2xl font-bold font-sans text-amber-300">4.9 ★</p><p class="text-[11px] text-stone-400 mt-0.5">Over 15,000+ Reviews</p></div>
+                    <div><p class="text-2xl font-bold font-sans text-amber-300">100%</p><p class="text-[11px] text-stone-400 mt-0.5">Toxin &amp; Paraben Free</p></div>
+                    <div><p class="text-2xl font-bold font-sans text-amber-300">FDA</p><p class="text-[11px] text-stone-400 mt-0.5">Approved Formulations</p></div>
                   </div>
                 </div>
 
@@ -300,7 +296,7 @@
             <!-- Product Grid -->
             <div id="layerProductGrid" data-layer-name="Product Grid" class="figma-selectable px-14 py-16 bg-[#FDFBF7]" onclick="selectLayer('ProductGrid', 'Product Cards Grid', '1440px', '750px', '#FDFBF7')">
               <div class="text-center max-w-xl mx-auto mb-12">
-                <span class="text-xs uppercase font-bold text-[#D9713A] tracking-widest font-jakarta">Handcrafted Formulations</span>
+                <span class="text-xs uppercase font-bold text-[#D9713A] tracking-widest font-sans">Handcrafted Formulations</span>
                 <h2 class="text-3xl font-fraunces font-bold text-stone-900 mt-1">Our Most-Loved Rituals</h2>
                 <p class="text-stone-600 text-xs mt-2">Dermatologically crafted formulas with active ingredients for natural luminescence.</p>
               </div>
@@ -316,7 +312,7 @@
                   <div class="p-5 flex flex-col flex-grow justify-between space-y-3">
                     <div>
                       <div class="flex items-center gap-1 text-amber-400 text-xs"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span class="text-[11px] text-stone-500 font-semibold ml-1">(4.9/5)</span></div>
-                      <h3 class="font-bold text-base text-stone-900 mt-1.5 font-jakarta">Vitamin C Glow Serum (30ml)</h3>
+                      <h3 class="font-bold text-base text-stone-900 mt-1.5 font-sans">Vitamin C Glow Serum (30ml)</h3>
                       <p class="text-xs text-stone-500 line-clamp-2 mt-1">Boosts collagen synthesis &amp; removes dark spots with Kakadu plum.</p>
                     </div>
                     <div class="flex items-center justify-between pt-2 border-t border-stone-100">
@@ -336,7 +332,7 @@
                   <div class="p-5 flex flex-col flex-grow justify-between space-y-3">
                     <div>
                       <div class="flex items-center gap-1 text-amber-400 text-xs"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i> <span class="text-[11px] text-stone-500 font-semibold ml-1">(4.8/5)</span></div>
-                      <h3 class="font-bold text-base text-stone-900 mt-1.5 font-jakarta">Hydra-Barrier Ceramide Cream (50g)</h3>
+                      <h3 class="font-bold text-base text-stone-900 mt-1.5 font-sans">Hydra-Barrier Ceramide Cream (50g)</h3>
                       <p class="text-xs text-stone-500 line-clamp-2 mt-1">72-Hour continuous moisture barrier repair with hyaluronic acid.</p>
                     </div>
                     <div class="flex items-center justify-between pt-2 border-t border-stone-100">
@@ -356,7 +352,7 @@
                   <div class="p-5 flex flex-col flex-grow justify-between space-y-3">
                     <div>
                       <div class="flex items-center gap-1 text-amber-400 text-xs"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> <span class="text-[11px] text-stone-500 font-semibold ml-1">(5.0/5)</span></div>
-                      <h3 class="font-bold text-base text-stone-900 mt-1.5 font-jakarta">Gentle Clarifying Face Wash (100ml)</h3>
+                      <h3 class="font-bold text-base text-stone-900 mt-1.5 font-sans">Gentle Clarifying Face Wash (100ml)</h3>
                       <p class="text-xs text-stone-500 line-clamp-2 mt-1">Deep pore detox with salicylic acid and soothing green tea extract.</p>
                     </div>
                     <div class="flex items-center justify-between pt-2 border-t border-stone-100">
@@ -372,7 +368,7 @@
             <div id="layerVideoReels" data-layer-name="Video Reels Section" class="figma-selectable px-14 py-16 bg-[#1E2B1C] text-white" onclick="selectLayer('VideoReels', 'Video Reels Carousel', '1440px', '520px', '#1E2B1C')">
               <div class="flex items-center justify-between mb-8">
                 <div>
-                  <span class="text-xs uppercase font-bold text-amber-400 tracking-widest font-jakarta">Real Skin Stories</span>
+                  <span class="text-xs uppercase font-bold text-amber-400 tracking-widest font-sans">Real Skin Stories</span>
                   <h2 class="text-3xl font-fraunces font-bold text-[#FBF7F0] mt-1">Watch It in Action</h2>
                 </div>
                 <div class="flex items-center gap-2">
@@ -524,7 +520,7 @@
 
             <div class="bg-white px-4 py-3 flex items-center justify-between border-b border-stone-200">
               <button class="text-stone-800 text-base"><i class="fa-solid fa-bars"></i></button>
-              <img src="./static/alora.png" alt="Alora" class="h-6 w-auto" onerror="this.outerHTML='<span class=\'font-fraunces font-bold text-base text-slate-900\'>ALORA</span>'">
+              <img src="./static/alora.png" alt="Alora" class="h-6 w-auto" onerror="this.outerHTML='<span class=\'font-sans font-bold text-base text-slate-900\'>ALORA</span>'">
               <div class="flex items-center gap-3 text-stone-800"><i class="fa-regular fa-heart text-sm"></i><i class="fa-solid fa-bag-shopping text-sm"></i></div>
             </div>
 
@@ -594,8 +590,8 @@
             <div>
               <h3 class="text-xs uppercase font-bold text-[#A259FF] tracking-wider font-mono mb-4">🔤 Typography Scales</h3>
               <div class="space-y-3 bg-[#1E1E1E] p-5 rounded-xl border border-white/10 text-stone-300">
-                <div class="flex items-baseline justify-between border-b border-white/10 pb-2"><span class="text-2xl font-fraunces font-bold text-amber-200">Fraunces Display Bold (48px)</span><span class="text-[10px] text-stone-500 font-mono">Headings</span></div>
-                <div class="flex items-baseline justify-between border-b border-white/10 pb-2"><span class="text-lg font-bold font-jakarta text-white">Plus Jakarta Sans Bold (20px)</span><span class="text-[10px] text-stone-500 font-mono">Cards &amp; Subheadings</span></div>
+                <div class="flex items-baseline justify-between border-b border-white/10 pb-2"><span class="text-2xl font-fraunces font-bold text-amber-200">Cormorant Garamond Bold (48px)</span><span class="text-[10px] text-stone-500 font-mono">Headings</span></div>
+                <div class="flex items-baseline justify-between border-b border-white/10 pb-2"><span class="text-lg font-bold font-sans text-white">Jost Bold (20px)</span><span class="text-[10px] text-stone-500 font-mono">Cards &amp; Subheadings</span></div>
                 <div class="flex items-baseline justify-between"><span class="text-xs text-stone-300 font-sans">Inter Regular (14px) - Clean body text.</span><span class="text-[10px] text-stone-500 font-mono">Body Text</span></div>
               </div>
             </div>

@@ -2,16 +2,13 @@
 <html lang="en">
 <head>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Jost:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEO ALORA | Create New Article Studio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
-<link rel="stylesheet" href="./styles/tailwind.min.css">
+    <link rel="stylesheet" href="./styles/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
@@ -32,9 +29,10 @@
                         'gold-light': '#D4AF37',
                     },
                     fontFamily: {
-                        sans: ['var(--font-body)', 'sans-serif'],
-                        fraunces: ['var(--font-heading)', 'serif'],
-                        mono: ['"Roboto Mono"', 'monospace'],
+                        serif: ['"Cormorant Garamond"', 'Cormorant-Fallback', 'Georgia', 'serif'],
+                        sans: ['Jost', 'Jost-Fallback', 'Arial', 'sans-serif'],
+                        roboto: ['Roboto Mono', 'monospace'],
+                        fraunces: ['"Cormorant Garamond"', 'Cormorant-Fallback', 'Georgia', 'serif'],
                     }
                 }
             }
@@ -287,7 +285,7 @@
                             <!-- Schema JSON-LD Card -->
                             <div class="bg-white p-6 rounded-3xl shadow-xl border border-slate-200/80 space-y-3">
                                 <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                                    <label for="schema" class="block text-base font-bold text-slate-900 font-fraunces flex items-center gap-2">
+                                    <label for="schema" class="block text-base font-bold text-slate-900 font-sans flex items-center gap-2">
                                         <i class="fa-solid fa-code text-amber-600"></i> JSON-LD Schema (Single or Multi Array)
                                     </label>
                                     <div class="flex gap-1.5">

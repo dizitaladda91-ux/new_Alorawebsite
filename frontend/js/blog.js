@@ -113,7 +113,7 @@ async function renderBlogCards() {
         } else {
             container.innerHTML = `
                 <div class="col-span-full text-center py-12 text-ash animate__animated animate__fadeIn">
-                    <p class="text-lg font-medium font-fraunces">No posts published yet.</p>
+                    <p class="text-lg font-medium font-sans">No posts published yet.</p>
                     <p class="text-xs mt-1">Check back later for fresh learning modules.</p>
                 </div>
             `;

@@ -13,12 +13,10 @@
     <meta id="dynamic-meta-desc" name="description" content="Explore frequently asked questions, product guidance, skincare knowledge, and order support at Alora Radiance.">
     <meta id="dynamic-keywords" name="keywords" content="skincare FAQ, Alora Radiance, skincare guide, order help, ingredients">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-
-    <link rel="stylesheet" href="./styles/tailwind.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Jost:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles/tailwind.min.css">
     <script>
     tailwind.config = {
         theme: {
@@ -38,9 +36,10 @@
                     ash: '#6B685F',
                 },
                 fontFamily: {
-                    sans: ['var(--font-body)', 'sans-serif'],
-                    fraunces: ['var(--font-heading)', 'serif'],
-                    roboto: ['"Roboto Mono"', 'monospace'],
+                    serif: ['"Cormorant Garamond"', 'Cormorant-Fallback', 'Georgia', 'serif'],
+                    sans: ['Jost', 'Jost-Fallback', 'Arial', 'sans-serif'],
+                    roboto: ['Roboto Mono', 'monospace'],
+                    fraunces: ['"Cormorant Garamond"', 'Cormorant-Fallback', 'Georgia', 'serif'],
                 },
             }
         }

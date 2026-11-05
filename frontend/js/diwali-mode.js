@@ -399,7 +399,7 @@
                 color: #FFF6E5;
                 background: linear-gradient(100deg, #481C16, #71311D 52%, #481C16);
                 border-bottom: 1px solid rgba(255, 200, 61, 0.65);
-                font: 500 12px/1.45 Manrope, sans-serif;
+                font: 500 12px/1.45 'Jost', 'Jost-Fallback', Arial, sans-serif;
                 text-align: center;
             }
             #alora-diwali-banner .diwali-banner-greeting {
@@ -421,7 +421,7 @@
                 border-radius: 999px;
                 color: #2B1D14;
                 background: #FFC83D;
-                font: 700 11px/1.2 Manrope, sans-serif;
+                font: 700 11px/1.2 'Jost', 'Jost-Fallback', Arial, sans-serif;
                 text-decoration: none;
                 white-space: nowrap;
                 cursor: pointer;

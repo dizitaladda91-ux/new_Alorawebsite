@@ -170,7 +170,7 @@ export const renderBlogArticleSsr = (templateHtml, blog, relatedProducts = []) =
     // Inject Article Top Meta (Category, Date, Title, Cover Image)
     html = html.replace(/<span id="post-category"[^>]*>.*?<\/span>/i, `<span id="post-category" class="bg-amber-100/70 text-[#8B4513] px-3 py-1 rounded-full text-[11px] font-bold uppercase font-roboto border border-amber-300/40">${escapeHtml(blog.category || 'Skincare')}</span>`);
     html = html.replace(/<span id="post-date"[^>]*>.*?<\/span>/i, `<span id="post-date" class="text-slate-500 font-medium">${pubDate}</span>`);
-    html = html.replace(/<h1 id="post-title"[^>]*>.*?<\/h1>/i, `<h1 id="post-title" class="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-fraunces font-bold text-ink leading-snug text-slate-900 break-words overflow-wrap-anywhere">${escapeHtml(blog.title)}</h1>`);
+    html = html.replace(/<h1 id="post-title"[^>]*>.*?<\/h1>/i, `<h1 id="post-title" class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-fraunces font-bold text-ink leading-snug text-slate-900 break-words overflow-wrap-anywhere">${escapeHtml(blog.title)}</h1>`);
 
     if (coverUrl) {
         html = html.replace(
@@ -211,11 +211,11 @@ export const renderBlogArticleSsr = (templateHtml, blog, relatedProducts = []) =
                             <span class="text-[10px] font-bold text-[#8B4513] uppercase tracking-wider">${escapeHtml(p.category || 'SKINCARE')}</span>
                             ${pctBadge}
                         </div>
-                        <h4 class="font-fraunces font-bold text-slate-900 text-sm line-clamp-1 mb-1">
+                        <h4 class="font-fraunces font-bold text-slate-900 text-base line-clamp-1 mb-1">
                             <a href="${pUrl}" class="hover:text-[#8B4513] transition">${escapeHtml(p.name)}</a>
                         </h4>
                         <div class="flex items-baseline gap-2 mb-3">
-                            <span class="text-base font-bold text-slate-900 font-serif">₹${pPrice}</span>
+                            <span class="text-base font-semibold text-slate-900 font-sans">₹${pPrice}</span>
                             ${pMrp ? `<span class="text-xs text-slate-400 line-through">₹${pMrp}</span>` : ''}
                         </div>
                     </div>
@@ -268,7 +268,7 @@ export const renderBlogListSsr = (templateHtml, posts = []) => {
                                 <span>•</span>
                                 <span>${pDate}</span>
                             </div>
-                            <h3 class="text-xl font-fraunces font-bold text-slate-900 leading-tight mb-2 hover:text-[#8B4513] transition">
+                            <h3 class="text-2xl font-fraunces font-bold text-slate-900 leading-tight mb-2 hover:text-[#8B4513] transition">
                                 <a href="${pUrl}">${escapeHtml(post.title)}</a>
                             </h3>
                             <p class="text-xs text-slate-600 line-clamp-3 leading-relaxed font-sans">
@@ -361,7 +361,7 @@ export const renderProductSsr = (templateHtml, product, faqs = []) => {
     html = html.replace(/<span id="reviews-count">.*?<\/span>/i, `<span id="reviews-count">${product.totalReviews || 0}</span>`);
 
     // Pricing
-    html = html.replace(/<span id="product-price"[^>]*>.*?<\/span>/i, `<span id="product-price" class="text-2xl sm:text-3xl font-serif font-bold text-clay">₹ ${price}</span>`);
+    html = html.replace(/<span id="product-price"[^>]*>.*?<\/span>/i, `<span id="product-price" class="text-2xl sm:text-3xl font-sans font-semibold text-clay">₹ ${price}</span>`);
     if (mrp && mrp > price) {
         html = html.replace(/<span id="product-mrp"[^>]*>.*?<\/span>/i, `<span id="product-mrp" class="text-sm sm:text-base text-ash line-through">₹ ${mrp}</span>`);
         const pct = Math.round(((mrp - price) / mrp) * 100);
@@ -446,7 +446,7 @@ export const renderProductListSsr = (templateHtml, products = []) => {
                             <span class="text-[10px] font-bold text-[#8B4513] uppercase tracking-wider">${escapeHtml(product.category || 'SKINCARE')}</span>
                             ${pctBadge}
                         </div>
-                        <h3 class="font-fraunces font-bold text-slate-900 text-sm line-clamp-1 mb-1">
+                        <h3 class="font-fraunces font-bold text-slate-900 text-base line-clamp-1 mb-1">
                             <a href="${pUrl}" class="hover:text-[#8B4513] transition">${escapeHtml(product.name)}</a>
                         </h3>
                         <div class="flex items-center gap-1.5 mb-2 text-xs">
@@ -454,7 +454,7 @@ export const renderProductListSsr = (templateHtml, products = []) => {
                             <span class="text-[10px] text-slate-400 font-mono">(${product.rating || 4.5})</span>
                         </div>
                         <div class="flex items-baseline gap-2 mb-3">
-                            <span class="text-base font-bold text-slate-900 font-serif">₹${price}</span>
+                            <span class="text-base font-semibold text-slate-900 font-sans">₹${price}</span>
                             ${mrp ? `<span class="text-xs text-slate-400 line-through">₹${mrp}</span>` : ''}
                         </div>
                     </div>

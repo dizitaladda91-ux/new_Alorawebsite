@@ -31,12 +31,10 @@ export default {
         ash: 'rgba(43, 29, 20, 0.8)'
       },
       fontFamily: {
-        sans: ['var(--font-body)', 'sans-serif'],
-        serif: ['var(--font-heading)', 'serif'],
-        heading: ['var(--font-heading)', 'serif'],
-        fraunces: ['var(--font-heading)', 'serif'],
-        manrope: ['var(--font-body)', 'sans-serif'],
-        roboto: ['var(--font-body)', 'sans-serif']
+        serif: ['"Cormorant Garamond"', 'Cormorant-Fallback', 'Georgia', 'serif'],
+        sans: ['Jost', 'Jost-Fallback', 'Arial', 'sans-serif'],
+        roboto: ['Roboto Mono', 'monospace'],
+        fraunces: ['"Cormorant Garamond"', 'Cormorant-Fallback', 'Georgia', 'serif']
       }
     }
   }
