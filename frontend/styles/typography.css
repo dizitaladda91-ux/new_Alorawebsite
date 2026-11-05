@@ -26,14 +26,17 @@ html body {
   color: var(--text) !important;
 }
 
-nav,
+#navbar-placeholder > nav {
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+}
+
 footer.alora-footer,
 .top-ticker-bar {
   background-color: var(--primary) !important;
   color: var(--on-brand) !important;
 }
 
-nav *,
 footer.alora-footer *,
 .top-ticker-bar * {
   color: var(--on-brand) !important;
@@ -48,12 +51,6 @@ h6 {
   color: var(--primary) !important;
 }
 
-nav h1,
-nav h2,
-nav h3,
-nav h4,
-nav h5,
-nav h6,
 footer.alora-footer h1,
 footer.alora-footer h2,
 footer.alora-footer h3,
@@ -63,7 +60,6 @@ footer.alora-footer h6 {
   color: var(--on-brand) !important;
 }
 
-nav a:hover,
 footer.alora-footer a:hover,
 a:hover:not([class*="bg-"]) {
   color: var(--accent) !important;
