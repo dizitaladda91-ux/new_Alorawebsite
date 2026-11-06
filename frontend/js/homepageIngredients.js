@@ -12,7 +12,7 @@ const slugify = value => String(value || "")
 function createIngredientCard(ingredient) {
     const slug = ingredient.slug || slugify(ingredient.name);
     const card = document.createElement("article");
-    card.className = "group relative aspect-[4/3] min-h-[260px] overflow-hidden rounded-2xl bg-[#F1E6D3]";
+    card.className = "group relative overflow-hidden rounded-2xl bg-[#F1E6D3]";
 
     const image = document.createElement("img");
     image.src = getImageUrl(ingredient.imageUrl, "/static/placeholder.png");
@@ -25,20 +25,20 @@ function createIngredientCard(ingredient) {
     overlay.className = "absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/5";
 
     const content = document.createElement("div");
-    content.className = "absolute inset-x-0 bottom-0 p-5 text-white sm:p-6";
+    content.className = "absolute inset-x-0 bottom-0 p-4 text-white sm:p-6";
 
     const label = document.createElement("span");
     label.className = "text-xs font-medium tracking-wide text-white/90";
     label.textContent = "Ingredient";
     const title = document.createElement("h3");
-    title.className = "mt-1 line-clamp-2 font-heading text-2xl font-bold leading-tight text-white sm:text-3xl";
+    title.className = "mt-1 line-clamp-2 font-heading text-xl font-bold leading-tight text-white sm:text-3xl";
     title.textContent = ingredient.name || "Ingredient";
     const summary = document.createElement("p");
     summary.className = "mt-2 line-clamp-2 text-sm leading-snug text-white/90";
     summary.textContent = ingredient.shortDescription || "";
     const link = document.createElement("a");
     link.href = `/ingredients/${encodeURIComponent(slug)}`;
-    link.className = "mt-4 inline-flex rounded-full bg-[#1D4ED8] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white hover:bg-[#1E40AF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+    link.className = "ingredient-read-more mt-3 inline-flex rounded-full bg-[#1D4ED8] px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white hover:bg-[#1E40AF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
     link.textContent = "Read More";
     link.setAttribute("aria-label", `Read more about ${ingredient.name || "this ingredient"}`);
 

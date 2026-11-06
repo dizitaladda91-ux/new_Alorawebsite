@@ -339,9 +339,9 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="dns-prefetch" href="https://res.cloudinary.com">
 
-    <link rel="preload" as="image" href="./static/hero_banner_allproducts_desk_hd.webp" media="(min-width: 768px)" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="./static/hero_banner_allproducts_desk_source.webp" media="(min-width: 768px)" type="image/webp" fetchpriority="high">
     <link rel="preload" as="image" href="./static/hero_banner_allproducts_mob_hd.webp" media="(max-width: 767px)" type="image/webp" fetchpriority="high">
-    <link rel="preload" as="image" href="./static/hero_banner_facewash_desk_hd.webp" media="(min-width: 768px)" type="image/webp" fetchpriority="low">
+    <link rel="preload" as="image" href="./static/hero_banner_facewash_desk_source.webp" media="(min-width: 768px)" type="image/webp" fetchpriority="low">
     <link rel="preload" as="image" href="./static/hero_banner_facewash_mob_hd.webp" media="(max-width: 767px)" type="image/webp" fetchpriority="low">
 
 
@@ -368,6 +368,24 @@
         #navbar-placeholder {
             min-height: 64px;
             background-color: #FBF7F0;
+        }
+        #ingredients-discovery-grid > article {
+            aspect-ratio: 16 / 10;
+            min-height: 0;
+        }
+        #ingredients-discovery-grid .ingredient-read-more {
+            margin-top: 0.75rem;
+            padding: 0.375rem 0.75rem;
+        }
+        @media (min-width: 640px) {
+            #ingredients-discovery-grid > article {
+                aspect-ratio: 4 / 3;
+                min-height: 260px;
+            }
+            #ingredients-discovery-grid .ingredient-read-more {
+                margin-top: 1rem;
+                padding: 0.5rem 1rem;
+            }
         }
         #skin-concern-grid {
             gap: 1.25rem 1rem;
@@ -905,37 +923,37 @@
 
     <!-- 1st Slide: All Products -->
     <a href="/products" class="hero-slide-link w-full shrink-0 block h-full bg-[#FBF7F0]">
-        <img src="./static/hero_banner_allproducts_desk_hd.webp" alt="Alora Radiance Complete Skincare Collection Desktop" width="3840" height="1201" fetchpriority="high" loading="eager" decoding="async" class="hero-desk-img">
+        <img src="./static/hero_banner_allproducts_desk_source.webp" alt="Alora Radiance Complete Skincare Collection Desktop" width="2667" height="834" fetchpriority="high" loading="eager" decoding="async" class="hero-desk-img">
         <img src="./static/hero_banner_allproducts_mob_hd.webp" alt="Alora Radiance Complete Skincare Collection Mobile" width="1229" height="1536" fetchpriority="high" loading="eager" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 2nd Slide: Face Wash -->
     <a href="/product/purifying-glow-face-wash" class="hero-slide-link w-full shrink-0 block h-full bg-[#FBF7F0]">
-        <img src="./static/hero_banner_facewash_desk_hd.webp" alt="Purifying Glow Face Wash Banner Desktop" width="3840" height="1200" fetchpriority="low" loading="lazy" decoding="async" class="hero-desk-img">
+        <img src="./static/hero_banner_facewash_desk_source.webp" alt="Purifying Glow Face Wash Banner Desktop" width="2667" height="833" fetchpriority="low" loading="lazy" decoding="async" class="hero-desk-img">
         <img src="./static/hero_banner_facewash_mob_hd.webp" alt="Purifying Glow Face Wash Banner Mobile" width="1229" height="1536" fetchpriority="low" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 3rd Slide: Body Lotion -->
     <a href="/product/soothing-body-lotion" class="hero-slide-link w-full shrink-0 block h-full bg-[#FBF7F0]">
-        <img src="./static/hero_banner_bodylotion_desk_hd.webp" alt="Soothing Body Lotion Banner Desktop" width="3840" height="1200" loading="lazy" decoding="async" class="hero-desk-img">
+        <img src="./static/hero_banner_bodylotion_desk_source.webp" alt="Soothing Body Lotion Banner Desktop" width="2667" height="833" loading="lazy" decoding="async" class="hero-desk-img">
         <img src="./static/hero_banner_bodylotion_mob_hd.webp" alt="Soothing Body Lotion Banner Mobile" width="1229" height="1536" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 4th Slide: Face Cream & Sunscreen -->
     <a href="/product/face-cream-sunscreen-spf-30" class="hero-slide-link w-full shrink-0 block h-full bg-[#FBF7F0]">
-        <img src="./static/hero_banner_facecream_desk_hd.webp" alt="Mulberry Face Cream &amp; Sunscreen SPF 30++ Banner Desktop" width="3840" height="1199" loading="lazy" decoding="async" class="hero-desk-img">
+        <img src="./static/hero_banner_facecream_desk_source.webp" alt="Mulberry Face Cream &amp; Sunscreen SPF 30++ Banner Desktop" width="2667" height="833" loading="lazy" decoding="async" class="hero-desk-img">
         <img src="./static/hero_banner_facecream_mob_hd.webp" alt="Mulberry Face Cream &amp; Sunscreen SPF 30++ Banner Mobile" width="1229" height="1536" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 5th Slide: Face Serum -->
     <a href="/product/brightening-hydrating-face-serum" class="hero-slide-link w-full shrink-0 block h-full bg-[#FBF7F0]">
-        <img src="./static/hero_banner_faceserum_desk_hd.webp" alt="Brightening &amp; Hydrating Face Serum Banner Desktop" width="3840" height="1200" loading="lazy" decoding="async" class="hero-desk-img">
+        <img src="./static/hero_banner_faceserum_desk_source.webp" alt="Brightening &amp; Hydrating Face Serum Banner Desktop" width="2667" height="833" loading="lazy" decoding="async" class="hero-desk-img">
         <img src="./static/hero_banner_faceserum_mob_hd.webp" alt="Brightening &amp; Hydrating Face Serum Banner Mobile" width="1229" height="1536" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 6th Slide: Walnut Scrub -->
     <a href="/product/gentle-exfoliating-walnut-scrub" class="hero-slide-link w-full shrink-0 block h-full bg-[#FBF7F0]">
-        <img src="./static/hero_banner_scrub_desk_hd.webp" alt="Gentle Exfoliation Walnut Scrub Banner Desktop" width="2458" height="768" loading="lazy" decoding="async" class="hero-desk-img">
+        <img src="./static/hero_banner_scrub_desk_source.webp" alt="Gentle Exfoliation Walnut Scrub Banner Desktop" width="4445" height="1389" loading="lazy" decoding="async" class="hero-desk-img">
         <img src="./static/hero_banner_scrub_mob_hd.webp" alt="Gentle Exfoliating Walnut Scrub Banner Mobile" width="1229" height="1536" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
