@@ -383,7 +383,10 @@ const updateHomepageIngredients = async (req, res) => {
                         body: validateText(section.body, `${label} section ${sectionIndex + 1} content`, 5000)
                     };
                 }),
-                imageUrl: validateUrl(item.imageUrl, `${label} image URL`),
+                imageUrl: item.imageUrl === undefined || item.imageUrl === null
+                    || (typeof item.imageUrl === "string" && item.imageUrl.trim() === "")
+                    ? ""
+                    : validateUrl(item.imageUrl, `${label} image URL`),
                 imageAlt: validateText(item.imageAlt, `${label} image alt text`, 180),
                 recommendedProducts
             };

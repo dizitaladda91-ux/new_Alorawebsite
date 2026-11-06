@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_HOMEPAGE_INGREDIENTS } from "../backend/controllers/homepageIngredients.controllers.js";
+import HomepageIngredients from "../backend/models/homepageIngredients.models.js";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -40,4 +41,20 @@ test("Vercel routes ingredient guide URLs to the SSR handler", () => {
   const ingredientRoute = vercelConfig.routes.find(route => route.src === "/ingredients/[^/]+/?");
 
   assert.equal(ingredientRoute?.dest, "/api/index.js");
+});
+
+test("homepage ingredient cards can be saved without an image URL", () => {
+  const content = new HomepageIngredients({
+    ingredients: [{
+      slug: "test-ingredient",
+      name: "Test ingredient",
+      shortDescription: "A short summary.",
+      fullDescription: "An introduction.",
+      articleIntro: "An introduction.",
+      imageAlt: "Test ingredient"
+    }]
+  });
+
+  assert.equal(content.ingredients[0].imageUrl, "");
+  assert.notEqual(HomepageIngredients.schema.path("ingredients").schema.path("imageUrl").options.required, true);
 });

@@ -157,8 +157,8 @@ function renderIngredients() {
                         <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Upload Image
                     </button>
                     <label class="block space-y-1.5">
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Image URL</span>
-                        <input data-field="imageUrl" type="text" maxlength="1000" required value="${escapeHtml(ingredient.imageUrl)}" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs bg-white font-mono">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Image URL (optional)</span>
+                        <input data-field="imageUrl" type="text" maxlength="1000" value="${escapeHtml(ingredient.imageUrl)}" class="w-full rounded-xl border border-slate-300 p-2.5 text-xs bg-white font-mono">
                     </label>
                     <label class="block space-y-1.5">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Image alt text</span>
@@ -279,9 +279,18 @@ async function uploadIngredientImage(card) {
             credentials: "include",
             body
         });
-        const result = await response.json();
-        if (!response.ok || !result.success || !result.imageUrl) {
-            throw new Error(result.message || "Image upload failed.");
+        const responseText = await response.text();
+        let result;
+        try {
+            result = responseText ? JSON.parse(responseText) : {};
+        } catch {
+            const tooLarge = response.status === 413 || /request entity too large|payload too large/i.test(responseText);
+            throw new Error(tooLarge
+                ? "The server rejected this image as too large. Try a smaller image, or leave the image URL blank."
+                : `Image upload failed (${response.status}). The server returned an unreadable response.`);
+        }
+        if (!response.ok || !result || typeof result !== "object" || !result.success || !result.imageUrl) {
+            throw new Error(result?.message || "Image upload failed.");
         }
 
         card.querySelector('[data-field="imageUrl"]').value = result.imageUrl;
