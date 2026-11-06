@@ -27,7 +27,7 @@ test("authenticated write requests acquire and release their Redis queue lock", 
   const scripts = [];
   const middleware = createWriteRequestQueue({
     getRedis: () => ({
-      eval: async (script) => {
+      eval: async (script, options) => {
         scripts.push(script);
         return 1;
       }
@@ -57,7 +57,7 @@ test("writes from the same user wait until the active write releases its lock", 
   let lockHolder = null;
   const queue = new Map();
   const redis = {
-    eval: async (script, keys, args) => {
+    eval: async (script, { arguments: args }) => {
       const requestId = args[0];
       if (script.includes('redis.call("INCR"')) {
         sequence += 1;

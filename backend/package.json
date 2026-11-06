@@ -15,7 +15,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@upstash/redis": "^1.41.0",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^1.41.3",
     "compression": "^1.8.1",
@@ -35,6 +34,7 @@
     "nodemailer": "^9.0.3",
     "nodemon": "^3.1.14",
     "razorpay": "^2.9.8",
+    "redis": "^6.3.1",
     "sanitize-html": "^2.14.0",
     "sharp": "^0.35.3"
   },

@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { Redis } from "@upstash/redis";
+import { createClient } from "redis";
 
 const QUEUE_WAIT_TIMEOUT_MS = 30_000;
 const LOCK_TTL_MS = 120_000;
@@ -94,21 +94,39 @@ const RELEASE_SCRIPT = `
 `;
 
 let redisClient;
+let redisConnection;
 
-const getRedisClient = () => {
-  if (redisClient) return redisClient;
+const getRedisClient = async () => {
+  if (!redisClient) {
+    const url = process.env.REDIS_URL;
+    if (!url) {
+      throw new Error("Redis Cloud is not configured. Set REDIS_URL to your Redis connection string.");
+    }
 
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) {
-    throw new Error("Upstash Redis is not configured. Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN.");
+    redisClient = createClient({ url });
+    redisClient.on("error", (error) => {
+      console.error("Redis Cloud connection error:", error);
+    });
   }
 
-  redisClient = new Redis({ url, token });
+  if (!redisClient.isOpen) {
+    if (!redisConnection) {
+      redisConnection = redisClient.connect().catch((error) => {
+        redisConnection = null;
+        throw error;
+      });
+    }
+    await redisConnection;
+  }
+
   return redisClient;
 };
 
 const wait = (milliseconds) => new Promise(resolve => setTimeout(resolve, milliseconds));
+const evalScript = (redis, script, keys, args) => redis.eval(script, {
+  keys,
+  arguments: args.map(String)
+});
 
 export const createWriteRequestQueue = ({
   getRedis = getRedisClient,
@@ -138,15 +156,15 @@ export const createWriteRequestQueue = ({
 
   const removeFromQueue = async () => {
     try {
-      await redis.eval(RELEASE_SCRIPT, keys, [requestId]);
+      await evalScript(redis, RELEASE_SCRIPT, keys, [requestId]);
     } catch (error) {
       console.error("Could not release authenticated write request from Redis queue:", error);
     }
   };
 
   try {
-    redis = getRedis();
-    await redis.eval(ENQUEUE_SCRIPT, [sequenceKey, queueKey, heartbeatKey], [
+    redis = await getRedis();
+    await evalScript(redis, ENQUEUE_SCRIPT, [sequenceKey, queueKey, heartbeatKey], [
       requestId,
       keyTtlMs
     ]);
@@ -159,7 +177,7 @@ export const createWriteRequestQueue = ({
         return;
       }
 
-      const result = Number(await redis.eval(ACQUIRE_SCRIPT, keys.slice(0, 3), [
+      const result = Number(await evalScript(redis, ACQUIRE_SCRIPT, keys.slice(0, 3), [
         requestId,
         staleRequestMs,
         lockTtlMs,
@@ -199,7 +217,7 @@ export const createWriteRequestQueue = ({
   let heartbeatFailureLogged = false;
   const heartbeat = setInterval(async () => {
     try {
-      const renewed = Number(await redis.eval(RENEW_SCRIPT, keys.slice(0, 3), [
+      const renewed = Number(await evalScript(redis, RENEW_SCRIPT, keys.slice(0, 3), [
         requestId,
         lockTtlMs,
         keyTtlMs
