@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userAuth.models.js";
+import { queueAuthenticatedWrite } from "../services/writeRequestQueue.service.js";
 
 const jwtOptions = { issuer: "alora-radiance", audience: "alora-web" };
 
@@ -36,7 +37,7 @@ export const requireAuth = async (req, res, next) => {
       return res.status(401).json({ success: false, message: "Session is no longer valid." });
     }
     req.user = { ...claims, role: user.role };
-    return next();
+    return queueAuthenticatedWrite(req, res, next);
   } catch {
     return res.status(401).json({ success: false, message: "Invalid or expired session." });
   }
@@ -53,7 +54,7 @@ export const optionalAuth = (req, res, next) => {
     // A guest checkout must not fail because an old/expired browser cookie exists.
   }
 
-  return next();
+  return req.user ? queueAuthenticatedWrite(req, res, next) : next();
 };
 
 export const authorizeRoles = (...roles) => (req, res, next) => {

@@ -406,7 +406,7 @@ async function loadSliderProducts() {
     const top5Products = productList.slice(0, 5);
 
     requestAnimationFrame(() => {
-        wrapper.innerHTML = top5Products.map((product) => {
+        wrapper.innerHTML = top5Products.map((product, index) => {
             const prodId = product._id || product.id || product.slug || 'prod_' + Math.random();
             const fullImgUrl = getImageUrl(product.imagepath, '/static/placeholder.png');
             const ratingScore = Number(product.rating || 4.8).toFixed(1);
@@ -460,7 +460,7 @@ async function loadSliderProducts() {
                     <!-- Product Image Container -->
                     <div class="relative w-full aspect-square overflow-hidden bg-[#FAF7F2] p-2 flex items-center justify-center">
                         <a href="${getProductUrl(product)}" class="w-full h-full block">
-                            <img src="${fullImgUrl}" alt="${product.name}" loading="lazy" decoding="async" class="product-card-img w-full h-full object-contain mix-blend-multiply transition-transform duration-300 hover:scale-105">
+                            <img src="${fullImgUrl}" alt="${product.name}" loading="${index < 2 ? 'eager' : 'lazy'}" fetchpriority="${index === 0 ? 'high' : 'auto'}" decoding="async" class="product-card-img w-full h-full object-contain mix-blend-multiply transition-transform duration-300 hover:scale-105">
                         </a>
 
                         <!-- Floating Top-Right Wishlist Button -->
