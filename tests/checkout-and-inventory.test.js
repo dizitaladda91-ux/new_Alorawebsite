@@ -36,6 +36,13 @@ test("checkout item normalisation rejects invalid quantities", () => {
   );
 });
 
+test("checkout item normalisation preserves underscores in product IDs", () => {
+  assert.deepEqual(
+    normalizeCheckoutItems([{ id: "product_with_underscore__50ml", size: "50ml", qty: 1 }]),
+    [{ productId: "product_with_underscore", variant: "50ml", quantity: 1 }]
+  );
+});
+
 test("inventory tracking remains disabled unless explicitly enabled", () => {
   const original = process.env.INVENTORY_TRACKING_ENABLED;
   delete process.env.INVENTORY_TRACKING_ENABLED;

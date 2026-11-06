@@ -2,10 +2,12 @@ import BASE_URL from './config.js';
 import "./toast.js";
 function getSafeCart() {
     try {
-        const primary = localStorage.getItem("glowCart");
-        if (primary) return JSON.parse(primary);
-        const legacy = localStorage.getItem("glowRitualCartData");
-        if (legacy) return JSON.parse(legacy);
+        const primary = JSON.parse(localStorage.getItem("glowCart") || "null");
+        if (Array.isArray(primary) && primary.length) return primary;
+        const legacy = JSON.parse(localStorage.getItem("glowRitualCartData") || "null");
+        if (Array.isArray(legacy) && legacy.length) return legacy;
+        if (Array.isArray(primary)) return primary;
+        if (Array.isArray(legacy)) return legacy;
         return [];
     } catch (e) {
         console.error("Cart reading error:", e);
@@ -299,21 +301,28 @@ function showPaymentSuccessPopup(orderInfo) {
 }
 function printReceipt(info) {
     if (!info) return;
+    const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[character]);
     const itemsRows = (info.cart || []).map((item, idx) => `
         <tr>
             <td style="padding: 8px; border-bottom: 1px solid #eee;">${idx + 1}</td>
-            <td style="padding: 8px; border-bottom: 1px solid #eee;">${item.name} (${item.size || 'Std'})</td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(item.name)} (${escapeHtml(item.size || 'Std')})</td>
             <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: center;">${item.qty}</td>
             <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">₹${item.price}</td>
             <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">₹${item.price * item.qty}</td>
         </tr>
     `).join('');
     const win = window.open('', '_blank');
+    if (!win) {
+        window.showToast?.("Please allow pop-ups to print or download your receipt.", "warning");
+        return;
+    }
     win.document.write(`
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Order Receipt - ${info.order_id}</title>
+            <title>Order Receipt - ${escapeHtml(info.order_id)}</title>
             <style>
                 body { font-family: Arial, sans-serif; padding: 20px; color: #333; }
                 .box { max-width: 600px; margin: auto; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
@@ -330,14 +339,14 @@ function printReceipt(info) {
                         <small>Purchase Receipt</small>
                     </div>
                     <div style="text-align:right;">
-                        <p style="margin:0;"><strong>Date:</strong> ${info.date || new Date().toLocaleDateString()}</p>
-                        <p style="margin:0;"><small>Order ID: ${info.order_id}</small></p>
+                        <p style="margin:0;"><strong>Date:</strong> ${escapeHtml(info.date || new Date().toLocaleDateString())}</p>
+                        <p style="margin:0;"><small>Order ID: ${escapeHtml(info.order_id)}</small></p>
                     </div>
                 </div>
                 <div style="margin-top: 15px;">
-                    <p style="margin: 3px 0;"><strong>Customer:</strong> ${info.customer?.name}</p>
-                    <p style="margin: 3px 0;"><strong>Phone:</strong> ${info.customer?.phone}</p>
-                    <p style="margin: 3px 0;"><strong>Address:</strong> ${info.customer?.address}</p>
+                    <p style="margin: 3px 0;"><strong>Customer:</strong> ${escapeHtml(info.customer?.name)}</p>
+                    <p style="margin: 3px 0;"><strong>Phone:</strong> ${escapeHtml(info.customer?.phone)}</p>
+                    <p style="margin: 3px 0;"><strong>Address:</strong> ${escapeHtml(info.customer?.address)}</p>
                 </div>
                 <table>
                     <thead>

@@ -470,6 +470,26 @@ async function fetchAndRenderReviews(productId) {
         if (staticHeading) reviewsListContainer.appendChild(staticHeading);
         const reviewCount = document.getElementById('reviews-count');
         if (reviewCount) reviewCount.textContent = String(result.count ?? result.data.length);
+        const averageRating = result.data.length
+            ? result.data.reduce((total, review) => total + Number(review.rating || 0), 0) / result.data.length
+            : 0;
+        const ratingStars = document.getElementById('product-review-stars');
+        const ratingAverage = document.getElementById('product-review-average');
+        if (ratingStars) {
+            ratingStars.innerHTML = Array.from({ length: 5 }, (_, index) => {
+                const star = index + 1;
+                const icon = star <= Math.floor(averageRating)
+                    ? 'fa-solid fa-star'
+                    : star - 0.5 <= averageRating
+                        ? 'fa-solid fa-star-half-stroke'
+                        : 'fa-regular fa-star';
+                return `<i class="${icon}"></i>`;
+            }).join('');
+            ratingStars.classList.toggle('hidden', result.data.length === 0);
+        }
+        if (ratingAverage) {
+            ratingAverage.textContent = result.data.length ? averageRating.toFixed(1) : '';
+        }
         if (result.data.length > 0) {
             if (noReviewsMsg) noReviewsMsg.style.display = 'none';
             result.data.forEach(review => {

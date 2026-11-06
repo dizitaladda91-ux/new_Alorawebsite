@@ -42,9 +42,10 @@ export const sanitizeNoSql = (req, res, next) => {
 };
 
 // 3. Dynamic Rate Limiter Middleware (Anti-DDoS, Anti-BruteForce - Generous Limits)
-export const createRateLimiter = ({ windowMs = 15 * 60 * 1000, max = 500, message = "Too many requests. Please try again later.", skipLocal = true } = {}) => {
+export const createRateLimiter = ({ windowMs = 15 * 60 * 1000, max = 500, message = "Too many requests. Please try again later.", skipLocal = true, skip = null } = {}) => {
     const requestLogs = new Map();
     return (req, res, next) => {
+        if (typeof skip === "function" && skip(req)) return next();
         // Skip rate limiting on local development (localhost / 127.0.0.1)
         const clientIp = req.ip || req.socket.remoteAddress || "unknown_ip";
         if (skipLocal && (clientIp.includes("127.0.0.1") || clientIp.includes("::1") || clientIp.includes("localhost"))) {

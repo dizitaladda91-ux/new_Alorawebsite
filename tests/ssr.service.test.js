@@ -3,7 +3,7 @@ import test from "node:test";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { renderBlogArticleSsr, renderIngredientSsr, renderProductSsr } from "../backend/services/ssr.service.js";
+import { renderBlogArticleSsr, renderIngredientSsr, renderProductListSsr, renderProductSsr } from "../backend/services/ssr.service.js";
 
 const testDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(testDirectory, "..");
@@ -21,16 +21,72 @@ test("product SSR replaces every crawlable loading placeholder", () => {
     category: "face",
     imagepath: "/static/face-wash.png",
     rating: 4.8,
-    totalReviews: 5,
+    reviewsCount: 2,
+    averageReviewRating: 4.5,
     variants: [{ volume: "200ml", price: 499, comparePrice: 599, stock: 10 }]
   });
 
   assert.match(html, /Purifying Glow Face Wash/);
   assert.match(html, /₹ 499/);
-  assert.match(html, /<span id="reviews-count">5<\/span>/);
-  assert.match(html, /"reviewCount": "5"/);
+  assert.match(html, /<span id="reviews-count">2<\/span>/);
+  assert.match(html, /"reviewCount": "2"/);
+  assert.match(html, /"ratingValue": "4.5"/);
   assert.match(html, /Saffron Extract, Salicylic Acid, Niacinamide/);
   assert.doesNotMatch(html, /Loading product formulation details|Loading details|Loading benefits|Loading usage|Loading ingredients/);
+});
+
+test("product SSR omits aggregate ratings when there are no customer reviews", () => {
+  const template = fs.readFileSync(path.join(projectRoot, "frontend", "product.html"), "utf8");
+  const html = renderProductSsr(template, {
+    _id: "507f1f77bcf86cd799439011",
+    slug: "purifying-glow-face-wash",
+    name: "Purifying Glow Face Wash",
+    description: "A gentle daily cleanser.",
+    category: "face",
+    imagepath: "/static/face-wash.png",
+    rating: 4.8,
+    totalReviews: 1200,
+    reviewsCount: 0,
+    averageReviewRating: null,
+    variants: [{ volume: "200ml", price: 499, comparePrice: 599, stock: 10 }]
+  });
+
+  assert.match(html, /<span id="reviews-count">0<\/span>/);
+  assert.doesNotMatch(html, /"@type": "AggregateRating"/);
+});
+
+test("product list SSR displays actual review summaries and labels products with no reviews", () => {
+  const html = renderProductListSsr(
+    '<html><head><title>Products</title></head><body><span id="results-count"></span><div id="product-grid"></div></body></html>',
+    [
+      {
+        _id: "product-1",
+        slug: "face-wash",
+        name: "Face Wash",
+        category: "face",
+        imagepath: "/static/face-wash.png",
+        rating: 4.9,
+        reviewsCount: 3,
+        averageReviewRating: 4.7,
+        variants: [{ volume: "100ml", price: 349, comparePrice: 499 }]
+      },
+      {
+        _id: "product-2",
+        slug: "body-lotion",
+        name: "Body Lotion",
+        category: "body",
+        imagepath: "/static/body-lotion.png",
+        rating: 4.8,
+        reviewsCount: 0,
+        averageReviewRating: null,
+        variants: [{ volume: "200ml", price: 499, comparePrice: 699 }]
+      }
+    ]
+  );
+
+  assert.match(html, /4\.7 \(3\)/);
+  assert.match(html, /No reviews/);
+  assert.doesNotMatch(html, /4\.9/);
 });
 
 test("blog SSR includes article copy in the response HTML", () => {

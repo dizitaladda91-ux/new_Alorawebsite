@@ -27,6 +27,7 @@ import { fileURLToPath } from "url";
 import User from "./models/userAuth.models.js"; 
 import Product from "./models/product.models.js";
 import Post from "./models/blog.models.js"; 
+import { addReviewSummaries } from "./services/reviewSummary.service.js";
 import { generateSitemapXml } from "./services/sitemap.service.js"; 
 import { parseAndNormalizeSchemas } from "./services/contentSanitizer.service.js"; 
 import { renderBlogArticleSsr, renderBlogListSsr, renderIngredientSsr, renderProductSsr, renderProductListSsr } from "./services/ssr.service.js";
@@ -48,7 +49,8 @@ app.set("trust proxy", 1);
 
 // Security Rate Limiters
 const globalLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 2000, message: "Too many API requests. Please slow down." });
-const authLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 20, message: "Too many login/auth attempts. Please try again after 15 minutes." });
+const authLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 20, message: "Too many login/auth attempts. Please try again after 15 minutes.", skip: (req) => req.path === "/poll-verification" });
+const verificationPollLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 120, message: "Verification status is being checked too often. Please wait a moment." });
 
 // Middleware setup
 const corsOptions = {
@@ -87,6 +89,7 @@ app.use(cookieParser());
 app.use(sanitizeNoSql);
 
 app.use("/api", globalLimiter);
+app.use("/api/auth/poll-verification", verificationPollLimiter);
 app.use("/api/auth", authLimiter);
 
 // High-Speed HTTP Response Caching for Public Catalog GET Endpoints
@@ -174,7 +177,8 @@ app.get('/products', async (req, res) => {
     await db();
     const products = await Product.find({ isActive: { $ne: false } }).sort({ isBestseller: -1, createdAt: -1 }).lean();
     const templateHtml = await fs.promises.readFile(moreProductHtmlPath, 'utf8');
-    const renderedHtml = renderProductListSsr(templateHtml, products);
+    const productsWithReviews = await addReviewSummaries(products);
+    const renderedHtml = renderProductListSsr(templateHtml, productsWithReviews);
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
@@ -204,8 +208,9 @@ app.get('/product/:id', async (req, res) => {
       return res.status(404).sendFile(productHtmlPath);
     }
 
+    const [productWithReviews] = await addReviewSummaries([product]);
     const templateHtml = await fs.promises.readFile(productHtmlPath, 'utf8');
-    const renderedHtml = renderProductSsr(templateHtml, product);
+    const renderedHtml = renderProductSsr(templateHtml, productWithReviews);
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');

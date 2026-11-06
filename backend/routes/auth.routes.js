@@ -14,7 +14,7 @@ import {
   pollVerificationStatus 
 } from '../controllers/auth.controllers.js';
 import jwt from "jsonwebtoken";
-import { requireAuth, verifyAuthToken } from "../middlewares/auth.middleware.js";
+import { optionalAuth, requireAuth, verifyAuthToken } from "../middlewares/auth.middleware.js";
 import User from "../models/userAuth.models.js";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -64,7 +64,7 @@ router.post('/api/auth/login', login);
 router.post('/api/auth/verify-2fa', verify2FA);
 router.post('/api/auth/resend-2fa', resend2FAOtp);
 router.all('/api/auth/logout', logout);
-router.get('/api/auth/session', requireAuth, getSession);
+router.get('/api/auth/session', optionalAuth, getSession);
 router.put('/api/auth/profile', requireAuth, updateProfile);
 
 router.get('/api/auth/verify-email', verifyEmail);

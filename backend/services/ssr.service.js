@@ -56,12 +56,14 @@ export const getIngredientSlugUrl = (ingredient) => {
     return `${DOMAIN}/ingredients/${encodeURIComponent(slug || "ingredient")}`;
 };
 
-const generateStarsHtml = (rating = 4) => {
-    const rounded = Math.round(Number(rating) || 4);
+const generateStarsHtml = (rating = 0) => {
+    const value = Math.min(5, Math.max(0, Number(rating) || 0));
     let html = '';
     for (let i = 1; i <= 5; i++) {
-        if (i <= rounded) {
+        if (i <= Math.floor(value)) {
             html += `<i class="fa-solid fa-star text-amber-500"></i>`;
+        } else if (i - 0.5 <= value) {
+            html += `<i class="fa-solid fa-star-half-stroke text-amber-500"></i>`;
         } else {
             html += `<i class="fa-regular fa-star text-slate-300"></i>`;
         }
@@ -435,6 +437,8 @@ export const renderProductSsr = (templateHtml, product, faqs = []) => {
     html = html.replace(/<meta id="og-url" property="og:url" content="[^"]*">/i, `<meta id="og-url" property="og:url" content="${canonicalUrl}">`);
 
     // Schema.org Product JSON-LD
+    const reviewsCount = Number(product.reviewsCount) || 0;
+    const averageReviewRating = Number(product.averageReviewRating) || 0;
     const productSchema = {
         "@context": "https://schema.org",
         "@type": "Product",
@@ -456,13 +460,15 @@ export const renderProductSsr = (templateHtml, product, faqs = []) => {
                 "@type": "Organization",
                 "name": "Alora Radiance"
             }
-        },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": String(product.rating || 4.5),
-            "reviewCount": String(product.totalReviews || 0)
         }
     };
+    if (reviewsCount > 0) {
+        productSchema.aggregateRating = {
+            "@type": "AggregateRating",
+            "ratingValue": String(averageReviewRating),
+            "reviewCount": String(reviewsCount)
+        };
+    }
 
     html = html.replace(
         /<\/head>/i,
@@ -473,7 +479,15 @@ export const renderProductSsr = (templateHtml, product, faqs = []) => {
     html = html.replace(/<img id="main-product-image"[^>]*>/i, `<img id="main-product-image" src="${mainImg}" alt="${escapeHtml(product.name)}" class="w-full h-full object-cover" decoding="async" fetchpriority="high" onerror="this.onerror=null; this.src='/static/placeholder.png'">`);
     html = html.replace(/<span id="product-category-badge"[^>]*>.*?<\/span>/i, `<span id="product-category-badge" class="text-[11px] font-bold tracking-widest text-clay uppercase bg-sand/60 px-3 py-1 rounded-full border border-gold/20">${escapeHtml(product.category || 'ALORA RADIANCE')}</span>`);
     html = html.replace(/<h1 id="product-title"[^>]*>.*?<\/h1>/i, `<h1 id="product-title" class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-ink mt-3 leading-tight">${escapeHtml(product.name)}</h1>`);
-    html = html.replace(/<span id="reviews-count">.*?<\/span>/i, `<span id="reviews-count">${product.totalReviews || 0}</span>`);
+    html = html.replace(/<span id="reviews-count">.*?<\/span>/i, `<span id="reviews-count">${reviewsCount}</span>`);
+    html = html.replace(
+        /<div id="product-review-stars"[^>]*>[\s\S]*?<\/div>/i,
+        `<div id="product-review-stars" class="${reviewsCount > 0 ? 'flex' : 'hidden flex'} text-gold text-sm">${reviewsCount > 0 ? generateStarsHtml(averageReviewRating) : ''}</div>`
+    );
+    html = html.replace(
+        /<span id="product-review-average"[^>]*>.*?<\/span>/i,
+        `<span id="product-review-average" class="text-xs font-semibold text-ash">${reviewsCount > 0 ? averageReviewRating.toFixed(1) : ''}</span>`
+    );
 
     // Pricing
     html = html.replace(/<span id="product-price"[^>]*>.*?<\/span>/i, `<span id="product-price" class="text-2xl sm:text-3xl font-sans font-semibold text-clay">₹ ${price}</span>`);
@@ -549,7 +563,13 @@ export const renderProductListSsr = (templateHtml, products = []) => {
                     pctBadge = `<span class="discount-badge text-[9px] sm:text-[10px] font-bold text-emerald-800 bg-emerald-100/90 px-1.5 sm:px-2 py-0.5 rounded border border-emerald-200 uppercase font-mono">${pct}% OFF</span>`;
                 }
             }
-            const starsHtml = generateStarsHtml(product.rating);
+            const reviewsCount = Number(product.reviewsCount) || 0;
+            const averageReviewRating = Number(product.averageReviewRating) || 0;
+            const starsHtml = reviewsCount > 0 ? generateStarsHtml(averageReviewRating) : '';
+            const reviewSummary = reviewsCount > 0
+                ? `<div class="flex text-amber-500">${starsHtml}</div>
+                    <span class="text-[10px] text-slate-400 font-mono">${averageReviewRating.toFixed(1)} (${reviewsCount})</span>`
+                : '<span class="text-[10px] text-slate-400">No reviews</span>';
 
             return `
                 <div class="bg-white rounded-2xl p-4 border border-[#ECE4CE] shadow-sm flex flex-col justify-between hover:shadow-md transition">
@@ -565,8 +585,7 @@ export const renderProductListSsr = (templateHtml, products = []) => {
                             <a href="${pUrl}" class="hover:text-[#8B4513] transition">${escapeHtml(product.name)}</a>
                         </h3>
                         <div class="flex items-center gap-1.5 mb-2 text-xs">
-                            <div class="flex text-amber-500">${starsHtml}</div>
-                            <span class="text-[10px] text-slate-400 font-mono">(${product.rating || 4.5})</span>
+                            ${reviewSummary}
                         </div>
                         <div class="flex items-baseline gap-2 mb-3">
                             <span class="text-base font-semibold text-slate-900 font-sans">₹${price}</span>

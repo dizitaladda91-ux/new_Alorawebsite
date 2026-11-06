@@ -54,9 +54,9 @@ export const normalizeCheckoutItems = (cart) => {
     return cart.map((item) => {
         const quantity = Math.max(1, Number(item.qty ?? item.qtyCountOrderMetric ?? 1));
         const rawId = String(item.productId || item.id || item.uniqueCartItemKeyId || "");
-        const productId = rawId.includes("__")
-            ? rawId.split("__")[0]
-            : (rawId.includes("_") ? rawId.split("_")[0] : rawId);
+        // Cart keys append the variant with a double underscore. Keep the full
+        // product id otherwise; legitimate ids may themselves contain `_`.
+        const productId = rawId.includes("__") ? rawId.split("__")[0] : rawId;
 
         return {
             productId,
@@ -353,13 +353,15 @@ export const createOrder = async (req, res) => {
             // Strict Single-Use Per Account/Email Check
             if (customerEmail) {
                 const usedOrder = await Order.findOne({
-                    $or: [
+                    $and: [
+                        { $or: [
                         { "customer.email": customerEmail },
                         ...(req.user?.id && /^[0-9a-fA-F]{24}$/.test(req.user.id) ? [{ userId: req.user.id }] : [])
-                    ],
-                    $or: [
+                        ] },
+                        { $or: [
                         { appliedCoupons: candidateCode },
                         { "referral.code": candidateCode }
+                        ] }
                     ]
                 }).lean();
 
@@ -370,6 +372,12 @@ export const createOrder = async (req, res) => {
 
             if (candidateCode === "RAKHI30" || candidateCode === "RAKHI" || candidateCode === "FESTIVE30" || candidateCode === "RAKHI30OFF") {
                 discountPercent += 30;
+                appliedCoupons.push(candidateCode);
+                continue;
+            }
+
+            if (candidateCode === "DIWALI20" || candidateCode === "DIWALI" || candidateCode === "FESTIVE20" || candidateCode === "DIWALI20OFF") {
+                discountPercent += 20;
                 appliedCoupons.push(candidateCode);
                 continue;
             }
@@ -443,7 +451,7 @@ export const createOrder = async (req, res) => {
 
 export const verifyPayment = async (req, res) => {
     try {
-        const { razorpay_order_id, razorpay_payment_id, razorpay_signature, customer } = req.body;
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
         if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !process.env.RAZORPAY_KEY_SECRET) {
             return res.status(400).json({ status: "failure", message: "Missing payment verification parameters." });
         }
@@ -457,13 +465,9 @@ export const verifyPayment = async (req, res) => {
             return res.status(400).json({ status: "failure", message: "Invalid payment signature." });
         }
 
-        if (!isValidCustomer(normalizeCustomer(customer))) {
-            return res.status(400).json({ status: "failure", message: "Valid customer details are required." });
-        }
         const result = await finalizeCapturedPayment({
             razorpayOrderId: razorpay_order_id,
-            razorpayPaymentId: razorpay_payment_id,
-            customer
+            razorpayPaymentId: razorpay_payment_id
         });
         return res.status(200).json({
             status: "success",

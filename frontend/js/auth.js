@@ -29,15 +29,18 @@ export function showSuccessModal(title, message, callback) {
     });
 }
 
-export function showVerificationWaitingModal(userEmail, callback, emailSent = true) {
+export function showVerificationWaitingModal(userEmail, callback, emailSent = true, emailFailureMessage = "") {
     const existingModal = document.getElementById("custom-success-modal");
     if (existingModal) existingModal.remove();
 
     let pollTimer = null;
+    let pollingStopped = false;
+    let nextPollDelay = 10000;
 
     const cleanup = () => {
+        pollingStopped = true;
         if (pollTimer) {
-            clearInterval(pollTimer);
+            clearTimeout(pollTimer);
             pollTimer = null;
         }
     };
@@ -68,7 +71,7 @@ export function showVerificationWaitingModal(userEmail, callback, emailSent = tr
             <p id="polling-desc" class="text-stone-600 text-xs sm:text-sm mb-4 leading-relaxed">
                 ${emailSent
                     ? `Verification link sent to <strong class="text-slate-900 font-mono select-all">${escapeHtml(userEmail)}</strong>.`
-                    : `We could not send a verification link to <strong class="text-slate-900 font-mono select-all">${escapeHtml(userEmail)}</strong>. Use the resend button to try again.`}
+                    : `We could not send a verification link to <strong class="text-slate-900 font-mono select-all">${escapeHtml(userEmail)}</strong>. Use the resend button to try again.${emailFailureMessage ? `<br><span class="block mt-2 text-red-700">${escapeHtml(emailFailureMessage)}</span>` : ""}`}
                 <br><span class="text-[#8B4513] font-semibold mt-1 block">Verify your email, then log in to continue.</span>
             </p>
 
@@ -138,6 +141,12 @@ export function showVerificationWaitingModal(userEmail, callback, emailSent = tr
                 body: JSON.stringify({ email: userEmail })
             });
 
+            if (res.status === 429) {
+                const retryAfter = Number(res.headers.get("Retry-After")) || 10;
+                nextPollDelay = Math.max(10000, Math.min(retryAfter * 1000, 15 * 60 * 1000));
+                return;
+            }
+
             const data = await res.json();
             if (res.ok && data.verified === true) {
                 cleanup();
@@ -179,11 +188,17 @@ export function showVerificationWaitingModal(userEmail, callback, emailSent = tr
             }
         } catch (pollErr) {
             console.warn("Poll error:", pollErr);
+        } finally {
+            // Schedule after the request finishes so slow networks never stack polls.
+            if (!pollingStopped) {
+                pollTimer = setTimeout(checkStatus, nextPollDelay);
+                nextPollDelay = 10000;
+            }
         }
     };
 
-    // Run first check after 2 seconds, then poll every 2.5 seconds
-    pollTimer = setInterval(checkStatus, 2500);
+    // Check promptly, then back off to one request every 10 seconds.
+    pollTimer = setTimeout(checkStatus, 2500);
 }
 async function runAuthGuard() {
     const currentPath = window.location.pathname.toLowerCase();
@@ -329,7 +344,7 @@ function initRegisterForm() {
                 if (data.emailVerificationRequired) {
                     showVerificationWaitingModal(email, () => {
                         window.location.href = "./login.html";
-                    }, data.emailSent);
+                    }, data.emailSent, data.emailSent ? "" : data.message);
                     return;
                 }
                 if (data.token) {

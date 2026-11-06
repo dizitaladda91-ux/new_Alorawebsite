@@ -615,14 +615,23 @@ export const logout = (req, res) => {
 
 export const getSession = async (req, res) => {
   try {
+    if (!req.user?.id) {
+      return res.status(200).json({ success: true, authenticated: false, user: null });
+    }
+
     const { id } = req.user;
 
     const user = await User.findById(id).select("name email phone address role title dob gender wishlist isEmailVerified createdAt").lean();
     if (!user) {
-      return res.status(401).json({ success: false, message: "Session user no longer exists." });
+      res.clearCookie("token");
+      return res.status(200).json({ success: true, authenticated: false, user: null });
+    }
+    if (user.role !== req.user.role) {
+      res.clearCookie("token");
+      return res.status(200).json({ success: true, authenticated: false, user: null });
     }
 
-    return res.status(200).json({ success: true, user });
+    return res.status(200).json({ success: true, authenticated: true, user });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Could not load session." });
   }

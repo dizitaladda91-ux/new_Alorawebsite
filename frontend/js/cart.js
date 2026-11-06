@@ -226,7 +226,7 @@ function toggleCartState(btnEl) {
     const mrp = parseInt(card.dataset.mrp) || (mrpText ? parseInt(mrpText.replace(/[^\d]/g, "")) : price) || price;
     const productId = card.dataset.productId || img; 
     const id = `${productId}__${size}`;
-    addToCart({ id, name, size, price, mrp, qty: 1, img });
+    addToCart({ id, name, size, price, mrp, qty, img });
     if (imgEl) {
         flyToCartAnimation(imgEl);
     }

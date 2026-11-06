@@ -72,6 +72,8 @@ function normalizeAndAssignBestsellers(rawProducts) {
             category: rawCategory, 
             isBestseller: backendIsBestseller,
             rating: product.rating || 4,
+            reviewsCount: Number(product.reviewsCount) || 0,
+            averageReviewRating: Number(product.averageReviewRating) || 0,
             baseImg: imageSrc,
             galleryImages: (product.galleryImages || []).map(img => getImageUrl(img, '')).filter(Boolean),
             description: product.description || 'No description available', 
@@ -114,7 +116,9 @@ function renderProductCatalog(products) {
                 discountBadgeHTML = `<span class="discount-badge text-[9px] sm:text-[10px] font-bold text-emerald-800 bg-emerald-100/90 px-1.5 sm:px-2 py-0.5 rounded border border-emerald-200 uppercase font-mono">${pct}% OFF</span>`;
             }
         }
-        const starsHTML = generateStarsHTML(product.rating);
+        const starsHTML = product.reviewsCount > 0
+            ? generateStarsHTML(product.averageReviewRating)
+            : '';
         const allImages = [product.baseImg, ...(product.galleryImages || [])].filter(Boolean);
         const hasMultipleImages = allImages.length > 1;
         const sizeButtonsHTML = product.sizes.map((sz, idx) => {
@@ -155,7 +159,12 @@ function renderProductCatalog(products) {
             </div>
         `;
         const skinType = product.category ? (product.category.toLowerCase().includes('sun') || product.category.toLowerCase().includes('spf') ? 'All Skin Types' : product.category.toLowerCase().includes('body') ? 'Deep Hydration' : 'All Skin Types') : 'All Skin Types';
-        const reviewCount = Math.floor(450 + (product.rating || 4.8) * 280);
+        const reviewSummary = product.reviewsCount > 0
+            ? `<span class="font-bold text-amber-700 text-xs">${product.averageReviewRating.toFixed(1)}</span>
+                <div class="flex gap-0.5 text-xs">${starsHTML}</div>
+                <svg class="w-3 h-3 text-stone-400 inline" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                <span class="text-stone-500 text-[11px] font-medium font-sans">(${product.reviewsCount})</span>`
+            : '<span class="text-stone-500 text-[11px] font-medium font-sans">No reviews</span>';
 
         const pct = (initialSize.mrp && Number(initialSize.mrp) > Number(initialSize.price))
             ? Math.round(((Number(initialSize.mrp) - Number(initialSize.price)) / Number(initialSize.mrp)) * 100)
@@ -185,10 +194,7 @@ function renderProductCatalog(products) {
 
                     <!-- Rating Stars & Review Count -->
                     <div class="flex items-center gap-1.5 text-xs text-[#2B1D14] mb-2">
-                        <span class="font-bold text-amber-700 text-xs">${(product.rating || 4.8).toFixed(1)}</span>
-                        <div class="flex gap-0.5 text-xs">${starsHTML}</div>
-                        <svg class="w-3 h-3 text-stone-400 inline" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-                        <span class="text-stone-500 text-[11px] font-medium font-sans">(${reviewCount})</span>
+                        ${reviewSummary}
                     </div>
 
                     <!-- Deal / Promo Badge -->

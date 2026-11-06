@@ -409,13 +409,17 @@ async function loadSliderProducts() {
         wrapper.innerHTML = top5Products.map((product, index) => {
             const prodId = product._id || product.id || product.slug || 'prod_' + Math.random();
             const fullImgUrl = getImageUrl(product.imagepath, '/static/placeholder.png');
-            const ratingScore = Number(product.rating || 4.8).toFixed(1);
-            const ratingCount = Math.round(product.rating || 4);
+            const reviewCount = Number(product.reviewsCount) || 0;
+            const ratingScore = Number(product.averageReviewRating) || 0;
             let starsHTML = '';
-            for (let i = 1; i <= 5; i++) {
-                starsHTML += i <= ratingCount
-                    ? `<i class="fa-solid fa-star text-amber-500"></i>`
-                    : `<i class="fa-regular fa-star text-stone-300"></i>`;
+            if (reviewCount > 0) {
+                for (let i = 1; i <= 5; i++) {
+                    starsHTML += i <= Math.floor(ratingScore)
+                        ? `<i class="fa-solid fa-star text-amber-500"></i>`
+                        : i - 0.5 <= ratingScore
+                            ? `<i class="fa-solid fa-star-half-stroke text-amber-500"></i>`
+                            : `<i class="fa-regular fa-star text-stone-300"></i>`;
+                }
             }
 
             let sizeButtonsHTML = '';
@@ -452,7 +456,12 @@ async function loadSliderProducts() {
                 ? Math.round(((Number(initialComparePrice) - Number(initialPrice)) / Number(initialComparePrice)) * 100)
                 : 0;
 
-            const reviewCount = product.reviewsCount || Math.floor(450 + (Number(product.rating) || 4.8) * 280);
+            const reviewSummary = reviewCount > 0
+                ? `<span class="font-bold text-amber-700 text-xs">${ratingScore.toFixed(1)}</span>
+                    <div class="flex gap-0.5 text-xs">${starsHTML}</div>
+                    <svg class="w-3 h-3 text-stone-400 inline" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                    <span class="text-stone-500 text-[11px] font-medium font-sans">(${reviewCount})</span>`
+                : '<span class="text-stone-500 text-[11px] font-medium font-sans">No reviews</span>';
 
             return `
             <div data-product-id="${prodId}" class="relative w-[calc(80%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center product-card bg-white rounded-xl shadow-xs hover:shadow-md border border-stone-200/90 flex flex-col justify-between overflow-hidden transition-shadow duration-300">
@@ -477,12 +486,9 @@ async function loadSliderProducts() {
                             <a href="${getProductUrl(product)}" class="block">${product.name}</a>
                         </h3>
 
-                        <!-- Rating Row: "4.8 ★★★★★ ⌵ (1794)" -->
+                        <!-- Rating and review count come from submitted customer reviews. -->
                         <div class="flex items-center gap-1.5 text-xs text-[#2B1D14] mb-2">
-                            <span class="font-bold text-amber-700 text-xs">${ratingScore}</span>
-                            <div class="flex gap-0.5 text-xs">${starsHTML}</div>
-                            <svg class="w-3 h-3 text-stone-400 inline" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-                            <span class="text-stone-500 text-[11px] font-medium font-sans">(${reviewCount})</span>
+                            ${reviewSummary}
                         </div>
 
                         <!-- Deal / Promo Badge (Crimson banner like in user screenshot) -->

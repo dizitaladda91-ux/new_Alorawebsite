@@ -36,6 +36,24 @@ test("public request limiter blocks requests over its limit", () => {
   assert.ok(blockedResponse.headers["Retry-After"] > 0);
 });
 
+test("rate limiter can exempt a polling endpoint from the strict auth limit", () => {
+  const limit = createRateLimiter({
+    windowMs: 60_000,
+    max: 1,
+    skipLocal: false,
+    skip: (request) => request.path === "/poll-verification"
+  });
+  const request = { ip: "203.0.113.11", path: "/poll-verification", socket: {} };
+  let nextCalls = 0;
+  const blockedResponse = makeResponse();
+
+  limit(request, makeResponse(), () => { nextCalls++; });
+  limit(request, blockedResponse, () => { nextCalls++; });
+
+  assert.equal(nextCalls, 2);
+  assert.equal(blockedResponse.statusCode, null);
+});
+
 test("password reset recipient is always the account email", () => {
   assert.equal(
     getPasswordResetRecipient({ email: " Customer@Example.com " }),
