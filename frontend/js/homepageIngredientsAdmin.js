@@ -271,30 +271,46 @@ async function uploadIngredientImage(card) {
     button.disabled = true;
     button.textContent = "Uploading...";
     try {
-        const body = new FormData();
-        body.append("image", file);
-        const response = await fetch(`${BASE_URL}/api/homepage-ingredients/upload-image`, {
+        const signatureResponse = await fetch(`${BASE_URL}/api/homepage-ingredients/upload-signature`, {
             method: "POST",
-            headers: getAuthHeaders({}, false),
-            credentials: "include",
-            body
+            headers: getAuthHeaders(),
+            credentials: "include"
         });
-        const responseText = await response.text();
-        let result;
+        const signatureText = await signatureResponse.text();
+        let signatureData;
         try {
-            result = responseText ? JSON.parse(responseText) : {};
+            signatureData = signatureText ? JSON.parse(signatureText) : {};
         } catch {
-            const tooLarge = response.status === 413 || /request entity too large|payload too large/i.test(responseText);
-            throw new Error(tooLarge
-                ? "The server rejected this image as too large. Try a smaller image, or leave the image URL blank."
-                : `Image upload failed (${response.status}). The server returned an unreadable response.`);
+            throw new Error(`Could not prepare image upload (${signatureResponse.status}).`);
         }
-        if (!response.ok || !result || typeof result !== "object" || !result.success || !result.imageUrl) {
-            throw new Error(result?.message || "Image upload failed.");
+        if (!signatureResponse.ok || !signatureData.success) {
+            throw new Error(signatureData.message || "Could not prepare image upload.");
         }
 
-        card.querySelector('[data-field="imageUrl"]').value = result.imageUrl;
-        card.querySelector("[data-image-preview]").src = getImageUrl(result.imageUrl);
+        const body = new FormData();
+        body.append("file", file);
+        body.append("api_key", signatureData.apiKey);
+        body.append("timestamp", String(signatureData.timestamp));
+        body.append("folder", signatureData.folder);
+        body.append("allowed_formats", signatureData.allowedFormats);
+        body.append("signature", signatureData.signature);
+        const uploadResponse = await fetch(
+            `https://api.cloudinary.com/v1_1/${encodeURIComponent(signatureData.cloudName)}/image/upload`,
+            { method: "POST", body }
+        );
+        const uploadText = await uploadResponse.text();
+        let uploadData;
+        try {
+            uploadData = uploadText ? JSON.parse(uploadText) : {};
+        } catch {
+            throw new Error(`Image upload failed (${uploadResponse.status}).`);
+        }
+        if (!uploadResponse.ok || !uploadData.secure_url) {
+            throw new Error(uploadData.error?.message || "Image upload failed.");
+        }
+
+        card.querySelector('[data-field="imageUrl"]').value = uploadData.secure_url;
+        card.querySelector("[data-image-preview]").src = getImageUrl(uploadData.secure_url);
         showStatus("Ingredient image uploaded. Save the section to publish it.");
     } catch (error) {
         console.error("Ingredient image upload failed:", error);

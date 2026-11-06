@@ -1,14 +1,6 @@
-import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import multer from 'multer';
-import dotenv from 'dotenv';
-dotenv.config();
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
-});
+import { cloudinary } from '../config/cloudinary.js';
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
@@ -27,8 +19,6 @@ const ALLOWED_MIME_TYPES = [
   'image/jpeg', 'image/png', 'image/webp', 'image/jpg',
   'video/mp4', 'video/webm', 'video/quicktime', 'video/x-matroska', 'video/avi'
 ];
-const ALLOWED_IMAGE_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
-
 const fileFilter = (req, file, cb) => {
   if (ALLOWED_MIME_TYPES.includes(file.mimetype) || (file.mimetype && (file.mimetype.startsWith('image/') || file.mimetype.startsWith('video/')))) {
     return cb(null, true);
@@ -47,25 +37,6 @@ const upload = multer({
     fieldNameSize: 200
   }
 });
-
-const uploadContentImage = multer({
-  storage,
-  fileFilter: (req, file, cb) => {
-    if (ALLOWED_IMAGE_MIME_TYPES.includes(file.mimetype)) {
-      return cb(null, true);
-    }
-    const error = new Error('Unsupported image format. Please use JPG, PNG, or WEBP.');
-    error.status = 400;
-    return cb(error);
-  },
-  limits: {
-    fileSize: 50 * 1024 * 1024,
-    fieldSize: 1024 * 1024,
-    fieldNameSize: 200
-  }
-});
-
-export { uploadContentImage };
 
 export const deleteFromCloudinary = async (mediaUrl) => {
   try {

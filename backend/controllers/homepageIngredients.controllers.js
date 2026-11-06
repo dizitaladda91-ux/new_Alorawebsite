@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import HomepageIngredients from "../models/homepageIngredients.models.js";
 import SimpleProduct from "../models/product.models.js";
 import Blog from "../models/blog.models.js";
+import { cloudinary } from "../config/cloudinary.js";
 
 const DEFAULT_INGREDIENTS = [
     {
@@ -436,15 +437,35 @@ const updateHomepageIngredients = async (req, res) => {
     }
 };
 
-const uploadHomepageIngredientsImage = (req, res) => {
-    if (!req.file?.path) {
-        return res.status(400).json({ success: false, message: "Choose an image to upload." });
+const createHomepageIngredientsUploadSignature = (req, res) => {
+    const { cloud_name: cloudName, api_key: apiKey, api_secret: apiSecret } = cloudinary.config();
+    if (!cloudName || !apiKey || !apiSecret) {
+        console.error("Cloudinary is not configured for homepage image uploads.");
+        return res.status(503).json({ success: false, message: "Image uploads are temporarily unavailable." });
     }
+
+    const timestamp = Math.floor(Date.now() / 1000);
+    const folder = "ecommerce";
+    const allowedFormats = "jpg,png,webp";
+    const signature = cloudinary.utils.api_sign_request(
+        { allowed_formats: allowedFormats, folder, timestamp },
+        apiSecret
+    );
+
     return res.status(200).json({
         success: true,
-        imageUrl: req.file.path,
-        message: "Homepage image uploaded."
+        cloudName,
+        apiKey,
+        timestamp,
+        folder,
+        allowedFormats,
+        signature
     });
 };
 
-export { getHomepageIngredients, getHomepageIngredientBySlug, updateHomepageIngredients, uploadHomepageIngredientsImage };
+export {
+    getHomepageIngredients,
+    getHomepageIngredientBySlug,
+    updateHomepageIngredients,
+    createHomepageIngredientsUploadSignature
+};
