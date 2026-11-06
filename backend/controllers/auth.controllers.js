@@ -125,6 +125,22 @@ export const generate6DigitOtp = () => {
   return crypto.randomInt(100000, 1000000).toString();
 };
 
+export const buildVerificationUrl = (rawToken, req, clientUrl = process.env.CLIENT_URL) => {
+  const configuredUrl = String(clientUrl || "").trim().replace(/\/+$/, "");
+  const baseUrl = configuredUrl || (req ? `${req.protocol}://${req.get("host")}` : "https://aloraradiance.com");
+  return `${baseUrl}/verify-email?token=${encodeURIComponent(rawToken)}`;
+};
+
+export const getVerificationEmailFailureMessage = (error) => {
+  if (error?.code === "EAUTH" || error?.responseCode === 535) {
+    return "Gmail rejected the sender login. Check EMAIL_USER and use a Google App Password generated for that same account, then restart the backend.";
+  }
+  if (error?.code === "EMAIL_CONFIG_MISSING") {
+    return "Email delivery is not configured. Set EMAIL_USER and EMAIL_PASS on the backend, then restart it.";
+  }
+  return "Verification email could not be sent right now. Please try again later.";
+};
+
 export const send2FAOtpEmail = async (userEmail, userName, otpCode) => {
   const transporter = getTransporter();
   if (!transporter) {
@@ -182,12 +198,12 @@ export const send2FAOtpEmail = async (userEmail, userName, otpCode) => {
 export const sendVerificationEmail = async (user, rawToken, req) => {
   const transporter = getTransporter();
   if (!transporter) {
-    console.warn("EMAIL_USER or EMAIL_PASS not configured. Skipping verification email delivery.");
-    return false;
+    const error = new Error("EMAIL_USER or EMAIL_PASS not configured.");
+    error.code = "EMAIL_CONFIG_MISSING";
+    throw error;
   }
 
-  const clientUrl = process.env.CLIENT_URL || (req ? `${req.protocol}://${req.get("host")}` : "https://aloraradiance.com");
-  const verifyUrl = `${clientUrl}/verify-email?token=${rawToken}`;
+  const verifyUrl = buildVerificationUrl(rawToken, req);
   const userName = user.name || "Valued Customer";
 
   const mailOptions = {
@@ -286,10 +302,17 @@ export const register = async (req, res) => {
     });
 
     let emailSent = false;
+    let emailError = null;
     try {
       emailSent = await sendVerificationEmail(user, rawToken, req);
     } catch (mailErr) {
-      console.error("Registration verification email error:", mailErr.message);
+      emailError = mailErr;
+      console.error("Registration verification email error:", {
+        message: mailErr.message,
+        code: mailErr.code,
+        responseCode: mailErr.responseCode,
+        command: mailErr.command
+      });
     }
 
     try {
@@ -314,7 +337,7 @@ export const register = async (req, res) => {
       emailSent,
       message: emailSent
         ? "Registration successful! Please verify your email to activate your account."
-        : "Your account was created, but the verification email could not be sent. Please request a new link."
+        : `Your account was created, but the verification email could not be sent. ${getVerificationEmailFailureMessage(emailError)}`
     });
   } catch (error) {
     console.error("REGISTER_ERROR:", error);
@@ -398,10 +421,15 @@ export const resendVerificationEmail = async (req, res) => {
         });
       }
     } catch (mailErr) {
-      console.warn("Could not send verification email on resend:", mailErr.message);
+      console.warn("Could not send verification email on resend:", {
+        message: mailErr.message,
+        code: mailErr.code,
+        responseCode: mailErr.responseCode,
+        command: mailErr.command
+      });
       return res.status(503).json({
         success: false,
-        message: "Verification email could not be sent right now. Please try again later."
+        message: getVerificationEmailFailureMessage(mailErr)
       });
     }
 

@@ -4,6 +4,8 @@ import crypto from "node:crypto";
 import { createRateLimiter } from "../backend/middlewares/security.middleware.js";
 import {
   getPasswordResetRecipient,
+  buildVerificationUrl,
+  getVerificationEmailFailureMessage,
   generateVerificationToken,
   requiresEmailVerification,
   requiresTwoFactor
@@ -71,6 +73,32 @@ test("email verification token correctly matches incoming candidate tokens", () 
 
   assert.equal(validHash, hashedToken);
   assert.notEqual(invalidHash, hashedToken);
+});
+
+test("verification links use CLIENT_URL and avoid duplicate slashes", () => {
+  assert.equal(
+    buildVerificationUrl("safe-token", null, "https://aloraradiance.com/"),
+    "https://aloraradiance.com/verify-email?token=safe-token"
+  );
+  assert.equal(
+    buildVerificationUrl("safe-token", { protocol: "https", get: () => "aloraradiance.com" }, ""),
+    "https://aloraradiance.com/verify-email?token=safe-token"
+  );
+});
+
+test("verification email auth failures explain the Gmail App Password requirement", () => {
+  assert.match(
+    getVerificationEmailFailureMessage({ code: "EAUTH", responseCode: 535 }),
+    /Google App Password generated for that same account/
+  );
+  assert.match(
+    getVerificationEmailFailureMessage({ code: "ETIMEDOUT" }),
+    /could not be sent right now/
+  );
+  assert.match(
+    getVerificationEmailFailureMessage({ code: "EMAIL_CONFIG_MISSING" }),
+    /Set EMAIL_USER and EMAIL_PASS/
+  );
 });
 
 test("customer accounts require email verification for login", () => {
