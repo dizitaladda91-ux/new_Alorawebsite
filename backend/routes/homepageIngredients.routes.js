@@ -17,7 +17,7 @@ router.post("/upload-image", ...authorizeContentEditors, (req, res, next) => {
         if (error) {
             console.error("Homepage image upload failed:", error);
             const message = error.code === "LIMIT_FILE_SIZE"
-                ? "Image must be 5 MB or smaller."
+                ? "Image must be 50 MB or smaller."
                 : error.message || "Image upload failed.";
             return res.status(400).json({ success: false, message });
         }

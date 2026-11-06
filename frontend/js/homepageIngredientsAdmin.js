@@ -152,7 +152,7 @@ function renderIngredients() {
                         <img data-image-preview src="${escapeHtml(getImageUrl(ingredient.imageUrl || "/static/placeholder.png"))}" alt="${escapeHtml(ingredient.imageAlt)}" class="h-full w-full object-cover">
                     </div>
                     <input data-image-file type="file" accept="image/jpeg,image/png,image/webp" class="block w-full text-xs rounded-xl border border-slate-300 p-2.5 bg-white font-medium cursor-pointer">
-                    <p class="text-[11px] text-slate-500">JPG, PNG, or WEBP; maximum 5 MB.</p>
+                    <p class="text-[11px] text-slate-500">JPG, PNG, or WEBP; maximum 50 MB.</p>
                     <button type="button" data-action="upload-image" class="rounded-xl bg-slate-800 px-4 py-2.5 text-xs font-bold text-white hover:bg-slate-700 transition">
                         <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Upload Image
                     </button>
@@ -211,8 +211,8 @@ function renderIngredients() {
         card.querySelector("[data-image-file]").addEventListener("change", event => {
             const file = event.target.files?.[0];
             if (!file) return;
-            if (file.size > 5 * 1024 * 1024) {
-                showStatus("Image must be 5 MB or smaller.", true);
+            if (file.size > 50 * 1024 * 1024) {
+                showStatus("Image must be 50 MB or smaller.", true);
                 event.target.value = "";
                 return;
             }
