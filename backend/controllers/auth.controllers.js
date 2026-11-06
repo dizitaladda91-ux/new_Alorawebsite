@@ -1,5 +1,6 @@
 import User from "../models/userAuth.models.js";
 import Lead from "../models/lead.models.js";
+import PendingRegistration from "../models/pendingRegistration.models.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
@@ -285,7 +286,6 @@ export const register = async (req, res) => {
       }
     }
 
-    const { rawToken, hashedToken, expiresAt } = generateVerificationToken();
     const user = await User.create({
       title: title || '',
       name,
@@ -296,49 +296,27 @@ export const register = async (req, res) => {
       dob: dob || '',
       gender: gender || '',
       role: 'user',
-      isEmailVerified: false,
-      emailVerificationToken: hashedToken,
-      emailVerificationExpires: expiresAt
+      isEmailVerified: true,
+      emailVerificationToken: null,
+      emailVerificationExpires: null
     });
-
-    let emailSent = false;
-    let emailError = null;
     try {
-      emailSent = await sendVerificationEmail(user, rawToken, req);
-    } catch (mailErr) {
-      emailError = mailErr;
-      console.error("Registration verification email error:", {
-        message: mailErr.message,
-        code: mailErr.code,
-        responseCode: mailErr.responseCode,
-        command: mailErr.command
-      });
+      await PendingRegistration.deleteOne({ $or: [{ email: cleanEmail }, { phone: cleanPhone }] });
+    } catch (pendingCleanupError) {
+      console.warn("Could not remove old pending registration:", pendingCleanupError.message);
     }
 
     try {
       await Lead.findOneAndUpdate(
         { email: cleanEmail },
-        { 
-          name, 
-          email: cleanEmail, 
-          phone: cleanPhone, 
-          source: 'Website Registration',
-          status: 'Contacted'
-        },
+        { name, email: cleanEmail, phone: cleanPhone, source: 'Website Registration', status: 'Contacted' },
         { upsert: true, new: true }
       );
     } catch (leadError) {
       console.warn("Could not sync registered user to leads collection:", leadError.message);
     }
 
-    return res.status(201).json({
-      success: true,
-      emailVerificationRequired: true,
-      emailSent,
-      message: emailSent
-        ? "Registration successful! Please verify your email to activate your account."
-        : `Your account was created, but the verification email could not be sent. ${getVerificationEmailFailureMessage(emailError)}`
-    });
+    return completeLogin(res, user);
   } catch (error) {
     console.error("REGISTER_ERROR:", error);
     res.status(500).json({ message: 'Server error', error: error.message });
@@ -353,22 +331,54 @@ export const verifyEmail = async (req, res) => {
     }
 
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-    const user = await User.findOne({
+    let user = await User.findOne({
       emailVerificationToken: hashedToken,
       emailVerificationExpires: { $gt: Date.now() }
     });
 
-    if (!user) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "This email verification link is invalid or has expired. Please request a new verification link." 
+    if (user) {
+      user.isEmailVerified = true;
+      user.emailVerificationToken = null;
+      user.emailVerificationExpires = null;
+      await user.save();
+    } else {
+      const pendingRegistration = await PendingRegistration.findOne({
+        emailVerificationToken: hashedToken,
+        emailVerificationExpires: { $gt: Date.now() }
       });
-    }
+      if (!pendingRegistration) {
+        return res.status(400).json({
+          success: false,
+          message: "This email verification link is invalid or has expired. Please request a new verification link."
+        });
+      }
 
-    user.isEmailVerified = true;
-    user.emailVerificationToken = null;
-    user.emailVerificationExpires = null;
-    await user.save();
+      user = new User({
+        title: pendingRegistration.title,
+        name: pendingRegistration.name,
+        email: pendingRegistration.email,
+        password: pendingRegistration.passwordHash,
+        phone: pendingRegistration.phone,
+        address: pendingRegistration.address,
+        dob: pendingRegistration.dob,
+        gender: pendingRegistration.gender,
+        role: "user",
+        isEmailVerified: true
+      });
+      user.$locals.passwordAlreadyHashed = true;
+      await user.save();
+      await PendingRegistration.deleteOne({ _id: pendingRegistration._id });
+
+      try {
+        await Lead.findOneAndUpdate(
+          { email: user.email },
+          { name: user.name, email: user.email, phone: user.phone, source: "Website Registration", status: "Contacted" },
+          { upsert: true, new: true }
+        );
+      } catch (leadError) {
+        console.warn("Could not sync verified user to leads collection:", leadError.message);
+      }
+    }
 
     return res.status(200).json({
       success: true,
@@ -393,27 +403,33 @@ export const resendVerificationEmail = async (req, res) => {
       : String(req.body?.email || "").toLowerCase().trim();
 
     let user;
+    let pendingRegistration;
     if (req.user?.id) {
       user = await User.findOne({ _id: req.user.id, role: "user" });
     } else if (targetEmail) {
       user = await User.findOne({ email: targetEmail, role: "user" });
     }
 
-    if (!user) {
+    if (!user && targetEmail) {
+      pendingRegistration = await PendingRegistration.findOne({ email: targetEmail });
+    }
+
+    if (!user && !pendingRegistration) {
       return res.status(404).json({ success: false, message: "User account not found." });
     }
 
-    if (user.isEmailVerified) {
+    if (user?.isEmailVerified) {
       return res.status(400).json({ success: false, message: "Your email is already verified." });
     }
 
     const { rawToken, hashedToken, expiresAt } = generateVerificationToken();
-    user.emailVerificationToken = hashedToken;
-    user.emailVerificationExpires = expiresAt;
-    await user.save();
+    const verificationTarget = user || pendingRegistration;
+    verificationTarget.emailVerificationToken = hashedToken;
+    verificationTarget.emailVerificationExpires = expiresAt;
+    await verificationTarget.save();
 
     try {
-      const emailSent = await sendVerificationEmail(user, rawToken, req);
+      const emailSent = await sendVerificationEmail(verificationTarget, rawToken, req);
       if (!emailSent) {
         return res.status(503).json({
           success: false,
@@ -452,6 +468,10 @@ export const pollVerificationStatus = async (req, res) => {
 
     const user = await User.findOne({ email, role: "user" }).select("isEmailVerified");
     if (!user) {
+      const pendingRegistration = await PendingRegistration.exists({ email });
+      if (pendingRegistration) {
+        return res.status(200).json({ success: true, verified: false, message: "Waiting for email verification." });
+      }
       return res.status(404).json({ success: false, verified: false, message: "Account not found." });
     }
 
@@ -489,14 +509,6 @@ export const login = async (req, res, next) => {
 
     if (!user) {
       return res.status(401).json({ success: false, message: 'Invalid email or password.' });
-    }
-
-    if (requiresEmailVerification(user) && !user.isEmailVerified) {
-      return res.status(403).json({
-        success: false,
-        emailVerificationRequired: true,
-        message: "Please verify your email before logging in. Visit the email verification page to request a new link."
-      });
     }
 
     if (!requiresTwoFactor(user)) {

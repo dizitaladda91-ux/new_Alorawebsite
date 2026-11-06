@@ -27,7 +27,7 @@ import { fileURLToPath } from "url";
 import User from "./models/userAuth.models.js"; 
 import Product from "./models/product.models.js";
 import Post from "./models/blog.models.js"; 
-import { addReviewSummaries } from "./services/reviewSummary.service.js";
+import { addReviewSummaries, isLocalReviewPreview } from "./services/reviewSummary.service.js";
 import { generateSitemapXml } from "./services/sitemap.service.js"; 
 import { parseAndNormalizeSchemas } from "./services/contentSanitizer.service.js"; 
 import { renderBlogArticleSsr, renderBlogListSsr, renderIngredientSsr, renderProductSsr, renderProductListSsr } from "./services/ssr.service.js";
@@ -177,7 +177,9 @@ app.get('/products', async (req, res) => {
     await db();
     const products = await Product.find({ isActive: { $ne: false } }).sort({ isBestseller: -1, createdAt: -1 }).lean();
     const templateHtml = await fs.promises.readFile(moreProductHtmlPath, 'utf8');
-    const productsWithReviews = await addReviewSummaries(products);
+    const productsWithReviews = await addReviewSummaries(products, {
+      useSampleReviews: isLocalReviewPreview(req)
+    });
     const renderedHtml = renderProductListSsr(templateHtml, productsWithReviews);
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -208,7 +210,9 @@ app.get('/product/:id', async (req, res) => {
       return res.status(404).sendFile(productHtmlPath);
     }
 
-    const [productWithReviews] = await addReviewSummaries([product]);
+    const [productWithReviews] = await addReviewSummaries([product], {
+      useSampleReviews: isLocalReviewPreview(req)
+    });
     const templateHtml = await fs.promises.readFile(productHtmlPath, 'utf8');
     const renderedHtml = renderProductSsr(templateHtml, productWithReviews);
 

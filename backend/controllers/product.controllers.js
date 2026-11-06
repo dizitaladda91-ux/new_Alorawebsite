@@ -2,7 +2,7 @@ import SimpleProduct from "../models/product.models.js";
 import fs from "fs";
 import db from "../config/db.js";
 import { deleteFromCloudinary } from "../middlewares/cloudinaryUpload.js";
-import { addReviewSummaries } from "../services/reviewSummary.service.js";
+import { addReviewSummaries, isLocalReviewPreview } from "../services/reviewSummary.service.js";
 
 const toProductSlug = (value = "") => String(value)
     .toLowerCase()
@@ -76,7 +76,9 @@ export const readproduct = async (req, res) => {
     try {
         await db();
         const products = await SimpleProduct.find().lean();
-        res.status(200).json(await addReviewSummaries(products));
+        res.status(200).json(await addReviewSummaries(products, {
+            useSampleReviews: isLocalReviewPreview(req)
+        }));
     } catch (err) {
         console.error("readproduct error:", err);
         res.status(500).json({ error: err.message });
@@ -283,7 +285,9 @@ export const getproductbyid = async (req, res) => {
 
         await ensureProductSlug(product);
 
-        const [productWithReviews] = await addReviewSummaries([product]);
+        const [productWithReviews] = await addReviewSummaries([product], {
+            useSampleReviews: isLocalReviewPreview(req)
+        });
         res.status(200).json(productWithReviews);
     } catch (err) {
         res.status(500).json({ error: err.message });

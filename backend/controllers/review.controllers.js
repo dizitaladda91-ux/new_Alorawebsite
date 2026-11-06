@@ -1,5 +1,6 @@
 import Review from '../models/review.models.js';
 import SimpleProduct from '../models/product.models.js';
+import { getSampleReviews, isLocalReviewPreview } from '../services/reviewSummary.service.js';
 
 export const createReview = async (req, res) => {
     try {
@@ -40,6 +41,16 @@ export const getReviewsByProduct = async (req, res) => {
         }
 
         const uniqueCandidates = [...new Set(candidates)];
+        if (isLocalReviewPreview(req)) {
+            const sampleReviews = await getSampleReviews(uniqueCandidates);
+            return res.status(200).json({
+                success: true,
+                count: sampleReviews.length,
+                data: sampleReviews,
+                isSample: true
+            });
+        }
+
         const reviews = await Review.find({ productId: { $in: uniqueCandidates } }).sort({ createdAt: -1 });
 
         res.status(200).json({ success: true, count: reviews.length, data: reviews });

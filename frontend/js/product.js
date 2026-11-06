@@ -470,6 +470,8 @@ async function fetchAndRenderReviews(productId) {
         if (staticHeading) reviewsListContainer.appendChild(staticHeading);
         const reviewCount = document.getElementById('reviews-count');
         if (reviewCount) reviewCount.textContent = String(result.count ?? result.data.length);
+        const reviewSource = document.getElementById('product-review-source');
+        if (reviewSource) reviewSource.textContent = result.isSample ? 'Sample ·' : '';
         const averageRating = result.data.length
             ? result.data.reduce((total, review) => total + Number(review.rating || 0), 0) / result.data.length
             : 0;
@@ -509,7 +511,7 @@ async function fetchAndRenderReviews(productId) {
                 reviewElement.innerHTML = `
                     <div class="flex justify-between items-center mb-1">
                         <span class="font-medium text-ink text-sm">${escapeHTML(review.username)}</span>
-                        <span class="text-xs text-ash">${reviewDate}</span>
+                        <span class="text-xs text-ash">${review.isSample ? '<span class="text-amber-700 font-semibold">Sample · </span>' : ''}${reviewDate}</span>
                     </div>
                     <div class="flex text-gold text-xs mb-2">
                         ${starsHTML}
