@@ -281,7 +281,7 @@ export const renderIngredientSsr = (templateHtml, ingredient) => {
                 </span>
             </a>
         `;
-    }).join("") : '<p class="col-span-full text-sm leading-7 text-[#6B625A]">Products related to this ingredient will be added soon.</p>';
+    }).join("") : '<p class="col-span-full text-sm leading-7 text-[#6B625A]">No available products currently list this ingredient.</p>';
     const relatedBlogs = Array.isArray(ingredient.relatedBlogs) ? ingredient.relatedBlogs : [];
     const relatedBlogsHtml = relatedBlogs.length ? `
         <section class="bg-[#FBF7F0] py-12 sm:py-16">

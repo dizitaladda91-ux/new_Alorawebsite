@@ -6,7 +6,6 @@ const statusEl = document.getElementById("ingredients-form-status");
 const saveButton = document.getElementById("ingredients-save-button");
 const addButton = document.getElementById("add-ingredient-button");
 let ingredients = [];
-let products = [];
 
 function showStatus(message, isError = false) {
     statusEl.textContent = message;
@@ -40,14 +39,12 @@ function createEmptyIngredient() {
             { heading: "How to use it", body: "" }
         ],
         imageUrl: "",
-        imageAlt: "",
-        recommendedProducts: []
+        imageAlt: ""
     };
 }
 
 function collectIngredients() {
     return [...editorList.querySelectorAll("[data-ingredient-card]")].map(card => {
-        const productIds = [...card.querySelectorAll("[data-product-id]:checked")].map(input => input.value);
         const name = card.querySelector('[data-field="name"]').value.trim();
         const articleIntro = card.querySelector('[data-field="articleIntro"]').value.trim();
         return {
@@ -63,8 +60,7 @@ function collectIngredients() {
                 body: section.querySelector("[data-section-body]").value.trim()
             })),
             imageUrl: card.querySelector('[data-field="imageUrl"]').value.trim(),
-            imageAlt: card.querySelector('[data-field="imageAlt"]').value.trim(),
-            recommendedProducts: productIds
+            imageAlt: card.querySelector('[data-field="imageAlt"]').value.trim()
         };
     });
 }
@@ -76,17 +72,6 @@ function renderIngredients() {
         card.dataset.ingredientCard = "";
         card.className = "rounded-2xl border border-slate-200 bg-slate-50/60 p-4 sm:p-6 space-y-5";
 
-        const selectedIds = new Set((ingredient.recommendedProducts || []).map(product =>
-            String(typeof product === "string" ? product : product?._id || "")
-        ));
-        const productOptions = products.length
-            ? products.map(product => `
-                <label class="flex items-center gap-2 rounded-lg bg-white p-2 text-xs text-slate-700 border border-slate-200 cursor-pointer">
-                    <input type="checkbox" data-product-id value="${escapeHtml(product._id)}" ${selectedIds.has(String(product._id)) ? "checked" : ""} class="h-4 w-4 accent-amber-600">
-                    <span class="min-w-0 flex-1 truncate">${escapeHtml(product.name)}</span>
-                </label>
-            `).join("")
-            : '<p class="text-xs text-rose-600">Product catalog could not be loaded.</p>';
         const articleSections = (ingredient.pageSections || []).map((section, sectionIndex) => `
             <fieldset data-page-section class="rounded-xl border border-slate-200 bg-white p-3 space-y-3">
                 <div class="flex items-center justify-between gap-2">
@@ -180,8 +165,7 @@ function renderIngredients() {
 
             <div class="border-t border-slate-200 pt-4">
                 <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700">Recommended products</h4>
-                <p class="mt-1 text-[11px] text-slate-500">Choose up to 6 products to feature near the end of this ingredient's guide page.</p>
-                <div class="mt-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-56 overflow-y-auto">${productOptions}</div>
+                <p class="mt-1 text-[11px] text-slate-500">Products are matched automatically using the ingredient name in each product's Ingredients field.</p>
             </div>
         `;
 
@@ -323,24 +307,13 @@ async function uploadIngredientImage(card) {
 
 async function loadSection() {
     try {
-        const [contentResponse, productsResponse] = await Promise.all([
-            fetch(`${BASE_URL}/api/homepage-ingredients`, { cache: "no-cache" }),
-            fetch(`${BASE_URL}/api/product/all`, { cache: "no-cache" })
-        ]);
-        const [contentResult, productResult] = await Promise.all([
-            contentResponse.json(),
-            productsResponse.json()
-        ]);
+        const contentResponse = await fetch(`${BASE_URL}/api/homepage-ingredients`, { cache: "no-cache" });
+        const contentResult = await contentResponse.json();
         if (!contentResponse.ok || !contentResult.success || !contentResult.data) {
             throw new Error(contentResult.message || "Could not load homepage section settings.");
         }
-        if (!productsResponse.ok) {
-            throw new Error(productResult.message || productResult.error || "Could not load the product catalog.");
-        }
 
         ingredients = Array.isArray(contentResult.data.ingredients) ? contentResult.data.ingredients : [];
-        products = Array.isArray(productResult) ? productResult : (productResult.products || productResult.data || []);
-        products = products.filter(product => product?._id && product.isAvailable !== false);
         if (!ingredients.length) ingredients = [createEmptyIngredient()];
 
         form.elements.eyebrow.value = contentResult.data.eyebrow || "Discover";
@@ -372,11 +345,6 @@ form.addEventListener("submit", async event => {
         showStatus("Keep between 1 and 12 ingredient cards.", true);
         return;
     }
-    if (ingredients.some(ingredient => ingredient.recommendedProducts.length > 6)) {
-        showStatus("Each ingredient can have up to 6 recommended products.", true);
-        return;
-    }
-
     saveButton.disabled = true;
     saveButton.textContent = "Saving...";
     const payload = {

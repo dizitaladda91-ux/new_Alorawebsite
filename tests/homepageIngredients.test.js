@@ -3,7 +3,10 @@ import test from "node:test";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { DEFAULT_HOMEPAGE_INGREDIENTS } from "../backend/controllers/homepageIngredients.controllers.js";
+import {
+  buildIngredientProductQuery,
+  DEFAULT_HOMEPAGE_INGREDIENTS
+} from "../backend/controllers/homepageIngredients.controllers.js";
 import HomepageIngredients from "../backend/models/homepageIngredients.models.js";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -57,4 +60,22 @@ test("homepage ingredient cards can be saved without an image URL", () => {
 
   assert.equal(content.ingredients[0].imageUrl, "");
   assert.notEqual(HomepageIngredients.schema.path("ingredients").schema.path("imageUrl").options.required, true);
+});
+
+test("related products match the ingredient name in the product ingredients field", () => {
+  const query = buildIngredientProductQuery({ name: "Hyaluronic Acid", slug: "hyaluronic-acid" });
+  const pattern = new RegExp(query.ingredients.$regex, query.ingredients.$options);
+
+  assert.equal(query.isAvailable.$ne, false);
+  assert.equal(query.ingredients.$options, "i");
+  assert.match("Water, Hyaluronic Acid, Glycerin", pattern);
+  assert.doesNotMatch("Water, Niacinamide, Glycerin", pattern);
+});
+
+test("ingredient names are escaped before building product search patterns", () => {
+  const query = buildIngredientProductQuery({ name: "Vitamin C (10%)" });
+  const pattern = new RegExp(query.ingredients.$regex, query.ingredients.$options);
+
+  assert.match("Vitamin C (10%) serum", pattern);
+  assert.doesNotMatch("Vitamin C 10 serum", pattern);
 });

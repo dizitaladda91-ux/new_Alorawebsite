@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import HomepageIngredients from "../models/homepageIngredients.models.js";
 import SimpleProduct from "../models/product.models.js";
 import Blog from "../models/blog.models.js";
@@ -263,43 +262,40 @@ const getProductSummary = (product) => ({
     isAvailable: product.isAvailable !== false
 });
 
-const resolveProducts = async (ingredients, useDefaults = false) => {
-    if (useDefaults) {
-        const productSlugs = [...new Set(ingredients.flatMap(item => item.productSlugs || []))];
-        const products = await SimpleProduct.find({ slug: { $in: productSlugs }, isAvailable: { $ne: false } })
-            .select("name slug imagepath variants price isAvailable")
-            .lean();
-        const productsBySlug = new Map(products.map(product => [product.slug, getProductSummary(product)]));
-        return ingredients.map(({ productSlugs: slugs, ...ingredient }) => ({
-            ...ingredient,
-            recommendedProducts: (slugs || []).map(slug => productsBySlug.get(slug)).filter(Boolean)
-        }));
-    }
+const escapeRegex = value => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-    const productIds = [...new Set(ingredients.flatMap(item => (item.recommendedProducts || []).map(String)))];
-    const products = productIds.length
-        ? await SimpleProduct.find({ _id: { $in: productIds }, isAvailable: { $ne: false } })
+export const buildIngredientProductQuery = ingredient => {
+    const searchTerm = String(ingredient.name || ingredient.slug || "")
+        .trim()
+        .replace(/-/g, " ");
+    const pattern = searchTerm.split(/\s+/).filter(Boolean).map(escapeRegex).join("\\s+");
+    return {
+        isAvailable: { $ne: false },
+        ingredients: { $regex: pattern, $options: "i" }
+    };
+};
+
+const resolveProducts = async ingredients => Promise.all(ingredients.map(async ingredient => {
+    const search = buildIngredientProductQuery(ingredient);
+    const products = search.ingredients.$regex
+        ? await SimpleProduct.find(search)
             .select("name slug imagepath variants price isAvailable")
+            .sort({ isBestseller: -1, isFeatured: -1, updatedAt: -1 })
+            .limit(6)
             .lean()
         : [];
-    const productsById = new Map(products.map(product => [String(product._id), getProductSummary(product)]));
-    return ingredients.map(ingredient => ({
+    return {
         ...ingredient,
-        recommendedProducts: (ingredient.recommendedProducts || [])
-            .map(product => productsById.get(String(product?._id || product)))
-            .filter(Boolean)
-    }));
-};
+        recommendedProducts: products.map(getProductSummary)
+    };
+}));
 
 const getHomepageIngredients = async (req, res) => {
     try {
         const content = await loadHomepageContentWithSeededIngredients();
         const useDefaults = !content?.ingredients?.length;
         const sourceIngredients = (useDefaults ? DEFAULT_INGREDIENTS : content.ingredients).map(enrichIngredient);
-        const ingredients = await resolveProducts(
-            sourceIngredients,
-            useDefaults
-        );
+        const ingredients = await resolveProducts(sourceIngredients);
         return res.status(200).json({
             success: true,
             data: {
@@ -320,7 +316,7 @@ const getHomepageIngredientBySlug = async (slug) => {
     const sourceIngredients = (useDefaults ? DEFAULT_INGREDIENTS : content.ingredients).map(enrichIngredient);
     const ingredient = sourceIngredients.find(item => item.slug === slug);
     if (!ingredient) return null;
-    const [resolvedIngredient] = await resolveProducts([ingredient], useDefaults);
+    const [resolvedIngredient] = await resolveProducts([ingredient]);
     if (!resolvedIngredient) return null;
 
     const searchTerm = String(resolvedIngredient.name || resolvedIngredient.slug || "").trim();
@@ -352,13 +348,6 @@ const updateHomepageIngredients = async (req, res) => {
             if (!item || typeof item !== "object" || Array.isArray(item)) {
                 throw new HomepageContentValidationError(`${label} is invalid.`);
             }
-            if (!Array.isArray(item.recommendedProducts) || item.recommendedProducts.length > 6) {
-                throw new HomepageContentValidationError(`${label} can have up to 6 recommended products.`);
-            }
-            const recommendedProducts = [...new Set(item.recommendedProducts.map(id => String(id)))];
-            if (recommendedProducts.some(id => !mongoose.Types.ObjectId.isValid(id))) {
-                throw new HomepageContentValidationError(`${label} has an invalid recommended product.`);
-            }
             const name = validateText(item.name, `${label} name`, 100);
             const slug = validateText(item.slug || slugify(name), `${label} URL slug`, 120).toLowerCase();
             if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
@@ -389,23 +378,12 @@ const updateHomepageIngredients = async (req, res) => {
                     ? ""
                     : validateUrl(item.imageUrl, `${label} image URL`),
                 imageAlt: validateText(item.imageAlt, `${label} image alt text`, 180),
-                recommendedProducts
+                recommendedProducts: []
             };
         });
 
         if (new Set(ingredients.map(item => item.slug)).size !== ingredients.length) {
             throw new HomepageContentValidationError("Each ingredient must have a unique URL slug.");
-        }
-
-        const productIds = [...new Set(ingredients.flatMap(item => item.recommendedProducts))];
-        if (productIds.length) {
-            const foundProducts = await SimpleProduct.countDocuments({
-                _id: { $in: productIds },
-                isAvailable: { $ne: false }
-            });
-            if (foundProducts !== productIds.length) {
-                throw new HomepageContentValidationError("One or more recommended products are unavailable. Reload the product list and try again.");
-            }
         }
 
         const payload = {
