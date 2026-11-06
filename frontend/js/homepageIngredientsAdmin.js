@@ -216,7 +216,19 @@ function renderIngredients() {
                 event.target.value = "";
                 return;
             }
-            card.querySelector("[data-image-preview]").src = URL.createObjectURL(file);
+
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                if (typeof reader.result !== "string") {
+                    showStatus("Could not preview the selected image.", true);
+                    return;
+                }
+                card.querySelector("[data-image-preview]").src = reader.result;
+            });
+            reader.addEventListener("error", () => {
+                showStatus("Could not read the selected image.", true);
+            });
+            reader.readAsDataURL(file);
         });
         card.querySelector('[data-action="upload-image"]').addEventListener("click", () => {
             uploadIngredientImage(card);
