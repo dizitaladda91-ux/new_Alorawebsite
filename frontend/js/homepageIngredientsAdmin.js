@@ -218,6 +218,9 @@ function renderIngredients() {
             }
             card.querySelector("[data-image-preview]").src = URL.createObjectURL(file);
         });
+        card.querySelector('[data-action="upload-image"]').addEventListener("click", () => {
+            uploadIngredientImage(card);
+        });
         card.addEventListener("click", event => {
             const action = event.target.closest("[data-action]")?.dataset.action;
             if (action === "remove") {
@@ -238,8 +241,6 @@ function renderIngredients() {
                     ingredients[index].pageSections.splice(Number(event.target.closest("[data-action]").dataset.sectionIndex), 1);
                 }
                 renderIngredients();
-            } else if (action === "upload-image") {
-                uploadIngredientImage(card);
             }
         });
         editorList.append(card);

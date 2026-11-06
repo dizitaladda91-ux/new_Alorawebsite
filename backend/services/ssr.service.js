@@ -282,6 +282,35 @@ export const renderIngredientSsr = (templateHtml, ingredient) => {
             </a>
         `;
     }).join("") : '<p class="col-span-full text-sm leading-7 text-[#6B625A]">Products related to this ingredient will be added soon.</p>';
+    const relatedBlogs = Array.isArray(ingredient.relatedBlogs) ? ingredient.relatedBlogs : [];
+    const relatedBlogsHtml = relatedBlogs.length ? `
+        <section class="bg-[#FBF7F0] py-12 sm:py-16">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mb-7 max-w-2xl">
+                    <span class="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B5C2A]">Read next</span>
+                    <h2 class="mt-2 font-heading text-3xl font-bold text-[#2B1D14] sm:text-4xl">Related skincare blogs</h2>
+                </div>
+                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    ${relatedBlogs.map(blog => {
+                        const excerpt = String(blog.metaDesc || "")
+                            .replace(/<[^>]*>/g, " ")
+                            .replace(/\s+/g, " ")
+                            .trim();
+                        return `
+                            <a href="/blog/${encodeURIComponent(blog.slug || "")}" class="group overflow-hidden rounded-2xl border border-[#E8DCCB] bg-white transition hover:-translate-y-1 hover:shadow-lg">
+                                <img src="${escapeHtml(formatImageUrl(blog.coverImage))}" alt="${escapeHtml(blog.title || "Skincare blog")}" loading="lazy" class="aspect-[3/2] w-full bg-[#F1E6D3] object-cover">
+                                <span class="block p-5">
+                                    <span class="block font-heading text-xl font-bold text-[#2B1D14]">${escapeHtml(blog.title || "Skincare guide")}</span>
+                                    ${excerpt ? `<span class="mt-2 block text-sm leading-6 text-[#6B625A]">${escapeHtml(excerpt.slice(0, 180))}</span>` : ""}
+                                    <span class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#8B5C2A]">Read article <span aria-hidden="true">&rarr;</span></span>
+                                </span>
+                            </a>
+                        `;
+                    }).join("")}
+                </div>
+            </div>
+        </section>
+    ` : "";
     const schema = {
         "@context": "https://schema.org",
         "@type": "Article",
@@ -314,6 +343,7 @@ export const renderIngredientSsr = (templateHtml, ingredient) => {
     html = html.replace(/<img id="ingredient-hero-image"[^>]*>/i, `<img id="ingredient-hero-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(ingredient.imageAlt || name)}" class="h-full min-h-[320px] w-full rounded-3xl object-cover shadow-sm" fetchpriority="high">`);
     html = html.replace("<!-- INGREDIENT_TOC -->", tocHtml);
     html = html.replace("<!-- INGREDIENT_SECTIONS -->", sectionsHtml);
+    html = html.replace("<!-- INGREDIENT_RELATED_BLOGS -->", relatedBlogsHtml);
     html = html.replace("<!-- INGREDIENT_PRODUCTS -->", productsHtml);
     return html;
 };

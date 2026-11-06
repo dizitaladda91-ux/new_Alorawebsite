@@ -64,6 +64,12 @@ test("ingredient SSR includes the editable guide content and its sections", () =
       { heading: "What does walnut mean in skincare?", body: "Walnut shell powder is used in some rinse-off formulas." },
       { heading: "How to use a walnut scrub gently", body: "Use light pressure and follow the product label." }
     ],
+    relatedBlogs: [{
+      title: "Walnut Scrubs and Gentle Exfoliation",
+      slug: "walnut-scrubs-gentle-exfoliation",
+      metaDesc: "What to know about walnut in skincare.",
+      coverImage: "/static/hero_banner_scrub_desk.webp"
+    }],
     recommendedProducts: []
   });
 
@@ -72,4 +78,7 @@ test("ingredient SSR includes the editable guide content and its sections", () =
   assert.match(html, /What does walnut mean in skincare\?/);
   assert.match(html, /Walnut shell powder is used in some rinse-off formulas/);
   assert.match(html, /href="#ingredient-section-2"/);
+  assert.match(html, /Related skincare blogs/);
+  assert.match(html, /href="\/blog\/walnut-scrubs-gentle-exfoliation"/);
+  assert.match(html, /What to know about walnut in skincare/);
 });

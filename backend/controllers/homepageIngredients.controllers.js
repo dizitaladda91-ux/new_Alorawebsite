@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import HomepageIngredients from "../models/homepageIngredients.models.js";
 import SimpleProduct from "../models/product.models.js";
+import Blog from "../models/blog.models.js";
 
 const DEFAULT_INGREDIENTS = [
     {
@@ -319,7 +320,24 @@ const getHomepageIngredientBySlug = async (slug) => {
     const ingredient = sourceIngredients.find(item => item.slug === slug);
     if (!ingredient) return null;
     const [resolvedIngredient] = await resolveProducts([ingredient], useDefaults);
-    return resolvedIngredient || null;
+    if (!resolvedIngredient) return null;
+
+    const searchTerm = String(resolvedIngredient.name || resolvedIngredient.slug || "").trim();
+    const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const relatedBlogs = searchTerm
+        ? await Blog.find({
+            status: "published",
+            $or: ["title", "metaTitle", "keywords", "metaDesc", "category", "content"].map(field => ({
+                [field]: { $regex: escapedSearchTerm, $options: "i" }
+            }))
+        })
+            .select("title slug metaDesc coverImage createdAt")
+            .sort({ createdAt: -1 })
+            .limit(3)
+            .lean()
+        : [];
+
+    return { ...resolvedIngredient, relatedBlogs };
 };
 
 const updateHomepageIngredients = async (req, res) => {
