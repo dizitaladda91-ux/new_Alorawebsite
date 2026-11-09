@@ -98,9 +98,23 @@ let redisConnection;
 
 const getRedisClient = async () => {
   if (!redisClient) {
-    const url = process.env.REDIS_URL;
-    if (!url) {
+    const configuredUrl = process.env.REDIS_URL?.trim();
+    if (!configuredUrl) {
       throw new Error("Redis Cloud is not configured. Set REDIS_URL to your Redis connection string.");
+    }
+
+    // Redis Cloud sometimes shows a CLI command (`redis-cli -u <url>`).
+    // Environment variables must contain only the URL, but strip the command
+    // prefix defensively so a copied command does not cause ERR_INVALID_URL.
+    const url = configuredUrl.replace(/^redis-cli\s+-u\s+/i, "").trim();
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(url);
+    } catch {
+      throw new Error("REDIS_URL must contain only a valid Redis URL, such as rediss://default:<password>@<host>:<port> (without `redis-cli -u`).");
+    }
+    if (parsedUrl.protocol !== "redis:" && parsedUrl.protocol !== "rediss:") {
+      throw new Error("REDIS_URL must use the redis:// or rediss:// protocol.");
     }
 
     redisClient = createClient({ url });
