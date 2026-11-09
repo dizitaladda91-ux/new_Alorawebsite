@@ -443,51 +443,43 @@
             }
         }
 
-        #hero-slider-dots {
-            position: relative !important;
+        .hero-slider-arrow {
+            position: absolute !important;
+            z-index: 5 !important;
+            top: 50% !important;
             display: flex !important;
-            justify-content: center !important;
             align-items: center !important;
-            gap: 6px !important;
-            padding: 5px 12px !important;
-            margin: 6px auto 2px auto !important;
-            width: fit-content !important;
-            border-radius: 9999px !important;
-            background-color: rgba(250, 246, 238, 0.75) !important;
-            backdrop-filter: blur(6px) !important;
-            -webkit-backdrop-filter: blur(6px) !important;
-            border: 1px solid rgba(184, 70, 14, 0.12) !important;
-            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04) !important;
-        }
-        @media (max-width: 640px) {
-            #hero-slider-dots {
-                margin: 4px auto 2px auto !important;
-                padding: 4px 10px !important;
-                gap: 5px !important;
-            }
-        }
-        .hero-dot {
-            height: 7px !important;
-            width: 7px !important;
-            border-radius: 50% !important;
-            background-color: rgba(184, 70, 14, 0.25) !important;
-            border: none !important;
-            transition: all 0.3s ease !important;
-            cursor: pointer !important;
+            justify-content: center !important;
+            width: 44px !important;
+            height: 44px !important;
             padding: 0 !important;
-            margin: 0 !important;
-            outline: none !important;
-        }
-        .hero-dot:hover {
-            background-color: rgba(184, 70, 14, 0.6) !important;
-            transform: scale(1.2) !important;
-        }
-        .hero-dot.active {
-            width: 9px !important;
-            height: 9px !important;
-            background-color: #FBF7F0 !important;
+            border: 1px solid rgba(251, 247, 240, 0.55) !important;
             border-radius: 50% !important;
-            box-shadow: 0 1px 6px rgba(184, 70, 14, 0.35) !important;
+            background: rgba(43, 29, 20, 0.72) !important;
+            color: #FBF7F0 !important;
+            font-size: 30px !important;
+            line-height: 1 !important;
+            cursor: pointer !important;
+            transform: translateY(-50%) !important;
+            transition: background-color 0.2s ease, color 0.2s ease !important;
+        }
+        .hero-slider-arrow:hover,
+        .hero-slider-arrow:focus-visible {
+            background: #D98E2B !important;
+            color: #2B1D14 !important;
+            outline: 2px solid #FBF7F0 !important;
+            outline-offset: 2px !important;
+        }
+        .hero-slider-prev { left: 14px !important; }
+        .hero-slider-next { right: 14px !important; }
+        @media (max-width: 640px) {
+            .hero-slider-arrow {
+                width: 38px !important;
+                height: 38px !important;
+                font-size: 26px !important;
+            }
+            .hero-slider-prev { left: 8px !important; }
+            .hero-slider-next { right: 8px !important; }
         }
 
         /* 🚀 WCAG Touch Target Compliance: Expands interactive touch target of .dot buttons to 28px x 28px */
@@ -956,18 +948,8 @@
     </a>
 
 </div>
-</div>
-
-<!-- Hero Slider Dots Navigation (Placed cleanly below the banner image) -->
-<div class="w-full flex justify-center py-1">
-    <div id="hero-slider-dots">
-        <button type="button" aria-label="Go to slide 1" class="hero-dot active"></button>
-        <button type="button" aria-label="Go to slide 2" class="hero-dot"></button>
-        <button type="button" aria-label="Go to slide 3" class="hero-dot"></button>
-        <button type="button" aria-label="Go to slide 4" class="hero-dot"></button>
-        <button type="button" aria-label="Go to slide 5" class="hero-dot"></button>
-        <button type="button" aria-label="Go to slide 6" class="hero-dot"></button>
-    </div>
+    <button type="button" class="hero-slider-arrow hero-slider-prev" aria-label="Previous banner" aria-controls="slider-track">&#8249;</button>
+    <button type="button" class="hero-slider-arrow hero-slider-next" aria-label="Next banner" aria-controls="slider-track">&#8250;</button>
 </div>
 
   <!-- ============ FEATURED PRODUCTS COLLECTION ============ -->

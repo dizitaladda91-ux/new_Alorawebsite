@@ -108,19 +108,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!track) return;
     const slides = track.children;
     const totalSlides = slides.length;
-    const dots = document.querySelectorAll(".hero-dot");
+    const prevButton = document.querySelector(".hero-slider-prev");
+    const nextButton = document.querySelector(".hero-slider-next");
     let currentIndex = 0;
     let autoSlideInterval = null;
 
     const updateSlider = () => {
         track.style.transform = `translateX(-${currentIndex * 100}%)`;
-        dots.forEach((dot, index) => {
-            if (index === currentIndex) {
-                dot.classList.add("active");
-            } else {
-                dot.classList.remove("active");
-            }
-        });
     };
 
     const startAutoSlide = () => {
@@ -138,14 +132,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    dots.forEach((dot, index) => {
-        dot.addEventListener("click", (e) => {
-            e.preventDefault();
-            currentIndex = index;
-            updateSlider();
-            startAutoSlide();
-        });
-    });
+    const changeSlide = (direction) => {
+        currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+        updateSlider();
+        startAutoSlide();
+    };
+
+    if (prevButton) prevButton.addEventListener("click", () => changeSlide(-1));
+    if (nextButton) nextButton.addEventListener("click", () => changeSlide(1));
 
     const sliderContainer = track.closest(".hero-slider-container");
     if (sliderContainer) {
