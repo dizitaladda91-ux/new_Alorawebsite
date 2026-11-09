@@ -34,6 +34,7 @@ const generateToken = (id, role) => {
 
 export const requiresTwoFactor = (user) => user.role === "user";
 export const requiresEmailVerification = (user) => user.role === "user";
+const TWO_FACTOR_OTP_TTL_MS = 5 * 60 * 1000;
 
 const completeLogin = (res, user) => {
   const token = generateToken(user._id, user.role);
@@ -181,7 +182,7 @@ export const send2FAOtpEmail = async (userEmail, userName, otpCode) => {
             <h2>Your Login Verification Code</h2>
             <p>Hello ${userName || "User"},<br>Enter this 6-digit one-time code to complete your login to your Alora Radiance account:</p>
             <div class="otp-code">${otpCode}</div>
-            <p style="font-size: 13px; color: #666; margin: 0;">This code is valid for <strong>10 minutes</strong>. Never share this code with anyone.</p>
+            <p style="font-size: 13px; color: #666; margin: 0;">This code is valid for <strong>5 minutes</strong> and can only be used once. Never share this code with anyone.</p>
           </div>
           <div class="footer">
             <p style="margin: 0;">&copy; ${new Date().getFullYear()} Alora Radiance. All rights reserved.</p>
@@ -511,6 +512,13 @@ export const login = async (req, res, next) => {
       return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
 
+    if (requiresTwoFactor(user) && !user.isEmailVerified) {
+      return res.status(403).json({
+        success: false,
+        message: 'Please verify your email address before logging in.'
+      });
+    }
+
     if (!requiresTwoFactor(user)) {
       return completeLogin(res, user);
     }
@@ -518,7 +526,7 @@ export const login = async (req, res, next) => {
     const otp = generate6DigitOtp();
     const hashedOtp = crypto.createHash("sha256").update(otp).digest("hex");
     user.twoFactorOtp = hashedOtp;
-    user.twoFactorOtpExpires = new Date(Date.now() + 10 * 60 * 1000);
+    user.twoFactorOtpExpires = new Date(Date.now() + TWO_FACTOR_OTP_TTL_MS);
     await user.save();
 
     try {
@@ -551,13 +559,15 @@ export const verify2FA = async (req, res) => {
 
     const hashedOtp = crypto.createHash("sha256").update(cleanOtp).digest("hex");
 
-    const user = await User.findOne({
+    const user = await User.findOneAndUpdate({
       email: cleanEmail,
       role: "user",
       isEmailVerified: true,
       twoFactorOtp: hashedOtp,
-      twoFactorOtpExpires: { $gt: Date.now() }
-    });
+      twoFactorOtpExpires: { $gt: new Date() }
+    }, {
+      $set: { twoFactorOtp: null, twoFactorOtpExpires: null }
+    }, { new: true });
 
     if (!user) {
       return res.status(400).json({
@@ -565,10 +575,6 @@ export const verify2FA = async (req, res) => {
         message: 'Invalid or expired verification code. Please check your code or request a new one.'
       });
     }
-
-    user.twoFactorOtp = null;
-    user.twoFactorOtpExpires = null;
-    await user.save();
 
     return completeLogin(res, user);
   } catch (error) {
@@ -595,7 +601,7 @@ export const resend2FAOtp = async (req, res) => {
     const hashedOtp = crypto.createHash("sha256").update(otp).digest("hex");
 
     user.twoFactorOtp = hashedOtp;
-    user.twoFactorOtpExpires = new Date(Date.now() + 10 * 60 * 1000);
+    user.twoFactorOtpExpires = new Date(Date.now() + TWO_FACTOR_OTP_TTL_MS);
     await user.save();
 
     try {
