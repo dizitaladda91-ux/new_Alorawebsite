@@ -69,10 +69,6 @@ export const trackReferralClick = async (req, res) => {
       return res.status(200).json({ success: true, referralCode: "GLOW10", clickId: null, discountPercent: 10 });
     }
 
-    if (code === "RAKHI30" || code === "RAKHI" || code === "FESTIVE30" || code === "RAKHI30OFF") {
-      return res.status(200).json({ success: true, referralCode: code, clickId: null, discountPercent: 30 });
-    }
-
     const click = await createAffiliateClick({ referralCode: code });
     return res.status(200).json({ success: true, ...click });
   } catch (error) {

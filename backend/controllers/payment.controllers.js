@@ -350,25 +350,8 @@ export const createOrder = async (req, res) => {
         const candidateCodes = getRequestedCouponCodes(req.body);
 
         for (const candidateCode of candidateCodes) {
-            if (candidateCode === "TEST134") {
-                const [usedOrder, activeAttempt] = await Promise.all([
-                    Order.findOne({ appliedCoupons: candidateCode }).select("_id").lean(),
-                    PaymentAttempt.findOne({
-                        appliedCoupons: candidateCode,
-                        expiresAt: { $gt: new Date() }
-                    }).select("_id").lean()
-                ]);
-
-                if (usedOrder) {
-                    throw new Error("Coupon 'TEST134' is invalid because it has already been used.");
-                }
-                if (activeAttempt) {
-                    throw new Error("Coupon 'TEST134' is currently reserved by another checkout. Try again later.");
-                }
-
-                flatDiscount += 134;
-                appliedCoupons.push(candidateCode);
-                continue;
+            if (["RAKHI30", "RAKHI", "FESTIVE30", "RAKHI30OFF", "TEST134", "DIWALI", "FESTIVE20", "DIWALI20OFF"].includes(candidateCode)) {
+                throw new Error(`Coupon '${candidateCode}' is no longer available.`);
             }
 
             // Strict Single-Use Per Account/Email Check
@@ -391,13 +374,7 @@ export const createOrder = async (req, res) => {
                 }
             }
 
-            if (candidateCode === "RAKHI30" || candidateCode === "RAKHI" || candidateCode === "FESTIVE30" || candidateCode === "RAKHI30OFF") {
-                discountPercent += 30;
-                appliedCoupons.push(candidateCode);
-                continue;
-            }
-
-            if (candidateCode === "DIWALI20" || candidateCode === "DIWALI" || candidateCode === "FESTIVE20" || candidateCode === "DIWALI20OFF") {
+            if (candidateCode === "DIWALI20") {
                 discountPercent += 20;
                 appliedCoupons.push(candidateCode);
                 continue;

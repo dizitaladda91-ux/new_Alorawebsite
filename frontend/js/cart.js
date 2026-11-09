@@ -9,7 +9,12 @@ let appliedCoupons = [];
 try {
     const storedCoupons = JSON.parse(sessionStorage.getItem(APPLIED_COUPONS_KEY) || "[]");
     if (Array.isArray(storedCoupons)) {
-        appliedCoupons = storedCoupons.filter((coupon) => /^[A-Z0-9_-]{5,64}$/.test(String(coupon?.code || "")) && Number(coupon.rate) > 0);
+        appliedCoupons = storedCoupons.filter((coupon) => {
+            const code = String(coupon?.code || "").toUpperCase();
+            const validCode = code === "GLOW10" || code === "DIWALI20" || coupon?.source === "referral";
+            return validCode && /^[A-Z0-9_-]{5,64}$/.test(code) && Number(coupon.rate) > 0;
+        });
+        sessionStorage.setItem(APPLIED_COUPONS_KEY, JSON.stringify(appliedCoupons));
     }
 } catch (error) {
     console.warn("Applied coupons could not be restored.", error);
@@ -425,18 +430,13 @@ async function applyCoupon() {
         recalculateBill();
         return;
     }
-    if (typedCode === "RAKHI30" || typedCode === "RAKHI" || typedCode === "FESTIVE30" || typedCode === "RAKHI30OFF") {
-        if (addAppliedCoupon(typedCode, 30)) {
-            couponMessage.innerText = `🪔 Rakhi Special Coupon '${typedCode}' applied successfully! (30% Off)`;
-            couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
-            couponInput.value = "";
-        } else {
-            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
-            couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
-        }
+    if (["RAKHI30", "RAKHI", "FESTIVE30", "RAKHI30OFF", "TEST134", "DIWALI", "FESTIVE20", "DIWALI20OFF"].includes(typedCode)) {
+        couponMessage.innerText = "This coupon is no longer available.";
+        couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
+        recalculateBill();
         return;
     }
-    if (typedCode === "DIWALI20" || typedCode === "DIWALI" || typedCode === "FESTIVE20" || typedCode === "DIWALI20OFF") {
+    if (typedCode === "DIWALI20") {
         if (addAppliedCoupon(typedCode, 20)) {
             couponMessage.innerText = `🪔 Shubh Diwali Special Coupon '${typedCode}' applied successfully! (20% Off)`;
             couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
@@ -456,18 +456,6 @@ async function applyCoupon() {
             couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
             couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
         }
-        return;
-    }
-    if (typedCode === "TEST134") {
-        if (addAppliedCoupon(typedCode, 134, "coupon", true)) {
-            couponMessage.innerText = "Test coupon 'TEST134' applied successfully! (₹134 off)";
-            couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
-            couponInput.value = "";
-        } else {
-            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
-            couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
-        }
-        recalculateBill();
         return;
     }
     let refData = null;
