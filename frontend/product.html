@@ -15,7 +15,7 @@
     <!-- Tailwind CSS CDN -->
     <link rel="stylesheet" href="./styles/tailwind.min.css">
     <script>
-        tailwind.config = {
+        if (typeof tailwind !== 'undefined') tailwind.config = {
             theme: {
                 extend: {
                     colors: {
@@ -298,7 +298,7 @@
     <script type="module" src="/js/navbar-interactions.min.js"></script>
     <script type="module" src="/js/product.min.js"></script>
     <script src="/js/cart.min.js"></script>
-    <script src="/js/app.min.js"></script>
+    <script type="module" src="/js/app.min.js"></script>
     <script type="module" src="/js/contacts.min.js"></script>
     <script type="module" src="/js/lead.min.js"></script>
 </body>
