@@ -434,55 +434,12 @@
             display: block !important;
             image-rendering: auto !important;
         }
-        .hero-banner-copy {
-            display: none;
-        }
         @media (min-width: 768px) {
             .hero-desk-img {
                 display: block !important;
             }
             .hero-mob-img {
                 display: none !important;
-            }
-            .hero-banner-copy {
-                position: absolute;
-                z-index: 1;
-                top: 50%;
-                left: clamp(2rem, 4.5vw, 7.5rem);
-                display: block;
-                width: min(44%, 980px);
-                color: #2B1D14;
-                pointer-events: none;
-                transform: translateY(-50%);
-            }
-            .hero-bodylotion-copy {
-                width: min(45%, 1040px);
-            }
-            .hero-facecream-copy {
-                right: clamp(2rem, 4.5vw, 7.5rem);
-                left: auto;
-                width: min(38%, 800px);
-                text-align: right;
-            }
-            .hero-scrub-copy {
-                right: clamp(2rem, 4.5vw, 7.5rem);
-                left: auto;
-                width: min(38%, 800px);
-                text-align: right;
-            }
-            .hero-banner-copy h2 {
-                max-width: 900px;
-                margin: 0;
-                font-family: var(--font-heading);
-                font-size: clamp(2rem, 3.2vw, 4.75rem);
-                font-weight: 600;
-                line-height: 1.05;
-            }
-            .hero-banner-copy p {
-                max-width: 900px;
-                margin: 1.25rem 0 0;
-                font-size: clamp(1rem, 1.5vw, 1.75rem);
-                line-height: 1.4;
             }
         }
 
@@ -969,56 +926,36 @@
     <!-- 1st Slide: All Products -->
     <a href="/products" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#FBF7F0]">
         <img src="./static/1.webp" alt="Alora Radiance Complete Skincare Collection Desktop" width="2560" height="800" fetchpriority="high" loading="eager" decoding="async" class="hero-desk-img">
-        <div class="hero-banner-copy hero-allproducts-copy">
-            <h2>Reveal Your Natural Radiance</h2>
-            <p>Cleanse. Exfoliate. Hydrate. Radiate.</p>
-        </div>
         <img src="./static/hero_banner_allproducts_mob_2x.webp" alt="Alora Radiance Complete Skincare Collection Mobile" width="2458" height="3072" fetchpriority="high" loading="eager" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 2nd Slide: Face Wash -->
     <a href="/product/purifying-glow-face-wash" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#FBF7F0]">
         <img src="./static/2.webp" alt="Purifying Glow Face Wash Banner Desktop" width="2560" height="800" fetchpriority="low" loading="lazy" decoding="async" class="hero-desk-img">
-        <div class="hero-banner-copy hero-facewash-copy">
-            <h2>A gentle face wash enriched with saffron extract for clean, fresh-looking skin.</h2>
-        </div>
         <img src="./static/hero_banner_facewash_mob_2x.webp" alt="Purifying Glow Face Wash Banner Mobile" width="2458" height="3072" fetchpriority="low" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 3rd Slide: Body Lotion -->
     <a href="/product/soothing-body-lotion" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#FBF7F0]">
         <img src="./static/3.webp" alt="Soothing Body Lotion Banner Desktop" width="2560" height="800" loading="lazy" decoding="async" class="hero-desk-img">
-        <div class="hero-banner-copy hero-bodylotion-copy">
-            <h2>Deep hydration, lasting softness &mdash; powered by</h2>
-            <p>Hyaluronic Acid, Shea Butter &amp; Niacinamide</p>
-        </div>
         <img src="./static/hero_banner_bodylotion_mob_2x.webp" alt="Soothing Body Lotion Banner Mobile" width="2458" height="3072" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 4th Slide: Face Cream & Sunscreen -->
     <a href="/product/face-cream-sunscreen-spf-30" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#FBF7F0]">
         <img src="./static/4.web" alt="Mulberry Face Cream SPF 30++ Banner Desktop" width="2560" height="800" loading="lazy" decoding="async" class="hero-desk-img">
-        <div class="hero-banner-copy hero-facecream-copy">
-            <h2>Mulberry-powered care with SPF 30++ for soft, radiant-looking skin.</h2>
-        </div>
         <img src="./static/hero_banner_facecream_mob_2x.webp" alt="Mulberry Face Cream &amp; Sunscreen SPF 30++ Banner Mobile" width="2458" height="3072" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 5th Slide: Face Serum -->
     <a href="/product/brightening-hydrating-face-serum" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#FBF7F0]">
         <img src="./static/5.webp" alt="Brightening &amp; Hydrating Face Serum Banner Desktop" width="2560" height="800" loading="lazy" decoding="async" class="hero-desk-img">
-        <div class="hero-banner-copy hero-faceserum-copy">
-            <h2>A lightweight serum that hydrates, nourishe and brightens the skin.</h2>
-        </div>
         <img src="./static/hero_banner_faceserum_mob_2x.webp" alt="Brightening &amp; Hydrating Face Serum Banner Mobile" width="2458" height="3072" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 6th Slide: Walnut Scrub -->
     <a href="/product/gentle-exfoliating-walnut-scrub" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#FBF7F0]">
         <img src="./static/6.webp" alt="Walnut Face Scrub Banner Desktop" width="2560" height="800" loading="lazy" decoding="async" class="hero-desk-img">
-        <div class="hero-banner-copy hero-scrub-copy">
-            <h2>Gentle Exfoliation for Fresh, Radiant Skin</h2>
-        </div>
         <img src="./static/hero_banner_scrub_mob_2x.webp" alt="Gentle Exfoliating Walnut Scrub Banner Mobile" width="2458" height="3072" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
