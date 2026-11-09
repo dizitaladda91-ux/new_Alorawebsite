@@ -1,6 +1,6 @@
 :root {
   --site-font: 'Jost', 'Jost-Fallback', Arial, sans-serif;
-  --font-heading: 'Cormorant Garamond', 'Cormorant-Fallback', Georgia, serif;
+  --font-heading: var(--site-font);
   --font-body: var(--site-font);
 }
 
@@ -15,6 +15,5 @@ html body h3,
 html body h4,
 html body h5,
 html body h6 {
-  font-family: var(--font-heading) !important;
-  font-weight: 600 !important;
+  font-family: var(--site-font) !important;
 }

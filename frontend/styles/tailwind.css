@@ -8,7 +8,7 @@
 
 :root {
   --site-font: 'Jost', 'Jost-Fallback', Arial, sans-serif;
-  --font-heading: 'Cormorant Garamond', 'Cormorant-Fallback', Georgia, serif;
+  --font-heading: var(--site-font);
   --font-body: var(--site-font);
 
   /* ==========================================================================
@@ -47,7 +47,7 @@ html body h3,
 html body h4,
 html body h5,
 html body h6 {
-  font-family: var(--font-heading) !important;
+  font-family: var(--site-font) !important;
   font-weight: 600 !important;
 }
 
@@ -123,12 +123,8 @@ input, select, textarea {
   font-family: var(--font-body) !important;
 }
 
-.font-serif, .font-fraunces, .font-heading {
-  font-family: var(--font-heading) !important;
-}
-
-.font-roboto {
-  font-family: 'Roboto Mono', monospace !important;
+.font-serif, .font-fraunces, .font-heading, .font-mono, .font-roboto {
+  font-family: var(--site-font) !important;
 }
 
 /* FontAwesome Safety - Icons must never inherit text font */

@@ -24,7 +24,8 @@ test('review summaries combine reviews saved by product ID and slug', () => {
         slug: 'face-wash',
         rating: 4.8,
         reviewsCount: 3,
-        averageReviewRating: 4.7
+        averageReviewRating: 4.7,
+        isSampleReviews: false
     });
 
     test('local sample review counts vary from four to five and sample content is labeled', async () => {
