@@ -458,6 +458,18 @@ async function applyCoupon() {
         }
         return;
     }
+    if (typedCode === "TEST134") {
+        if (addAppliedCoupon(typedCode, 134, "coupon", true)) {
+            couponMessage.innerText = "Test coupon 'TEST134' applied successfully! (₹134 off)";
+            couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
+            couponInput.value = "";
+        } else {
+            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
+            couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
+        }
+        recalculateBill();
+        return;
+    }
     let refData = null;
     try { refData = JSON.parse(sessionStorage.getItem("aloraReferral") || "null"); } catch (e) {}
     if (refData && refData.referralCode === typedCode) {
