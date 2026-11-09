@@ -134,10 +134,10 @@ export const buildVerificationUrl = (rawToken, req, clientUrl = process.env.CLIE
 
 export const getVerificationEmailFailureMessage = (error) => {
   if (error?.code === "EAUTH" || error?.responseCode === 535) {
-    return "Gmail rejected the sender login. Check EMAIL_USER and use a Google App Password generated for that same account, then restart the backend.";
+    return "Gmail rejected the sender login. Check EMAIL_USER and set EMAIL_PASS to a valid Google App Password for that same account, then redeploy the backend.";
   }
   if (error?.code === "EMAIL_CONFIG_MISSING") {
-    return "Email delivery is not configured. Set EMAIL_USER and EMAIL_PASS on the backend, then restart it.";
+    return "Email delivery is not configured. Set EMAIL_USER and EMAIL_PASS in the backend deployment settings, then redeploy.";
   }
   return "Verification email could not be sent right now. Please try again later.";
 };
@@ -699,8 +699,11 @@ export const forgotPassword = async (req, res) => {
 
     if (!accountEmail) return res.status(400).json({ message: "Account Email enter karein!" });
 
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-      return res.status(500).json({ message: ".env file me EMAIL_USER ya EMAIL_PASS missing hai!" });
+    const transporter = getTransporter();
+    if (!transporter) {
+      const error = new Error("Email sender credentials are not configured.");
+      error.code = "EMAIL_CONFIG_MISSING";
+      return res.status(503).json({ message: getVerificationEmailFailureMessage(error) });
     }
 
     const user = await User.findOne({ email: accountEmail });
@@ -733,7 +736,6 @@ export const forgotPassword = async (req, res) => {
       `
     };
 
-    const transporter = getTransporter();
     await transporter.sendMail(mailOptions);
     res.status(200).json({ 
       success: true, 
@@ -741,8 +743,17 @@ export const forgotPassword = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("FORGOT_PASSWORD_ERROR:", error);
-    res.status(500).json({ message: "Email bhejne me issue aaya.", error: error.message });
+    console.error("FORGOT_PASSWORD_ERROR:", {
+      code: error?.code,
+      responseCode: error?.responseCode,
+      command: error?.command
+    });
+    const authRejected = error?.code === "EAUTH" || error?.responseCode === 535;
+    const configMissing = error?.code === "EMAIL_CONFIG_MISSING";
+    const message = authRejected || configMissing
+      ? getVerificationEmailFailureMessage(error)
+      : "Password reset email could not be sent right now. Please try again later.";
+    res.status(configMissing ? 503 : authRejected ? 502 : 500).json({ message });
   }
 };
 
