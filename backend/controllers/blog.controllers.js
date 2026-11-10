@@ -57,6 +57,17 @@ function extractCloudinaryUrls(html = '') {
     return matches ? [...new Set(matches)] : [];
 }
 
+const isBlogOwnedCloudinaryAsset = (mediaUrl = '') => {
+    try {
+        const url = new URL(mediaUrl);
+        const uploadPath = url.pathname.split('/upload/')[1] || '';
+        const withoutVersion = uploadPath.replace(/^v\d+\//, '');
+        return url.hostname === 'res.cloudinary.com' && withoutVersion.startsWith('blog/');
+    } catch {
+        return false;
+    }
+};
+
 // Upload inline image for Quill rich text editor
 export const uploadInlineImage = async (req, res) => {
     try {
@@ -71,7 +82,7 @@ export const uploadInlineImage = async (req, res) => {
         });
     } catch (error) {
         console.error("Inline image upload error:", error);
-        return res.status(500).json({ success: false, message: error.message });
+        return res.status(500).json({ success: false, message: "Image upload failed." });
     }
 };
 
@@ -147,7 +158,7 @@ export const createBlogPost = async (req, res) => {
         if (error.code === 11000) {
             return res.status(409).json({ success: false, message: "A post with an identical slug already exists. Please try a different title or slug." });
         }
-        return res.status(500).json({ success: false, message: error.message || "Could not publish blog post." });
+        return res.status(500).json({ success: false, message: "Could not publish blog post." });
     }
 };
 
@@ -158,8 +169,8 @@ export const getAllBlogs = async (req, res) => {
         const limit = Math.max(1, Math.min(100, parseInt(req.query.limit) || 50));
         const skip = (page - 1) * limit;
 
-        const isPublic = !req.user || req.user.role === 'user';
-        const filter = isPublic ? { status: { $ne: 'draft' } } : {};
+        const canViewDrafts = ['admin', 'seoadmin'].includes(req.user?.role);
+        const filter = canViewDrafts ? {} : { status: { $ne: 'draft' } };
 
         // Light Projection excluding heavy rich text content for card listing performance
         const blogs = await Blog.find(filter)
@@ -183,7 +194,7 @@ export const getAllBlogs = async (req, res) => {
         });
     } catch (error) {
         console.error("Fetch all blogs error:", error);
-        return res.status(500).json({ success: false, message: error.message || "Could not load blog posts." });
+        return res.status(500).json({ success: false, message: "Could not load blog posts." });
     }
 };
 
@@ -207,13 +218,15 @@ export const getBlogBySlug = async (req, res) => {
             blog = await Blog.findOne({ slug: { $regex: new RegExp(`^${param.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') } });
         }
 
-        if (!blog) return res.status(404).json({ success: false, message: "Article not found." });
+        if (!blog || (blog.status === 'draft' && !['admin', 'seoadmin'].includes(req.user?.role))) {
+            return res.status(404).json({ success: false, message: "Article not found." });
+        }
         
         const cleanedBlog = cleanBlogFieldsAndSave(blog);
         return res.status(200).json({ success: true, blog: cleanedBlog, data: cleanedBlog });
     } catch (error) {
         console.error("Fetch blog detail error:", error);
-        return res.status(500).json({ success: false, message: error.message || "Could not load article." });
+        return res.status(500).json({ success: false, message: "Could not load article." });
     }
 };
 
@@ -285,7 +298,7 @@ export const updateBlogPost = async (req, res) => {
         if (error.code === 11000) {
             return res.status(409).json({ success: false, message: "A post with an identical slug already exists." });
         }
-        return res.status(500).json({ success: false, message: error.message || "Could not update blog post." });
+        return res.status(500).json({ success: false, message: "Could not update blog post." });
     }
 };
 
@@ -300,12 +313,12 @@ export const deleteBlogPost = async (req, res) => {
         }
 
         // Delete cover image from Cloudinary
-        if (deletedBlog.coverImage) {
+        if (isBlogOwnedCloudinaryAsset(deletedBlog.coverImage)) {
             try { await deleteFromCloudinary(deletedBlog.coverImage); } catch (e) { console.warn("Cloudinary cover delete warning:", e); }
         }
 
         // Delete all orphan inline images stored in Cloudinary
-        const inlineUrls = extractCloudinaryUrls(deletedBlog.content);
+        const inlineUrls = extractCloudinaryUrls(deletedBlog.content).filter(isBlogOwnedCloudinaryAsset);
         for (const inlineUrl of inlineUrls) {
             try { await deleteFromCloudinary(inlineUrl); } catch (e) { console.warn("Cloudinary inline delete warning:", e); }
         }
@@ -315,6 +328,6 @@ export const deleteBlogPost = async (req, res) => {
         return res.status(200).json({ success: true, message: "Blog and associated assets deleted successfully!" });
     } catch (error) {
         console.error("Delete blog error:", error);
-        return res.status(500).json({ success: false, message: error.message || "Could not delete blog post." });
+        return res.status(500).json({ success: false, message: "Could not delete blog post." });
     }
 };

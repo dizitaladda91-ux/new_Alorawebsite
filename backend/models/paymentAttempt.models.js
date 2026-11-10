@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+const PAYMENT_ATTEMPT_TTL_MS = 48 * 60 * 60 * 1000;
+
 const paymentAttemptItemSchema = new mongoose.Schema({
   productId: { type: String, required: true },
   name: { type: String, required: true },
@@ -34,7 +36,8 @@ const paymentAttemptSchema = new mongoose.Schema({
   },
   totalAmount: { type: Number, required: true, min: 0 },
   currency: { type: String, default: "INR" },
-  expiresAt: { type: Date, default: () => new Date(Date.now() + 30 * 60 * 1000), expires: 0 }
+  // Keep pending checkout data long enough for delayed UPI captures and webhooks.
+  expiresAt: { type: Date, default: () => new Date(Date.now() + PAYMENT_ATTEMPT_TTL_MS), expires: 0 }
 }, { timestamps: true });
 
 const PaymentAttempt = mongoose.models.PaymentAttempt || mongoose.model("PaymentAttempt", paymentAttemptSchema);

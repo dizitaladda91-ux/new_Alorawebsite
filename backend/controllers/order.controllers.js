@@ -199,6 +199,6 @@ export const refundAdminOrder = async (req, res) => {
       await Order.updateOne({ _id: claimedOrder._id, paymentStatus: "paid" }, { $set: { "refund.processing": false } });
     }
     console.error("Refund error:", error);
-    return res.status(500).json({ success: false, message: error?.error?.description || error.message || "Refund could not be completed." });
+    return res.status(500).json({ success: false, message: "Refund could not be completed." });
   }
 };

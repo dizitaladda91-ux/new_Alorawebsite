@@ -1,18 +1,15 @@
 /**
  * ALORA RADIANCE - Storefront Auto-Discount & Referral Tracking SDK
- * Automatically detects referral parameters (?ref=CODE&discount=10&coupon=CODE),
- * displays a 10% OFF partner banner, persists referral context across pages,
- * auto-propagates referral query params to internal navigation links, and
- * SILENTLY AUTO-APPLIES the 10% discount coupon at checkout.
+ * Detects referral parameters, stores the referral code for checkout, and
+ * propagates referral context to internal navigation links. The server decides
+ * whether a referral is eligible and what discount applies.
  */
 (function () {
   'use strict';
 
   const urlParams = new URLSearchParams(window.location.search);
   const refFromUrl = urlParams.get('ref') || urlParams.get('referral') || urlParams.get('affiliate') || urlParams.get('coupon') || urlParams.get('coupon_code');
-  const discountFromUrl = urlParams.get('discount') || urlParams.get('discountPercent');
   const clickIdFromUrl = urlParams.get('clickId') || urlParams.get('click_id');
-  const DEFAULT_DISCOUNT_PERCENT = 10;
 
   function getCookie(name) {
     const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
@@ -25,17 +22,7 @@
     document.cookie = `alora_ref_code=${encodeURIComponent(refFromUrl)}; path=/; max-age=2592000`; // 30 days
   }
 
-  const discountPercent = Number(
-    discountFromUrl ||
-    localStorage.getItem('alora_discount_percent') ||
-    sessionStorage.getItem('alora_discount_percent') ||
-    DEFAULT_DISCOUNT_PERCENT
-  );
-
-  if (refFromUrl || discountFromUrl) {
-    localStorage.setItem('alora_discount_percent', String(discountPercent));
-    sessionStorage.setItem('alora_discount_percent', String(discountPercent));
-  }
+  const discountPercent = 0;
 
   if (clickIdFromUrl) {
     localStorage.setItem('alora_click_id', clickIdFromUrl);
@@ -89,11 +76,7 @@
     `;
 
     const message = document.createElement('span');
-    const code = document.createElement('code');
-    code.textContent = activeRefCode;
-    code.style.cssText = 'background:rgba(255,255,255,0.2);padding:2px 6px;border-radius:4px;';
-    message.append('🎉 ', `${discountPercent}% Partner Discount Active! (Ref Code: `);
-    message.append(code, ') — Auto-applied at checkout!');
+    message.append(`Referral code ${activeRefCode} detected. Any eligible discount will be confirmed at checkout.`);
 
     const closeButton = document.createElement('button');
     closeButton.id = 'alora-close-banner';
@@ -234,19 +217,11 @@
         refInput.value = activeRefCode;
         form.appendChild(refInput);
       }
-      if (!form.querySelector('input[name="alora_discount_percent"]')) {
-        const discountInput = document.createElement('input');
-        discountInput.type = 'hidden';
-        discountInput.name = 'alora_discount_percent';
-        discountInput.value = String(discountPercent);
-        form.appendChild(discountInput);
-      }
     });
   }
 
   function runCheckoutDiscountHelpers() {
     injectDiscountBanner();
-    showDiscountedProductPrices();
     autoFillCouponFields();
     updateCartFormInputs();
     propagateReferralToInternalLinks();

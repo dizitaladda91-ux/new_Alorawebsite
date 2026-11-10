@@ -19,7 +19,8 @@ export const createQuery = async (req, res) => {
 
         res.status(201).json({ success: true, message: "Query saved successfully." });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        console.error('Query submission failed:', error);
+        res.status(500).json({ success: false, message: 'Could not submit the request.' });
     }
 };
 
@@ -29,6 +30,7 @@ export const getAllQueries = async (req, res) => {
         const queries = await Query.find().sort({ createdAt: -1 }); // Latest queries pehle aayengi
         res.status(200).json({ success: true, data: queries });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        console.error('Query fetch failed:', error);
+        res.status(500).json({ success: false, message: 'Could not load requests.' });
     }
 };

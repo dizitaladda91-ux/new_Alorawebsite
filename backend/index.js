@@ -3,6 +3,7 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import compression from "compression";
+import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import db from "./config/db.js";
 import productRouter from "./routes/product.routes.js";
@@ -49,8 +50,8 @@ app.set("trust proxy", 1);
 
 // Security Rate Limiters
 const globalLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 2000, message: "Too many API requests. Please slow down." });
-const authLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 20, message: "Too many login/auth attempts. Please try again after 15 minutes.", skip: (req) => req.path === "/poll-verification" });
-const verificationPollLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 120, message: "Verification status is being checked too often. Please wait a moment." });
+const authLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 30, message: "Too many login/auth attempts. Please try again after 15 minutes." });
+const verificationPollLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 500, message: "Verification status is being checked too often. Please wait a moment." });
 
 // Middleware setup
 const corsOptions = {
@@ -76,6 +77,25 @@ const corsOptions = {
   credentials: true
 };
 
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      baseUri: ["'self'"],
+      objectSrc: ["'none'"],
+      frameAncestors: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com", "https://www.google-analytics.com", "https://checkout.razorpay.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
+      imgSrc: ["'self'", "data:", "blob:", "https://res.cloudinary.com", "https://images.unsplash.com", "https://www.googletagmanager.com"],
+      fontSrc: ["'self'", "data:", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
+      connectSrc: ["'self'", "https://www.google-analytics.com", "https://analytics.google.com", "https://*.razorpay.com", "https://generativelanguage.googleapis.com"],
+      frameSrc: ["'self'", "https://checkout.razorpay.com", "https://www.youtube.com", "https://www.youtube-nocookie.com"],
+      mediaSrc: ["'self'", "blob:", "https://res.cloudinary.com"],
+      formAction: ["'self'", "https://checkout.razorpay.com", "https://api.razorpay.com"],
+      ...(process.env.NODE_ENV === "production" ? { upgradeInsecureRequests: [] } : {})
+    }
+  }
+}));
 app.use(setSecurityHeaders);
 app.use(compression());
 app.use(cors(corsOptions));
@@ -83,14 +103,25 @@ app.options(/.*/, cors(corsOptions));
 
 // Razorpay signature must be verified against exact raw body
 app.use("/api/payments/webhook", express.raw({ type: "application/json" }));
-app.use(express.json({ limit: '100mb' }));
-app.use(express.urlencoded({ limit: '100mb', extended: true }));
+app.use(express.json({ limit: '100kb' }));
+app.use(express.urlencoded({ limit: '100kb', extended: true }));
 app.use(cookieParser());
 app.use(sanitizeNoSql);
 
 app.use("/api", globalLimiter);
 app.use("/api/auth/poll-verification", verificationPollLimiter);
-app.use("/api/auth", authLimiter);
+// Apply the stricter auth budget only to credential and recovery endpoints.
+// Session/profile checks are routine page-load traffic and must not consume it.
+app.use([
+  "/api/auth/login",
+  "/api/auth/register",
+  "/api/auth/verify-2fa",
+  "/api/auth/resend-2fa",
+  "/api/auth/forgot-password",
+  "/api/auth/reset-password",
+  "/api/auth/resend-verification",
+  "/api/auth/verify-email"
+], authLimiter);
 
 // High-Speed HTTP Response Caching for Public Catalog GET Endpoints
 app.use(['/api/product/all', '/api/product/search', '/api/products/all', '/api/blogs/all', '/api/blog/all', '/api/blogs', '/api/blog', '/api/reviews'], (req, res, next) => {
@@ -125,8 +156,7 @@ app.use('/api', async (req, res, next) => {
     console.error("Database connection error:", err);
     return res.status(503).json({
       success: false,
-      message: 'Database is temporarily unavailable. Please try again shortly.',
-      error: err.message
+      message: 'Database is temporarily unavailable. Please try again shortly.'
     });
   }
 });
@@ -457,10 +487,13 @@ app.use((err, req, res, next) => {
     });
   }
 
-  res.status(err.status || 500).json({
+  const status = err.status || 500;
+  const publicMessage = status >= 500 && process.env.NODE_ENV === "production"
+    ? "A server error occurred. Please try again later."
+    : (err.message || "A server error occurred");
+  res.status(status).json({
     success: false,
-    message: err.message || "A server error occurred",
-    error: err.message || "A server error occurred"
+    message: publicMessage
   });
 });
 

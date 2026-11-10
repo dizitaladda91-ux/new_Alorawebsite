@@ -314,19 +314,12 @@ function trackReferralFromUrl() {
     const pathMatch = window.location.pathname.match(/^\/ref\/([^/?#]+)\/?$/i);
     const rawCode = pathMatch?.[1] || params.get("ref") || params.get("aff") || params.get("referral") || params.get("code") || params.get("affiliate");
     if (!rawCode || !/^[a-z0-9_-]{5,64}$/i.test(rawCode)) {
-        try {
-            const stored = JSON.parse(sessionStorage.getItem("aloraReferral") || "null");
-            if (stored && stored.referralCode) {
-                showReferralBanner(stored.referralCode, stored.discountPercent || 10);
-            }
-        } catch (e) {}
         return;
     }
     const normalizedCode = rawCode.toUpperCase();
     let existing = null;
     try { existing = JSON.parse(sessionStorage.getItem("aloraReferral") || "null"); } catch {  }
     if (existing?.referralCode === normalizedCode && existing?.clickId) {
-        showReferralBanner(normalizedCode, existing.discountPercent || 10);
         return;
     }
     const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:";

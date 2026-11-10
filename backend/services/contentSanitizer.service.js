@@ -30,7 +30,7 @@ export const sanitizePlainText = (value, maxLength = 500) => {
     allowedTags: [],
     allowedAttributes: {}
   });
-  return decodeEntities(stripped).replace(/\s+/g, " ").trim().slice(0, maxLength);
+  return stripped.replace(/\s+/g, " ").trim().slice(0, maxLength);
 };
 
 export const sanitizeBlogHtml = (value) => sanitizeHtml(String(value ?? "").replace(/<h1\b[^>]*>.*?<\/h1>/gis, ""), {
@@ -47,6 +47,17 @@ export const sanitizeBlogHtml = (value) => sanitizeHtml(String(value ?? "").repl
     div: ["class", "style"],
     span: ["class", "style"],
     p: ["class", "style"]
+  },
+  allowedStyles: {
+    '*': {
+      'color': [/^#[0-9a-f]{3,8}$/i, /^rgba?\([\d\s.,%]+\)$/i],
+      'background-color': [/^#[0-9a-f]{3,8}$/i, /^rgba?\([\d\s.,%]+\)$/i],
+      'text-align': [/^(left|right|center|justify)$/],
+      'font-size': [/^(small|medium|large|[0-9.]+(px|pt|em|rem|%))$/],
+      'font-weight': [/^(normal|bold|[1-9]00)$/],
+      'font-style': [/^(normal|italic|oblique)$/],
+      'text-decoration': [/^(none|underline|line-through)$/]
+    }
   },
   allowedSchemes: ["http", "https", "mailto"],
   allowedSchemesByTag: { img: ["http", "https"] },
@@ -202,4 +213,3 @@ export const sanitizeJsonObject = (value) => {
   }
   return formatSchemaForStorage(schemas);
 };
-

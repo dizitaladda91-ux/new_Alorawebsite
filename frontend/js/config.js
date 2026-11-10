@@ -10,6 +10,11 @@ function computeBaseUrl() {
     return "";
 }
 const BASE_URL = computeBaseUrl();
+try {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userToken");
+    sessionStorage.removeItem("token");
+} catch {}
 export function getImageUrl(imagePath, fallback = "/static/placeholder.png") {
     if (!imagePath || typeof imagePath !== 'string') return fallback;
     const trimmed = imagePath.trim();
@@ -36,12 +41,9 @@ export function getProductUrl(product) {
     return `/product/${encodeURIComponent(slug || "product")}`;
 }
 export function getAuthHeaders(headers = {}, isJson = true) {
-    const token = typeof localStorage !== 'undefined' ? (localStorage.getItem("token") || localStorage.getItem("userToken") || sessionStorage.getItem("token")) : null;
-    const authHeader = token ? { "Authorization": `Bearer ${token}` } : {};
     const base = isJson ? { "Content-Type": "application/json" } : {};
     const result = {
         ...base,
-        ...authHeader,
         ...headers
     };
     if (result["Content-Type"] === null || result["Content-Type"] === undefined || result["Content-Type"] === false) {

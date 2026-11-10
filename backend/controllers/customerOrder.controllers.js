@@ -7,37 +7,16 @@ export const getMyOrders = async (req, res) => {
     const page = Math.max(1, Number.parseInt(req.query.page, 10) || 1);
     const limit = Math.min(100, Math.max(1, Number.parseInt(req.query.limit, 10) || 50));
     
-    // Find logged in user to get their registered email and phone number
-    const user = await User.findById(req.user.id).select("email phone").lean();
+    const user = await User.findById(req.user.id).select("email isEmailVerified").lean();
     
     const queryConditions = [{ userId: req.user.id }];
     
-    if (user?.email && user.email.trim()) {
+    if (user?.isEmailVerified && user.email && user.email.trim()) {
       const cleanEmail = user.email.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       queryConditions.push({ "customer.email": new RegExp(`^${cleanEmail}$`, "i") });
     }
     
-    if (user?.phone && user.phone.trim()) {
-      const phoneDigits = user.phone.replace(/\D/g, '').slice(-10);
-      if (phoneDigits.length >= 7) {
-        queryConditions.push({ "customer.phone": new RegExp(phoneDigits) });
-      }
-    }
-    
     const filter = { $or: queryConditions };
-
-    // Auto-link any past unlinked orders matching email or phone
-    const unlinkedConditions = queryConditions.filter(c => !c.userId);
-    if (unlinkedConditions.length > 0) {
-      try {
-        await Order.updateMany(
-          { userId: null, $or: unlinkedConditions },
-          { $set: { userId: req.user.id } }
-        );
-      } catch (e) {
-        console.warn("Auto-link past orders warning:", e?.message);
-      }
-    }
 
     const [orders, total] = await Promise.all([
       Order.find(filter).sort({ createdAt: -1 }).skip((page - 1) * limit).limit(limit).lean(),
@@ -62,23 +41,17 @@ export const trackOrder = async (req, res) => {
   try {
     const rawIdentifier = req.query.orderId || req.query.trackingId || req.query.query || req.params.query || "";
     const identifier = String(rawIdentifier).trim();
-    if (!identifier) {
-      return res.status(400).json({ success: false, message: "Enter your Tracking ID, Order ID, or Payment ID." });
+    if (!/^(?:order|pay)_[A-Za-z0-9]+$/.test(identifier)) {
+      return res.status(400).json({ success: false, message: "Enter a valid Razorpay Order ID or Payment ID." });
     }
 
     const searchConditions = [
       { razorpayOrderId: identifier },
-      { razorpayPaymentId: identifier },
-      { trackingNumber: identifier },
-      { trackingNumber: { $regex: new RegExp(`^${identifier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') } }
+      { razorpayPaymentId: identifier }
     ];
 
-    if (/^[0-9a-fA-F]{24}$/.test(identifier)) {
-      searchConditions.push({ _id: identifier });
-    }
-
     const order = await Order.findOne({ $or: searchConditions })
-      .select("razorpayOrderId orderStatus paymentStatus trackingNumber courierLink expectedDeliveryDate createdAt items totalAmount customer.name")
+      .select("razorpayOrderId orderStatus paymentStatus trackingNumber courierLink expectedDeliveryDate createdAt")
       .lean();
 
     if (!order) {
@@ -93,19 +66,12 @@ export const trackOrder = async (req, res) => {
 
 export const getBuyAgainProducts = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("email phone").lean();
+    const user = await User.findById(req.user.id).select("email isEmailVerified").lean();
     const queryConditions = [{ userId: req.user.id }];
     
-    if (user?.email && user.email.trim()) {
+    if (user?.isEmailVerified && user.email && user.email.trim()) {
       const cleanEmail = user.email.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       queryConditions.push({ "customer.email": new RegExp(`^${cleanEmail}$`, "i") });
-    }
-    
-    if (user?.phone && user.phone.trim()) {
-      const phoneDigits = user.phone.replace(/\D/g, '').slice(-10);
-      if (phoneDigits.length >= 7) {
-        queryConditions.push({ "customer.phone": new RegExp(phoneDigits) });
-      }
     }
 
     const filter = {

@@ -69,6 +69,7 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: null
   },
+  verificationPollSecretHash: { type: String, default: null, select: false },
   resetToken: { type: String, default: null },
   resetTokenExpiry: { type: Date, default: null },
   twoFactorOtp: { type: String, default: null },

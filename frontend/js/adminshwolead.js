@@ -2,6 +2,13 @@ import BASE_URL from "./config.js";
 let allLeads = []; 
 let currentPage = 1;
 const itemsPerPage = 5; 
+const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "'": "&#39;",
+    '"': "&quot;"
+}[char]));
 function formatLeadDate(createdAtString) {
     const date = new Date(createdAtString);
     const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' };
@@ -26,8 +33,9 @@ function renderLeadsTable() {
     const endIndex = startIndex + itemsPerPage;
     const paginatedLeads = allLeads.slice(startIndex, endIndex);
     const tableRowsHtml = paginatedLeads.map(lead => {
-        const initials = lead.name 
-            ? lead.name.split(" ").filter(Boolean).map(n => n[0]).join("").slice(0, 2).toUpperCase() 
+        const leadName = String(lead.name ?? "");
+        const initials = leadName
+            ? leadName.split(" ").filter(Boolean).map(n => n[0]).join("").slice(0, 2).toUpperCase()
             : "LD";
         const { formattedDate, formattedTime } = formatLeadDate(lead.createdAt);
         return `
@@ -36,11 +44,11 @@ function renderLeadsTable() {
                 <td class="py-4 px-6">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-stone-100 border border-stone-200 flex items-center justify-center font-bold text-stone-700 uppercase">
-                            ${initials}
+                            ${escapeHtml(initials)}
                         </div>
                         <div>
-                            <h4 class="font-bold text-gray-900 text-sm tracking-wide">${lead.name}</h4>
-                            <span class="text-[10px] text-gray-400 font-mono font-medium block mt-0.5">ID: ${lead._id}</span>
+                            <h4 class="font-bold text-gray-900 text-sm tracking-wide">${escapeHtml(leadName)}</h4>
+                            <span class="text-[10px] text-gray-400 font-mono font-medium block mt-0.5">ID: ${escapeHtml(lead._id)}</span>
                         </div>
                     </div>
                 </td>
@@ -48,10 +56,10 @@ function renderLeadsTable() {
                 <td class="py-4 px-6">
                     <div class="flex items-center gap-1.5 text-gray-800 text-xs font-semibold">
                         <i class="fa-regular fa-envelope text-[#D98E2B]"></i>
-                        ${lead.email}
+                        ${escapeHtml(lead.email)}
                     </div>
                     <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100/80 text-amber-900 border border-amber-300/60 mt-1">
-                        <i class="fa-solid fa-tag text-[9px] text-[#D98E2B]"></i> ${lead.source || 'Website Lead'}
+                        <i class="fa-solid fa-tag text-[9px] text-[#D98E2B]"></i> ${escapeHtml(lead.source || 'Website Lead')}
                     </span>
                 </td>
                 <!-- 3. Joined Date & Time -->

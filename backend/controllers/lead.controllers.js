@@ -42,6 +42,7 @@ export const getAllLeads = async (req, res) => {
             data: leads 
         });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        console.error('Lead request failed:', error);
+        res.status(500).json({ success: false, message: 'Could not process the request.' });
     }
 };

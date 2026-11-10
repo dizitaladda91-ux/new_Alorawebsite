@@ -1,6 +1,6 @@
 import express from 'express';
 import upload from '../middlewares/cloudinaryUpload.js';
-import { requireAuth, authorizeRoles } from "../middlewares/auth.middleware.js";
+import { requireAuth, optionalAuth, authorizeRoles } from "../middlewares/auth.middleware.js";
 import { 
     createBlogPost, 
     getAllBlogs, 
@@ -45,14 +45,14 @@ const isBrowserVisit = (req) => {
 };
 
 // 2. Get All Blogs (Redirects browser address bar visits to /blog, serves JSON for API/fetch)
-router.get('/', (req, res, next) => {
+router.get('/', optionalAuth, (req, res, next) => {
     if (isBrowserVisit(req)) {
         return res.redirect(302, '/blog');
     }
     return getAllBlogs(req, res, next);
 });
 
-router.get('/all', (req, res, next) => {
+router.get('/all', optionalAuth, (req, res, next) => {
     if (isBrowserVisit(req)) {
         return res.redirect(302, '/blog');
     }
@@ -60,14 +60,14 @@ router.get('/all', (req, res, next) => {
 });
 
 // 3. Get Single Blog by Slug or ID (Redirects browser address bar visits to /blog/:slug, serves JSON for API/fetch)
-router.get('/post/:slug', (req, res, next) => {
+router.get('/post/:slug', optionalAuth, (req, res, next) => {
     if (isBrowserVisit(req)) {
         return res.redirect(301, `/blog/${encodeURIComponent(req.params.slug)}`);
     }
     return getBlogBySlug(req, res, next);
 });
 
-router.get('/:slug', (req, res, next) => {
+router.get('/:slug', optionalAuth, (req, res, next) => {
     if (isBrowserVisit(req)) {
         return res.redirect(301, `/blog/${encodeURIComponent(req.params.slug)}`);
     }

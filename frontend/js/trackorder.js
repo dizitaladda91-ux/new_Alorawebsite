@@ -1,4 +1,4 @@
-import BASE_URL, { getImageUrl } from './config.js';
+﻿import BASE_URL, { getImageUrl } from './config.js';
 document.addEventListener('DOMContentLoaded', () => {
     initTrackingPage();
 });
@@ -48,7 +48,7 @@ async function performTrackingLookup(query) {
                 <i class="fa-solid fa-triangle-exclamation text-red-500 text-3xl"></i>
                 <h3 class="font-serif font-bold text-ink text-xl">Order Not Found</h3>
                 <p class="text-xs text-ash max-w-md mx-auto">${error.message}</p>
-                <p class="text-xs text-ash">Double check your Order ID, Payment ID, or registered Phone number and try again.</p>
+                <p class="text-xs text-ash">Double check your Razorpay Order ID or Payment ID and try again.</p>
             </div>
         `;
     } finally {
@@ -91,6 +91,11 @@ function renderTrackingDetails(order) {
         `;
     }).join('');
     const courierCode = order.courierTrackingNumber || order.trackingNumber || '';
+    let courierUrl = '';
+    try {
+        const parsedUrl = new URL(order.courierLink);
+        if (parsedUrl.protocol === 'https:') courierUrl = parsedUrl.href;
+    } catch {}
     container.innerHTML = `
         <div class="bg-white rounded-3xl border border-[#ECE4CE] shadow-sm p-6 sm:p-8 space-y-8">
             <!-- Top Header Info -->
@@ -103,10 +108,6 @@ function renderTrackingDetails(order) {
                         </span>
                     </div>
                     <p class="text-xs text-ash mt-1">Placed on ${orderDate} &bull; Payment Verified</p>
-                </div>
-                <div class="text-left sm:text-right">
-                    <span class="text-xs text-ash block">Total Amount Paid</span>
-                    <span class="text-2xl font-sans font-semibold text-ink">₹${order.totalAmount || order.totalPrice || 0}</span>
                 </div>
             </div>
             <!-- Stepper Timeline Progress Bar -->
@@ -146,28 +147,11 @@ function renderTrackingDetails(order) {
                     </div>
                 </div>
             </div>
-            <!-- Items Purchased -->
-            <div class="border-t border-[#ECE4CE] pt-6 space-y-4">
-                <h3 class="text-xs font-bold uppercase tracking-[0.2em] text-ash">Items in Order</h3>
-                <div class="space-y-1">
-                    ${itemsHTML}
-                </div>
-            </div>
-            <!-- Delivery Details Box -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-parchment/60 p-5 rounded-2xl border border-[#E7DFC7] text-xs">
-                <div>
-                    <strong class="text-ink text-sm block mb-1">Delivery Recipient:</strong>
-                    <p class="font-semibold text-ink">${order.customer?.name || 'Customer'}</p>
-                    <p class="text-ash mt-0.5">${order.customer?.address || 'Address on file'}</p>
-                    <p class="text-ash mt-0.5">Phone: ${order.customer?.phone || 'N/A'}</p>
-                </div>
-                <div>
-                    <strong class="text-ink text-sm block mb-1">Tracking Info:</strong>
-                    <p class="text-ash font-mono">Payment Ref: ${order.razorpayPaymentId || 'Verified'}</p>
-                    ${courierCode ? `<p class="mt-1 font-bold text-clay"><i class="fa-solid fa-barcode mr-1"></i> Courier AW: ${courierCode}</p>` : `<p class="mt-1 text-ash italic">Courier tracking link will update once dispatched.</p>`}
-                    ${order.courierLink ? `<p class="mt-1"><a href="${order.courierLink}" target="_blank" class="text-clay underline font-semibold">Track on Courier Website &rarr;</a></p>` : ''}
-                </div>
-            </div>
+            ${courierCode || courierUrl ? `<div class="border-t border-[#ECE4CE] pt-5 text-sm text-ink">
+                <h3 class="text-xs font-bold uppercase tracking-[0.2em] text-ash mb-2">Shipment Tracking</h3>
+                ${courierCode ? `<p>Courier AWB: <span class="font-mono font-bold">${String(courierCode).replace(/[&<>"']/g, '')}</span></p>` : ''}
+                ${courierUrl ? `<p class="mt-2"><a href="${courierUrl.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}" target="_blank" rel="noopener noreferrer" class="text-clay underline font-semibold">Track on Courier Website &rarr;</a></p>` : ''}
+            </div>` : ''}
         </div>
     `;
 }

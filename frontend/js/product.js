@@ -426,17 +426,14 @@ function initReviewsFeature() {
                 comment: commentInput.value.trim()
             };
             try {
-                const token = getAuthToken();
                 const response = await fetch(REVIEWS_API_URL, {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
                     body: JSON.stringify(reviewPayload)
                 });
                 const result = await response.json();
-                if (result.success) {
+                if (response.ok && result.success) {
                     window.showToast("Review submitted successfully! Thank you.", "success");
                     reviewForm.reset();
                     if (ratingInput) ratingInput.value = 0;

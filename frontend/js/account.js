@@ -201,7 +201,7 @@ function renderFilteredOrders() {
                     <span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#8B4513]/10 text-[#8B4513] border border-[#8B4513]/20">
                         ${escapeHtml(status.label)}
                     </span>
-                    <button type="button" onclick="window.trackThisOrder('${escapeHtml(order.trackingNumber || order.razorpayOrderId || order._id)}')" class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-100 hover:bg-amber-200 text-[#8B4513] border border-amber-300 transition cursor-pointer flex items-center gap-1">
+                    <button type="button" onclick="window.trackThisOrder('${escapeHtml(order.razorpayOrderId)}')" class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-100 hover:bg-amber-200 text-[#8B4513] border border-amber-300 transition cursor-pointer flex items-center gap-1">
                         <i class="fa-solid fa-location-arrow text-[10px]"></i> Track
                     </button>
                 </div>
@@ -368,7 +368,6 @@ function renderAccountTrackingDetails(order) {
     const courierLink = order.courierLink || "";
     const expectedDelivery = order.expectedDeliveryDate ? formatDate(order.expectedDeliveryDate) : "3-5 Business Days";
     const orderDate = formatDate(order.createdAt);
-    const items = order.items || [];
 
     resultContainer.innerHTML = `
         <article class="bg-[#FAF7EE]/60 rounded-2xl border border-[#ECE4CE] p-5 sm:p-7 shadow-xs space-y-6">
@@ -421,26 +420,6 @@ function renderAccountTrackingDetails(order) {
                     <span class="flex items-center gap-1.5 font-semibold text-[#8B4513]">
                         <i class="fa-regular fa-calendar-check"></i> Est. Delivery: ${escapeHtml(expectedDelivery)}
                     </span>
-                    <span>Recipient: <b class="text-slate-800">${escapeHtml(order.customer?.name || 'Customer')}</b></span>
-                </div>
-            </div>
-
-            <!-- Items in this Shipment -->
-            <div class="space-y-3">
-                <h4 class="text-xs font-bold uppercase tracking-wider text-stone-600">Items in this Package (${items.length})</h4>
-                <div class="bg-white rounded-2xl border border-[#ECE4CE] p-3 sm:p-4 divide-y divide-stone-100">
-                    ${items.map(item => `
-                        <div class="py-2.5 flex items-center justify-between gap-3 first:pt-0 last:pb-0">
-                            <div class="flex items-center gap-3">
-                                <img src="${item.image || item.imageUrl || '/static/placeholder.png'}" alt="${escapeHtml(item.name)}" class="w-12 h-12 rounded-lg object-contain border border-stone-200 p-1 bg-white shrink-0" onerror="this.src='/static/placeholder.png'">
-                                <div>
-                                    <h5 class="text-xs sm:text-sm font-bold text-slate-900 leading-snug">${escapeHtml(item.name)}</h5>
-                                    <p class="text-[11px] text-stone-500">Size: ${escapeHtml(item.variant || item.size || 'Standard')} &bull; Qty: ${item.quantity || item.qty || 1}</p>
-                                </div>
-                            </div>
-                            <span class="font-bold text-slate-900 text-xs sm:text-sm">${money(item.lineTotal || (item.price * (item.quantity || 1)))}</span>
-                        </div>
-                    `).join('')}
                 </div>
             </div>
         </article>

@@ -67,7 +67,7 @@ export const addnewproduct = async (req, res) => {
     } catch (err) {
         import("fs").then(fs => fs.appendFileSync("error_log.txt", "Controller Error: " + err.stack + "\n"));
         console.error("Controller Error:", err);
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ success: false, message: "Could not load products." });
     }
 };
 
@@ -81,7 +81,7 @@ export const readproduct = async (req, res) => {
         }));
     } catch (err) {
         console.error("readproduct error:", err);
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ success: false, message: "Could not load product." });
     }
 };
 
@@ -151,7 +151,7 @@ export const updateproduct = async (req, res) => {
 
         res.status(200).json(updatedProduct);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ success: false, message: "Could not load products." });
     }
 };
 
@@ -241,7 +241,7 @@ export const updateProductForSeo = async (req, res) => {
         await product.save();
         res.status(200).json(product);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ success: false, message: "Could not load product." });
     }
 };
 
@@ -262,7 +262,7 @@ export const deleteproduct = async (req, res) => {
 
         res.status(200).json({ message: "Product successfully deleted!" });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ success: false, message: "Could not load products." });
     }
 };
 
@@ -290,18 +290,19 @@ export const getproductbyid = async (req, res) => {
         });
         res.status(200).json(productWithReviews);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ success: false, message: "Could not load product." });
     }
 };
 
 // 6. SEARCH PRODUCTS
 export const searchProducts = async (req, res) => {
     try {
-        const { q } = req.query;
-        if (!q || q.trim() === '') {
+        const q = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 100) : '';
+        if (!q) {
             return res.status(200).json({ success: true, products: [] });
         }
-        const regex = new RegExp(q.trim(), "i");
+        const escapedQuery = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(escapedQuery, "i");
         const products = await SimpleProduct.find({
             $or: [
                 { name: regex },
@@ -311,6 +312,6 @@ export const searchProducts = async (req, res) => {
         });
         res.status(200).json({ success: true, products });
     } catch (err) {
-        res.status(500).json({ success: false, error: err.message });
+        res.status(500).json({ success: false, message: "Could not search products." });
     }
 };

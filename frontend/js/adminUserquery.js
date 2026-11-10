@@ -6,6 +6,13 @@ const tableBody = document.getElementById('leads-table-body');
 const emptyState = document.getElementById('empty-state');
 const paginationStatus = document.getElementById('pagination-status');
 const paginationContainer = document.getElementById('pagination-container');
+const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "'": "&#39;",
+    '"': "&quot;"
+}[char]));
 async function fetchQueries() {
     try {
         tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-6 text-gray-500 font-medium">Loading queries...</td></tr>`;
@@ -19,7 +26,7 @@ async function fetchQueries() {
         }
     } catch (error) {
         console.error("Error fetching queries:", error);
-        tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-6 text-red-500 font-medium">Error: ${error.message}</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-6 text-red-500 font-medium">Error: ${escapeHtml(error.message)}</td></tr>`;
     }
 }
 function renderTable() {
@@ -42,14 +49,14 @@ function renderTable() {
         });
         return `
             <tr class="hover:bg-gray-50/70 transition-colors">
-                <td class="py-4 px-6 font-medium text-gray-900">${query.name}</td>
+                <td class="py-4 px-6 font-medium text-gray-900">${escapeHtml(query.name)}</td>
                 <td class="py-4 px-6">
                     <div class="flex flex-col">
-                        <span class="text-gray-800 font-medium">${query.email}</span>
+                        <span class="text-gray-800 font-medium">${escapeHtml(query.email)}</span>
                         <span class="text-xs text-gray-400 mt-0.5">${formattedDate}</span>
                     </div>
                 </td>
-                <td class="py-4 px-6 text-gray-600 max-w-xs break-words">${query.message}</td>
+                <td class="py-4 px-6 text-gray-600 max-w-xs break-words">${escapeHtml(query.message)}</td>
             </tr>
         `;
     }).join('');

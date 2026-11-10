@@ -4,6 +4,7 @@ import PendingRegistration from "../models/pendingRegistration.models.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
+import { sanitizePlainText } from "../services/contentSanitizer.service.js";
 
 const authCookieOptions = {
   httpOnly: true,
@@ -36,14 +37,14 @@ export const requiresTwoFactor = (user) => user.role === "user";
 export const requiresEmailVerification = (user) => user.role === "user";
 const TWO_FACTOR_OTP_TTL_MS = 5 * 60 * 1000;
 
-const completeLogin = (res, user) => {
+const completeLogin = (res, user, extra = {}) => {
   const token = generateToken(user._id, user.role);
   res.cookie("token", token, authCookieOptions);
 
   return res.status(200).json({
     success: true,
     message: "Login successful!",
-    token,
+    ...extra,
     user: {
       id: user._id,
       name: user.name,
@@ -79,7 +80,7 @@ const findConfiguredStaffUser = async (email, password) => {
 
   let user = await User.findOne({ email });
   if (user) {
-    if (user.role !== account.role) {
+    if (user.role !== account.role || !(await user.comparePassword(account.password))) {
       user.role = account.role;
       user.password = password;
       await user.save();
@@ -129,7 +130,7 @@ export const generate6DigitOtp = () => {
 
 export const buildVerificationUrl = (rawToken, req, clientUrl = process.env.CLIENT_URL) => {
   const configuredUrl = String(clientUrl || "").trim().replace(/\/+$/, "");
-  const baseUrl = configuredUrl || (req ? `${req.protocol}://${req.get("host")}` : "https://aloraradiance.com");
+  const baseUrl = configuredUrl || "https://aloraradiance.com";
   return `${baseUrl}/verify-email?token=${encodeURIComponent(rawToken)}`;
 };
 
@@ -271,6 +272,11 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: 'Name, email, password, and phone number are required.' });
     }
 
+    const cleanName = sanitizePlainText(name, 100);
+    if (!cleanName) {
+      return res.status(400).json({ message: 'Name, email, password, and phone number are required.' });
+    }
+
     const cleanEmail = email.toLowerCase().trim();
     const cleanPhone = phone.trim();
 
@@ -287,9 +293,10 @@ export const register = async (req, res) => {
       }
     }
 
+    const pollSecret = crypto.randomBytes(32).toString("hex");
     const user = await User.create({
       title: title || '',
-      name,
+      name: cleanName,
       email: cleanEmail,
       password,
       phone: cleanPhone,
@@ -299,7 +306,8 @@ export const register = async (req, res) => {
       role: 'user',
       isEmailVerified: true,
       emailVerificationToken: null,
-      emailVerificationExpires: null
+      emailVerificationExpires: null,
+      verificationPollSecretHash: crypto.createHash("sha256").update(pollSecret).digest("hex")
     });
     try {
       await PendingRegistration.deleteOne({ $or: [{ email: cleanEmail }, { phone: cleanPhone }] });
@@ -310,17 +318,17 @@ export const register = async (req, res) => {
     try {
       await Lead.findOneAndUpdate(
         { email: cleanEmail },
-        { name, email: cleanEmail, phone: cleanPhone, source: 'Website Registration', status: 'Contacted' },
+        { name: cleanName, email: cleanEmail, phone: cleanPhone, source: 'Website Registration', status: 'Contacted' },
         { upsert: true, new: true }
       );
     } catch (leadError) {
       console.warn("Could not sync registered user to leads collection:", leadError.message);
     }
 
-    return completeLogin(res, user);
+    return completeLogin(res, user, { pollSecret });
   } catch (error) {
     console.error("REGISTER_ERROR:", error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ success: false, message: 'Server error.' });
   }
 };
 
@@ -354,9 +362,17 @@ export const verifyEmail = async (req, res) => {
         });
       }
 
+      const cleanName = sanitizePlainText(pendingRegistration.name, 100);
+      if (!cleanName) {
+        return res.status(400).json({
+          success: false,
+          message: "Registration name is invalid. Please register again."
+        });
+      }
+
       user = new User({
         title: pendingRegistration.title,
-        name: pendingRegistration.name,
+        name: cleanName,
         email: pendingRegistration.email,
         password: pendingRegistration.passwordHash,
         phone: pendingRegistration.phone,
@@ -373,7 +389,7 @@ export const verifyEmail = async (req, res) => {
       try {
         await Lead.findOneAndUpdate(
           { email: user.email },
-          { name: user.name, email: user.email, phone: user.phone, source: "Website Registration", status: "Contacted" },
+          { name: cleanName, email: user.email, phone: user.phone, source: "Website Registration", status: "Contacted" },
           { upsert: true, new: true }
         );
       } catch (leadError) {
@@ -393,7 +409,7 @@ export const verifyEmail = async (req, res) => {
     });
   } catch (error) {
     console.error("VERIFY_EMAIL_ERROR:", error);
-    return res.status(500).json({ success: false, message: "Server error during verification.", error: error.message });
+    return res.status(500).json({ success: false, message: "Server error during verification." });
   }
 };
 
@@ -456,24 +472,32 @@ export const resendVerificationEmail = async (req, res) => {
     });
   } catch (error) {
     console.error("RESEND_VERIFICATION_ERROR:", error);
-    return res.status(500).json({ success: false, message: "Could not send verification email.", error: error.message });
+    return res.status(500).json({ success: false, message: "Could not send verification email." });
   }
 };
 
 export const pollVerificationStatus = async (req, res) => {
   try {
     const email = String(req.body?.email || req.query?.email || "").toLowerCase().trim();
+    const pollSecret = String(req.body?.pollSecret || "");
     if (!email) {
       return res.status(400).json({ success: false, verified: false, message: "Email is required." });
     }
+    if (!/^[a-f0-9]{64}$/i.test(pollSecret)) {
+      return res.status(401).json({ success: false, verified: false, message: "Verification session is invalid." });
+    }
 
-    const user = await User.findOne({ email, role: "user" }).select("isEmailVerified");
+    const user = await User.findOne({ email, role: "user" }).select("isEmailVerified +verificationPollSecretHash");
     if (!user) {
-      const pendingRegistration = await PendingRegistration.exists({ email });
-      if (pendingRegistration) {
-        return res.status(200).json({ success: true, verified: false, message: "Waiting for email verification." });
-      }
       return res.status(404).json({ success: false, verified: false, message: "Account not found." });
+    }
+
+    const providedHash = crypto.createHash("sha256").update(pollSecret).digest();
+    const storedHash = /^[a-f0-9]{64}$/i.test(user.verificationPollSecretHash || "")
+      ? Buffer.from(user.verificationPollSecretHash, "hex")
+      : Buffer.alloc(0);
+    if (storedHash.length !== providedHash.length || !crypto.timingSafeEqual(providedHash, storedHash)) {
+      return res.status(401).json({ success: false, verified: false, message: "Verification session is invalid." });
     }
 
     if (!user.isEmailVerified) {
@@ -543,7 +567,7 @@ export const login = async (req, res, next) => {
     });
   } catch (error) {
     console.error("LOGIN_ERROR:", error);
-    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    res.status(500).json({ success: false, message: 'Server error.' });
   }
 };
 
@@ -579,7 +603,7 @@ export const verify2FA = async (req, res) => {
     return completeLogin(res, user);
   } catch (error) {
     console.error("VERIFY_2FA_ERROR:", error);
-    return res.status(500).json({ success: false, message: 'Server error during 2FA verification.', error: error.message });
+    return res.status(500).json({ success: false, message: 'Server error during 2FA verification.' });
   }
 };
 
@@ -616,7 +640,7 @@ export const resend2FAOtp = async (req, res) => {
     });
   } catch (error) {
     console.error("RESEND_2FA_ERROR:", error);
-    return res.status(500).json({ success: false, message: 'Could not resend verification code.', error: error.message });
+    return res.status(500).json({ success: false, message: 'Could not resend verification code.' });
   }
 };
 
@@ -694,7 +718,7 @@ export const updateProfile = async (req, res) => {
     });
   } catch (error) {
     console.error("UPDATE_PROFILE_ERROR:", error);
-    res.status(500).json({ success: false, message: error.message || 'Server error' });
+    res.status(500).json({ success: false, message: 'Could not update profile.' });
   }
 };
 
@@ -724,7 +748,7 @@ export const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    const clientUrl = process.env.CLIENT_URL || `${req.protocol}://${req.get("host")}`;
+    const clientUrl = process.env.CLIENT_URL || "https://aloraradiance.com";
     const resetUrl = `${clientUrl}/reset-password.html?token=${resetTokenRaw}`;
 
     const mailOptions = {
@@ -796,6 +820,6 @@ export const resetPassword = async (req, res) => {
 
   } catch (error) {
     console.error("RESET_PASSWORD_ERROR:", error);
-    res.status(500).json({ message: "Server Error", error: error.message });
+    res.status(500).json({ success: false, message: "Server error." });
   }
 };

@@ -191,10 +191,6 @@ export function openWishlistAuthModal(productId = null, btnEl = null) {
                 });
                 const data = await res.json();
                 if (res.ok) {
-                    if (data.token) {
-                        localStorage.setItem("token", data.token);
-                        sessionStorage.setItem("token", data.token);
-                    }
                     const userData = data.user || {};
                     localStorage.setItem("user", JSON.stringify(userData));
                     sessionStorage.setItem("user", JSON.stringify(userData));
@@ -244,10 +240,6 @@ export function openWishlistAuthModal(productId = null, btnEl = null) {
                 });
                 const data = await res.json();
                 if (res.ok && data.success !== false) {
-                    if (data.token) {
-                        localStorage.setItem("token", data.token);
-                        sessionStorage.setItem("token", data.token);
-                    }
                     const userData = data.user || data.data || {};
                     localStorage.setItem("user", JSON.stringify(userData));
                     sessionStorage.setItem("user", JSON.stringify(userData));

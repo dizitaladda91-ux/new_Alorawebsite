@@ -3,6 +3,12 @@
  * Handles visitor analytics, page views, CTA interactions, and GDPR/Privacy consent.
  */
 
+const analyticsSafeUrl = new URL(window.location.href);
+if (analyticsSafeUrl.searchParams.has('token')) {
+  analyticsSafeUrl.searchParams.delete('token');
+  history.replaceState(null, '', analyticsSafeUrl.pathname + analyticsSafeUrl.search + analyticsSafeUrl.hash);
+}
+
 (function () {
   const CONSENT_KEY = 'alora_cookie_consent';
 

@@ -5,6 +5,15 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <script>
+        window.__aloraVerificationToken = new URLSearchParams(window.location.search).get("token") || "";
+        if (window.__aloraVerificationToken) {
+            const cleanUrl = new URL(window.location.href);
+            cleanUrl.searchParams.delete("token");
+            history.replaceState(null, "", cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
+        }
+    </script>
     <title>Email Verification | Alora Radiance</title>
     <meta name="description" content="Verify your email address to activate your member account and get your verified blue tick badge on Alora Radiance.">
     <link rel="icon" type="image/x-icon" href="./static/favicon.ico">
@@ -197,7 +206,7 @@
             } catch (e) {}
 
             const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get("token");
+            const token = window.__aloraVerificationToken || "";
 
             // If no token in URL, display the clean "Verify Your Email" request form
             if (!token) {

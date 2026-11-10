@@ -29,7 +29,7 @@ export function showSuccessModal(title, message, callback) {
     });
 }
 
-export function showVerificationWaitingModal(userEmail, callback, emailSent = true, emailFailureMessage = "") {
+export function showVerificationWaitingModal(userEmail, pollSecret, callback, emailSent = true, emailFailureMessage = "") {
     const existingModal = document.getElementById("custom-success-modal");
     if (existingModal) existingModal.remove();
 
@@ -138,7 +138,7 @@ export function showVerificationWaitingModal(userEmail, callback, emailSent = tr
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify({ email: userEmail })
+                body: JSON.stringify({ email: userEmail, pollSecret })
             });
 
             if (res.status === 429) {
@@ -342,14 +342,10 @@ function initRegisterForm() {
             const data = await response.json();
             if (response.ok) {
                 if (data.emailVerificationRequired) {
-                    showVerificationWaitingModal(email, () => {
+                    showVerificationWaitingModal(email, data.pollSecret, () => {
                         window.location.href = "./login.html";
                     }, data.emailSent, data.emailSent ? "" : data.message);
                     return;
-                }
-                if (data.token) {
-                    localStorage.setItem("token", data.token);
-                    sessionStorage.setItem("token", data.token);
                 }
                 const userData = data.user || data.data || {};
                 const displayName = userData.name || (userData.email ? userData.email.split('@')[0] : "User");
@@ -456,10 +452,6 @@ function initLoginForm() {
                     show2FAView(data.email || email);
                     return;
                 }
-                if (data.token) {
-                    localStorage.setItem("token", data.token);
-                    sessionStorage.setItem("token", data.token);
-                }
                 const userData = data.user || data.data || {};
                 const displayName = userData.name || userData.username || (userData.email ? userData.email.split('@')[0] : "User");
                 const userObjToStore = {
@@ -535,10 +527,6 @@ function initOtpForm() {
             const data = await response.json();
 
             if (response.ok && data.success !== false) {
-                if (data.token) {
-                    localStorage.setItem("token", data.token);
-                    sessionStorage.setItem("token", data.token);
-                }
                 const userData = data.user || data.data || {};
                 const displayName = userData.name || userData.username || (userData.email ? userData.email.split('@')[0] : "User");
                 const userObjToStore = {

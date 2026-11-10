@@ -1,6 +1,7 @@
-import SimpleProduct from "../models/product.models.js";
+﻿import SimpleProduct from "../models/product.models.js";
 import Order from "../models/order.models.js";
 import { Query } from "../models/query.models.js";
+import { sanitizePlainText } from "../services/contentSanitizer.service.js";
 
 // System prompt for Alora Radiance AI Assistant
 const ALORA_SYSTEM_PROMPT = `
@@ -21,7 +22,7 @@ Your goals:
 
 export const handleChatbotMessage = async (req, res) => {
     try {
-        const { message, email, phone } = req.body;
+        const { message } = req.body;
 
         if (!message || typeof message !== "string" || !message.trim()) {
             return res.status(400).json({
@@ -34,7 +35,7 @@ export const handleChatbotMessage = async (req, res) => {
         const lowerMsg = queryText.toLowerCase();
 
         // 1. Check for Order Tracking Intent
-        const orderMatch = queryText.match(/(?:order|tracking|id|#)?\s*(pay_[A-Za-z0-9]+|order_[A-Za-z0-9]+|[A-Z0-9]{8,24})/i);
+        const orderMatch = queryText.match(/\b(pay_[A-Za-z0-9]+|order_[A-Za-z0-9]+)\b/i);
         const isOrderQuery = lowerMsg.includes("order") || lowerMsg.includes("track") || lowerMsg.includes("delivery") || lowerMsg.includes("status") || lowerMsg.includes("where is my");
 
         if (isOrderQuery || orderMatch) {
@@ -44,10 +45,7 @@ export const handleChatbotMessage = async (req, res) => {
                 const searchId = orderMatch[1].trim();
                 searchFilter.push({ razorpayOrderId: searchId });
                 searchFilter.push({ razorpayPaymentId: searchId });
-                searchFilter.push({ trackingNumber: searchId });
             }
-            if (email) searchFilter.push({ "customer.email": email.trim().toLowerCase() });
-            if (phone) searchFilter.push({ "customer.phone": phone.trim() });
 
             if (searchFilter.length > 0) {
                 const foundOrder = await Order.findOne({ $or: searchFilter }).sort({ createdAt: -1 });
@@ -61,14 +59,7 @@ export const handleChatbotMessage = async (req, res) => {
                     let orderReply = `📦 **Order Status Found!**\n\n`;
                     orderReply += `• **Order ID**: ${foundOrder.razorpayOrderId}\n`;
                     orderReply += `• **Status**: **${statusFormatted}**\n`;
-                    orderReply += `• **Total Amount**: ₹${foundOrder.totalAmount}\n`;
                     orderReply += `• **Expected Delivery**: ${expectedDate}\n`;
-                    if (foundOrder.trackingNumber) {
-                        orderReply += `• **Tracking No**: ${foundOrder.trackingNumber}\n`;
-                    }
-                    if (foundOrder.courierLink) {
-                        orderReply += `• **Tracking Link**: [Track Package](${foundOrder.courierLink})\n`;
-                    }
 
                     return res.status(200).json({
                         success: true,
@@ -77,10 +68,7 @@ export const handleChatbotMessage = async (req, res) => {
                         order: {
                             id: foundOrder.razorpayOrderId,
                             status: foundOrder.orderStatus,
-                            totalAmount: foundOrder.totalAmount,
-                            expectedDelivery: expectedDate,
-                            trackingNumber: foundOrder.trackingNumber,
-                            courierLink: foundOrder.courierLink
+                            expectedDelivery: expectedDate
                         }
                     });
                 }
@@ -89,7 +77,7 @@ export const handleChatbotMessage = async (req, res) => {
             if (isOrderQuery && (!orderMatch || !orderMatch[1])) {
                 return res.status(200).json({
                     success: true,
-                    reply: "📦 **Order Tracking Assistant**\n\nTo check your order status, please provide your **Order ID** (e.g. `order_...` or `pay_...`) or the **Email/Phone number** used during checkout.",
+                    reply: "To check an order, provide its Razorpay Order ID or Payment ID. Email and phone lookup are unavailable in chat.",
                     type: "order_prompt"
                 });
             }
@@ -211,7 +199,6 @@ Answer concisely and accurately as Alora AI assistant. If products are relevant,
         return res.status(500).json({
             success: false,
             message: "Failed to process chat message.",
-            error: error.message
         });
     }
 };
@@ -228,10 +215,20 @@ export const submitChatbotQuery = async (req, res) => {
             });
         }
 
+        const cleanName = sanitizePlainText(name, 100);
+        const cleanEmail = sanitizePlainText(email, 254).toLowerCase();
+        const cleanMessage = sanitizePlainText(message, 2000);
+        if (!cleanName || !cleanEmail || !cleanMessage) {
+            return res.status(400).json({
+                success: false,
+                message: "Name, email, and message are required."
+            });
+        }
+
         const newQuery = await Query.create({
-            name: name.trim(),
-            email: email.trim().toLowerCase(),
-            message: `[Submitted via Chatbot]: ${message.trim()}`,
+            name: cleanName,
+            email: cleanEmail,
+            message: `[Submitted via Chatbot]: ${cleanMessage}`,
             status: 'Pending'
         });
 
@@ -245,7 +242,6 @@ export const submitChatbotQuery = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Failed to submit support query.",
-            error: error.message
         });
     }
 };

@@ -6,8 +6,9 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
     const isVideo = file.mimetype && file.mimetype.startsWith('video/');
+    const isBlogUpload = String(req.originalUrl || '').includes('/api/blogs/');
     return {
-      folder: isVideo ? 'ecommerce/videos' : 'ecommerce',
+      folder: isBlogUpload ? 'blog' : isVideo ? 'ecommerce/videos' : 'ecommerce',
       resource_type: isVideo ? 'video' : 'image',
       allowed_formats: isVideo ? ['mp4', 'webm', 'mov', 'mkv', 'avi'] : ['jpeg', 'png', 'jpg', 'webp']
     };

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const reviewSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
     productId: {
         type: String,
         required: true,
@@ -23,6 +24,11 @@ const reviewSchema = new mongoose.Schema({
     }
 }, {
     timestamps: true // Yeh automatically createdAt aur updatedAt add kar dega
+});
+
+reviewSchema.index({ productId: 1, userId: 1 }, {
+    unique: true,
+    partialFilterExpression: { userId: { $type: 'objectId' } }
 });
 
 const Review = mongoose.model('Review', reviewSchema);

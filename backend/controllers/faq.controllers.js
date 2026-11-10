@@ -94,9 +94,10 @@ export const getAllFaqs = async (req, res) => {
         const { category, page } = req.query;
         let query = { isActive: true };
         
-        const targetPage = (page || category || "").trim();
+        const targetPage = String(page || category || "").trim().slice(0, 100);
         if (targetPage) {
-            query.category = new RegExp(`^${targetPage}$`, "i");
+            const escapedPage = targetPage.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            query.category = new RegExp(`^${escapedPage}$`, "i");
         }
 
         let faqs = await Faq.find(query).sort({ order: 1, createdAt: 1 }).lean();
@@ -111,7 +112,6 @@ export const getAllFaqs = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Failed to load FAQs",
-            error: error.message
         });
     }
 };
@@ -133,7 +133,6 @@ export const getAdminFaqs = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Failed to load FAQs for admin",
-            error: error.message
         });
     }
 };
@@ -178,7 +177,6 @@ export const createFaq = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Failed to create FAQ",
-            error: error.message
         });
     }
 };
@@ -212,7 +210,6 @@ export const updateFaq = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Failed to update FAQ",
-            error: error.message
         });
     }
 };
@@ -237,7 +234,6 @@ export const deleteFaq = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Failed to delete FAQ",
-            error: error.message
         });
     }
 };
