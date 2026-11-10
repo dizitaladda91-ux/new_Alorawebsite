@@ -97,10 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
             updateSlider();
         });
     });
-    setInterval(() => {
-        currentIndex = (currentIndex + 1) % totalSlides;
-        updateSlider();
-    }, 4000);
     updateSlider();
 });
 document.addEventListener("DOMContentLoaded", () => {
@@ -111,31 +107,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const prevButton = document.querySelector(".hero-slider-prev");
     const nextButton = document.querySelector(".hero-slider-next");
     let currentIndex = 0;
-    let autoSlideInterval = null;
-
     const updateSlider = () => {
         track.style.transform = `translateX(-${currentIndex * 100}%)`;
-    };
-
-    const startAutoSlide = () => {
-        stopAutoSlide();
-        autoSlideInterval = setInterval(() => {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            updateSlider();
-        }, 6000);
-    };
-
-    const stopAutoSlide = () => {
-        if (autoSlideInterval) {
-            clearInterval(autoSlideInterval);
-            autoSlideInterval = null;
-        }
     };
 
     const changeSlide = (direction) => {
         currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
         updateSlider();
-        startAutoSlide();
     };
 
     if (prevButton) prevButton.addEventListener("click", () => changeSlide(-1));
@@ -143,16 +121,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const sliderContainer = track.closest(".hero-slider-container");
     if (sliderContainer) {
-        sliderContainer.addEventListener("mouseenter", stopAutoSlide);
-        sliderContainer.addEventListener("mouseleave", startAutoSlide);
-
         // Touch swipe support for mobile
         let startX = 0;
         let diffX = 0;
         sliderContainer.addEventListener("touchstart", (e) => {
             startX = e.touches[0].clientX;
             diffX = 0;
-            stopAutoSlide();
         }, { passive: true });
 
         sliderContainer.addEventListener("touchmove", (e) => {
@@ -168,11 +142,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 updateSlider();
             }
-            startAutoSlide();
         });
     }
 
-    startAutoSlide();
     updateSlider();
 });
 function toggleCartState(button) {
@@ -613,26 +585,6 @@ if (document.readyState === 'loading') {
     safeInitSliderProducts();
 }
 document.addEventListener('partialsLoaded', safeInitSliderProducts);
-document.addEventListener("DOMContentLoaded", () => {
-    const slider = document.getElementById('auto-slider');
-    if (!slider) return;
-    let scrollInterval;
-    function startAutoSlide() {
-        scrollInterval = setInterval(() => {
-            requestAnimationFrame(() => {
-                const step = slider.firstElementChild ? slider.firstElementChild.offsetWidth : 320;
-                if (slider.scrollLeft + step >= slider.scrollWidth - step) {
-                    slider.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    slider.scrollBy({ left: step, behavior: 'smooth' });
-                }
-            });
-        }, 3500);
-    }
-    slider.addEventListener('mouseenter', () => clearInterval(scrollInterval));
-    slider.addEventListener('mouseleave', startAutoSlide);
-    startAutoSlide();
-});
 document.addEventListener('DOMContentLoaded', () => {
     const playBtn = document.getElementById('play-routine-video-btn');
     const containerSlot = document.getElementById('video-container-slot');
