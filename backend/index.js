@@ -282,7 +282,11 @@ app.get(['/blog', '/blogs', '/Blog', '/Blog.html', '/blog.html', '/blogs.html'],
     : path.join(frontendRoot, 'blog.html');
   try {
     await db();
-    const posts = await Post.find({ status: { $ne: 'draft' } }).sort({ publishedAt: -1, createdAt: -1 }).lean();
+    const posts = await Post.find({ status: { $ne: 'draft' } })
+      .select('title slug metaTitle category metaDesc coverImage coverUrl createdAt publishedAt')
+      .sort({ publishedAt: -1, createdAt: -1 })
+      .limit(30)
+      .lean();
     const templateHtml = await fs.promises.readFile(target, 'utf8');
     const renderedHtml = renderBlogListSsr(templateHtml, posts);
 

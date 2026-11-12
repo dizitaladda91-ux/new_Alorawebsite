@@ -2,6 +2,9 @@ import BASE_URL from './config.js';
 async function renderBlogCards() {
     const container = document.getElementById('blog-posts-grid');
     if (!container) return;
+    // The production route renders article links on the server; keep them visible
+    // and avoid a second request that would replace the already usable page.
+    if (container.querySelector('article a[href^="/blog/"]')) return;
     container.innerHTML = `
         <div class="col-span-full text-center py-10 text-ash animate__animated animate__fadeIn">
             <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-clay"></i>
@@ -9,11 +12,11 @@ async function renderBlogCards() {
         </div>
     `; 
     try {
-        const response = await fetch(`${BASE_URL}/api/blogs/all`);
+        const response = await fetch(`${BASE_URL}/api/blogs/all?limit=30`);
         const result = await response.json();
-        if (result.success && result.data.length > 0) {
-            container.innerHTML = ""; 
-            const latestPost = result.data[0]; 
+        const posts = Array.isArray(result.blogs) ? result.blogs : (Array.isArray(result.data) ? result.data : []);
+        if (response.ok && result.success && posts.length > 0) {
+            const latestPost = posts[0];
             if (latestPost) {
                 if (document.getElementById('dynamic-title')) {
                     document.getElementById('dynamic-title').innerText = `Alora Radiance Blogs | Latest: ${latestPost.metaTitle || latestPost.title}`;
@@ -57,7 +60,8 @@ async function renderBlogCards() {
                 const cleanText = post.content.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
                 return cleanText.length > 140 ? cleanText.slice(0, 140) + '...' : cleanText;
             };
-            result.data.forEach(post => {
+            const cards = document.createDocumentFragment();
+            posts.forEach(post => {
                 const formattedDate = new Date(post.createdAt).toLocaleDateString('en-GB', {
                     day: 'numeric',
                     month: 'short',
@@ -71,12 +75,12 @@ async function renderBlogCards() {
                 const snippetText = escapeHtml(getSnippet(post));
                 const categoryName = escapeHtml(post.category || 'Skincare');
                 const safeTitle = escapeHtml(post.title || 'Untitled');
-                const safeSlug = escapeHtml(post.slug || '');
+                const postUrl = `/blog/${encodeURIComponent(String(post.slug || '').trim())}`;
                 const cardHTML = `
-                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group relative cursor-pointer overflow-hidden" onclick="goToPost('${safeSlug}')">
+                    <article class="bg-white rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group relative overflow-hidden">
                         <!-- Top Image Area: Full-Bleed Edges (Left, Right & Top) -->
                         <div class="relative w-full aspect-[16/9] overflow-hidden bg-slate-100 block">
-                            <img src="${escapeHtml(absoluteCoverImage)}" alt="${safeTitle}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='./static/logo2.png'">
+                            <img src="${escapeHtml(absoluteCoverImage)}" alt="${safeTitle}" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='./static/logo2.png'">
                             <!-- Category Badge Pill in Upper Left Corner -->
                             <div style="position: absolute; top: 12px; left: 12px; z-index: 10;">
                                 <span style="background-color: rgba(255, 255, 255, 0.95); color: #152219; border: 1.5px solid #800000; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 9999px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); letter-spacing: 0.025em; display: inline-block;">
@@ -89,7 +93,9 @@ async function renderBlogCards() {
                             <div>
                                 <!-- Rich Maroon Title -->
                                 <h3 class="text-lg sm:text-xl font-bold font-sans leading-snug text-[#800000] group-hover:text-[#8B0000] transition-colors duration-200 line-clamp-2 mb-2">
+                                    <a href="${postUrl}" class="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#800000]">
                                     ${safeTitle}
+                                    </a>
                                 </h3>
                                 <!-- Description Snippet -->
                                 <p class="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed line-clamp-3">
@@ -101,15 +107,18 @@ async function renderBlogCards() {
                                 <span class="text-xs font-bold text-[#800000] tracking-wide">
                                     ${publisherName} | ${escapeHtml(formattedDate)}
                                 </span>
-                                <span class="bg-black hover:bg-slate-900 text-white text-xs font-extrabold px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 shadow-sm group-hover:scale-105">
+                                <a href="${postUrl}" class="bg-black hover:bg-slate-900 text-white text-xs font-extrabold px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 shadow-sm group-hover:scale-105">
                                     Read More <i class="fa-solid fa-angle-right text-[10px]"></i>
-                                </span>
+                                </a>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 `;
-                container.innerHTML += cardHTML;
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = cardHTML;
+                cards.append(wrapper.firstElementChild);
             });
+            container.replaceChildren(cards);
         } else {
             container.innerHTML = `
                 <div class="col-span-full text-center py-12 text-ash animate__animated animate__fadeIn">
