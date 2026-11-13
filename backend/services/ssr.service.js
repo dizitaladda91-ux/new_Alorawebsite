@@ -1,7 +1,7 @@
 import sanitizeHtml from "sanitize-html";
 import { sanitizeBlogHtml, decodeEntities, parseAndNormalizeSchemas } from "./contentSanitizer.service.js";
 
-const DOMAIN = "https://aloraradiance.com";
+const DOMAIN = "https://www.aloraradiance.com";
 
 const escapeHtml = (str) => {
     if (str === null || str === undefined) return "";

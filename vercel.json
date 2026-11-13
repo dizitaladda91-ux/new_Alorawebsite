@@ -8,10 +8,10 @@
       "has": [
         {
           "type": "host",
-          "value": "www.aloraradiance.com"
+          "value": "aloraradiance.com"
         }
       ],
-      "destination": "https://aloraradiance.com/$1",
+      "destination": "https://www.aloraradiance.com/$1",
       "permanent": true
     },
     {

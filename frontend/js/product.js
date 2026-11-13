@@ -223,7 +223,7 @@ async function loadProductDetails() {
         }
         const canonicalTag = document.getElementById('dynamic-canonical') || document.querySelector('link[rel="canonical"]');
         if (canonicalTag) {
-            canonicalTag.setAttribute('href', `https://aloraradiance.com/product/${encodeURIComponent(product.slug || product._id)}`);
+            canonicalTag.setAttribute('href', `https://www.aloraradiance.com/product/${encodeURIComponent(product.slug || product._id)}`);
         }
         const detailsEl = document.getElementById('product-details');
         if (detailsEl) detailsEl.innerText = product.details || product.description || "Details not available.";

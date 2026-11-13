@@ -64,7 +64,7 @@ const corsOptions = {
       'http://127.0.0.1:5501',
       'http://127.0.0.1:5502',
       'https://aloraproduct.netlify.app',
-      'https://aloraradiance.com',
+      'https://www.aloraradiance.com',
       'https://www.aloraradiance.com'
     ];
     

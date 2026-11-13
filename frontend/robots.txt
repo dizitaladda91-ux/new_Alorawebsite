@@ -1,4 +1,4 @@
-# Robots.txt for Alora Radiance (https://aloraradiance.com)
+# Robots.txt for Alora Radiance (https://www.aloraradiance.com)
 
 # Search Engines & Standard Crawlers
 User-agent: *
@@ -73,4 +73,4 @@ User-agent: Bytespider
 Allow: /
 
 # Sitemap
-Sitemap: https://aloraradiance.com/sitemap.xml
+Sitemap: https://www.aloraradiance.com/sitemap.xml

@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export async function generateSitemapXml() {
-    const baseUrl = 'https://aloraradiance.com';
+    const baseUrl = 'https://www.aloraradiance.com';
     const staticPages = [
         '',
         '/products',

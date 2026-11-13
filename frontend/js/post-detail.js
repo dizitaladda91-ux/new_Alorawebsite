@@ -442,7 +442,7 @@ function generateTableOfContents() {
 }
 function injectSEO(blog) {
     const rawSlug = blog.slug || getSlugFromLocation();
-    const currentUrl = rawSlug ? `https://aloraradiance.com/blog/${encodeURIComponent(rawSlug)}` : window.location.href;
+    const currentUrl = rawSlug ? `https://www.aloraradiance.com/blog/${encodeURIComponent(rawSlug)}` : window.location.href;
     const finalTitle = decodeEntities(blog.metaTitle || blog.title || "Alora Radiance");
     document.title = finalTitle;
     const titleEl = document.getElementById('dynamic-title');

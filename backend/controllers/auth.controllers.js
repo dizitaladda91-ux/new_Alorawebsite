@@ -130,7 +130,7 @@ export const generate6DigitOtp = () => {
 
 export const buildVerificationUrl = (rawToken, req, clientUrl = process.env.CLIENT_URL) => {
   const configuredUrl = String(clientUrl || "").trim().replace(/\/+$/, "");
-  const baseUrl = configuredUrl || "https://aloraradiance.com";
+  const baseUrl = configuredUrl || "https://www.aloraradiance.com";
   return `${baseUrl}/verify-email?token=${encodeURIComponent(rawToken)}`;
 };
 
@@ -748,7 +748,7 @@ export const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    const clientUrl = process.env.CLIENT_URL || "https://aloraradiance.com";
+    const clientUrl = process.env.CLIENT_URL || "https://www.aloraradiance.com";
     const resetUrl = `${clientUrl}/reset-password.html?token=${resetTokenRaw}`;
 
     const mailOptions = {
