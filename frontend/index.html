@@ -1354,95 +1354,150 @@
             if (!carousel || !section) return;
 
             const cards = carousel.querySelectorAll('.reel-card-item');
-            const mobileQuery = window.matchMedia('(max-width: 639px)');
-            const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+            if (cards.length < 2) return;
+
             const modal = document.getElementById('watchItVideoModal');
-            let sectionIsVisible = false;
+            let sectionIsVisible = true;
             let isInteracting = false;
-            let autoScrollTimer;
-            let resumeTimer;
+            let autoScrollTimer = null;
+            let resumeTimer = null;
+
+            // Check if device is mobile or tablet (or viewport <= 820px or touch)
+            function isMobileViewport() {
+                return window.innerWidth <= 820 || ('ontouchstart' in window && window.innerWidth <= 1024);
+            }
 
             function canAutoScroll() {
-                return mobileQuery.matches
-                    && !reducedMotionQuery.matches
-                    && !document.hidden
-                    && sectionIsVisible
-                    && !isInteracting
-                    && (!modal || modal.classList.contains('hidden'));
+                if (!isMobileViewport()) return false;
+                if (document.hidden) return false;
+                if (!sectionIsVisible) return false;
+                if (isInteracting) return false;
+                if (modal && !modal.classList.contains('hidden') && modal.style.display !== 'none') return false;
+                return true;
             }
 
             function stopAutoScroll() {
-                window.clearTimeout(autoScrollTimer);
-                autoScrollTimer = undefined;
+                if (autoScrollTimer) {
+                    clearTimeout(autoScrollTimer);
+                    autoScrollTimer = null;
+                }
             }
 
-            function scheduleAutoScroll() {
+            function scheduleAutoScroll(delay = 2800) {
                 stopAutoScroll();
                 if (!canAutoScroll()) return;
-                autoScrollTimer = window.setTimeout(advanceCarousel, 3200);
+                autoScrollTimer = setTimeout(advanceCarousel, delay);
             }
 
+            // Get card currently closest to the left viewport edge of the carousel
+            function getActiveIndex() {
+                const carouselRect = carousel.getBoundingClientRect();
+                const carouselLeft = carouselRect.left;
+                let closestIndex = 0;
+                let minDistance = Infinity;
+
+                cards.forEach((card, idx) => {
+                    const cardRect = card.getBoundingClientRect();
+                    const distance = Math.abs(cardRect.left - carouselLeft);
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestIndex = idx;
+                    }
+                });
+                return closestIndex;
+            }
+
+            // Advance smoothly to next card (Left to Right progression)
             function advanceCarousel() {
-                autoScrollTimer = undefined;
-                if (!canAutoScroll() || cards.length < 2) return;
+                stopAutoScroll();
+                if (!canAutoScroll()) return;
 
-                const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-                if (maxScroll <= 0) return;
+                const activeIdx = getActiveIndex();
+                const nextIdx = (activeIdx + 1) % cards.length;
 
-                if (carousel.scrollLeft >= maxScroll - 2) {
-                    carousel.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    const cardWidth = cards[0].getBoundingClientRect().width;
-                    const gap = parseFloat(window.getComputedStyle(carousel).columnGap) || 0;
-                    carousel.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
-                }
+                // Native scrollIntoView seamlessly handles CSS scroll-snap on iOS & Android
+                cards[nextIdx].scrollIntoView({
+                    behavior: 'smooth',
+                    inline: 'start',
+                    block: 'nearest'
+                });
 
-                scheduleAutoScroll();
+                scheduleAutoScroll(2800);
             }
 
-            function pauseForInteraction() {
-                if (!mobileQuery.matches) return;
+            // Pause when user touches / scrolls manually
+            function pauseInteraction() {
                 isInteracting = true;
                 stopAutoScroll();
-                window.clearTimeout(resumeTimer);
+                if (resumeTimer) clearTimeout(resumeTimer);
             }
 
-            function resumeAfterInteraction() {
-                if (!mobileQuery.matches) return;
-                window.clearTimeout(resumeTimer);
-                resumeTimer = window.setTimeout(() => {
+            // Resume after user finishes touching / scrolling
+            function resumeInteraction() {
+                if (resumeTimer) clearTimeout(resumeTimer);
+                resumeTimer = setTimeout(() => {
                     isInteracting = false;
-                    scheduleAutoScroll();
-                }, 3200);
+                    scheduleAutoScroll(2500);
+                }, 1800);
             }
 
-            carousel.addEventListener('pointerdown', pauseForInteraction, { passive: true });
-            window.addEventListener('pointerup', resumeAfterInteraction, { passive: true });
-            window.addEventListener('pointercancel', resumeAfterInteraction, { passive: true });
-            carousel.addEventListener('wheel', () => {
-                pauseForInteraction();
-                resumeAfterInteraction();
+            // Touch & interaction listeners directly on carousel
+            carousel.addEventListener('touchstart', pauseInteraction, { passive: true });
+            carousel.addEventListener('touchmove', pauseInteraction, { passive: true });
+            carousel.addEventListener('touchend', resumeInteraction, { passive: true });
+            carousel.addEventListener('touchcancel', resumeInteraction, { passive: true });
+
+            // On scroll, pause and automatically resume after scrolling settles
+            carousel.addEventListener('scroll', () => {
+                pauseInteraction();
+                resumeInteraction();
             }, { passive: true });
-            document.addEventListener('visibilitychange', scheduleAutoScroll);
-            mobileQuery.addEventListener('change', scheduleAutoScroll);
-            reducedMotionQuery.addEventListener('change', scheduleAutoScroll);
 
+            // Pointer events for desktop simulation
+            carousel.addEventListener('pointerdown', pauseInteraction, { passive: true });
+            carousel.addEventListener('pointerup', resumeInteraction, { passive: true });
+            carousel.addEventListener('pointercancel', resumeInteraction, { passive: true });
+
+            // Visibility changes (tab switches, screen off)
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    stopAutoScroll();
+                } else {
+                    scheduleAutoScroll(1500);
+                }
+            });
+
+            // Window resize / orientation change
+            window.addEventListener('resize', () => {
+                scheduleAutoScroll(1000);
+            }, { passive: true });
+
+            // Pause if video modal opens, resume when closed
             if (modal) {
-                new MutationObserver(scheduleAutoScroll).observe(modal, {
-                    attributes: true,
-                    attributeFilter: ['class']
+                const modalObserver = new MutationObserver(() => {
+                    if (modal.classList.contains('hidden') || modal.style.display === 'none') {
+                        scheduleAutoScroll(1000);
+                    } else {
+                        stopAutoScroll();
+                    }
                 });
+                modalObserver.observe(modal, { attributes: true, attributeFilter: ['class', 'style'] });
             }
 
+            // IntersectionObserver to only run auto-scroll when section is in view
             if ('IntersectionObserver' in window) {
                 const observer = new IntersectionObserver(([entry]) => {
                     sectionIsVisible = entry.isIntersecting;
-                    scheduleAutoScroll();
-                }, { threshold: 0.1 });
+                    if (sectionIsVisible) {
+                        scheduleAutoScroll(1200);
+                    } else {
+                        stopAutoScroll();
+                    }
+                }, { threshold: 0.05, rootMargin: '60px' });
                 observer.observe(section);
             } else {
                 sectionIsVisible = true;
-                scheduleAutoScroll();
+                scheduleAutoScroll(2000);
             }
         }
 
