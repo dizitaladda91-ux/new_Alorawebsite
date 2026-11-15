@@ -1357,6 +1357,104 @@
             }
         }
 
+        function initializeMobileWatchItAutoScroll() {
+            const carousel = document.getElementById('watchItCarousel');
+            const section = document.getElementById('watch-it-love-it-section');
+            if (!carousel || !section) return;
+
+            const cards = carousel.querySelectorAll('.reel-card-item');
+            const mobileQuery = window.matchMedia('(max-width: 639px)');
+            const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const modal = document.getElementById('watchItVideoModal');
+            let sectionIsVisible = false;
+            let isInteracting = false;
+            let autoScrollTimer;
+            let resumeTimer;
+
+            function canAutoScroll() {
+                return mobileQuery.matches
+                    && !reducedMotionQuery.matches
+                    && !document.hidden
+                    && sectionIsVisible
+                    && !isInteracting
+                    && (!modal || modal.classList.contains('hidden'));
+            }
+
+            function stopAutoScroll() {
+                window.clearTimeout(autoScrollTimer);
+                autoScrollTimer = undefined;
+            }
+
+            function scheduleAutoScroll() {
+                stopAutoScroll();
+                if (!canAutoScroll()) return;
+                autoScrollTimer = window.setTimeout(advanceCarousel, 3200);
+            }
+
+            function advanceCarousel() {
+                autoScrollTimer = undefined;
+                if (!canAutoScroll() || cards.length < 2) return;
+
+                const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+                if (maxScroll <= 0) return;
+
+                if (carousel.scrollLeft >= maxScroll - 2) {
+                    carousel.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    const cardWidth = cards[0].getBoundingClientRect().width;
+                    const gap = parseFloat(window.getComputedStyle(carousel).columnGap) || 0;
+                    carousel.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+                }
+
+                scheduleAutoScroll();
+            }
+
+            function pauseForInteraction() {
+                if (!mobileQuery.matches) return;
+                isInteracting = true;
+                stopAutoScroll();
+                window.clearTimeout(resumeTimer);
+            }
+
+            function resumeAfterInteraction() {
+                if (!mobileQuery.matches) return;
+                window.clearTimeout(resumeTimer);
+                resumeTimer = window.setTimeout(() => {
+                    isInteracting = false;
+                    scheduleAutoScroll();
+                }, 3200);
+            }
+
+            carousel.addEventListener('pointerdown', pauseForInteraction, { passive: true });
+            window.addEventListener('pointerup', resumeAfterInteraction, { passive: true });
+            window.addEventListener('pointercancel', resumeAfterInteraction, { passive: true });
+            carousel.addEventListener('wheel', () => {
+                pauseForInteraction();
+                resumeAfterInteraction();
+            }, { passive: true });
+            document.addEventListener('visibilitychange', scheduleAutoScroll);
+            mobileQuery.addEventListener('change', scheduleAutoScroll);
+            reducedMotionQuery.addEventListener('change', scheduleAutoScroll);
+
+            if (modal) {
+                new MutationObserver(scheduleAutoScroll).observe(modal, {
+                    attributes: true,
+                    attributeFilter: ['class']
+                });
+            }
+
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver(([entry]) => {
+                    sectionIsVisible = entry.isIntersecting;
+                    scheduleAutoScroll();
+                }, { threshold: 0.1 });
+                observer.observe(section);
+            } else {
+                sectionIsVisible = true;
+                scheduleAutoScroll();
+            }
+        }
+
         // Open video reel redirect or modal
         function openReelVideoModal(url, title) {
             if (!url) return;
@@ -1459,6 +1557,12 @@
                 });
             }
         });
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeMobileWatchItAutoScroll, { once: true });
+        } else {
+            initializeMobileWatchItAutoScroll();
+        }
     </script>
 
 <!-- ============ GREEN INITIATIVE + SAFETY ============ -->
@@ -1602,117 +1706,152 @@
 
 
 
-                       <!-- ============ GOOGLE CUSTOMER REVIEWS ============ -->
-<section id="reviews" class="relative w-full overflow-hidden bg-[#F8F3EA] py-14 sm:py-20">
-    <div class="pointer-events-none absolute -left-24 top-16 h-64 w-64 rounded-full bg-[#E8DCCB]/40 blur-3xl" aria-hidden="true"></div>
-    <div class="pointer-events-none absolute -right-24 bottom-8 h-72 w-72 rounded-full bg-[#D98E2B]/10 blur-3xl" aria-hidden="true"></div>
-
-    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mx-auto mb-10 max-w-2xl text-center sm:mb-14">
-            <a href="https://www.google.com/maps/place/Alora+Radiance/@28.4924639,77.187822,15.83z/data=!4m6!3m5!1s0x390d1f04bf52a563:0x16100b7890dfc972!8m2!3d28.4911672!4d77.1890667!16s%2Fg%2F11z92x29jt?entry=ttu" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full border border-[#2B1D14]/10 bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#2B1D14] shadow-sm transition hover:border-[#D98E2B]/50">
-                <span class="flex h-5 w-5 items-center justify-center rounded-full bg-[#F4F5F7] font-bold text-[#4285F4]" aria-hidden="true">G</span>
-                Google customer reviews
-            </a>
-            <h2 class="mt-5 font-heading text-4xl font-bold tracking-tight text-[#2B1D14] sm:text-5xl">Loved by our community</h2>
-            <p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#6B625A] sm:text-base">A few kind words from customers who shared their experience on Google.</p>
-            <div class="mt-5 inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 rounded-full border border-[#2B1D14]/10 bg-white px-5 py-2.5 text-sm text-[#2B1D14] shadow-sm">
-                <span class="flex gap-0.5 text-[#D98E2B]" aria-label="Google overall rating: 4.9 out of 5">
-                    <i class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i>
-                </span>
-                <span class="font-bold">4.9</span>
-                <span class="text-[#2B1D14]/20" aria-hidden="true">|</span>
-                <span class="text-[#6B625A]">22 Google reviews</span>
-            </div>
+                                              <!-- ============ GOOGLE CUSTOMER REVIEWS ============ -->
+<section id="reviews" aria-labelledby="reviews-heading">
+    <div class="reviews-container">
+        <h2 id="reviews-heading" class="visually-hidden">Google reviews</h2>
+        <div class="reviews-summary" aria-label="Google review summary">
+            <svg class="google-icon" viewBox="0 0 48 48" role="img" aria-label="Google"><path fill="#4285F4" d="M43.6 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h11c-.5 2.7-2 5-4.2 6.5v5.5h6.8c4-3.7 6-9.2 6-16z"/><path fill="#34A853" d="M24 44c5.4 0 10-1.8 13.3-4.9l-6.8-5.5c-1.8 1.2-4 1.9-6.5 1.9-5 0-9.3-3.4-10.8-8h-7v5.7C9.5 39.6 16.2 44 24 44z"/><path fill="#FBBC05" d="M13.2 27.5c-.4-1.2-.7-2.4-.7-3.5s.3-2.4.7-3.5v-5.7h-7C4.8 17.5 4 20.7 4 24s.8 6.5 2.2 9.2l7-5.7z"/><path fill="#EA4335" d="M24 12.5c2.9 0 5.5 1 7.5 3l6.3-6.3C34 5.9 29.4 4 24 4 16.2 4 9.5 8.4 6.2 14.8l7 5.7c1.5-4.6 5.8-8 10.8-8z"/></svg>
+            <span class="reviews-summary-rating" id="reviews-summary-rating"></span>
+            <span class="reviews-summary-stars" id="reviews-summary-stars"></span>
+            <span class="reviews-summary-count" id="reviews-summary-count"></span>
         </div>
-
-        <div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-6 xl:gap-6">
-            <article class="group flex flex-col rounded-2xl border border-[#2B1D14]/10 bg-white p-5 shadow-[0_8px_24px_rgba(43,29,20,0.04)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(43,29,20,0.10)] sm:p-6 xl:col-span-2">
-                <div class="flex items-start justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-[#F1E6D3] font-heading text-lg font-bold text-[#8B5C2A]">A</span>
-                        <div>
-                            <h3 class="text-sm font-semibold text-[#2B1D14]">Anas Anas</h3>
-                            <p class="mt-1 text-xs text-[#81786F]">Google review &middot; 1 month ago</p>
-                        </div>
-                    </div>
-                    <span class="whitespace-nowrap rounded-full bg-[#FFF7E8] px-2.5 py-1 text-xs font-bold text-[#8B5C2A]">5.0 <i class="fa-solid fa-star text-[10px]" aria-hidden="true"></i></span>
-                </div>
-                <span class="mt-5 text-2xl leading-none text-[#D98E2B]" aria-hidden="true">&ldquo;</span>
-                <p class="mt-2 flex-1 text-sm leading-7 text-[#51483F]">The Soothing Body Lotion feels lightweight and absorbs easily without feeling sticky or heavy. It provides good hydration for daily body care.</p>
-                <a href="https://www.google.com/maps/place/Alora+Radiance/@28.4924639,77.187822,15.83z/data=!4m6!3m5!1s0x390d1f04bf52a563:0x16100b7890dfc972!8m2!3d28.4911672!4d77.1890667!16s%2Fg%2F11z92x29jt?entry=ttu" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center gap-2 border-t border-[#2B1D14]/8 pt-4 text-xs font-semibold text-[#8B5C2A] transition group-hover:text-[#6E360F]">Read this review on Google <span aria-hidden="true">&rarr;</span></a>
-            </article>
-
-            <article class="group flex flex-col rounded-2xl border border-[#2B1D14]/10 bg-white p-5 shadow-[0_8px_24px_rgba(43,29,20,0.04)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(43,29,20,0.10)] sm:p-6 xl:col-span-2">
-                <div class="flex items-start justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-[#F1E6D3] font-heading text-lg font-bold text-[#8B5C2A]">S</span>
-                        <div>
-                            <h3 class="text-sm font-semibold text-[#2B1D14]">Sheeltron Saied</h3>
-                            <p class="mt-1 text-xs text-[#81786F]">Google review &middot; 1 month ago</p>
-                        </div>
-                    </div>
-                    <span class="whitespace-nowrap rounded-full bg-[#FFF7E8] px-2.5 py-1 text-xs font-bold text-[#8B5C2A]">5.0 <i class="fa-solid fa-star text-[10px]" aria-hidden="true"></i></span>
-                </div>
-                <span class="mt-5 text-2xl leading-none text-[#D98E2B]" aria-hidden="true">&ldquo;</span>
-                <p class="mt-2 flex-1 text-sm leading-7 text-[#51483F]">The Exfoliating Walnut Scrub was praised for its smooth texture, easy application, and enjoyable exfoliating experience.</p>
-                <a href="https://www.google.com/maps/place/Alora+Radiance/@28.4924639,77.187822,15.83z/data=!4m6!3m5!1s0x390d1f04bf52a563:0x16100b7890dfc972!8m2!3d28.4911672!4d77.1890667!16s%2Fg%2F11z92x29jt?entry=ttu" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center gap-2 border-t border-[#2B1D14]/8 pt-4 text-xs font-semibold text-[#8B5C2A] transition group-hover:text-[#6E360F]">Read this review on Google <span aria-hidden="true">&rarr;</span></a>
-            </article>
-
-            <article class="group flex flex-col rounded-2xl border border-[#2B1D14]/10 bg-white p-5 shadow-[0_8px_24px_rgba(43,29,20,0.04)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(43,29,20,0.10)] sm:p-6 xl:col-span-2">
-                <div class="flex items-start justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-[#F1E6D3] font-heading text-lg font-bold text-[#8B5C2A]">P</span>
-                        <div>
-                            <h3 class="text-sm font-semibold text-[#2B1D14]">Pritika Kushwaha</h3>
-                            <p class="mt-1 text-xs text-[#81786F]">Google review &middot; 2 months ago</p>
-                        </div>
-                    </div>
-                    <span class="whitespace-nowrap rounded-full bg-[#FFF7E8] px-2.5 py-1 text-xs font-bold text-[#8B5C2A]">5.0 <i class="fa-solid fa-star text-[10px]" aria-hidden="true"></i></span>
-                </div>
-                <span class="mt-5 text-2xl leading-none text-[#D98E2B]" aria-hidden="true">&ldquo;</span>
-                <p class="mt-2 flex-1 text-sm leading-7 text-[#51483F]">Pritika says the Soothing Body Lotion absorbs quickly, feels non-greasy, and keeps her skin soft and hydrated through the day.</p>
-                <a href="https://www.google.com/maps/place/Alora+Radiance/@28.4924639,77.187822,15.83z/data=!4m6!3m5!1s0x390d1f04bf52a563:0x16100b7890dfc972!8m2!3d28.4911672!4d77.1890667!16s%2Fg%2F11z92x29jt?entry=ttu" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center gap-2 border-t border-[#2B1D14]/8 pt-4 text-xs font-semibold text-[#8B5C2A] transition group-hover:text-[#6E360F]">Read this review on Google <span aria-hidden="true">&rarr;</span></a>
-            </article>
-
-            <article class="group flex flex-col rounded-2xl border border-[#2B1D14]/10 bg-white p-5 shadow-[0_8px_24px_rgba(43,29,20,0.04)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(43,29,20,0.10)] sm:p-6 xl:col-start-2 xl:col-span-2">
-                <div class="flex items-start justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-[#F1E6D3] font-bold text-[#4285F4]">G</span>
-                        <div>
-                            <h3 class="text-sm font-semibold text-[#2B1D14]">Google customer</h3>
-                            <p class="mt-1 text-xs text-[#81786F]">Featured Google review</p>
-                        </div>
-                    </div>
-                    <span class="rounded-full bg-[#F4F5F7] px-2.5 py-1 text-xs font-semibold text-[#6B625A]">Google</span>
-                </div>
-                <span class="mt-5 text-2xl leading-none text-[#D98E2B]" aria-hidden="true">&ldquo;</span>
-                <p class="mt-2 flex-1 font-heading text-xl font-semibold leading-7 text-[#51483F]">“Absolutely love this Soothing Body Lotion!”</p>
-                <a href="https://www.google.com/maps/place/Alora+Radiance/@28.4924639,77.187822,15.83z/data=!4m6!3m5!1s0x390d1f04bf52a563:0x16100b7890dfc972!8m2!3d28.4911672!4d77.1890667!16s%2Fg%2F11z92x29jt?entry=ttu" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center gap-2 border-t border-[#2B1D14]/8 pt-4 text-xs font-semibold text-[#8B5C2A] transition group-hover:text-[#6E360F]">Find this review on Google <span aria-hidden="true">&rarr;</span></a>
-            </article>
-
-            <article class="group flex flex-col rounded-2xl border border-[#2B1D14]/10 bg-white p-5 shadow-[0_8px_24px_rgba(43,29,20,0.04)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(43,29,20,0.10)] sm:p-6 xl:col-start-4 xl:col-span-2">
-                <div class="flex items-start justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-[#F1E6D3] font-bold text-[#4285F4]">G</span>
-                        <div>
-                            <h3 class="text-sm font-semibold text-[#2B1D14]">Google customer</h3>
-                            <p class="mt-1 text-xs text-[#81786F]">Featured Google review</p>
-                        </div>
-                    </div>
-                    <span class="rounded-full bg-[#F4F5F7] px-2.5 py-1 text-xs font-semibold text-[#6B625A]">Google</span>
-                </div>
-                <span class="mt-5 text-2xl leading-none text-[#D98E2B]" aria-hidden="true">&ldquo;</span>
-                <p class="mt-2 flex-1 font-heading text-xl font-semibold leading-7 text-[#51483F]">“Really loved the texture of this cream!”</p>
-                <a href="https://www.google.com/maps/place/Alora+Radiance/@28.4924639,77.187822,15.83z/data=!4m6!3m5!1s0x390d1f04bf52a563:0x16100b7890dfc972!8m2!3d28.4911672!4d77.1890667!16s%2Fg%2F11z92x29jt?entry=ttu" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center gap-2 border-t border-[#2B1D14]/8 pt-4 text-xs font-semibold text-[#8B5C2A] transition group-hover:text-[#6E360F]">Find this review on Google <span aria-hidden="true">&rarr;</span></a>
-            </article>
-        </div>
-
-        <div class="mt-9 text-center">
-            <a href="https://www.google.com/maps/place/Alora+Radiance/@28.4924639,77.187822,15.83z/data=!4m6!3m5!1s0x390d1f04bf52a563:0x16100b7890dfc972!8m2!3d28.4911672!4d77.1890667!16s%2Fg%2F11z92x29jt?entry=ttu" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full bg-[#2B1D14] px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#8B5C2A] hover:shadow-lg">
-                See all reviews on Google <span aria-hidden="true">&rarr;</span>
-            </a>
-        </div>
+        <div class="reviews-carousel" id="reviews-carousel" aria-label="Customer reviews"></div>
+        <div class="reviews-dots" id="reviews-dots" aria-label="Review slides"></div>
+        <div class="reviews-all-link"><a href="https://www.google.com/maps/place/Alora+Radiance/@28.4924639,77.187822,15.83z/data=!4m6!3m5!1s0x390d1f04bf52a563:0x16100b7890dfc972!8m2!3d28.4911672!4d77.1890667!16s%2Fg%2F11z92x29jt?entry=ttu" target="_blank" rel="noopener noreferrer">See all reviews on Google <span aria-hidden="true">&rarr;</span></a></div>
     </div>
+    <style>
+        #reviews { background:#FBF6EE; color:#2B1D14; padding:48px 0; font-family:inherit; }
+        #reviews *,#reviews *::before,#reviews *::after { box-sizing:border-box; }
+        #reviews .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+        #reviews .reviews-container { width:min(100% - 32px,1100px); margin:0 auto; }
+        #reviews .reviews-summary { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px 10px; width:fit-content; max-width:100%; margin:0 auto 28px; padding:10px 16px; border:1px solid #EFE6DA; border-radius:999px; background:#fff; }
+        #reviews .google-icon { display:block; width:22px; height:22px; flex:none; }
+        #reviews .reviews-summary-rating { font-size:26px; font-weight:600; line-height:1; }
+        #reviews .reviews-summary-stars { display:inline-flex; }
+        #reviews .reviews-summary-count { color:#81786F; font-size:13px; }
+        #reviews .review-stars { position:relative; display:inline-flex; flex:none; width:max-content; line-height:0; }
+        #reviews .review-stars-row { display:flex; gap:1px; }
+        #reviews .review-stars-row svg { display:block; width:19px; height:19px; }
+        #reviews .review-stars-filled { position:absolute; top:0; left:0; overflow:hidden; white-space:nowrap; }
+        #reviews .reviews-carousel { display:flex; gap:16px; overflow-x:auto; padding:0 2px 8px; scroll-padding-inline:2px; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+        #reviews .reviews-carousel::-webkit-scrollbar { display:none; }
+        #reviews .review-card { display:flex; flex:0 0 84%; flex-direction:column; gap:14px; min-width:0; padding:20px; border:1px solid #EFE6DA; border-radius:16px; background:#fff; box-shadow:0 4px 16px rgba(43,29,20,.045); scroll-snap-align:start; }
+        #reviews .review-author { display:flex; align-items:center; gap:12px; min-width:0; }
+        #reviews .review-avatar { display:grid; width:44px; height:44px; flex:none; place-items:center; border-radius:50%; background:#F3E6D2; color:#2B1D14; font-size:17px; font-weight:600; }
+        #reviews .review-author-copy { min-width:0; }
+        #reviews .review-name { margin:0; font-size:16px; font-weight:600; line-height:1.3; overflow-wrap:anywhere; }
+        #reviews .review-source { margin:3px 0 0; color:#81786F; font-size:12px; }
+        #reviews .review-meta { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+        #reviews .review-date { color:#81786F; font-size:13px; }
+        #reviews .review-text { margin:0; color:#2B1D14; font-size:15.5px; font-weight:400; line-height:1.6; overflow-wrap:anywhere; }
+        #reviews .review-footer { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:auto; padding-top:12px; border-top:1px solid #EFE6DA; color:#81786F; font-size:12px; }
+        #reviews .review-posted { display:inline-flex; align-items:center; gap:7px; }
+        #reviews .review-posted .google-icon { width:16px; height:16px; }
+        #reviews .review-link { color:#D98E2B; font-weight:600; text-decoration:none; }
+        #reviews .review-link:hover { text-decoration:underline; }
+        #reviews .reviews-dots { display:flex; justify-content:center; align-items:center; gap:7px; margin-top:16px; }
+        #reviews .reviews-dot { width:7px; height:7px; padding:0; border:0; border-radius:999px; background:#D8CCBC; cursor:pointer; transition:width 180ms ease,background-color 180ms ease; }
+        #reviews .reviews-dot[aria-current="true"] { width:22px; background:#D98E2B; }
+        #reviews .reviews-all-link { margin-top:28px; text-align:center; }
+        #reviews .reviews-all-link a { display:inline-flex; align-items:center; gap:8px; padding:14px 28px; border-radius:999px; background:#2B1D14; color:#FBF6EE; font-size:14px; font-weight:600; text-decoration:none; transition:background-color 180ms ease; }
+        #reviews .reviews-all-link a:hover { background:#D98E2B; }
+        @media (prefers-reduced-motion:reduce) { #reviews .reviews-dot,#reviews .reviews-all-link a { transition:none; } }
+        @media (min-width:820px) {
+            #reviews { padding:64px 0; }
+            #reviews .reviews-summary { margin-bottom:32px; }
+            #reviews .reviews-carousel { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; overflow:visible; padding:0; }
+            #reviews .review-card { min-height:270px; }
+            #reviews .reviews-dots { display:none; }
+            #reviews .reviews-all-link { margin-top:32px; }
+        }
+    </style>
+    <script>
+        (() => {
+            const googleReviewsUrl = 'https://www.google.com/maps/place/Alora+Radiance/@28.4924639,77.187822,15.83z/data=!4m6!3m5!1s0x390d1f04bf52a563:0x16100b7890dfc972!8m2!3d28.4911672!4d77.1890667!16s%2Fg%2F11z92x29jt?entry=ttu';
+            const reviewSummary = { rating:4.9, count:22 };
+            const reviews = [
+                { name:'Mind Anas', date:'a month ago', rating:4, product:'Face Serum', text:'I really liked this face serum. It feels lightweight on the skin and gives a fresh, hydrated look. The combination of saffron extract, niacinamide and hyaluronic acid makes it feel nourishing and smooth. Overall, a good product for a simple skincare routine.”' },
+                { name:'Shubham Singh', date:'2 months ago', rating:5, product:'Alora Soothing Body Lotion', text:'“Alora Soothing Body Lotion is really good for daily skincare. It provides long-lasting hydration and makes the skin feel soft, smooth and nourished. The …' },
+                { name:'Pritika Kushwaha', date:'3 months ago', rating:5, product:'Alora soothing body lotion', text:'Thank you Alora Radiance. I have been using Alora soothing body lotion for more than ten days. It has a light weight, deeply moisturizing, non greasy formula that absorbs quickly and keeps my skin soft and hydrated all day. Its perfect for daily use. Highly recommended. I would happily purchase it again.' },
+                { name:'Sheeltron Saied', date:'2 months ago', rating:5, product:'Alora Radiance Exfoliating Walnut Scrub', text:'I recently tried the Alora Radiance Exfoliating Walnut Scrub and I’m genuinely impressed with the results. The texture is smooth and easy to apply, and it works really well for removing dead skin, dirt and impurities. After using it, my …' },
+                { name:'Simran Kunwar', date:'a month ago', rating:5, product:'Body lotion', text:"I really love this body lotion. It's so rich in the shea butter, it doesn't leave that unpleasant greasy feeling on the skin. My skin is super soft and smooth, and it stays this way throughout the day!" }
+            ];
+            const carousel = document.getElementById('reviews-carousel');
+            const dots = document.getElementById('reviews-dots');
+            const googleIcon = document.querySelector('#reviews .google-icon');
+            function element(tag, className, text) {
+                const node = document.createElement(tag);
+                if (className) node.className = className;
+                if (text !== undefined) node.textContent = text;
+                return node;
+            }
+            function makeStars(rating, label) {
+                const stars = element('span','review-stars');
+                const numericRating = Number(rating);
+                const hasRating = Number.isFinite(numericRating) && numericRating >= 0;
+                stars.setAttribute('role','img');
+                stars.setAttribute('aria-label',label || (hasRating ? `${numericRating} out of 5 stars` : 'Review rating placeholder'));
+                const base = element('span','review-stars-row');
+                const filled = element('span','review-stars-row review-stars-filled');
+                base.setAttribute('aria-hidden','true');
+                filled.setAttribute('aria-hidden','true');
+                for (let i=0; i<5; i+=1) {
+                    for (const [row,color] of [[base,'#E3D9CB'],[filled,'#FBBC04']]) {
+                        const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+                        svg.setAttribute('viewBox','0 0 20 20');
+                        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+                        path.setAttribute('d','M10 1.4 12.7 6.9l6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L.2 7.8l6.1-.9z');
+                        path.setAttribute('fill',color); path.setAttribute('stroke',color);
+                        path.setAttribute('stroke-width','1.6'); path.setAttribute('stroke-linejoin','round');
+                        svg.appendChild(path); row.appendChild(svg);
+                    }
+                }
+                filled.style.width = `${Math.max(0,Math.min(5,hasRating ? numericRating : 0))/5*100}%`;
+                stars.append(base,filled);
+                return stars;
+            }
+            document.getElementById('reviews-summary-rating').textContent = reviewSummary.rating.toFixed(1);
+            document.getElementById('reviews-summary-stars').appendChild(makeStars(reviewSummary.rating,`Google overall rating: ${reviewSummary.rating} out of 5`));
+            document.getElementById('reviews-summary-count').textContent = `Based on ${reviewSummary.count} Google reviews`;
+            reviews.forEach((review,index) => {
+                const card = element('article','review-card');
+                const author = element('div','review-author');
+                const avatar = element('span','review-avatar',review.name.replace(/^\[/,'').trim().charAt(0).toUpperCase());
+                avatar.setAttribute('aria-hidden','true');
+                const authorCopy = element('div','review-author-copy');
+                authorCopy.append(element('h3','review-name',review.name),element('p','review-source',review.product ? `Purchased: ${review.product}` : 'Google review'));
+                author.append(avatar,authorCopy);
+                const meta = element('div','review-meta');
+                const date = element('time','review-date',review.date);
+                meta.append(makeStars(review.rating),date);
+                const text = element('p','review-text',review.text);
+                const footer = element('div','review-footer');
+                const posted = element('span','review-posted','Posted on Google');
+                posted.prepend(googleIcon.cloneNode(true));
+                const view = element('a','review-link','View');
+                view.href = googleReviewsUrl; view.target = '_blank'; view.rel = 'noopener noreferrer';
+                view.setAttribute('aria-label',`View ${review.name}'s review on Google`);
+                footer.append(posted,view); card.append(author,meta,text,footer); carousel.appendChild(card);
+                const dot = element('button','reviews-dot');
+                dot.type = 'button'; dot.setAttribute('aria-label',`Show review ${index+1}`);
+                dot.setAttribute('aria-current',index===0 ? 'true' : 'false');
+                dot.addEventListener('click',() => card.scrollIntoView({behavior:'smooth',block:'nearest',inline:'start'}));
+                dots.appendChild(dot);
+            });
+            let scrollFrame;
+            carousel.addEventListener('scroll',() => {
+                if (window.matchMedia('(min-width:820px)').matches) return;
+                window.cancelAnimationFrame(scrollFrame);
+                scrollFrame = window.requestAnimationFrame(() => {
+                    const cards = Array.from(carousel.children);
+                    const left = carousel.getBoundingClientRect().left;
+                    const active = cards.reduce((best,card,index) => Math.abs(card.getBoundingClientRect().left-left) < Math.abs(cards[best].getBoundingClientRect().left-left) ? index : best,0);
+                    Array.from(dots.children).forEach((dot,index) => dot.setAttribute('aria-current',index===active ? 'true' : 'false'));
+                });
+            },{passive:true});
+        })();
+    </script>
 </section>
 
     <!-- ============ LATEST BLOGS ============ -->

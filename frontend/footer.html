@@ -7,6 +7,58 @@
     line-height: 1.6 !important;
     border-top: 1px solid #2B1D14 !important;
     overflow: visible;
+    padding-top: 48px !important;
+    padding-bottom: 24px !important;
+  }
+  .alora-footer .footer-grid {
+    gap: 32px !important;
+    padding-bottom: 32px !important;
+  }
+  .alora-footer .footer-bottom {
+    gap: 12px;
+    padding-top: 24px;
+  }
+  .alora-footer .footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .alora-footer .footer-logo {
+    display: block;
+    width: 160px;
+    margin-bottom: 20px;
+  }
+  .alora-footer .footer-logo-mark {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 400 / 142;
+    background-color: #F5EBDD;
+    -webkit-mask: url("/static/logo-brand-bold.png") center / contain no-repeat;
+    mask: url("/static/logo-brand-bold.png") center / contain no-repeat;
+  }
+  .alora-footer .footer-logo-mark::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: #000;
+    -webkit-mask: url("/static/logo-brand-bold.png") center / contain no-repeat;
+    mask: url("/static/logo-brand-bold.png") center / contain no-repeat;
+    transform: scale(0.985);
+  }
+  .alora-footer .footer-socials {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .alora-footer .footer-social-link {
+    color: #F5EBDD !important;
+    font-size: 26px;
+    line-height: 1;
+    transition: color 0.2s ease;
+  }
+  .alora-footer .footer-social-link:hover {
+    color: #D98E2B !important;
   }
   .footer-heading {
     color: #D98E2B !important;
@@ -17,7 +69,7 @@
     font-size: 0.82rem !important;
   }
   .footer-link-item {
-    color: rgba(251, 247, 240, 0.8) !important;
+    color: #F5EBDD !important;
     font-family: var(--font-body) !important;
     font-size: 0.85rem !important;
     font-weight: 400 !important;
@@ -26,6 +78,15 @@
   }
   .footer-link-item:hover {
     color: #D98E2B !important;
+  }
+  @media (max-width: 767px) {
+    .alora-footer .footer-grid {
+      gap: 28px !important;
+      padding-bottom: 28px !important;
+    }
+    .alora-footer .footer-logo {
+      width: 150px;
+    }
   }
   .diwali-footer-diyas {
     display: none;
@@ -65,29 +126,29 @@
   }
 </style>
 
-<footer class="alora-footer pt-16 pb-8 w-full">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#FBF7F0]/15 relative">
+<footer class="alora-footer w-full">
+  <div class="footer-grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-b border-[#FBF7F0]/15 relative">
 
     <!-- Col 1: Brand & Overview -->
-    <div class="space-y-4">
-      <a href="/" class="block h-16 w-40 overflow-hidden rounded bg-white p-1" aria-label="Alora Radiance home">
-        <img src="./static/logo-brand.png" alt="Alora Radiance" class="h-full w-full object-contain">
+    <div>
+      <a href="/" class="footer-logo" aria-label="Alora Radiance home">
+        <span class="footer-logo-mark" role="img" aria-label="Alora Radiance"></span>
       </a>
-      <div class="flex flex-col items-start gap-4 pt-2" aria-label="Follow Alora Radiance">
-        <a href="https://www.instagram.com/aloraradiance" target="_blank" rel="noopener noreferrer" aria-label="Alora Radiance on Instagram" class="text-[#FBF7F0]/80 hover:text-[#D98E2B] transition">
-          <i class="fa-brands fa-instagram text-3xl" aria-hidden="true"></i>
+      <div class="footer-socials" aria-label="Follow Alora Radiance">
+        <a href="https://www.instagram.com/aloraradiance" target="_blank" rel="noopener noreferrer" aria-label="Alora Radiance on Instagram" class="footer-social-link">
+          <i class="fa-brands fa-instagram" aria-hidden="true"></i>
         </a>
-        <a href="https://www.youtube.com/@AloraRadiance" target="_blank" rel="noopener noreferrer" aria-label="Alora Radiance on YouTube" class="text-[#FBF7F0]/80 hover:text-[#D98E2B] transition">
-          <i class="fa-brands fa-youtube text-3xl" aria-hidden="true"></i>
+        <a href="https://www.youtube.com/@AloraRadiance" target="_blank" rel="noopener noreferrer" aria-label="Alora Radiance on YouTube" class="footer-social-link">
+          <i class="fa-brands fa-youtube" aria-hidden="true"></i>
         </a>
-        <a href="https://www.facebook.com/fb-answers/alora-radiance-new-delhi-reviews/" target="_blank" rel="noopener noreferrer" aria-label="Alora Radiance on Facebook" class="text-[#FBF7F0]/80 hover:text-[#D98E2B] transition">
-          <i class="fa-brands fa-facebook text-3xl" aria-hidden="true"></i>
+        <a href="https://www.facebook.com/fb-answers/alora-radiance-new-delhi-reviews/" target="_blank" rel="noopener noreferrer" aria-label="Alora Radiance on Facebook" class="footer-social-link">
+          <i class="fa-brands fa-facebook" aria-hidden="true"></i>
         </a>
       </div>
     </div>
 
     <!-- Col 2: Quick Links -->
-    <div class="space-y-4">
+    <div class="footer-column">
       <h3 class="footer-heading">Quick Links</h3>
       <ul class="space-y-2.5 text-xs">
         <li><a href="/" class="footer-link-item">Home</a></li>
@@ -100,7 +161,7 @@
     </div>
 
     <!-- Col 3: Policies & Trust -->
-    <div class="space-y-4">
+    <div class="footer-column">
       <h3 class="footer-heading">Policies &amp; Trust</h3>
       <ul class="space-y-2.5 text-xs">
         <li><a href="/PrivacyPolicy.html" class="footer-link-item">Privacy Policy</a></li>
@@ -113,7 +174,7 @@
     </div>
 
     <!-- Col 4: Experience Center & Contact -->
-    <div class="space-y-4">
+    <div class="footer-column">
       <h3 class="footer-heading">Experience Center</h3>
       <div class="w-full h-28 rounded-[12px] overflow-hidden border border-[#FBF7F0]/20 bg-[#F1E6D3]">
         <iframe src="https://maps.google.com/maps?q=Alora%20Radiance&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -135,7 +196,7 @@
   </div>
 
   <!-- Copyright Bottom Bar -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#FBF7F0]/60 gap-4">
+  <div class="footer-bottom max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#FBF7F0]/60">
     <p>Copyright &copy; 2026 <strong class="text-[#FBF7F0] font-medium">Alora Radiance</strong>. All Rights Reserved.</p>
     <div class="flex items-center gap-4 text-xs">
       <a href="/sitemap.html" class="hover:text-[#D98E2B] transition">Sitemap</a>

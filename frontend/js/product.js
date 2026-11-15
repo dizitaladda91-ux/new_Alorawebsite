@@ -591,7 +591,7 @@ function renderGoodToKnowFaqs(product) {
         ];
 
     const renderCard = (faq, idx) => `
-        <details class="group bg-white p-4.5 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md" ${idx === 0 ? 'open' : ''}>
+        <details class="group bg-white p-4 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md" ${idx === 0 ? 'open' : ''}>
             <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
                 <span class="leading-snug">${escapeHTML(faq.question)}</span>
                 <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200">
