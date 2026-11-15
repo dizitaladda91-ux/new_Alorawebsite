@@ -50,6 +50,22 @@ export function isUserLoggedIn() {
 }
 window.isUserLoggedIn = isUserLoggedIn;
 
+function clearStaleWishlistSession() {
+    for (const storage of [localStorage, sessionStorage]) {
+        try {
+            storage.removeItem("user");
+            storage.removeItem("userRole");
+            storage.removeItem("tabAuthActive");
+        } catch (err) {
+            console.warn("Could not clear stale wishlist session:", err);
+        }
+    }
+    updateWishlistVisibility(false);
+    document.querySelectorAll(".wishlist-toggle-btn, #single-wishlist-btn").forEach((btnEl) => {
+        updateHeartUI(btnEl, false);
+    });
+}
+
 let pendingWishlistProduct = null;
 
 export function closeWishlistAuthModal() {
@@ -476,6 +492,10 @@ export async function fetchUserWishlist() {
             headers: getAuthHeaders(),
             credentials: "include"
         });
+        if (res.status === 401) {
+            clearStaleWishlistSession();
+            return [];
+        }
         if (res.ok) {
             const data = await res.json();
             const list = data.data || [];
@@ -505,6 +525,11 @@ export async function toggleProductWishlist(productId, btnEl = null) {
             credentials: "include",
             body: JSON.stringify({ productId })
         });
+        if (res.status === 401) {
+            clearStaleWishlistSession();
+            openWishlistAuthModal(productId, btnEl);
+            return false;
+        }
         const data = await res.json();
         if (res.ok && data.success) {
             updateWishlistBadge(data.wishlistCount);
@@ -513,9 +538,6 @@ export async function toggleProductWishlist(productId, btnEl = null) {
             }
             notifyWishlist(data.isAdded ? "Added to your Wishlist ❤️" : "Removed from your Wishlist.", data.isAdded ? "success" : "info");
             return data.isAdded;
-        } else if (res.status === 401) {
-            openWishlistAuthModal(productId, btnEl);
-            return false;
         }
     } catch (err) {
         console.warn("Wishlist toggle API error:", err);
@@ -617,8 +639,9 @@ async function initWishlistOnLoad() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", initWishlistOnLoad);
 document.addEventListener("partialsLoaded", initWishlistOnLoad);
-if (document.readyState === "complete" || document.readyState === "interactive") {
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initWishlistOnLoad, { once: true });
+} else {
     initWishlistOnLoad();
 }
