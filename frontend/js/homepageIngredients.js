@@ -22,23 +22,32 @@ function createIngredientCard(ingredient) {
     image.className = "absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105";
 
     const overlay = document.createElement("div");
-    overlay.className = "absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/5";
+    overlay.className = "absolute inset-0";
+    overlay.style.background = "linear-gradient(to top, rgba(30, 20, 14, 0.92) 0%, rgba(30, 20, 14, 0.75) 40%, rgba(30, 20, 14, 0.35) 70%, rgba(30, 20, 14, 0.10) 100%)";
+    overlay.style.zIndex = "1";
 
     const content = document.createElement("div");
     content.className = "absolute inset-x-0 bottom-0 p-4 text-white sm:p-6";
+    content.style.zIndex = "2";
 
     const label = document.createElement("span");
-    label.className = "text-xs font-medium tracking-wide text-white/90";
+    label.className = "text-xs font-semibold tracking-wider";
+    label.style.color = "#E8A33D";
     label.textContent = "Ingredient";
     const title = document.createElement("h3");
     title.className = "mt-1 line-clamp-2 font-heading text-xl font-bold leading-tight text-white sm:text-3xl";
+    title.style.textShadow = "0 2px 6px rgba(0, 0, 0, 0.4)";
     title.textContent = ingredient.name || "Ingredient";
     const summary = document.createElement("p");
-    summary.className = "mt-2 line-clamp-2 text-sm leading-snug text-white/90";
+    summary.className = "mt-2 line-clamp-2 text-sm leading-snug";
+    summary.style.color = "#F5EDE3";
+    summary.style.textShadow = "0 1px 3px rgba(0, 0, 0, 0.45)";
     summary.textContent = ingredient.shortDescription || "";
     const link = document.createElement("a");
     link.href = `/ingredients/${encodeURIComponent(slug)}`;
-    link.className = "ingredient-read-more mt-3 inline-flex rounded-full bg-[#1D4ED8] px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white hover:bg-[#1E40AF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+    link.className = "ingredient-read-more mt-3 inline-flex rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wide focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+    link.style.backgroundColor = "#E8A33D";
+    link.style.color = "#2B1E16";
     link.textContent = "Read More";
     link.setAttribute("aria-label", `Read more about ${ingredient.name || "this ingredient"}`);
 

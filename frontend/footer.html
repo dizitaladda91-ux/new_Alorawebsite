@@ -24,41 +24,48 @@
     gap: 12px;
   }
   .alora-footer .footer-logo {
-    display: block;
-    width: 160px;
+    display: inline-block;
+    width: fit-content;
+    max-width: 100%;
     margin-bottom: 20px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background-color: #FAF5EC;
+    box-sizing: border-box;
   }
   .alora-footer .footer-logo-mark {
     display: block;
     position: relative;
-    width: 100%;
+    width: 180px;
+    max-width: 100%;
     aspect-ratio: 400 / 142;
-    background-color: #F5EBDD;
-    -webkit-mask: url("/static/logo-brand-bold.png") center / contain no-repeat;
-    mask: url("/static/logo-brand-bold.png") center / contain no-repeat;
-  }
-  .alora-footer .footer-logo-mark::after {
-    content: "";
-    position: absolute;
-    inset: 0;
     background-color: #000;
     -webkit-mask: url("/static/logo-brand-bold.png") center / contain no-repeat;
     mask: url("/static/logo-brand-bold.png") center / contain no-repeat;
-    transform: scale(0.985);
   }
   .alora-footer .footer-socials {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 18px;
   }
   .alora-footer .footer-social-link {
-    color: #F5EBDD !important;
-    font-size: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: #FAF5EC !important;
     line-height: 1;
-    transition: color 0.2s ease;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+  .alora-footer .footer-social-link .fa-brands {
+    display: block;
+    font-size: 32px;
+    line-height: 1;
   }
   .alora-footer .footer-social-link:hover {
-    color: #D98E2B !important;
+    color: #E8A33D !important;
+    transform: translateY(-2px);
   }
   .footer-heading {
     color: #D98E2B !important;
@@ -83,9 +90,6 @@
     .alora-footer .footer-grid {
       gap: 28px !important;
       padding-bottom: 28px !important;
-    }
-    .alora-footer .footer-logo {
-      width: 150px;
     }
   }
   .diwali-footer-diyas {

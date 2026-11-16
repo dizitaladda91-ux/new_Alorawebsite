@@ -58,7 +58,6 @@ window.openLeadModal = async function(actionElement = null) {
         }
     }
 };
-
 window.closeLeadModal = function() {
     const modal = document.getElementById('leadModal');
     if (modal) {
@@ -227,30 +226,3 @@ window.handleLeadSubmit = async function(event) {
         }
     }
 };
-
-// 🪔 Auto-trigger Diwali Special Popup on Customer Pages
-function initDiwaliPopupAutoTrigger() {
-    const path = (window.location.pathname || "").toLowerCase();
-    const isAdmin = path.includes("admin") || path.includes("login") || path.includes("register");
-    if (isAdmin) return;
-
-    const alreadyClaimed = localStorage.getItem('leadFilled') === 'true';
-    const seenThisSession = sessionStorage.getItem('diwaliPopupSeen') === 'true';
-
-    if (!alreadyClaimed && !seenThisSession) {
-        // Show after 3.5 seconds
-        setTimeout(async () => {
-            const stillNotSeen = sessionStorage.getItem('diwaliPopupSeen') !== 'true';
-            const stillNotClaimed = localStorage.getItem('leadFilled') !== 'true';
-            if (stillNotSeen && stillNotClaimed) {
-                await window.openLeadModal();
-            }
-        }, 3500);
-    }
-}
-
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initDiwaliPopupAutoTrigger);
-} else {
-    initDiwaliPopupAutoTrigger();
-}

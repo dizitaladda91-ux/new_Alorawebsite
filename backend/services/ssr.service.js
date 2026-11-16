@@ -490,7 +490,7 @@ export const renderProductSsr = (templateHtml, product, faqs = []) => {
     );
     html = html.replace(
         /<span id="product-review-source"[^>]*>.*?<\/span>/i,
-        `<span id="product-review-source" class="text-[10px] text-amber-700">${product.isSampleReviews ? 'Sample · ' : ''}</span>`
+        `<span id="product-review-source" class="text-[10px] text-amber-700"></span>`
     );
 
     // Pricing
@@ -572,7 +572,7 @@ export const renderProductListSsr = (templateHtml, products = []) => {
             const starsHtml = reviewsCount > 0 ? generateStarsHtml(averageReviewRating) : '';
             const reviewSummary = reviewsCount > 0
                 ? `<div class="flex text-amber-500">${starsHtml}</div>
-                    <span class="text-[10px] text-slate-400 font-mono">${product.isSampleReviews ? 'Sample · ' : ''}${averageReviewRating.toFixed(1)} (${reviewsCount})</span>`
+                    <span class="text-[10px] text-slate-400 font-mono">${averageReviewRating.toFixed(1)} (${reviewsCount})</span>`
                 : '<span class="text-[10px] text-slate-400">No reviews</span>';
 
             return `
