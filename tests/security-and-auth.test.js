@@ -16,19 +16,34 @@ const makeResponse = () => ({
   statusCode: null,
   body: null,
   setHeader(name, value) { this.headers[name] = value; },
+  append(name, value) {
+    const current = this.headers[name];
+    this.headers[name] = current ? `${current}, ${value}` : value;
+  },
   status(code) { this.statusCode = code; return this; },
   json(body) { this.body = body; return this; }
 });
 
-test("public request limiter blocks requests over its limit", () => {
+const makeRequest = (ip, path = "/") => ({
+  ip,
+  path,
+  originalUrl: path,
+  url: path,
+  method: "GET",
+  headers: {},
+  socket: { remoteAddress: ip },
+  app: { get: () => false }
+});
+
+test("public request limiter blocks requests over its limit", async () => {
   const limit = createRateLimiter({ windowMs: 60_000, max: 2, skipLocal: false });
-  const request = { ip: "203.0.113.10", socket: {} };
+  const request = makeRequest("203.0.113.10");
   let nextCalls = 0;
 
-  limit(request, makeResponse(), () => { nextCalls++; });
-  limit(request, makeResponse(), () => { nextCalls++; });
+  await limit(request, makeResponse(), () => { nextCalls++; });
+  await limit(request, makeResponse(), () => { nextCalls++; });
   const blockedResponse = makeResponse();
-  limit(request, blockedResponse, () => { nextCalls++; });
+  await limit(request, blockedResponse, () => { nextCalls++; });
 
   assert.equal(nextCalls, 2);
   assert.equal(blockedResponse.statusCode, 429);
@@ -36,19 +51,19 @@ test("public request limiter blocks requests over its limit", () => {
   assert.ok(blockedResponse.headers["Retry-After"] > 0);
 });
 
-test("rate limiter can exempt a polling endpoint from the strict auth limit", () => {
+test("rate limiter can exempt a polling endpoint from the strict auth limit", async () => {
   const limit = createRateLimiter({
     windowMs: 60_000,
     max: 1,
     skipLocal: false,
     skip: (request) => request.path === "/poll-verification"
   });
-  const request = { ip: "203.0.113.11", path: "/poll-verification", socket: {} };
+  const request = makeRequest("203.0.113.11", "/poll-verification");
   let nextCalls = 0;
   const blockedResponse = makeResponse();
 
-  limit(request, makeResponse(), () => { nextCalls++; });
-  limit(request, blockedResponse, () => { nextCalls++; });
+  await limit(request, makeResponse(), () => { nextCalls++; });
+  await limit(request, blockedResponse, () => { nextCalls++; });
 
   assert.equal(nextCalls, 2);
   assert.equal(blockedResponse.statusCode, null);
