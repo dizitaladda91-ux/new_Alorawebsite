@@ -77,6 +77,12 @@ export const normalizeCheckoutItems = (cart) => {
     }).filter((item) => item.productId && item.quantity > 0 && Number.isInteger(item.quantity));
 };
 
+export const findCheckoutVariant = (variants, requestedVariant) => {
+    const matchingVariant = variants?.find((variant) => variant.volume === requestedVariant);
+    if (matchingVariant) return matchingVariant;
+    return requestedVariant === "Standard" ? variants?.[0] || null : null;
+};
+
 const resolveCatalogItems = async (cart) => {
     const requestedItems = normalizeCheckoutItems(cart);
     if (requestedItems.length === 0) throw new Error("Your cart has no valid product items.");
@@ -88,7 +94,7 @@ const resolveCatalogItems = async (cart) => {
     const productById = new Map(products.map((product) => [String(product._id), product]));
     return requestedItems.map((requested) => {
         const product = productById.get(requested.productId);
-        const variant = product?.variants?.find((entry) => entry.volume === requested.variant);
+        const variant = findCheckoutVariant(product?.variants, requested.variant);
 
         const enforceInventory = inventoryTrackingEnabled();
         if (!product || !variant) {

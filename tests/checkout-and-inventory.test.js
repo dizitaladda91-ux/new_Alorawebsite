@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   calculateCheckoutTotals,
+  findCheckoutVariant,
   getRequestedCouponCodes,
   normalizeCheckoutItems
 } from "../backend/controllers/payment.controllers.js";
@@ -54,6 +55,15 @@ test("checkout item normalisation recovers a variant from a legacy composite car
       { productId: "product-two", variant: "30ml", quantity: 2 }
     ]
   );
+});
+
+test("checkout resolves legacy Standard carts to the catalog's default variant", () => {
+  const defaultVariant = { volume: "30ml", price: 599 };
+  const secondVariant = { volume: "50ml", price: 799 };
+  assert.equal(findCheckoutVariant([defaultVariant], "Standard"), defaultVariant);
+  assert.equal(findCheckoutVariant([defaultVariant, secondVariant], "Standard"), defaultVariant);
+  assert.equal(findCheckoutVariant([defaultVariant, secondVariant], "50ml"), secondVariant);
+  assert.equal(findCheckoutVariant([], "Standard"), null);
 });
 
 test("inventory tracking remains disabled unless explicitly enabled", () => {
