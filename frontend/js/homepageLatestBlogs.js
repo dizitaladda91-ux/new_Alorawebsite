@@ -10,7 +10,7 @@ function createBlogCard(blog) {
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "");
     const card = document.createElement("article");
-    card.className = "group flex h-full flex-col overflow-hidden rounded-2xl border border-[#2B1D14]/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg";
+    card.className = "group flex h-full flex-col overflow-hidden rounded-2xl border border-[#3B2418]/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg";
 
     const link = document.createElement("a");
     link.href = `/blog/${encodeURIComponent(slug)}`;
@@ -30,7 +30,7 @@ function createBlogCard(blog) {
     category.className = "text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8B5C2A]";
     category.textContent = blog.category || "Skincare guide";
     const title = document.createElement("h3");
-    title.className = "mt-2 line-clamp-2 font-heading text-xl font-bold leading-snug text-[#2B1D14] group-hover:text-[#8B5C2A]";
+    title.className = "mt-2 line-clamp-2 font-heading text-xl font-bold leading-snug text-[#3B2418] group-hover:text-[#8B5C2A]";
     title.textContent = blog.metaTitle || blog.title || "Read our latest skincare guide";
     const summary = document.createElement("p");
     summary.className = "mt-2 line-clamp-3 text-sm leading-6 text-[#6B625A]";

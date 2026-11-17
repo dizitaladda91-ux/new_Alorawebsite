@@ -493,7 +493,7 @@ async function fetchAndRenderReviews(productId) {
             if (noReviewsMsg) noReviewsMsg.style.display = 'none';
             result.data.forEach(review => {
                 const reviewElement = document.createElement('div');
-                reviewElement.className = 'border-b border-[#FAF7EE] pb-4 mb-4 last:border-0';
+                reviewElement.className = 'border-b border-[#F2EBDA] pb-4 mb-4 last:border-0';
                 let starsHTML = '';
                 for (let i = 1; i <= 5; i++) {
                     starsHTML += i <= review.rating 
@@ -585,14 +585,14 @@ function renderGoodToKnowFaqs(product) {
         ];
 
     const renderCard = (faq, idx) => `
-        <details class="group bg-white p-4 sm:p-5 rounded-2xl border border-[#2B1D14]/12 shadow-[0_2px_10px_rgba(43,29,20,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md" ${idx === 0 ? 'open' : ''}>
-            <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#2B1D14] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
+        <details class="group bg-white p-4 sm:p-5 rounded-2xl border border-[#3B2418]/12 shadow-[0_2px_10px_rgba(59, 36, 24,0.04)] hover:border-[#D98E2B]/50 transition-all duration-300 open:shadow-md" ${idx === 0 ? 'open' : ''}>
+            <summary class="flex justify-between items-center gap-3 font-heading font-bold text-[#3B2418] text-[14px] sm:text-[15px] cursor-pointer list-none select-none">
                 <span class="leading-snug">${escapeHTML(faq.question)}</span>
-                <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F1E6D3] text-[#D98E2B] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200">
+                <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#E8DEC8] text-[#205D96] flex items-center justify-center text-xs shrink-0 group-open:rotate-45 transition-transform duration-200">
                     <i class="fa-solid fa-plus"></i>
                 </span>
             </summary>
-            <p class="text-xs sm:text-[13px] text-[#2B1D14]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
+            <p class="text-xs sm:text-[13px] text-[#3B2418]/75 mt-3 pl-3.5 border-l-2 border-[#D98E2B] leading-relaxed font-body">
                 ${escapeHTML(faq.answer)}
             </p>
         </details>

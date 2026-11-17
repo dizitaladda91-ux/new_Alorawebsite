@@ -331,7 +331,7 @@ function renderCartPage() {
                     <span class="font-sans font-semibold text-ink text-lg block">₹${item.price * item.qty}</span>
                     <span class="text-xs text-ash block">₹${item.price} / unit</span>
                 </div>
-                <div class="flex items-center border border-[#DCD3BA] rounded-lg overflow-hidden bg-[#FAF7EE] h-9">
+                <div class="flex items-center border border-[#DCD3BA] rounded-lg overflow-hidden bg-[#F2EBDA] h-9">
                     <button type="button" onclick="changeCartQty('${item.id}', -1)" class="w-8 h-full bg-white text-ink hover:bg-[#F1EBD7] font-bold transition flex items-center justify-center text-sm">−</button>
                     <input type="number" value="${item.qty}" min="1" readonly class="w-10 h-full bg-white text-center font-semibold text-ink text-xs focus:outline-none">
                     <button type="button" onclick="changeCartQty('${item.id}', 1)" class="w-8 h-full bg-white text-ink hover:bg-[#F1EBD7] font-bold transition flex items-center justify-center text-sm">+</button>
@@ -644,7 +644,7 @@ async function loadCartMoreProducts() {
                 </div>
                 <div class="flex-1 flex flex-col justify-between space-y-1 mb-2">
                     <div>
-                        <h3 class="product-name text-xs sm:text-sm font-sans font-semibold text-slate-900 text-center leading-snug group-hover:text-[#8B4513] transition-colors capitalize line-clamp-1">${product.name}</h3>
+                        <h3 class="product-name text-xs sm:text-sm font-sans font-semibold text-slate-900 text-center leading-snug group-hover:text-[#3B2418] transition-colors capitalize line-clamp-1">${product.name}</h3>
                         <p class="text-[10px] sm:text-[11px] text-slate-600 text-center font-sans mt-0.5 line-clamp-2 leading-tight">
                             ${product.description || 'Dermatologist-tested luxury skincare.'}
                         </p>
@@ -657,12 +657,12 @@ async function loadCartMoreProducts() {
                         ${sizeButtonsHTML}
                     </div>
                     <div class="flex items-baseline justify-center gap-1.5 pt-0.5">
-                        <span class="product-price font-sans font-semibold text-[#8B4513] text-base"><span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${initialPrice}</span>
+                        <span class="product-price font-sans font-semibold text-[#3B2418] text-base"><span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${initialPrice}</span>
                         <span class="product-mrp text-[11px] line-through text-slate-400 font-mono">${initialComparePrice ? '<span style="font-family:Arial,\'Noto Sans\',sans-serif">&#8377;</span>' + initialComparePrice : ''}</span>
                     </div>
                 </div>
                 <div class="pt-1">
-                    <button type="button" onclick="toggleCartState(this)" class="w-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-extrabold py-2.5 rounded-xl text-[11px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-md hover:shadow-amber-500/25 transform active:scale-95">
+                    <button type="button" onclick="toggleCartState(this)" class="w-full bg-gradient-to-r from-[#8EC5FF] to-[#8EC5FF] hover:from-[#6FB3F5] hover:to-[#6FB3F5] text-[#3B2418] font-extrabold py-2.5 rounded-xl text-[11px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-md hover:shadow-[#6FB3F5]/25 transform active:scale-95">
                         <i class="fa-solid fa-cart-shopping text-xs"></i> Add to Cart
                     </button>
                 </div>

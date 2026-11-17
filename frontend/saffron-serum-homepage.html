@@ -19,15 +19,21 @@
     :root {
       --font-heading: 'Cormorant Garamond', 'Cormorant-Fallback', Georgia, serif;
       --font-body: 'Jost', 'Jost-Fallback', Arial, sans-serif;
-      --ivory: #FBF7F0;
-      --sand: #F1E6D3;
+      --ivory: #F2EBDA;
+      --sand: #E8DEC8;
       --amber: #D98E2B;
-      --amber-hover: #C47D1F;
-      --brown: #2B1D14;
-      --brown-80: rgba(43, 29, 20, 0.8);
-      --brown-40: rgba(43, 29, 20, 0.4);
-      --brown-20: rgba(43, 29, 20, 0.15);
-      --brown-10: rgba(43, 29, 20, 0.08);
+      --brown: #3B2418;
+      --brown-80: rgba(59, 36, 24, 0.8);
+      --brown-40: rgba(59, 36, 24, 0.4);
+      --brown-20: rgba(59, 36, 24, 0.15);
+      --brown-10: rgba(59, 36, 24, 0.08);
+      --btn-blue: #8EC5FF;
+      --btn-blue-hover: #6FB3F5;
+      --btn-blue-active: #5AA3EA;
+      --baby-blue: #8EC5FF;
+      --baby-blue-soft: #E3F1FF;
+      --baby-blue-deep: #2F7ACC;
+      --baby-blue-text: #205D96;
     }
 
     /* Reset & Base Typography */
@@ -167,14 +173,31 @@
     }
 
     .btn-primary {
-      background-color: var(--amber);
+      background-color: var(--btn-blue);
       color: var(--brown);
-      border-color: var(--amber);
+      border-color: var(--btn-blue);
     }
 
     .btn-primary:hover {
-      background-color: var(--amber-hover);
-      border-color: var(--amber-hover);
+      background-color: var(--btn-blue-hover);
+      border-color: var(--btn-blue-hover);
+    }
+
+    .btn-primary:active {
+      background-color: var(--btn-blue-active);
+      border-color: var(--btn-blue-active);
+    }
+
+    .btn-primary:disabled {
+      background-color: #D9E8F7;
+      border-color: #D9E8F7;
+      color: var(--brown);
+      cursor: not-allowed;
+    }
+
+    .btn-primary:focus-visible {
+      outline: 2px solid var(--brown);
+      outline-offset: 3px;
     }
 
     .btn-secondary {
@@ -240,14 +263,14 @@
     }
 
     .nav-link:hover {
-      color: var(--amber-hover);
+      color: var(--baby-blue-text);
     }
 
     .cart-badge {
       display: inline-block;
       font-size: 0.75rem;
       font-weight: 600;
-      color: var(--amber-hover);
+      color: var(--baby-blue-text);
       margin-left: 4px;
     }
 
@@ -394,7 +417,7 @@
       max-width: 82%;
       max-height: 82%;
       object-fit: contain;
-      filter: drop-shadow(0 14px 24px rgba(43, 29, 20, 0.12));
+      filter: drop-shadow(0 14px 24px rgba(59, 36, 24, 0.12));
       transition: transform 0.4s ease;
     }
 
@@ -465,7 +488,7 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      color: var(--amber-hover);
+      color: var(--baby-blue-text);
     }
 
     /* 5. Product Features / Ritual Section */
@@ -508,7 +531,7 @@
       font-size: 1.25rem;
       font-weight: 500;
       letter-spacing: 1px;
-      color: var(--amber-hover);
+      color: var(--baby-blue-text);
       line-height: 1.2;
     }
 
@@ -595,7 +618,7 @@
     .footer-text {
       font-size: 0.88rem;
       font-weight: 400;
-      color: rgba(251, 247, 240, 0.75);
+      color: var(--ivory);
       line-height: 1.7;
       max-width: 380px;
     }
@@ -619,13 +642,13 @@
     .footer-links a {
       font-size: 0.85rem;
       font-weight: 400;
-      color: rgba(251, 247, 240, 0.8);
+      color: var(--ivory);
       letter-spacing: 0.5px;
       transition: color 0.2s ease;
     }
 
     .footer-links a:hover {
-      color: var(--amber);
+      color: var(--baby-blue);
     }
 
     .footer-bottom {
@@ -637,7 +660,7 @@
       justify-content: space-between;
       text-align: center;
       font-size: 0.78rem;
-      color: rgba(251, 247, 240, 0.6);
+      color: var(--ivory);
     }
 
     @media (min-width: 768px) {

@@ -104,7 +104,7 @@ const extractTocAndAnnotateHeadings = (rawHtml) => {
     const tocHtml = tocItems.map(item => {
         const indentClass = item.level === 3 ? 'pl-4 text-xs font-normal text-slate-600' : 'font-medium text-slate-800 text-xs sm:text-sm';
         return `
-            <a href="#${item.id}" class="block py-1 px-2 rounded-lg hover:bg-amber-100/60 hover:text-[#8B4513] transition-colors ${indentClass}">
+            <a href="#${item.id}" class="block py-1 px-2 rounded-lg hover:bg-[#E3F1FF] hover:text-[#3B2418] transition-colors ${indentClass}">
                 ${escapeHtml(item.text)}
             </a>
         `;
@@ -179,7 +179,7 @@ export const renderBlogArticleSsr = (templateHtml, blog, relatedProducts = []) =
     html = html.replace(/<article id="blog-content-area" class="hidden\s+/i, `<article id="blog-content-area" class="`);
 
     // Inject Article Top Meta (Category, Date, Title, Cover Image)
-    html = html.replace(/<span id="post-category"[^>]*>.*?<\/span>/i, `<span id="post-category" class="bg-amber-100/70 text-[#8B4513] px-3 py-1 rounded-full text-[11px] font-bold uppercase font-roboto border border-amber-300/40">${escapeHtml(blog.category || 'Skincare')}</span>`);
+    html = html.replace(/<span id="post-category"[^>]*>.*?<\/span>/i, `<span id="post-category" class="bg-amber-100/70 text-[#3B2418] px-3 py-1 rounded-full text-[11px] font-bold uppercase font-roboto border border-amber-300/40">${escapeHtml(blog.category || 'Skincare')}</span>`);
     html = html.replace(/<span id="post-date"[^>]*>.*?<\/span>/i, `<span id="post-date" class="text-slate-500 font-medium">${pubDate}</span>`);
     html = html.replace(/<h1 id="post-title"[^>]*>.*?<\/h1>/i, `<h1 id="post-title" class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-fraunces font-bold text-ink leading-snug text-slate-900 break-words overflow-wrap-anywhere">${escapeHtml(blog.title)}</h1>`);
 
@@ -214,23 +214,23 @@ export const renderBlogArticleSsr = (templateHtml, blog, relatedProducts = []) =
 
             return `
                 <div class="bg-white rounded-2xl p-4 border border-amber-900/10 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                    <a href="${pUrl}" class="block aspect-square rounded-xl overflow-hidden mb-3 bg-amber-50/50">
+                    <a href="${pUrl}" class="block aspect-square rounded-xl overflow-hidden mb-3 bg-[#E3F1FF]">
                         <img src="${pImg}" alt="${escapeHtml(p.name)}" class="w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy">
                     </a>
                     <div>
                         <div class="flex items-center justify-between gap-1 mb-1">
-                            <span class="text-[10px] font-bold text-[#8B4513] uppercase tracking-wider">${escapeHtml(p.category || 'SKINCARE')}</span>
+                            <span class="text-[10px] font-bold text-[#3B2418] uppercase tracking-wider">${escapeHtml(p.category || 'SKINCARE')}</span>
                             ${pctBadge}
                         </div>
                         <h4 class="font-fraunces font-bold text-slate-900 text-base line-clamp-1 mb-1">
-                            <a href="${pUrl}" class="hover:text-[#8B4513] transition">${escapeHtml(p.name)}</a>
+                            <a href="${pUrl}" class="hover:text-[#3B2418] transition">${escapeHtml(p.name)}</a>
                         </h4>
                         <div class="flex items-baseline gap-2 mb-3">
                             <span class="text-base font-semibold text-slate-900 font-sans">₹${pPrice}</span>
                             ${pMrp ? `<span class="text-xs text-slate-400 line-through">₹${pMrp}</span>` : ''}
                         </div>
                     </div>
-                    <a href="${pUrl}" class="w-full text-center bg-amber-100 hover:bg-[#8B4513] text-[#8B4513] hover:text-white font-bold text-xs py-2 rounded-xl transition">
+                    <a href="${pUrl}" class="w-full text-center bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] font-bold text-xs py-2 rounded-xl transition">
                         View Product
                     </a>
                 </div>
@@ -264,7 +264,7 @@ export const renderIngredientSsr = (templateHtml, ingredient) => {
     ).join("");
     const sectionsHtml = pageSections.map((section, index) => `
         <section id="ingredient-section-${index + 1}" class="scroll-mt-24 border-b border-[#E8DCCB] py-8 sm:py-10">
-            <h2 class="font-heading text-3xl font-bold leading-tight text-[#2B1D14] sm:text-4xl">${escapeHtml(section.heading)}</h2>
+            <h2 class="font-heading text-3xl font-bold leading-tight text-[#3B2418] sm:text-4xl">${escapeHtml(section.heading)}</h2>
             ${paragraphs(section.body)}
         </section>
     `).join("");
@@ -273,9 +273,9 @@ export const renderIngredientSsr = (templateHtml, ingredient) => {
         const price = product.price === null || product.price === undefined ? "" : `₹${escapeHtml(product.price)}`;
         return `
             <a href="${escapeHtml(getProductSlugUrl(product))}" class="group overflow-hidden rounded-2xl border border-[#E8DCCB] bg-white transition hover:-translate-y-1 hover:shadow-lg">
-                <img src="${escapeHtml(formatImageUrl(product.imagepath))}" alt="${escapeHtml(product.name || "Alora Radiance product")}" loading="lazy" class="aspect-square w-full bg-[#F1E6D3] object-cover">
+                <img src="${escapeHtml(formatImageUrl(product.imagepath))}" alt="${escapeHtml(product.name || "Alora Radiance product")}" loading="lazy" class="aspect-square w-full bg-[#E8DEC8] object-cover">
                 <span class="block p-4">
-                    <span class="block font-semibold text-[#2B1D14]">${escapeHtml(product.name || "Alora Radiance product")}</span>
+                    <span class="block font-semibold text-[#3B2418]">${escapeHtml(product.name || "Alora Radiance product")}</span>
                     <span class="mt-2 flex items-center justify-between text-sm text-[#8B5C2A]">
                         <span>${price}</span>
                         <span class="font-semibold">View product <span aria-hidden="true">&rarr;</span></span>
@@ -286,11 +286,11 @@ export const renderIngredientSsr = (templateHtml, ingredient) => {
     }).join("") : '<p class="col-span-full text-sm leading-7 text-[#6B625A]">No available products currently list this ingredient.</p>';
     const relatedBlogs = Array.isArray(ingredient.relatedBlogs) ? ingredient.relatedBlogs : [];
     const relatedBlogsHtml = relatedBlogs.length ? `
-        <section class="bg-[#FBF7F0] py-12 sm:py-16">
+        <section class="bg-[#F2EBDA] py-12 sm:py-16">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="mb-7 max-w-2xl">
                     <span class="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B5C2A]">Read next</span>
-                    <h2 class="mt-2 font-heading text-3xl font-bold text-[#2B1D14] sm:text-4xl">Related skincare blogs</h2>
+                    <h2 class="mt-2 font-heading text-3xl font-bold text-[#3B2418] sm:text-4xl">Related skincare blogs</h2>
                 </div>
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     ${relatedBlogs.map(blog => {
@@ -300,9 +300,9 @@ export const renderIngredientSsr = (templateHtml, ingredient) => {
                             .trim();
                         return `
                             <a href="/blog/${encodeURIComponent(blog.slug || "")}" class="group overflow-hidden rounded-2xl border border-[#E8DCCB] bg-white transition hover:-translate-y-1 hover:shadow-lg">
-                                <img src="${escapeHtml(formatImageUrl(blog.coverImage))}" alt="${escapeHtml(blog.title || "Skincare blog")}" loading="lazy" class="aspect-[3/2] w-full bg-[#F1E6D3] object-cover">
+                                <img src="${escapeHtml(formatImageUrl(blog.coverImage))}" alt="${escapeHtml(blog.title || "Skincare blog")}" loading="lazy" class="aspect-[3/2] w-full bg-[#E8DEC8] object-cover">
                                 <span class="block p-5">
-                                    <span class="block font-heading text-xl font-bold text-[#2B1D14]">${escapeHtml(blog.title || "Skincare guide")}</span>
+                                    <span class="block font-heading text-xl font-bold text-[#3B2418]">${escapeHtml(blog.title || "Skincare guide")}</span>
                                     ${excerpt ? `<span class="mt-2 block text-sm leading-6 text-[#6B625A]">${escapeHtml(excerpt.slice(0, 180))}</span>` : ""}
                                     <span class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#8B5C2A]">Read article <span aria-hidden="true">&rarr;</span></span>
                                 </span>
@@ -340,7 +340,7 @@ export const renderIngredientSsr = (templateHtml, ingredient) => {
     html = html.replace(/<script id="ingredient-json-ld" type="application\/ld\+json">[\s\S]*?<\/script>/i, `<script id="ingredient-json-ld" type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>`);
     html = html.replace(/<span id="ingredient-breadcrumb-name"[^>]*>.*?<\/span>/i, `<span id="ingredient-breadcrumb-name" aria-current="page">${escapeHtml(name)}</span>`);
     html = html.replace(/<span id="ingredient-eyebrow"[^>]*>.*?<\/span>/i, `<span id="ingredient-eyebrow" class="text-xs font-semibold uppercase tracking-[0.22em] text-[#8B5C2A]">${escapeHtml(ingredient.eyebrow || "Ingredient Guide")}</span>`);
-    html = html.replace(/<h1 id="ingredient-title"[^>]*>.*?<\/h1>/i, `<h1 id="ingredient-title" class="mt-3 font-heading text-5xl font-bold leading-tight text-[#2B1D14] sm:text-6xl">${escapeHtml(name)}</h1>`);
+    html = html.replace(/<h1 id="ingredient-title"[^>]*>.*?<\/h1>/i, `<h1 id="ingredient-title" class="mt-3 font-heading text-5xl font-bold leading-tight text-[#3B2418] sm:text-6xl">${escapeHtml(name)}</h1>`);
     html = html.replace(/<div id="ingredient-introduction"[^>]*>[\s\S]*?<\/div>/i, `<div id="ingredient-introduction" class="mt-6 max-w-3xl text-lg leading-8 text-[#4E443B]">${paragraphs(ingredient.articleIntro || ingredient.fullDescription || ingredient.shortDescription)}</div>`);
     html = html.replace(/<img id="ingredient-hero-image"[^>]*>/i, `<img id="ingredient-hero-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(ingredient.imageAlt || name)}" class="h-full min-h-[320px] w-full rounded-3xl object-cover shadow-sm" fetchpriority="high">`);
     html = html.replace("<!-- INGREDIENT_TOC -->", tocHtml);
@@ -381,18 +381,18 @@ export const renderBlogListSsr = (templateHtml, posts = []) => {
                     <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
                         <div>
                             <div class="flex items-center gap-2 text-xs text-slate-500 mb-2">
-                                <span class="bg-amber-100/80 text-[#8B4513] px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase font-mono border border-amber-300/40">${escapeHtml(post.category || 'Skincare')}</span>
+                                <span class="bg-amber-100/80 text-[#3B2418] px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase font-mono border border-amber-300/40">${escapeHtml(post.category || 'Skincare')}</span>
                                 <span>•</span>
                                 <span>${pDate}</span>
                             </div>
-                            <h3 class="text-2xl font-fraunces font-bold text-slate-900 leading-tight mb-2 hover:text-[#8B4513] transition">
+                            <h3 class="text-2xl font-fraunces font-bold text-slate-900 leading-tight mb-2 hover:text-[#3B2418] transition">
                                 <a href="${pUrl}">${escapeHtml(post.title)}</a>
                             </h3>
                             <p class="text-xs text-slate-600 line-clamp-3 leading-relaxed font-sans">
                                 ${escapeHtml(plainDesc)}
                             </p>
                         </div>
-                        <a href="${pUrl}" class="inline-flex items-center gap-2 text-xs font-bold text-[#8B4513] hover:text-amber-900 transition">
+                        <a href="${pUrl}" class="inline-flex items-center gap-2 text-xs font-bold text-[#3B2418] hover:text-amber-900 transition">
                             Read Full Article <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </a>
                     </div>
@@ -577,16 +577,16 @@ export const renderProductListSsr = (templateHtml, products = []) => {
 
             return `
                 <div class="bg-white rounded-2xl p-4 border border-[#ECE4CE] shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                    <a href="${pUrl}" class="block aspect-square rounded-xl overflow-hidden mb-3 bg-amber-50/50 relative">
+                    <a href="${pUrl}" class="block aspect-square rounded-xl overflow-hidden mb-3 bg-[#E3F1FF] relative">
                         <img src="${pImg}" alt="${escapeHtml(product.name)}" class="w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy">
                     </a>
                     <div>
                         <div class="flex items-center justify-between gap-1 mb-1">
-                            <span class="text-[10px] font-bold text-[#8B4513] uppercase tracking-wider">${escapeHtml(product.category || 'SKINCARE')}</span>
+                            <span class="text-[10px] font-bold text-[#3B2418] uppercase tracking-wider">${escapeHtml(product.category || 'SKINCARE')}</span>
                             ${pctBadge}
                         </div>
                         <h3 class="font-fraunces font-bold text-slate-900 text-base line-clamp-1 mb-1">
-                            <a href="${pUrl}" class="hover:text-[#8B4513] transition">${escapeHtml(product.name)}</a>
+                            <a href="${pUrl}" class="hover:text-[#3B2418] transition">${escapeHtml(product.name)}</a>
                         </h3>
                         <div class="flex items-center gap-1.5 mb-2 text-xs">
                             ${reviewSummary}
@@ -596,7 +596,7 @@ export const renderProductListSsr = (templateHtml, products = []) => {
                             ${mrp ? `<span class="text-xs text-slate-400 line-through">₹${mrp}</span>` : ''}
                         </div>
                     </div>
-                    <a href="${pUrl}" class="w-full text-center bg-amber-100 hover:bg-[#8B4513] text-[#8B4513] hover:text-white font-bold text-xs py-2.5 rounded-xl transition">
+                    <a href="${pUrl}" class="w-full text-center bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] font-bold text-xs py-2.5 rounded-xl transition">
                         View Product
                     </a>
                 </div>

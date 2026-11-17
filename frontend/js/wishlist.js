@@ -89,7 +89,7 @@ export function openWishlistAuthModal(productId = null, btnEl = null) {
         modal.className = "fixed inset-0 z-[10000] flex items-center justify-center p-3 sm:p-4 transition-all duration-300";
         modal.style.cssText = "background-color: rgba(15, 12, 10, 0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);";
         modal.innerHTML = `
-            <div style="background-color: #FAF7EE; border: 1.5px solid #E5DEC9; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);" class="rounded-3xl p-5 sm:p-7 max-w-md w-full text-center relative transform transition-all animate-fade-in max-h-[92vh] overflow-y-auto">
+            <div style="background-color: #F2EBDA; border: 1.5px solid #E5DEC9; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);" class="rounded-3xl p-5 sm:p-7 max-w-md w-full text-center relative transform transition-all animate-fade-in max-h-[92vh] overflow-y-auto">
                 <!-- Close Button -->
                 <button type="button" id="wishlist-modal-close" style="background-color: #EFE8DA; color: #5C4D3C;" class="absolute top-3.5 right-3.5 w-8 h-8 rounded-full hover:bg-stone-300 hover:text-stone-900 text-base font-bold flex items-center justify-center transition shadow-xs cursor-pointer border border-[#DDD4C0]" aria-label="Close">&times;</button>
                 
@@ -99,7 +99,7 @@ export function openWishlistAuthModal(productId = null, btnEl = null) {
                 </div>
 
                 <!-- Title & Subtitle -->
-                <p style="color: #8B4513; letter-spacing: 0.12em;" class="text-[10px] font-extrabold uppercase mb-0.5">Alora Beauty Club</p>
+                <p style="color: #3B2418; letter-spacing: 0.12em;" class="text-[10px] font-extrabold uppercase mb-0.5">Alora Beauty Club</p>
                 <h3 style="color: #2D241E; font-family: var(--font-heading);" class="text-xl sm:text-2xl font-bold tracking-tight leading-snug">Save to Your Wishlist</h3>
                 <p style="color: #63564A; line-height: 1.5;" class="text-xs mt-1 mb-4 font-medium">
                     Create an account to save your favorite skincare products and access them anytime.
@@ -107,7 +107,7 @@ export function openWishlistAuthModal(productId = null, btnEl = null) {
 
                 <!-- Auth Mode Switcher Tabs -->
                 <div class="flex items-center justify-center p-1 bg-stone-200/60 rounded-2xl mb-4 border border-stone-300/40 text-xs font-bold">
-                    <button type="button" id="wmodal-tab-register" class="flex-1 py-2 rounded-xl transition-all duration-200 bg-white text-[#8B4513] shadow-xs cursor-pointer">
+                    <button type="button" id="wmodal-tab-register" class="flex-1 py-2 rounded-xl transition-all duration-200 bg-white text-[#3B2418] shadow-xs cursor-pointer">
                         <i class="fa-solid fa-user-plus text-[11px] mr-1"></i> Create Account
                     </button>
                     <button type="button" id="wmodal-tab-login" class="flex-1 py-2 rounded-xl transition-all duration-200 text-stone-600 hover:text-stone-900 cursor-pointer">
@@ -118,21 +118,21 @@ export function openWishlistAuthModal(productId = null, btnEl = null) {
                 <!-- 1. REGISTER FORM -->
                 <form id="wmodal-register-form" class="space-y-2.5 text-left">
                     <div>
-                        <input type="text" id="wmodal-reg-name" required placeholder="Full Name" class="w-full bg-white text-stone-900 placeholder-stone-400 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#8B4513] border border-[#DDD4C0] shadow-2xs">
+                        <input type="text" id="wmodal-reg-name" required placeholder="Full Name" class="w-full bg-white text-stone-900 placeholder-stone-400 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#3B2418] border border-[#DDD4C0] shadow-2xs">
                     </div>
                     <div>
-                        <input type="email" id="wmodal-reg-email" required placeholder="Email Address" class="w-full bg-white text-stone-900 placeholder-stone-400 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#8B4513] border border-[#DDD4C0] shadow-2xs">
+                        <input type="email" id="wmodal-reg-email" required placeholder="Email Address" class="w-full bg-white text-stone-900 placeholder-stone-400 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#3B2418] border border-[#DDD4C0] shadow-2xs">
                     </div>
                     <div>
-                        <input type="tel" id="wmodal-reg-phone" required placeholder="Phone Number (10 digits)" class="w-full bg-white text-stone-900 placeholder-stone-400 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#8B4513] border border-[#DDD4C0] shadow-2xs">
+                        <input type="tel" id="wmodal-reg-phone" required placeholder="Phone Number (10 digits)" class="w-full bg-white text-stone-900 placeholder-stone-400 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#3B2418] border border-[#DDD4C0] shadow-2xs">
                     </div>
                     <div>
-                        <input type="password" id="wmodal-reg-password" required minlength="6" placeholder="Create Password (min 6 chars)" class="w-full bg-white text-stone-900 placeholder-stone-400 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#8B4513] border border-[#DDD4C0] shadow-2xs">
+                        <input type="password" id="wmodal-reg-password" required minlength="6" placeholder="Create Password (min 6 chars)" class="w-full bg-white text-stone-900 placeholder-stone-400 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#3B2418] border border-[#DDD4C0] shadow-2xs">
                     </div>
                     
                     <div id="wmodal-reg-error" class="hidden text-xs text-rose-600 font-semibold bg-rose-50 border border-rose-200 p-2 rounded-xl text-center"></div>
 
-                    <button type="submit" id="wmodal-reg-submit" style="background-color: #8B4513; color: #FFFFFF; box-shadow: 0 4px 14px rgba(139, 69, 19, 0.25);" class="w-full hover:opacity-95 py-2.5 px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 hover:shadow-lg active:scale-[0.99] cursor-pointer mt-2">
+                    <button type="submit" id="wmodal-reg-submit" style="background-color: #3B2418; color: #FFFFFF; box-shadow: 0 4px 14px rgba(139, 69, 19, 0.25);" class="w-full hover:opacity-95 py-2.5 px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 hover:shadow-lg active:scale-[0.99] cursor-pointer mt-2">
                         <i class="fa-solid fa-heart text-rose-300 text-xs"></i> Create Account &amp; Save Product
                     </button>
                 </form>
@@ -140,15 +140,15 @@ export function openWishlistAuthModal(productId = null, btnEl = null) {
                 <!-- 2. LOGIN FORM -->
                 <form id="wmodal-login-form" class="hidden space-y-2.5 text-left">
                     <div>
-                        <input type="email" id="wmodal-login-email" required placeholder="Email Address" class="w-full bg-white text-stone-900 placeholder-stone-400 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#8B4513] border border-[#DDD4C0] shadow-2xs">
+                        <input type="email" id="wmodal-login-email" required placeholder="Email Address" class="w-full bg-white text-stone-900 placeholder-stone-400 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#3B2418] border border-[#DDD4C0] shadow-2xs">
                     </div>
                     <div>
-                        <input type="password" id="wmodal-login-password" required placeholder="Password" class="w-full bg-white text-stone-900 placeholder-stone-400 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#8B4513] border border-[#DDD4C0] shadow-2xs">
+                        <input type="password" id="wmodal-login-password" required placeholder="Password" class="w-full bg-white text-stone-900 placeholder-stone-400 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#3B2418] border border-[#DDD4C0] shadow-2xs">
                     </div>
 
                     <div id="wmodal-login-error" class="hidden text-xs text-rose-600 font-semibold bg-rose-50 border border-rose-200 p-2 rounded-xl text-center"></div>
 
-                    <button type="submit" id="wmodal-login-submit" style="background-color: #8B4513; color: #FFFFFF; box-shadow: 0 4px 14px rgba(139, 69, 19, 0.25);" class="w-full hover:opacity-95 py-2.5 px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 hover:shadow-lg active:scale-[0.99] cursor-pointer mt-2">
+                    <button type="submit" id="wmodal-login-submit" style="background-color: #3B2418; color: #FFFFFF; box-shadow: 0 4px 14px rgba(139, 69, 19, 0.25);" class="w-full hover:opacity-95 py-2.5 px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 hover:shadow-lg active:scale-[0.99] cursor-pointer mt-2">
                         <i class="fa-solid fa-right-to-bracket text-xs"></i> Sign In &amp; Save Product
                     </button>
                 </form>
@@ -170,7 +170,7 @@ export function openWishlistAuthModal(productId = null, btnEl = null) {
         const loginErr = modal.querySelector("#wmodal-login-error");
 
         tabReg.addEventListener("click", () => {
-            tabReg.className = "flex-1 py-2 rounded-xl transition-all duration-200 bg-white text-[#8B4513] shadow-xs cursor-pointer";
+            tabReg.className = "flex-1 py-2 rounded-xl transition-all duration-200 bg-white text-[#3B2418] shadow-xs cursor-pointer";
             tabLogin.className = "flex-1 py-2 rounded-xl transition-all duration-200 text-stone-600 hover:text-stone-900 cursor-pointer";
             formReg.classList.remove("hidden");
             formLogin.classList.add("hidden");
@@ -178,7 +178,7 @@ export function openWishlistAuthModal(productId = null, btnEl = null) {
         });
 
         tabLogin.addEventListener("click", () => {
-            tabLogin.className = "flex-1 py-2 rounded-xl transition-all duration-200 bg-white text-[#8B4513] shadow-xs cursor-pointer";
+            tabLogin.className = "flex-1 py-2 rounded-xl transition-all duration-200 bg-white text-[#3B2418] shadow-xs cursor-pointer";
             tabReg.className = "flex-1 py-2 rounded-xl transition-all duration-200 text-stone-600 hover:text-stone-900 cursor-pointer";
             formLogin.classList.remove("hidden");
             formReg.classList.add("hidden");

@@ -200,7 +200,7 @@ function renderFaqs(faqsToRender) {
                 </td>
                 <td class="px-6 py-4 text-right whitespace-nowrap">
                     <div class="flex items-center justify-end gap-2">
-                        <button type="button" onclick="window.editFaq('${id}')" class="p-2 rounded-lg bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-800 transition shadow-xs cursor-pointer" title="Edit FAQ">
+                        <button type="button" onclick="window.editFaq('${id}')" class="p-2 rounded-lg bg-slate-100 hover:bg-[#E3F1FF] text-slate-700 hover:text-amber-800 transition shadow-xs cursor-pointer" title="Edit FAQ">
                             <i class="fa-solid fa-pen-to-square text-xs"></i>
                         </button>
                         <button type="button" onclick="window.deleteFaq('${id}')" class="p-2 rounded-lg bg-slate-100 hover:bg-rose-100 text-slate-700 hover:text-rose-700 transition shadow-xs cursor-pointer" title="Delete FAQ">

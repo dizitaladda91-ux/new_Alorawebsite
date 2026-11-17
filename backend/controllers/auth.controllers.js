@@ -161,16 +161,16 @@ export const send2FAOtpEmail = async (userEmail, userName, otpCode) => {
       <head>
         <meta charset="utf-8">
         <style>
-          body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #FAF7EE; color: #2A2A24; margin: 0; padding: 20px; }
-          .container { max-width: 520px; margin: 0 auto; background: #ffffff; border: 1px solid #ECE4CE; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
-          .header { background: #2A2A24; padding: 24px 20px; text-align: center; }
-          .header h1 { margin: 0; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: #FAF7EE; }
-          .header p { margin: 4px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #D4AF37; }
+          body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #F2EBDA; color: #3B2418; margin: 0; padding: 20px; }
+          .container { max-width: 520px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E8DEC8; border-radius: 16px; overflow: hidden; }
+          .header { background: #3B2418; padding: 24px 20px; text-align: center; }
+          .header h1 { margin: 0; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: #F2EBDA; }
+          .header p { margin: 4px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #D98E2B; }
           .content { padding: 30px 24px; text-align: center; line-height: 1.6; }
-          .content h2 { color: #2A2A24; font-size: 19px; margin: 0 0 10px 0; font-weight: 600; }
+          .content h2 { color: #3B2418; font-size: 19px; margin: 0 0 10px 0; font-weight: 600; }
           .content p { color: #555550; font-size: 14px; margin: 0 0 20px 0; }
-          .otp-code { background: #FAF5EE; border: 2px dashed #8B4513; border-radius: 12px; padding: 16px 24px; font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #8B4513; font-family: monospace; display: inline-block; margin: 0 auto 20px auto; }
-          .footer { background: #FAF7EE; padding: 16px; text-align: center; font-size: 11px; color: #8C877B; border-top: 1px solid #ECE4CE; }
+          .otp-code { background: #F2EBDA; border: 2px dashed #3B2418; border-radius: 12px; padding: 16px 24px; font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #3B2418; font-family: monospace; display: inline-block; margin: 0 auto 20px auto; }
+          .footer { background: #F2EBDA; padding: 16px; text-align: center; font-size: 11px; color: #3B2418; border-top: 1px solid #E8DEC8; }
         </style>
       </head>
       <body>
@@ -219,18 +219,18 @@ export const sendVerificationEmail = async (user, rawToken, req) => {
       <head>
         <meta charset="utf-8">
         <style>
-          body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #FAF7EE; color: #2A2A24; margin: 0; padding: 20px; }
-          .container { max-width: 580px; margin: 0 auto; background: #ffffff; border: 1px solid #ECE4CE; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
-          .header { background: #2A2A24; padding: 30px 20px; text-align: center; color: #FAF7EE; }
-          .header h1 { margin: 0; font-size: 24px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: #FAF7EE; }
-          .header p { margin: 5px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #D4AF37; }
+          body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #F2EBDA; color: #3B2418; margin: 0; padding: 20px; }
+          .container { max-width: 580px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E8DEC8; border-radius: 16px; overflow: hidden; }
+          .header { background: #3B2418; padding: 30px 20px; text-align: center; color: #F2EBDA; }
+          .header h1 { margin: 0; font-size: 24px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: #F2EBDA; }
+          .header p { margin: 5px 0 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #D98E2B; }
           .content { padding: 35px 30px; line-height: 1.6; }
-          .content h2 { color: #2A2A24; font-size: 20px; margin-top: 0; font-weight: 600; }
+          .content h2 { color: #3B2418; font-size: 20px; margin-top: 0; font-weight: 600; }
           .content p { color: #555550; font-size: 14px; margin-bottom: 20px; }
           .btn-container { text-align: center; margin: 30px 0; }
-          .btn { background-color: #8B4513; color: #ffffff !important; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; display: inline-block; box-shadow: 0 3px 8px rgba(139,69,19,0.3); }
-          .footer { background: #FAF7EE; padding: 20px; text-align: center; font-size: 11px; color: #8C877B; border-top: 1px solid #ECE4CE; }
-          .note { font-size: 12px; color: #888; margin-top: 25px; border-top: 1px dashed #E5DFD1; padding-top: 15px; word-break: break-all; }
+          .btn { background-color: #8EC5FF; color: #3B2418 !important; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; display: inline-block; }
+          .footer { background: #F2EBDA; padding: 20px; text-align: center; font-size: 11px; color: #3B2418; border-top: 1px solid #E8DEC8; }
+          .note { font-size: 12px; color: #3B2418; margin-top: 25px; border-top: 1px dashed #E8DEC8; padding-top: 15px; word-break: break-all; }
         </style>
       </head>
       <body>
@@ -248,7 +248,7 @@ export const sendVerificationEmail = async (user, rawToken, req) => {
             <p style="font-size: 13px; color: #666;">This verification link will remain valid for the next <strong>24 hours</strong>.</p>
             <div class="note">
               <p style="margin: 0 0 5px 0;">If the button above does not work, copy and paste this link into your browser:</p>
-              <a href="${verifyUrl}" style="color: #8B4513; text-decoration: underline;">${verifyUrl}</a>
+              <a href="${verifyUrl}" style="color: #205D96; text-decoration: underline;">${verifyUrl}</a>
             </div>
           </div>
           <div class="footer">
@@ -756,12 +756,12 @@ export const forgotPassword = async (req, res) => {
       to: getPasswordResetRecipient(user),
       subject: `Password Reset Request for Account (${accountEmail}) - Alora Radiance`,
       html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-          <h2 style="color: #2A2A24;">Password Reset Request</h2>
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #3B2418; background-color: #F2EBDA;">
+          <h2 style="color: #3B2418;">Password Reset Request</h2>
           <p>Account Email: <strong>${accountEmail}</strong> ke liye password reset link request kiya gaya hai.</p>
           <p>Niche diye gaye link par click karke naya password banayein:</p>
-          <a href="${resetUrl}" style="background-color: #2A2A24; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 15px 0;">Reset Password</a>
-          <p style="font-size: 12px; color: #777;">Yeh link sirf 15 minutes ke liye valid hai.</p>
+          <a href="${resetUrl}" style="background-color: #8EC5FF; color: #3B2418; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 15px 0;">Reset Password</a>
+          <p style="font-size: 12px; color: #3B2418;">Yeh link sirf 15 minutes ke liye valid hai.</p>
         </div>
       `
     };

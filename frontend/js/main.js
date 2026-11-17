@@ -76,9 +76,9 @@ document.addEventListener("DOMContentLoaded", () => {
         dots.forEach((dot, index) => {
             if (index === currentIndex) {
                 dot.classList.remove("bg-amber-200");
-                dot.classList.add("bg-[#8B4513]", "w-2.5", "scale-110");
+                dot.classList.add("bg-[#3B2418]", "w-2.5", "scale-110");
             } else {
-                dot.classList.remove("bg-[#8B4513]", "scale-110");
+                dot.classList.remove("bg-[#3B2418]", "scale-110");
                 dot.classList.add("bg-amber-200", "w-2.5");
             }
         });
@@ -400,8 +400,8 @@ async function loadSliderProducts() {
                 sizeButtonsHTML = product.variants.map((v, vIndex) => {
                     const isActive = vIndex === 0;
                     const activeClasses = isActive
-                        ? 'bg-[#2B1D14] text-[#FBF7F0] border-[#2B1D14]'
-                        : 'border-stone-300 text-stone-700 hover:border-[#2B1D14]';
+                        ? 'bg-[#3B2418] text-[#F2EBDA] border-[#3B2418]'
+                        : 'border-stone-300 text-stone-700 hover:border-[#3B2418]';
                     return `
                         <button
                             type="button"
@@ -448,12 +448,12 @@ async function loadSliderProducts() {
                     <div class="px-3.5 sm:px-4 pt-3 pb-2 flex flex-col text-left">
                         
                         <!-- Title (2 lines clamp, Times New Roman, bold) -->
-                        <h3 class="text-sm sm:text-[15px] font-bold text-[#2B1D14] leading-snug line-clamp-2 hover:text-[#D98E2B] transition-colors mb-1.5">
+                        <h3 class="text-sm sm:text-[15px] font-bold text-[#3B2418] leading-snug line-clamp-2 hover:text-[#205D96] transition-colors mb-1.5">
                             <a href="${getProductUrl(product)}" class="block">${product.name}</a>
                         </h3>
 
                         <!-- Rating and review count come from submitted customer reviews. -->
-                        <div class="flex items-center gap-1.5 text-xs text-[#2B1D14] mb-2">
+                        <div class="flex items-center gap-1.5 text-xs text-[#3B2418] mb-2">
                             ${reviewSummary}
                         </div>
 
@@ -466,8 +466,8 @@ async function loadSliderProducts() {
 
                         <!-- Price Row (Amazon Layout: bold large rupee + price + unit size) -->
                         <div class="flex items-baseline flex-wrap gap-1 mb-0.5">
-                            <span class="text-xs font-semibold text-[#2B1D14] align-super">₹</span>
-                            <span class="product-price text-2xl font-bold text-[#2B1D14] tracking-tight leading-none">${initialPrice}</span>
+                            <span class="text-xs font-semibold text-[#3B2418] align-super">₹</span>
+                            <span class="product-price text-2xl font-bold text-[#3B2418] tracking-tight leading-none">${initialPrice}</span>
                             <span class="unit-size-text text-[11px] text-stone-500 font-normal">(${initialSizeLabel})</span>
                         </div>
 
@@ -488,7 +488,7 @@ async function loadSliderProducts() {
 
                 <!-- Add to Cart CTA Button -->
                 <div class="px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-1">
-                    <button type="button" onclick="toggleCartState(this)" class="w-full bg-[#D98E2B] hover:bg-[#C47D1F] text-[#2B1D14] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
+                    <button type="button" onclick="toggleCartState(this)" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
                         <svg class="w-4 h-4 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                         <span>Add to Cart</span>
                     </button>
@@ -506,10 +506,10 @@ function changeCardSize(volume, price, comparePrice, buttonElement) {
     if (!card) return;
     const buttons = card.querySelectorAll('.size-btn');
     buttons.forEach(btn => {
-        btn.classList.remove('bg-[#2B1D14]', 'text-[#FBF7F0]', 'border-[#2B1D14]');
+        btn.classList.remove('bg-[#3B2418]', 'text-[#F2EBDA]', 'border-[#3B2418]');
         btn.classList.add('border-stone-300', 'text-stone-700');
     });
-    buttonElement.classList.add('bg-[#2B1D14]', 'text-[#FBF7F0]', 'border-[#2B1D14]');
+    buttonElement.classList.add('bg-[#3B2418]', 'text-[#F2EBDA]', 'border-[#3B2418]');
     buttonElement.classList.remove('border-stone-300', 'text-stone-700');
 
     const priceEl = card.querySelector('.product-price');

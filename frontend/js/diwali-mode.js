@@ -419,7 +419,7 @@
                 padding: 6px 12px;
                 border: 1px solid #FFC83D;
                 border-radius: 999px;
-                color: #2B1D14;
+                color: #3B2418;
                 background: #FFC83D;
                 font: 700 11px/1.2 'Jost', 'Jost-Fallback', Arial, sans-serif;
                 text-decoration: none;

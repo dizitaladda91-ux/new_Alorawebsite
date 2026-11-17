@@ -18,18 +18,18 @@
         theme: {
             extend: {
                 colors: {
-                    ink: '#2B1D14',
-                    'ink-light': '#2B1D14',
-                    'ink-soft': '#28402F',
-                    parchment: '#FBF7F0',
+                    ink: '#3B2418',
+                    'ink-light': '#3B2418',
+                    'ink-soft': '#3B2418',
+                    parchment: '#F2EBDA',
                     card: '#FFFFFF',
-                    clay: '#A24C3D',
-                    'clay-light': '#C97E63',
-                    'clay-dark': '#7E3A2F',
-                    sage: '#6C8763',
-                    'sage-light': '#E7ECDF',
+                    clay: '#D98E2B',
+                    'clay-light': '#D98E2B',
+                    'clay-dark': '#205D96',
+                    sage: '#205D96',
+                    'sage-light': '#E3F1FF',
                     gold: '#D98E2B',
-                    ash: '#6B685F',
+                    ash: 'rgba(59, 36, 24, 0.8)',
                 },
                 fontFamily: {
                     serif: ['"Cormorant Garamond"', 'Cormorant-Fallback', 'Georgia', 'serif'],
@@ -44,7 +44,7 @@
 
     <link rel="stylesheet" href="./styles/typography.css">
 </head>
-<body class="bg-parchment text-[#2B1D14] font-sans antialiased">
+<body class="bg-parchment text-[#3B2418] font-sans antialiased">
 
     <header class="bg-white border-b border-[#ECE4CE] sticky top-0 z-50">
         <div id="navbar-placeholder"></div>
@@ -81,7 +81,7 @@
                     </div>
                     <h3 class="text-lg font-serif font-semibold text-ink mb-1">Your cart is empty</h3>
                     <p class="text-ash text-sm mb-6">Looks like you haven't added anything to your cart yet.</p>
-                    <a href="/products" class="inline-flex bg-ink text-parchment px-7 py-3 rounded-md font-semibold text-sm tracking-wide hover:bg-ink-light transition">
+                    <a href="/products" class="inline-flex bg-[#8EC5FF] text-[#3B2418] px-7 py-3 rounded-md font-semibold text-sm tracking-wide hover:bg-[#6FB3F5] transition">
                         Shop Now
                     </a>
                 </div>
@@ -122,7 +122,7 @@
                     <!-- Header Bar -->
                     <div class="flex items-center justify-between gap-2 mb-4">
                         <div>
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-100/80 text-[#D98E2B] text-[10px] font-bold tracking-widest uppercase border border-amber-300/40 mb-1">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-100/80 text-[#205D96] text-[10px] font-bold tracking-widest uppercase border border-amber-300/40 mb-1">
                                 Add More To Your Bag
                             </span>
                             <h3 class="font-fraunces font-bold text-slate-900 text-lg sm:text-xl tracking-tight">
@@ -133,11 +133,11 @@
                         <!-- Navigation Arrows -->
                         <div class="flex items-center gap-1.5 shrink-0">
                             <button id="cart-prev-btn" aria-label="Previous Products" 
-                                class="w-8 h-8 rounded-full bg-white hover:bg-amber-50 text-slate-800 flex items-center justify-center border border-amber-900/15 shadow-sm transition active:scale-95 hover:scale-105">
+                                class="w-8 h-8 rounded-full bg-white hover:bg-[#E3F1FF] text-slate-800 flex items-center justify-center border border-amber-900/15 shadow-sm transition active:scale-95 hover:scale-105">
                                 <i class="fa-solid fa-angle-left text-xs"></i>
                             </button>
                             <button id="cart-next-btn" aria-label="Next Products" 
-                                class="w-8 h-8 rounded-full bg-white hover:bg-amber-50 text-slate-800 flex items-center justify-center border border-amber-900/15 shadow-sm transition active:scale-95 hover:scale-105">
+                                class="w-8 h-8 rounded-full bg-white hover:bg-[#E3F1FF] text-slate-800 flex items-center justify-center border border-amber-900/15 shadow-sm transition active:scale-95 hover:scale-105">
                                 <i class="fa-solid fa-angle-right text-xs"></i>
                             </button>
                         </div>
@@ -213,7 +213,7 @@
                             <i class="fa-solid fa-ticket absolute left-3 top-1/2 -translate-y-1/2 text-ash text-xs"></i>
                             <input type="text" id="coupon-input" placeholder="Enter coupon code" class="w-full pl-9 pr-3 py-2 border border-[#DCD3BA] rounded-xl text-sm uppercase tracking-wider font-semibold text-ink focus:outline-none focus:border-clay">
                         </div>
-                        <button onclick="applyCoupon()" class="bg-ink text-parchment px-4 py-2 rounded-xl text-sm font-semibold hover:bg-ink-light transition">Apply</button>
+                        <button onclick="applyCoupon()" class="bg-[#8EC5FF] text-[#3B2418] px-4 py-2 rounded-xl text-sm font-semibold hover:bg-[#6FB3F5] transition">Apply</button>
                     </div>
                     <p id="coupon-message" class="text-xs font-medium mt-2 hidden"></p>
                     <div id="applied-coupons" class="mt-2 flex flex-wrap gap-2 empty:hidden"></div>
@@ -225,36 +225,36 @@
                         <button onclick="autoFillCoupon('DIWALI20')" class="w-full flex justify-between items-center bg-amber-100/80 hover:bg-amber-100 border-2 border-amber-500/70 p-3 rounded-xl transition group mb-2 text-left shadow-xs">
                             <span>
                                 <span class="flex items-center gap-2">
-                                    <span class="text-xs font-bold text-[#D98E2B] font-mono bg-white px-2 py-0.5 rounded border border-amber-300 shadow-xs">DIWALI20</span>
+                                    <span class="text-xs font-bold text-[#205D96] font-mono bg-white px-2 py-0.5 rounded border border-amber-300 shadow-xs">DIWALI20</span>
                                     <span class="text-[10px] font-bold text-amber-900 uppercase tracking-widest bg-amber-300 px-1.5 py-0.5 rounded">🪔 20% OFF</span>
                                 </span>
                                 <span class="block text-[11px] text-slate-800 font-semibold mt-1">🪔 Shubh Diwali Special: Get Flat 20% OFF on your entire order!</span>
                             </span>
-                            <i class="fa-solid fa-circle-plus text-[#D98E2B] group-hover:scale-110 transition text-base"></i>
+                            <i class="fa-solid fa-circle-plus text-[#205D96] group-hover:scale-110 transition text-base"></i>
                         </button>
 
                         <!-- ✨ GLOW10 Coupon -->
                         <button onclick="autoFillCoupon('GLOW10')" class="w-full flex justify-between items-center bg-amber-100/60 hover:bg-amber-100 border border-amber-400/60 p-3 rounded-xl transition group mb-2 text-left">
                             <span>
                                 <span class="flex items-center gap-2">
-                                    <span class="text-xs font-bold text-[#D98E2B] font-mono bg-white px-2 py-0.5 rounded border border-amber-300 shadow-xs">GLOW10</span>
+                                    <span class="text-xs font-bold text-[#205D96] font-mono bg-white px-2 py-0.5 rounded border border-amber-300 shadow-xs">GLOW10</span>
                                     <span class="text-[10px] font-bold text-amber-800 uppercase tracking-widest bg-amber-200/80 px-1.5 py-0.5 rounded">10% OFF</span>
                                 </span>
                                 <span class="block text-[11px] text-slate-700 font-medium mt-1">✨ Special Welcome Offer: Get flat 10% discount on total order</span>
                             </span>
-                            <i class="fa-solid fa-circle-plus text-[#D98E2B] group-hover:scale-110 transition text-base"></i>
+                            <i class="fa-solid fa-circle-plus text-[#205D96] group-hover:scale-110 transition text-base"></i>
                         </button>
 
                         <!-- ✨ ALORA15 Coupon -->
                         <button onclick="autoFillCoupon('ALORA15')" class="w-full flex justify-between items-center bg-amber-100/60 hover:bg-amber-100 border border-amber-400/60 p-3 rounded-xl transition group mb-2 text-left">
                             <span>
                                 <span class="flex items-center gap-2">
-                                    <span class="text-xs font-bold text-[#D98E2B] font-mono bg-white px-2 py-0.5 rounded border border-amber-300 shadow-xs">ALORA15</span>
+                                    <span class="text-xs font-bold text-[#205D96] font-mono bg-white px-2 py-0.5 rounded border border-amber-300 shadow-xs">ALORA15</span>
                                     <span class="text-[10px] font-bold text-amber-800 uppercase tracking-widest bg-amber-200/80 px-1.5 py-0.5 rounded">15% OFF</span>
                                 </span>
                                 <span class="block text-[11px] text-slate-700 font-medium mt-1">✨ Get 15% off on orders above ₹2,000</span>
                             </span>
-                            <i class="fa-solid fa-circle-plus text-[#D98E2B] group-hover:scale-110 transition text-base"></i>
+                            <i class="fa-solid fa-circle-plus text-[#205D96] group-hover:scale-110 transition text-base"></i>
                         </button>
                     </div>
                 </div>
@@ -295,7 +295,7 @@
                         </div>
                     </div>
 
-                    <button id="payNow" class="w-full bg-clay text-white py-3.5 rounded-xl font-semibold text-sm tracking-[0.15em] uppercase shadow-sm hover:bg-clay-dark transition mt-6 flex items-center justify-center gap-2">
+                    <button id="payNow" class="w-full bg-[#8EC5FF] text-[#3B2418] py-3.5 rounded-xl font-semibold text-sm tracking-[0.15em] uppercase shadow-sm hover:bg-[#6FB3F5] transition mt-6 flex items-center justify-center gap-2">
                         Pay Now <i class="fa-solid fa-arrow-right text-xs"></i>
                     </button>
                 </div>

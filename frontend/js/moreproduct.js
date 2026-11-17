@@ -189,12 +189,12 @@ function renderProductCatalog(products) {
                 <!-- Product Info Section (Amazon Card Style from Image) -->
                 <div class="px-3.5 sm:px-4 pt-3 pb-2 flex flex-col text-left">
                     <!-- Title -->
-                    <h3 class="text-sm sm:text-[15px] font-sans font-bold text-[#2B1D14] leading-snug line-clamp-2 hover:text-[#D98E2B] transition-colors mb-1.5 product-name">
+                    <h3 class="text-sm sm:text-[15px] font-sans font-bold text-[#3B2418] leading-snug line-clamp-2 hover:text-[#205D96] transition-colors mb-1.5 product-name">
                         <a href="${product.productUrl}">${product.name}</a>
                     </h3>
 
                     <!-- Rating Stars & Review Count -->
-                    <div class="flex items-center gap-1.5 text-xs text-[#2B1D14] mb-2">
+                    <div class="flex items-center gap-1.5 text-xs text-[#3B2418] mb-2">
                         ${reviewSummary}
                     </div>
 
@@ -207,8 +207,8 @@ function renderProductCatalog(products) {
 
                     <!-- Price Row -->
                     <div class="flex items-baseline flex-wrap gap-1 mb-0.5">
-                        <span class="text-xs font-semibold text-[#2B1D14] align-super">₹</span>
-                        <span class="product-price text-2xl font-bold text-[#2B1D14] tracking-tight leading-none">${initialSize.price}</span>
+                        <span class="text-xs font-semibold text-[#3B2418] align-super">₹</span>
+                        <span class="product-price text-2xl font-bold text-[#3B2418] tracking-tight leading-none">${initialSize.price}</span>
                         <span class="unit-size-text text-[11px] text-stone-500 font-normal">(${initialSize.label})</span>
                     </div>
 
@@ -226,7 +226,7 @@ function renderProductCatalog(products) {
 
             <!-- Add to Cart Action Bar -->
             <div class="px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-1">
-                <button type="button" onclick="handleCartButtonClick('${product.id}', this)" class="w-full bg-[#D98E2B] hover:bg-[#C47D1F] text-[#2B1D14] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
+                <button type="button" onclick="handleCartButtonClick('${product.id}', this)" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
                     <svg class="w-4 h-4 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                     <span>Add to Cart</span>
                 </button>
@@ -409,7 +409,7 @@ async function fetchAndShowSuggestions(query) {
             const cleanedPrice = (rawPrice === 'N/A' || rawPrice == null) ? '' : String(rawPrice).replace(/[^\d.]/g, '').trim();
             const displayPrice = cleanedPrice ? `₹ ${cleanedPrice}` : '';
             return `
-                <a href="${getProductUrl(prod)}" class="flex items-center gap-3 p-3 hover:bg-amber-50/50 transition border-b border-gray-100 last:border-none group">
+                <a href="${getProductUrl(prod)}" class="flex items-center gap-3 p-3 hover:bg-[#E3F1FF] transition border-b border-gray-100 last:border-none group">
                     <img src="${imgSrc}" alt="${prod.name}" class="w-10 h-10 object-contain rounded bg-white border p-1">
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-medium text-gray-800 truncate group-hover:text-amber-700">${prod.name}</p>

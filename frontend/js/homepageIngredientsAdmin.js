@@ -133,7 +133,7 @@ function renderIngredients() {
 
                 <div class="space-y-3">
                     <p class="text-xs font-bold uppercase tracking-wider text-slate-700">Ingredient image</p>
-                    <div class="aspect-[4/3] overflow-hidden rounded-xl border border-slate-200 bg-[#F1E6D3]">
+                    <div class="aspect-[4/3] overflow-hidden rounded-xl border border-slate-200 bg-[#E8DEC8]">
                         <img data-image-preview src="${escapeHtml(getImageUrl(ingredient.imageUrl || "/static/placeholder.png"))}" alt="${escapeHtml(ingredient.imageAlt)}" class="h-full w-full object-cover">
                     </div>
                     <input data-image-file type="file" accept="image/jpeg,image/png,image/webp" class="block w-full text-xs rounded-xl border border-slate-300 p-2.5 bg-white font-medium cursor-pointer">

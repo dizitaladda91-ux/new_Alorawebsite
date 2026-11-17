@@ -12,7 +12,7 @@ const slugify = value => String(value || "")
 function createIngredientCard(ingredient) {
     const slug = ingredient.slug || slugify(ingredient.name);
     const card = document.createElement("article");
-    card.className = "group relative overflow-hidden rounded-2xl bg-[#F1E6D3]";
+    card.className = "group relative overflow-hidden rounded-2xl bg-[#E8DEC8]";
 
     const image = document.createElement("img");
     image.src = getImageUrl(ingredient.imageUrl, "/static/placeholder.png");
@@ -87,7 +87,7 @@ async function loadHomepageIngredients() {
         ingredientGrid.replaceChildren(...ingredients.map(createIngredientCard));
         if (!ingredients.length) {
             const emptyState = document.createElement("p");
-            emptyState.className = "col-span-full text-sm text-[#2B1D14]/65";
+            emptyState.className = "col-span-full text-sm text-[#3B2418]/65";
             emptyState.textContent = "Ingredient details are coming soon.";
             ingredientGrid.append(emptyState);
         }

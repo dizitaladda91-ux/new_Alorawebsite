@@ -11,18 +11,29 @@
   --font-heading: var(--site-font);
   --font-body: var(--site-font);
 
-  /* ==========================================================================
-     Brand Color Palette (Intact)
-     ========================================================================== */
-  --ivory: #FBF7F0;
-  --sand: #F1E6D3;
+  --ivory: #F2EBDA;
+  --sand: #E8DEC8;
   --amber: #D98E2B;
-  --amber-hover: #C47D1F;
-  --brown: #2B1D14;
-  --brown-80: rgba(43, 29, 20, 0.8);
-  --brown-40: rgba(43, 29, 20, 0.4);
-  --brown-20: rgba(43, 29, 20, 0.15);
-  --brown-10: rgba(43, 29, 20, 0.08);
+  --amber-hover: #D98E2B;
+  --brown: #3B2418;
+  --brown-80: rgba(59, 36, 24, 0.8);
+  --brown-40: rgba(59, 36, 24, 0.4);
+  --brown-20: rgba(59, 36, 24, 0.15);
+  --brown-10: rgba(59, 36, 24, 0.08);
+  --btn-blue: #8EC5FF;
+  --btn-blue-hover: #6FB3F5;
+  --btn-blue-active: #5AA3EA;
+  --baby-blue: #8EC5FF;
+  --baby-blue-soft: #E3F1FF;
+  --baby-blue-deep: #2F7ACC;
+  --baby-blue-text: #205D96;
+}
+
+html body .text-clay,
+html body .text-gold,
+html body .text-amber-600,
+html body .text-amber-700 {
+  color: var(--baby-blue-text) !important;
 }
 
 *, *::before, *::after {
@@ -71,10 +82,10 @@ button, input[type="button"], input[type="submit"], input[type="reset"], .btn-pr
   font-family: var(--font-body) !important;
 }
 
-.btn-primary, button[type="submit"]:not(.btn-secondary):not(.secondary-btn), .primary-btn {
-  background-color: var(--amber) !important;
+.btn-primary, button[type="submit"]:not(.btn-secondary):not(.secondary-btn), input[type="submit"]:not(.btn-secondary):not(.secondary-btn), .primary-btn, .add-to-cart-btn {
+  background-color: var(--btn-blue) !important;
   color: var(--brown) !important;
-  border: 1px solid var(--amber) !important;
+  border: 1px solid var(--btn-blue) !important;
   border-radius: 3px !important;
   font-weight: 600 !important;
   text-transform: uppercase !important;
@@ -82,9 +93,44 @@ button, input[type="button"], input[type="submit"], input[type="reset"], .btn-pr
   transition: background-color 0.2s ease, border-color 0.2s ease !important;
 }
 
-.btn-primary:hover, button[type="submit"]:not(.btn-secondary):not(.secondary-btn):hover, .primary-btn:hover {
-  background-color: var(--amber-hover) !important;
-  border-color: var(--amber-hover) !important;
+button[class*="bg-[#8EC5FF]"], a[class*="bg-[#8EC5FF]"], button[class*="from-[#8EC5FF]"], a[class*="from-[#8EC5FF]"] {
+  background-color: var(--btn-blue) !important;
+  border-color: var(--btn-blue) !important;
+  color: var(--brown) !important;
+}
+
+.btn-primary:hover, button[type="submit"]:not(.btn-secondary):not(.secondary-btn):hover, input[type="submit"]:not(.btn-secondary):not(.secondary-btn):hover, .primary-btn:hover, .add-to-cart-btn:hover, button[class*="bg-[#8EC5FF]"]:hover, a[class*="bg-[#8EC5FF]"]:hover, button[class*="from-[#8EC5FF]"]:hover, a[class*="from-[#8EC5FF]"]:hover {
+  background-color: var(--btn-blue-hover) !important;
+  border-color: var(--btn-blue-hover) !important;
+}
+
+.btn-primary:active, button[type="submit"]:not(.btn-secondary):not(.secondary-btn):active, input[type="submit"]:not(.btn-secondary):not(.secondary-btn):active, .primary-btn:active, .add-to-cart-btn:active, button[class*="bg-[#8EC5FF]"]:active, a[class*="bg-[#8EC5FF]"]:active, button[class*="from-[#8EC5FF]"]:active, a[class*="from-[#8EC5FF]"]:active {
+  background-color: var(--btn-blue-active) !important;
+  border-color: var(--btn-blue-active) !important;
+}
+
+button[class*="from-[#8EC5FF]"]:hover, a[class*="from-[#8EC5FF]"]:hover {
+  background-image: linear-gradient(var(--btn-blue-hover), var(--btn-blue-hover)) !important;
+}
+
+button[class*="from-[#8EC5FF]"]:active, a[class*="from-[#8EC5FF]"]:active {
+  background-image: linear-gradient(var(--btn-blue-active), var(--btn-blue-active)) !important;
+}
+
+.btn-primary:disabled, button[type="submit"]:not(.btn-secondary):not(.secondary-btn):disabled, input[type="submit"]:not(.btn-secondary):not(.secondary-btn):disabled, .primary-btn:disabled, .add-to-cart-btn:disabled, button[class*="bg-[#8EC5FF]"]:disabled, button[class*="from-[#8EC5FF]"]:disabled {
+  background-color: #D9E8F7 !important;
+  border-color: #D9E8F7 !important;
+  color: var(--brown) !important;
+  cursor: not-allowed !important;
+}
+
+button[class*="from-[#8EC5FF]"]:disabled {
+  background-image: linear-gradient(#D9E8F7, #D9E8F7) !important;
+}
+
+.btn-primary:focus-visible, button[type="submit"]:not(.btn-secondary):not(.secondary-btn):focus-visible, input[type="submit"]:not(.btn-secondary):not(.secondary-btn):focus-visible, .primary-btn:focus-visible, .add-to-cart-btn:focus-visible, button[class*="bg-[#8EC5FF]"]:focus-visible, a[class*="bg-[#8EC5FF]"]:focus-visible, button[class*="from-[#8EC5FF]"]:focus-visible, a[class*="from-[#8EC5FF]"]:focus-visible {
+  outline: 2px solid var(--brown) !important;
+  outline-offset: 3px;
 }
 
 .btn-secondary, .secondary-btn {
@@ -108,6 +154,20 @@ input, select, textarea {
   font-family: var(--font-body);
 }
 
+input:focus, select:focus, textarea:focus {
+  border-color: var(--baby-blue) !important;
+  box-shadow: 0 0 0 3px rgba(142, 197, 255, 0.35) !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #66564B;
+  opacity: 1;
+}
+
+.fa-spinner.fa-spin {
+  color: var(--baby-blue-text) !important;
+}
+
 /* Small / Sub-labels */
 .small-label, .sub-label {
   font-family: var(--font-body) !important;
@@ -115,7 +175,7 @@ input, select, textarea {
   font-weight: 600 !important;
   text-transform: uppercase !important;
   letter-spacing: 2px !important;
-  color: var(--amber-hover) !important;
+  color: var(--brown) !important;
 }
 
 /* Utility Font Class Overrides */
@@ -132,10 +192,10 @@ body i, body [class*="fa-"], body .fa, body .fas, body .far, body .fab, body .fa
   font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
 }
 
-/* 🚀 TOP TICKER ANNOUNCEMENT BAR (DEEP BROWN) */
+/* Top ticker announcement bar */
 .top-ticker-bar, .top-ticker-bar *, .top-ticker-bar span, .top-ticker-bar div {
-  background-color: #2B1D14;
-  color: #FBF7F0;
+  background-color: var(--brown);
+  color: var(--ivory);
   font-family: var(--font-body);
 }
 .top-ticker-bar .ticker-badge {

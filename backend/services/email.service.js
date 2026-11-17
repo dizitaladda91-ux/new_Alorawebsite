@@ -68,7 +68,7 @@ export const sendShippingEmail = async (order) => {
         ? `Tracking Number: ${trackingNumber}`
         : "Your courier partner will share tracking details shortly.";
     const linkHtml = courierLink
-        ? `<p><a href="${escapeHtml(courierLink)}" style="color:#4f46e5;font-weight:600;">Track your shipment</a></p>`
+        ? `<p><a href="${escapeHtml(courierLink)}" style="color:#205D96;font-weight:600;">Track your shipment</a></p>`
         : "";
     const linkText = courierLink ? `Track your shipment: ${courierLink}` : "";
 
@@ -77,8 +77,8 @@ export const sendShippingEmail = async (order) => {
         subject: `Your order has shipped — ${razorpayOrderId}`,
         text: `Hi ${customer.name},\n\nGreat news — your ALORA PRODUCTS order is on its way!\n\nOrder ID: ${razorpayOrderId}\n${trackingLine}\n${linkText}\n\nDelivery address: ${customer.address}`,
         html: `
-            <div style="font-family:Arial,sans-serif;color:#2a2a24;line-height:1.5">
-                <h2>Your order is on its way 🚚</h2>
+            <div style="font-family:Arial,sans-serif;color:#3B2418;background-color:#F2EBDA;line-height:1.5;padding:20px">
+                <h2 style="margin-top:0;padding:14px;background-color:#3B2418;color:#F2EBDA">Your order is on its way 🚚</h2>
                 <p>Hi ${escapeHtml(customer.name)},</p>
                 <p>Great news — your ALORA PRODUCTS order has shipped.</p>
                 <p><strong>Order ID:</strong> ${escapeHtml(razorpayOrderId)}<br>

@@ -1,11 +1,11 @@
 <!-- footer.html -->
 <style>
   footer.alora-footer {
-    background-color: #4A3426 !important;
-    color: #FBF7F0 !important;
+    background-color: #3B2418 !important;
+    color: #F2EBDA !important;
     font-family: var(--font-body) !important;
     line-height: 1.6 !important;
-    border-top: 1px solid #2B1D14 !important;
+    border-top: 1px solid #3B2418 !important;
     overflow: visible;
     padding-top: 48px !important;
     padding-bottom: 24px !important;
@@ -17,6 +17,7 @@
   .alora-footer .footer-bottom {
     gap: 12px;
     padding-top: 24px;
+    padding-bottom: 24px;
   }
   .alora-footer .footer-payments {
     display: flex;
@@ -28,7 +29,7 @@
   }
   .alora-footer .footer-payment-label {
     width: 100%;
-    color: #FBF7F0;
+    color: #F2EBDA;
     font-size: 11px;
     text-align: center;
   }
@@ -89,30 +90,21 @@
     gap: 12px;
   }
   .alora-footer .footer-logo {
-    display: inline-block;
+    display: block;
     width: 180px;
     max-width: 100%;
-    margin-bottom: 20px;
-    padding: 0;
-    border-radius: 0;
-    background-color: transparent;
     box-sizing: border-box;
   }
-  .alora-footer .footer-logo-mark {
+  .alora-footer .footer-logo img {
     display: block;
-    position: relative;
-    width: 180px;
-    max-width: 100%;
-    aspect-ratio: 400 / 142;
-    background-color: #000000;
-    -webkit-mask: url("/static/logo-brand.png") center / contain no-repeat;
-    mask: url("/static/logo-brand.png") center / contain no-repeat;
+    width: 100%;
+    height: auto;
   }
 .footer-socials {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 20px;
+  gap: 6px;
+  margin-top: 0;
 }
 .footer-social-link {
   width: 42px;
@@ -121,13 +113,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #111111;   /* circle */
-  color: #ffffff;        /* icon */
+  background: #000000;
+  color: #F2EBDA;
   font-size: 18px;
-  transition: transform .2s ease, background-color .2s ease;
+  transition: transform .2s ease;
 }
 .footer-social-link:hover {
-  background: #D98E2B;
   transform: translateY(-3px);
 }
 .footer-social-link .fa-brands {
@@ -151,12 +142,20 @@
     display: inline-block !important;
   }
   .footer-link-item:hover {
-    color: #D98E2B !important;
+    color: #8EC5FF !important;
   }
   @media (max-width: 767px) {
     .alora-footer .footer-grid {
       gap: 28px !important;
       padding-bottom: 28px !important;
+    }
+    .alora-footer .footer-bottom {
+      padding-bottom: 96px;
+    }
+  }
+  @media (min-width: 768px) {
+    .alora-footer .footer-bottom {
+      padding-right: 96px;
     }
   }
   .diwali-footer-diyas {
@@ -198,9 +197,13 @@
 </style>
 
 <footer class="alora-footer w-full">
-  <div class="footer-grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-b border-[#FBF7F0]/15 relative">
+  <div class="footer-grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-b border-[#F2EBDA]/15 relative">
 
-  <div class="footer-socials" aria-label="Follow Alora Radiance">
+  <div class="footer-column">
+    <a href="/" class="footer-logo" aria-label="Alora Radiance home">
+      <img src="/static/logo2.png" alt="Alora Radiance">
+    </a>
+    <div class="footer-socials" aria-label="Follow Alora Radiance">
   <a href="https://www.instagram.com/alora_radiance?vrfl=MXU0czdhbmh4YnJ4aQ==" target="_blank" rel="noopener noreferrer" aria-label="Alora Radiance on Instagram" class="footer-social-link">
     <i class="fa-brands fa-instagram" aria-hidden="true"></i>
   </a>
@@ -213,10 +216,11 @@
   <a href="https://pin.it/2VWDPzZJw" target="_blank" rel="noopener noreferrer" aria-label="Alora Radiance on Pinterest" class="footer-social-link">
     <i class="fa-brands fa-pinterest-p" aria-hidden="true"></i>
   </a> 
- <a herf="https://www.linkedin.com/company/alora-radiance/home/" target="_blank" rel="noopener noreferrer" aria-label="Alora Radiance on Linkdin" class="footer-social-link">
-   <i class="fa-brands fa-linkdin-l" aria-hidden="true"></i>
+ <a href="https://www.linkedin.com/company/alora-radiance/home/" target="_blank" rel="noopener noreferrer" aria-label="Alora Radiance on LinkedIn" class="footer-social-link">
+  <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
  </a>
-</div>
+   </div>
+ </div>
 
     <!-- Col 2: Quick Links -->
     <div class="footer-column">
@@ -247,22 +251,22 @@
     <!-- Col 4: Experience Center & Contact -->
     <div class="footer-column">
       <h3 class="footer-heading">Experience Center</h3>
-      <div class="w-full h-28 rounded-[12px] overflow-hidden border border-[#FBF7F0]/20 bg-[#F1E6D3]">
+      <div class="w-full h-28 rounded-[12px] overflow-hidden border border-[#F2EBDA]/20 bg-[#E8DEC8]">
         <iframe src="https://maps.google.com/maps?q=Alora%20Radiance&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <div class="text-xs space-y-1">
         <p class="font-medium text-[#D98E2B] uppercase tracking-wide">Alora Radiance HQ</p>
-        <p class="text-[11px] text-[#FBF7F0]/75">53, Ground Floor, Hargovind Enclave, Rajpur, Chhatarpur, New Delhi 110065</p>
-        <a href="https://share.google/GfIte9pX9tj2VCSAe" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-[11px] text-[#D98E2B] hover:text-[#C47D1F] font-semibold mt-1">
+        <p class="text-[11px] text-[#F2EBDA]/75">53, Ground Floor, Hargovind Enclave, Rajpur, Chhatarpur, New Delhi 110065</p>
+        <a href="https://share.google/GfIte9pX9tj2VCSAe" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-[11px] text-[#D98E2B] hover:text-[#8EC5FF] font-semibold mt-1">
           <span>Open in Google Maps</span>
           <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </a>
       </div>
     </div>
 
-  
+  </div>
 
-  <section class="footer-payments" aria-label="Accepted debit and credit cards">
+  <section class="footer-payments max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Accepted debit and credit cards">
     <p class="footer-payment-label">We accept debit &amp; credit cards</p>
     <div class="footer-payment-marks" role="list">
       <span class="payment-mark payment-mark-visa" role="listitem" aria-label="Visa">VISA</span>
@@ -275,10 +279,10 @@
   </section>
 
   <!-- Copyright Bottom Bar -->
-  <div class="footer-bottom max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#FBF7F0]/60">
-    <p>Copyright &copy; 2026 <strong class="text-[#FBF7F0] font-medium">Alora Radiance</strong>. All Rights Reserved.</p>
+  <div class="footer-bottom max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between border-b border-[#F2EBDA]/15 text-xs text-[#F2EBDA]/60">
+    <p>Copyright &copy; 2026 <strong class="text-[#F2EBDA] font-medium">Alora Radiance</strong>. All Rights Reserved.</p>
     <div class="flex items-center gap-4 text-xs">
-      <a href="/sitemap.html" class="hover:text-[#D98E2B] transition">Sitemap</a>
+      <a href="/sitemap.html" class="hover:text-[#8EC5FF] transition">Sitemap</a>
       <span>&bull;</span>
       <span class="text-[#D98E2B]">Crafted for Pure Radiance</span>
     </div>

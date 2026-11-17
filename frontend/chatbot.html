@@ -4,7 +4,7 @@
     <!-- Floating Trigger Button -->
     <button id="alora-chat-trigger" 
             onclick="window.toggleAloraChat()"
-            class="relative flex items-center justify-center w-14 h-14 bg-gradient-to-r from-[#D98E2B] to-[#D98E2B] text-white rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 group focus:outline-none border-2 border-amber-300/40">
+            class="relative flex items-center justify-center w-14 h-14 bg-[#8EC5FF] text-[#3B2418] rounded-full shadow-2xl hover:bg-[#6FB3F5] hover:scale-105 active:scale-95 transition-all duration-300 group focus:outline-none border-2 border-[#8EC5FF]">
         <span class="sr-only">Toggle Chat</span>
 
         <!-- Closed Icon (Chat Bubble) -->
@@ -61,7 +61,7 @@
 
             <!-- Welcome Message -->
             <div class="flex items-start space-x-2.5">
-                <div class="w-7 h-7 rounded-full bg-[#D98E2B] text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-sm">
+                <div class="w-7 h-7 rounded-full bg-[#8EC5FF] text-[#3B2418] flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-sm">
                     <i class="fa-solid fa-spa text-xs"></i>
                 </div>
                 <div class="bg-white border border-amber-900/10 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] space-y-2">
@@ -79,19 +79,19 @@
         <!-- Quick Suggestions Chips -->
         <div id="alora-quick-suggestions" class="px-3 py-2 bg-amber-100/40 border-t border-amber-200/40 flex items-center gap-1.5 overflow-x-auto scrollbar-none text-xs">
             <button onclick="window.sendAloraQuickQuery('Show me top products')" 
-                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-amber-800/20 text-[#D98E2B] font-medium rounded-full hover:bg-[#D98E2B] hover:text-white transition-all shadow-xs flex items-center gap-1">
+                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-[#8EC5FF] text-[#3B2418] font-medium rounded-full hover:bg-[#8EC5FF] hover:text-[#3B2418] transition-all shadow-xs flex items-center gap-1">
                 🛍️ Top Products
             </button>
             <button onclick="window.sendAloraQuickQuery('Track my order')" 
-                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-amber-800/20 text-[#D98E2B] font-medium rounded-full hover:bg-[#D98E2B] hover:text-white transition-all shadow-xs flex items-center gap-1">
+                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-[#8EC5FF] text-[#3B2418] font-medium rounded-full hover:bg-[#8EC5FF] hover:text-[#3B2418] transition-all shadow-xs flex items-center gap-1">
                 📦 Track Order
             </button>
             <button onclick="window.sendAloraQuickQuery('Shipping & Delivery')" 
-                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-amber-800/20 text-[#D98E2B] font-medium rounded-full hover:bg-[#D98E2B] hover:text-white transition-all shadow-xs flex items-center gap-1">
+                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-[#8EC5FF] text-[#3B2418] font-medium rounded-full hover:bg-[#8EC5FF] hover:text-[#3B2418] transition-all shadow-xs flex items-center gap-1">
                 🚚 Delivery Info
             </button>
             <button onclick="window.sendAloraQuickQuery('Return policy')" 
-                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-amber-800/20 text-[#D98E2B] font-medium rounded-full hover:bg-[#D98E2B] hover:text-white transition-all shadow-xs flex items-center gap-1">
+                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-[#8EC5FF] text-[#3B2418] font-medium rounded-full hover:bg-[#8EC5FF] hover:text-[#3B2418] transition-all shadow-xs flex items-center gap-1">
                 🔄 Returns
             </button>
         </div>
@@ -105,7 +105,7 @@
                    class="flex-1 bg-slate-100 border border-slate-200 text-slate-800 text-xs sm:text-sm rounded-full px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#D98E2B] focus:border-transparent transition-all placeholder:text-slate-400">
             <button type="submit" 
                     id="alora-chat-send-btn"
-                    class="w-10 h-10 bg-[#D98E2B] hover:bg-[#70360D] text-white rounded-full flex items-center justify-center text-sm transition-all focus:outline-none shadow-md disabled:opacity-50">
+                    class="w-10 h-10 bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] rounded-full flex items-center justify-center text-sm transition-all focus:outline-none shadow-md disabled:opacity-50">
                 <i class="fas fa-paper-plane"></i>
             </button>
         </form>
