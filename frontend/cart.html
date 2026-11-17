@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="./styles/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>
-    tailwind.config = {
+    if (typeof tailwind !== 'undefined') tailwind.config = {
         theme: {
             extend: {
                 colors: {
@@ -299,7 +299,7 @@
     <script type="module" src="./js/navbar-interactions.min.js"></script>
     <script type="module" src="./js/payment.min.js"></script>
     <script src="./js/cart.min.js"></script>
-    <script src="./js/app.min.js"></script>
+    <script type="module" src="./js/app.min.js"></script>
     <script type="module" src="./js/contacts.min.js"></script>
 </body>
 </html>
