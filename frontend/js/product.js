@@ -494,11 +494,6 @@ async function fetchAndRenderReviews(productId) {
             result.data.forEach(review => {
                 const reviewElement = document.createElement('div');
                 reviewElement.className = 'border-b border-[#FAF7EE] pb-4 mb-4 last:border-0';
-                const reviewDate = new Date(review.createdAt).toLocaleDateString('en-IN', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                });
                 let starsHTML = '';
                 for (let i = 1; i <= 5; i++) {
                     starsHTML += i <= review.rating 
@@ -506,9 +501,8 @@ async function fetchAndRenderReviews(productId) {
                         : '<i class="fa-regular fa-star mr-0.5"></i>';
                 }
                 reviewElement.innerHTML = `
-                    <div class="flex justify-between items-center mb-1">
+                    <div class="mb-1">
                         <span class="font-medium text-ink text-sm">${escapeHTML(review.username)}</span>
-                        <span class="text-xs text-ash">${reviewDate}</span>
                     </div>
                     <div class="flex text-gold text-xs mb-2">
                         ${starsHTML}

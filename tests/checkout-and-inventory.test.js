@@ -4,6 +4,7 @@ import {
   calculateCheckoutTotals,
   findCheckoutVariant,
   getRequestedCouponCodes,
+  isAlora15CouponEligible,
   normalizeCheckoutItems
 } from "../backend/controllers/payment.controllers.js";
 import { inventoryTrackingEnabled } from "../backend/config/inventory.js";
@@ -25,6 +26,11 @@ test("coupon codes are normalised, deduplicated, and validated", () => {
     ["GLOW10", "REF-123"]
   );
   assert.throws(() => getRequestedCouponCodes({ couponCode: "not valid!" }), /invalid/);
+});
+
+test("ALORA15 requires a subtotal strictly above ₹2,000", () => {
+  assert.equal(isAlora15CouponEligible(2000), false);
+  assert.equal(isAlora15CouponEligible(2000.01), true);
 });
 
 test("checkout item normalisation rejects invalid quantities", () => {

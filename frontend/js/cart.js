@@ -11,7 +11,7 @@ try {
     if (Array.isArray(storedCoupons)) {
         appliedCoupons = storedCoupons.filter((coupon) => {
             const code = String(coupon?.code || "").toUpperCase();
-            const validCode = code === "GLOW10" || code === "DIWALI20" || coupon?.source === "referral";
+            const validCode = code === "GLOW10" || code === "DIWALI20" || code === "ALORA15" || coupon?.source === "referral";
             return validCode && /^[A-Z0-9_-]{5,64}$/.test(code) && Number(coupon.rate) > 0;
         });
         sessionStorage.setItem(APPLIED_COUPONS_KEY, JSON.stringify(appliedCoupons));
@@ -381,6 +381,16 @@ function recalculateBill() {
     if (!billSubtotalEl) return;
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
     if (billSubtotalEl) billSubtotalEl.innerText = `₹${subtotal}`;
+    if (subtotal <= 2000 && appliedCoupons.some((coupon) => coupon.code === "ALORA15")) {
+        appliedCoupons = appliedCoupons.filter((coupon) => coupon.code !== "ALORA15");
+        persistAppliedCoupons();
+        renderAppliedCoupons();
+        const couponMessage = document.getElementById("coupon-message");
+        if (couponMessage) {
+            couponMessage.innerText = "ALORA15 requires an order subtotal above ₹2,000.";
+            couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
+        }
+    }
     const flatDiscountTotal = appliedCoupons.filter(c => c.isFlat).reduce((sum, c) => sum + (Number(c.rate) || 0), 0);
     const totalDiscountRate = Math.min(50, appliedCoupons.filter(c => !c.isFlat).reduce((sum, coupon) => sum + (Number(coupon.rate) || 0), 0));
     const percentDiscount = Math.round(subtotal * totalDiscountRate / 100);
@@ -450,6 +460,23 @@ async function applyCoupon() {
     if (typedCode === "GLOW10") {
         if (addAppliedCoupon(typedCode, 10)) {
             couponMessage.innerText = "Coupon 'GLOW10' applied successfully! (10% Off)";
+            couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
+            couponInput.value = "";
+        } else {
+            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
+            couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
+        }
+        return;
+    }
+    if (typedCode === "ALORA15") {
+        const subtotal = getCart().reduce((sum, item) => sum + (item.price * item.qty), 0);
+        if (subtotal <= 2000) {
+            couponMessage.innerText = "ALORA15 is available on orders above ₹2,000.";
+            couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
+            return;
+        }
+        if (addAppliedCoupon(typedCode, 15)) {
+            couponMessage.innerText = "Coupon 'ALORA15' applied successfully! (15% Off)";
             couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
             couponInput.value = "";
         } else {

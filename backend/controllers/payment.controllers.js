@@ -29,6 +29,8 @@ export const calculateCheckoutTotals = ({ subtotal, discountPercent, flatDiscoun
     return { affiliateDiscount: totalDiscount, deliveryCharge, founderDeliveryCharge, totalAmount };
 };
 
+export const isAlora15CouponEligible = (subtotal) => Number(subtotal) > 2000;
+
 export const getRequestedCouponCodes = (body) => {
     const rawCodes = [
         ...(Array.isArray(body.couponCodes) ? body.couponCodes : []),
@@ -405,6 +407,15 @@ export const createOrder = async (req, res) => {
 
             if (candidateCode === "GLOW10") {
                 discountPercent += 10;
+                appliedCoupons.push(candidateCode);
+                continue;
+            }
+
+            if (candidateCode === "ALORA15") {
+                if (!isAlora15CouponEligible(subtotal)) {
+                    throw new Error("Coupon 'ALORA15' is valid only on orders above ₹2,000.");
+                }
+                discountPercent += 15;
                 appliedCoupons.push(candidateCode);
                 continue;
             }
