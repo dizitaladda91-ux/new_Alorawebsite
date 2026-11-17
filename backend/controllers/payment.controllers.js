@@ -53,14 +53,25 @@ export const normalizeCheckoutItems = (cart) => {
 
     return cart.map((item) => {
         const quantity = Math.max(1, Number(item.qty ?? item.qtyCountOrderMetric ?? 1));
-        const rawId = String(item.productId || item.id || item.uniqueCartItemKeyId || "");
+        const cartKey = String(item.id || item.uniqueCartItemKeyId || "");
+        const rawId = String(item.productId || cartKey);
+        const variantSeparatorIndex = cartKey.indexOf("__");
         // Cart keys append the variant with a double underscore. Keep the full
         // product id otherwise; legitimate ids may themselves contain `_`.
-        const productId = rawId.includes("__") ? rawId.split("__")[0] : rawId;
+        const productId = item.productId || (variantSeparatorIndex >= 0
+            ? cartKey.slice(0, variantSeparatorIndex)
+            : rawId);
+        const cartKeyVariant = variantSeparatorIndex >= 0
+            ? cartKey.slice(variantSeparatorIndex + 2).trim()
+            : "";
+        const selectedVariant = String(item.size || item.activeSelectedSizeConfig || "").trim();
+        const variant = selectedVariant && selectedVariant !== "Standard"
+            ? selectedVariant
+            : cartKeyVariant || selectedVariant || "Standard";
 
         return {
-            productId,
-            variant: String(item.size || item.activeSelectedSizeConfig || "Standard").trim(),
+            productId: String(productId),
+            variant,
             quantity
         };
     }).filter((item) => item.productId && item.quantity > 0 && Number.isInteger(item.quantity));
@@ -80,8 +91,14 @@ const resolveCatalogItems = async (cart) => {
         const variant = product?.variants?.find((entry) => entry.volume === requested.variant);
 
         const enforceInventory = inventoryTrackingEnabled();
-        if (!product || !variant || (enforceInventory && (!product.isAvailable || variant.stock < requested.quantity))) {
-            throw new Error(`${product?.name || "A product"} or its selected variant is unavailable or out of stock.`);
+        if (!product || !variant) {
+            throw new Error(`${product?.name || "A product"} is no longer available in the selected size (${requested.variant}).`);
+        }
+        if (enforceInventory && !product.isAvailable) {
+            throw new Error(`${product.name} is currently unavailable.`);
+        }
+        if (enforceInventory && variant.stock < requested.quantity) {
+            throw new Error(`Only ${variant.stock} of ${product.name} (${variant.volume}) are currently in stock.`);
         }
 
         const unitPrice = Number(variant.price);

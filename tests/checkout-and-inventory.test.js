@@ -43,6 +43,19 @@ test("checkout item normalisation preserves underscores in product IDs", () => {
   );
 });
 
+test("checkout item normalisation recovers a variant from a legacy composite cart key", () => {
+  assert.deepEqual(
+    normalizeCheckoutItems([
+      { id: "product_with_underscore__200ml", size: "Standard", qty: 1 },
+      { productId: "product-two", id: "product-two__50ml", size: "30ml", qty: 2 }
+    ]),
+    [
+      { productId: "product_with_underscore", variant: "200ml", quantity: 1 },
+      { productId: "product-two", variant: "30ml", quantity: 2 }
+    ]
+  );
+});
+
 test("inventory tracking remains disabled unless explicitly enabled", () => {
   const original = process.env.INVENTORY_TRACKING_ENABLED;
   delete process.env.INVENTORY_TRACKING_ENABLED;
