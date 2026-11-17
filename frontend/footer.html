@@ -18,6 +18,71 @@
     gap: 12px;
     padding-top: 24px;
   }
+  .alora-footer .footer-payments {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 16px 0;
+  }
+  .alora-footer .footer-payment-label {
+    width: 100%;
+    color: #FBF7F0;
+    font-size: 11px;
+    text-align: center;
+  }
+  .alora-footer .footer-payment-marks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .alora-footer .payment-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 52px;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: 4px;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .alora-footer .payment-mark-visa {
+    color: #1434CB;
+    font-style: italic;
+  }
+  .alora-footer .payment-mark-mastercard {
+    gap: 0;
+  }
+  .alora-footer .payment-mark-mastercard span {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+  }
+  .alora-footer .payment-mark-mastercard span:first-child {
+    background: #EB001B;
+    margin-right: -6px;
+  }
+  .alora-footer .payment-mark-mastercard span:last-child {
+    background: #F79E1B;
+    opacity: 0.95;
+  }
+  .alora-footer .payment-mark-rupay {
+    color: #17479E;
+    font-style: italic;
+  }
+  .alora-footer .payment-mark-amex {
+    background: #2471B9;
+    color: #FFFFFF;
+    font-size: 9px;
+  }
   .alora-footer .footer-column {
     display: flex;
     flex-direction: column;
@@ -216,6 +281,18 @@
       <span>🪔</span><span>🪔</span><span>🪔</span><span>🪔</span>
     </div>
   </div>
+
+  <section class="footer-payments" aria-label="Accepted debit and credit cards">
+    <p class="footer-payment-label">We accept debit &amp; credit cards</p>
+    <div class="footer-payment-marks" role="list">
+      <span class="payment-mark payment-mark-visa" role="listitem" aria-label="Visa">VISA</span>
+      <span class="payment-mark payment-mark-mastercard" role="listitem" aria-label="Mastercard">
+        <span aria-hidden="true"></span><span aria-hidden="true"></span>
+      </span>
+      <span class="payment-mark payment-mark-rupay" role="listitem" aria-label="RuPay">RuPay</span>
+      <span class="payment-mark payment-mark-amex" role="listitem" aria-label="American Express">AMEX</span>
+    </div>
+  </section>
 
   <!-- Copyright Bottom Bar -->
   <div class="footer-bottom max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#FBF7F0]/60">
