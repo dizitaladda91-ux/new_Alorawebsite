@@ -77,76 +77,109 @@ nav, .navbar, .nav-link, nav a, .navbar a, #mobile-menu, #mobile-menu-drawer, he
   font-family: var(--font-body) !important;
 }
 
-/* Buttons & Interactive Clickables */
-button, input[type="button"], input[type="submit"], input[type="reset"], .btn-primary, .btn-secondary, .primary-btn, .secondary-btn, .add-to-cart-btn {
+/* Buttons & button-styled links */
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+.btn-primary,
+.btn-secondary,
+.primary-btn,
+.secondary-btn,
+.add-to-cart-btn,
+a[class*="bg-"],
+a[class*="btn-"],
+a[class*="primary-btn"],
+a[class*="secondary-btn"],
+a[class*="add-to-cart-btn"],
+a[class*="px-"][class*="py-"][class*="rounded"] {
+  background-color: var(--btn-blue) !important;
+  background-image: linear-gradient(var(--btn-blue), var(--btn-blue)) !important;
+  border-color: var(--btn-blue) !important;
+  color: var(--brown) !important;
   font-family: var(--font-body) !important;
 }
 
-.btn-primary, button[type="submit"]:not(.btn-secondary):not(.secondary-btn), input[type="submit"]:not(.btn-secondary):not(.secondary-btn), .primary-btn, .add-to-cart-btn {
-  background-color: var(--btn-blue) !important;
-  color: var(--brown) !important;
-  border: 1px solid var(--btn-blue) !important;
-  border-radius: 3px !important;
-  font-weight: 600 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1.5px !important;
-  transition: background-color 0.2s ease, border-color 0.2s ease !important;
-}
-
-button[class*="bg-[#8EC5FF]"], a[class*="bg-[#8EC5FF]"], button[class*="from-[#8EC5FF]"], a[class*="from-[#8EC5FF]"] {
-  background-color: var(--btn-blue) !important;
-  border-color: var(--btn-blue) !important;
+button *,
+a[class*="bg-"] *,
+a[class*="btn-"] *,
+a[class*="primary-btn"] *,
+a[class*="secondary-btn"] *,
+a[class*="add-to-cart-btn"] *,
+a[class*="px-"][class*="py-"][class*="rounded"] * {
   color: var(--brown) !important;
 }
 
-.btn-primary:hover, button[type="submit"]:not(.btn-secondary):not(.secondary-btn):hover, input[type="submit"]:not(.btn-secondary):not(.secondary-btn):hover, .primary-btn:hover, .add-to-cart-btn:hover, button[class*="bg-[#8EC5FF]"]:hover, a[class*="bg-[#8EC5FF]"]:hover, button[class*="from-[#8EC5FF]"]:hover, a[class*="from-[#8EC5FF]"]:hover {
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+.btn-primary:hover,
+.btn-secondary:hover,
+.primary-btn:hover,
+.secondary-btn:hover,
+.add-to-cart-btn:hover,
+a[class*="bg-"]:hover,
+a[class*="btn-"]:hover,
+a[class*="primary-btn"]:hover,
+a[class*="secondary-btn"]:hover,
+a[class*="add-to-cart-btn"]:hover,
+a[class*="px-"][class*="py-"][class*="rounded"]:hover {
   background-color: var(--btn-blue-hover) !important;
+  background-image: linear-gradient(var(--btn-blue-hover), var(--btn-blue-hover)) !important;
   border-color: var(--btn-blue-hover) !important;
 }
 
-.btn-primary:active, button[type="submit"]:not(.btn-secondary):not(.secondary-btn):active, input[type="submit"]:not(.btn-secondary):not(.secondary-btn):active, .primary-btn:active, .add-to-cart-btn:active, button[class*="bg-[#8EC5FF]"]:active, a[class*="bg-[#8EC5FF]"]:active, button[class*="from-[#8EC5FF]"]:active, a[class*="from-[#8EC5FF]"]:active {
+button:active,
+input[type="button"]:active,
+input[type="submit"]:active,
+input[type="reset"]:active,
+.btn-primary:active,
+.btn-secondary:active,
+.primary-btn:active,
+.secondary-btn:active,
+.add-to-cart-btn:active,
+a[class*="bg-"]:active,
+a[class*="btn-"]:active,
+a[class*="primary-btn"]:active,
+a[class*="secondary-btn"]:active,
+a[class*="add-to-cart-btn"]:active,
+a[class*="px-"][class*="py-"][class*="rounded"]:active {
   background-color: var(--btn-blue-active) !important;
+  background-image: linear-gradient(var(--btn-blue-active), var(--btn-blue-active)) !important;
   border-color: var(--btn-blue-active) !important;
 }
 
-button[class*="from-[#8EC5FF]"]:hover, a[class*="from-[#8EC5FF]"]:hover {
-  background-image: linear-gradient(var(--btn-blue-hover), var(--btn-blue-hover)) !important;
-}
-
-button[class*="from-[#8EC5FF]"]:active, a[class*="from-[#8EC5FF]"]:active {
-  background-image: linear-gradient(var(--btn-blue-active), var(--btn-blue-active)) !important;
-}
-
-.btn-primary:disabled, button[type="submit"]:not(.btn-secondary):not(.secondary-btn):disabled, input[type="submit"]:not(.btn-secondary):not(.secondary-btn):disabled, .primary-btn:disabled, .add-to-cart-btn:disabled, button[class*="bg-[#8EC5FF]"]:disabled, button[class*="from-[#8EC5FF]"]:disabled {
+button:disabled,
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled,
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.primary-btn:disabled,
+.secondary-btn:disabled,
+.add-to-cart-btn:disabled {
   background-color: #D9E8F7 !important;
+  background-image: linear-gradient(#D9E8F7, #D9E8F7) !important;
   border-color: #D9E8F7 !important;
   color: var(--brown) !important;
   cursor: not-allowed !important;
 }
 
-button[class*="from-[#8EC5FF]"]:disabled {
-  background-image: linear-gradient(#D9E8F7, #D9E8F7) !important;
-}
-
-.btn-primary:focus-visible, button[type="submit"]:not(.btn-secondary):not(.secondary-btn):focus-visible, input[type="submit"]:not(.btn-secondary):not(.secondary-btn):focus-visible, .primary-btn:focus-visible, .add-to-cart-btn:focus-visible, button[class*="bg-[#8EC5FF]"]:focus-visible, a[class*="bg-[#8EC5FF]"]:focus-visible, button[class*="from-[#8EC5FF]"]:focus-visible, a[class*="from-[#8EC5FF]"]:focus-visible {
+button:focus-visible,
+input[type="button"]:focus-visible,
+input[type="submit"]:focus-visible,
+input[type="reset"]:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.primary-btn:focus-visible,
+.secondary-btn:focus-visible,
+.add-to-cart-btn:focus-visible,
+a[class*="bg-"]:focus-visible,
+a[class*="btn-"]:focus-visible,
+a[class*="px-"][class*="py-"][class*="rounded"]:focus-visible {
   outline: 2px solid var(--brown) !important;
   outline-offset: 3px;
-}
-
-.btn-secondary, .secondary-btn {
-  background-color: transparent !important;
-  border: 1px solid var(--brown) !important;
-  color: var(--brown) !important;
-  border-radius: 3px !important;
-  font-weight: 600 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1.5px !important;
-  transition: background-color 0.2s ease, color 0.2s ease !important;
-}
-
-.btn-secondary:hover, .secondary-btn:hover {
-  background-color: var(--brown) !important;
-  color: var(--ivory) !important;
 }
 
 /* Form Inputs, Selects & Textareas */

@@ -1135,7 +1135,7 @@
 
     <!-- Left: Brand Logo (Alora Official Graphic Logo) -->
     <div class="flex items-center gap-4 sm:gap-6">
-      <button id="menu-btn" onclick="window.openMobileDrawer(event)" type="button" class="md:hidden text-2xl text-[#3B2418] focus:outline-none p-1.5 cursor-pointer relative z-10" aria-label="Open Menu">
+      <button id="menu-btn" onclick="window.openMobileDrawer(event)" type="button" class="lg:hidden text-2xl text-[#3B2418] focus:outline-none p-1.5 cursor-pointer relative z-10" aria-label="Open Menu">
         <svg class="w-6 h-6 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
 
@@ -1145,12 +1145,15 @@
     </div>
 
     <!-- Center/Right: Desktop Menu Links (Bigger, Clear, DM Sans) -->
-    <div class="hidden md:flex items-center">
-      <ul class="flex items-center gap-8 lg:gap-10 text-[16px] lg:text-[17px] font-semibold tracking-wide uppercase text-[#3B2418]">
+    <div class="hidden lg:flex items-center">
+      <ul class="flex items-center gap-4 xl:gap-6 text-[12px] lg:text-[14px] xl:text-[15px] font-semibold tracking-wide uppercase text-[#3B2418] whitespace-nowrap">
         <li><a href="/" class="hover:text-[#205D96] transition-colors py-1">HOME</a></li>
-        <li><a href="/products" class="hover:text-[#205D96] transition-colors py-1">SHOP</a></li>
-        <li><a href="/blog" class="hover:text-[#205D96] transition-colors py-1">BLOGS</a></li>
-        <li><a href="/about" class="hover:text-[#205D96] transition-colors py-1">ABOUT US</a></li>
+        <li><a href="/products" class="hover:text-[#205D96] transition-colors py-1">PRODUCTS</a></li>
+        <li><a href="/about" class="hover:text-[#205D96] transition-colors py-1">WHY US</a></li>
+        <li><a href="/#how-we-make" class="hover:text-[#205D96] transition-colors py-1">HOW WE MAKE</a></li>
+        <li><a href="/#ingredients-discovery" class="hover:text-[#205D96] transition-colors py-1">INGREDIENTS</a></li>
+        <li><a href="/#reviews" class="hover:text-[#205D96] transition-colors py-1">REVIEWS</a></li>
+        <li><a href="/#offers" class="hover:text-[#205D96] transition-colors py-1">OFFERS</a></li>
       </ul>
     </div>
 
@@ -1202,9 +1205,12 @@
 
         <ul class="mt-8 space-y-5 text-base font-semibold uppercase tracking-wide text-[#3B2418]">
           <li><a href="/" class="block py-1 hover:text-[#205D96]">Home</a></li>
-          <li><a href="/products" class="block py-1 hover:text-[#205D96]">Shop</a></li>
-          <li><a href="/blog" class="block py-1 hover:text-[#205D96]">Blogs</a></li>
-          <li><a href="/about" class="block py-1 hover:text-[#205D96]">About Us</a></li>
+          <li><a href="/products" class="block py-1 hover:text-[#205D96]">Products</a></li>
+          <li><a href="/about" class="block py-1 hover:text-[#205D96]">Why Us</a></li>
+          <li><a href="/#how-we-make" class="block py-1 hover:text-[#205D96]">How We Make</a></li>
+          <li><a href="/#ingredients-discovery" class="block py-1 hover:text-[#205D96]">Ingredients</a></li>
+          <li><a href="/#reviews" class="block py-1 hover:text-[#205D96]">Reviews</a></li>
+          <li><a href="/#offers" class="block py-1 hover:text-[#205D96]">Offers</a></li>
           <li><a href="/cart.html" class="block py-1 hover:text-[#205D96]">Cart</a></li>
         </ul>
       </div>
@@ -1332,7 +1338,7 @@
 </section>
 
     <!-- ============ HERO BUNDLE HIGHLIGHT SECTION ============ -->
-    <section class="bundle-hero" aria-labelledby="bundle-hero-title">
+    <section id="offers" class="bundle-hero scroll-mt-24" aria-labelledby="bundle-hero-title">
         <img class="bundle-hero-image" src="./static/combo1.webp" alt="Hydration Duo skincare bundle" fetchpriority="high">
         <div class="bundle-hero-overlay" aria-hidden="true"></div>
         <div class="bundle-hero-inner">
@@ -1358,7 +1364,7 @@
     </section>
 
     <!-- ============ DISCOVER SKIN-LOVING INGREDIENTS ============ -->
-    <section id="ingredients-discovery" class="w-full py-10 sm:py-16" aria-labelledby="ingredients-discovery-heading">
+    <section id="ingredients-discovery" class="w-full py-10 sm:py-16 scroll-mt-24" aria-labelledby="ingredients-discovery-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5 mb-7 sm:mb-9">
                 <div>
@@ -1859,7 +1865,7 @@
     </script>
 
 <!-- ============ GREEN INITIATIVE + SAFETY ============ -->
-    <section class="bg-transparent py-4 sm:py-8">
+    <section id="how-we-make" class="bg-transparent py-4 sm:py-8 scroll-mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <!-- ============ SUPER SAFE STANDARDS ============ -->
@@ -2000,7 +2006,7 @@
 
 
                                               <!-- ============ GOOGLE CUSTOMER REVIEWS ============ -->
-<section id="reviews" aria-labelledby="reviews-heading">
+<section id="reviews" class="scroll-mt-24" aria-labelledby="reviews-heading">
     <div class="reviews-container">
         <h2 id="reviews-heading" class="visually-hidden">Google reviews</h2>
         <div class="reviews-summary" aria-label="Google review summary">

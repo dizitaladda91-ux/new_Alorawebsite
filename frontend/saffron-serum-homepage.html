@@ -201,14 +201,24 @@
     }
 
     .btn-secondary {
-      background-color: transparent;
-      border: 1px solid var(--brown);
+      background-color: var(--btn-blue);
+      border: 1px solid var(--btn-blue);
       color: var(--brown);
     }
 
     .btn-secondary:hover {
-      background-color: var(--brown);
-      color: var(--ivory);
+      background-color: var(--btn-blue-hover);
+      border-color: var(--btn-blue-hover);
+    }
+
+    .btn-secondary:active {
+      background-color: var(--btn-blue-active);
+      border-color: var(--btn-blue-active);
+    }
+
+    .btn-secondary:focus-visible {
+      outline: 2px solid var(--brown);
+      outline-offset: 3px;
     }
 
     /* 1. Announcement Bar */
@@ -276,7 +286,7 @@
 
     .mobile-menu-btn {
       display: block;
-      background: none;
+      background: var(--btn-blue);
       border: none;
       color: var(--brown);
       cursor: pointer;

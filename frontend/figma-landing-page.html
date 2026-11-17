@@ -16,6 +16,67 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Jost:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <style>
+    button,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    a[class*="bg-"],
+    a[class*="btn-"],
+    a[class*="px-"][class*="py-"][class*="rounded"] {
+      background-color: #8EC5FF !important;
+      background-image: linear-gradient(#8EC5FF, #8EC5FF) !important;
+      border-color: #8EC5FF !important;
+      color: #3B2418 !important;
+    }
+    button *,
+    a[class*="bg-"] *,
+    a[class*="btn-"] *,
+    a[class*="px-"][class*="py-"][class*="rounded"] * {
+      color: #3B2418 !important;
+    }
+    button:hover,
+    input[type="button"]:hover,
+    input[type="submit"]:hover,
+    input[type="reset"]:hover,
+    a[class*="bg-"]:hover,
+    a[class*="btn-"]:hover,
+    a[class*="px-"][class*="py-"][class*="rounded"]:hover {
+      background-color: #6FB3F5 !important;
+      background-image: linear-gradient(#6FB3F5, #6FB3F5) !important;
+      border-color: #6FB3F5 !important;
+    }
+    button:active,
+    input[type="button"]:active,
+    input[type="submit"]:active,
+    input[type="reset"]:active,
+    a[class*="bg-"]:active,
+    a[class*="btn-"]:active,
+    a[class*="px-"][class*="py-"][class*="rounded"]:active {
+      background-color: #5AA3EA !important;
+      background-image: linear-gradient(#5AA3EA, #5AA3EA) !important;
+      border-color: #5AA3EA !important;
+    }
+    button:disabled,
+    input[type="button"]:disabled,
+    input[type="submit"]:disabled,
+    input[type="reset"]:disabled {
+      background-color: #D9E8F7 !important;
+      background-image: linear-gradient(#D9E8F7, #D9E8F7) !important;
+      border-color: #D9E8F7 !important;
+      color: #3B2418 !important;
+    }
+    button:focus-visible,
+    input[type="button"]:focus-visible,
+    input[type="submit"]:focus-visible,
+    input[type="reset"]:focus-visible,
+    a[class*="bg-"]:focus-visible,
+    a[class*="btn-"]:focus-visible,
+    a[class*="px-"][class*="py-"][class*="rounded"]:focus-visible {
+      outline: 2px solid #3B2418 !important;
+      outline-offset: 3px;
+    }
+</style>
+<style>
     body {
       font-family: 'Jost', 'Jost-Fallback', Arial, sans-serif;
       user-select: none;
