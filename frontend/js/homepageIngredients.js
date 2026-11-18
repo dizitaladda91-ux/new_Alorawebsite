@@ -30,12 +30,8 @@ function createIngredientCard(ingredient) {
     content.className = "absolute inset-x-0 bottom-0 p-4 text-white sm:p-6";
     content.style.zIndex = "2";
 
-    const label = document.createElement("span");
-    label.className = "text-xs font-semibold tracking-wider";
-    label.style.color = "#E8A33D";
-    label.textContent = "Ingredient";
     const title = document.createElement("h3");
-    title.className = "mt-1 line-clamp-2 font-heading text-xl font-bold leading-tight text-white sm:text-3xl";
+    title.className = "line-clamp-2 font-heading text-xl font-bold leading-tight text-white sm:text-3xl";
     title.style.textShadow = "0 2px 6px rgba(0, 0, 0, 0.4)";
     title.textContent = ingredient.name || "Ingredient";
     const summary = document.createElement("p");
@@ -51,7 +47,7 @@ function createIngredientCard(ingredient) {
     link.textContent = "Read More";
     link.setAttribute("aria-label", `Read more about ${ingredient.name || "this ingredient"}`);
 
-    content.append(label, title, summary, link);
+    content.append(title, summary, link);
     card.append(image, overlay, content);
     return card;
 }
