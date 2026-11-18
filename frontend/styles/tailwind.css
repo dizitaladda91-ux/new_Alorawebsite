@@ -190,6 +190,18 @@ a[class*="px-"][class*="py-"][class*="rounded"]:focus-visible {
   border-color: transparent !important;
 }
 
+.product-card .wishlist-toggle-btn,
+.product-card .wishlist-toggle-btn:active {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  background-image: none !important;
+  border-color: rgba(231, 229, 228, 0.6) !important;
+}
+
+.product-card .wishlist-toggle-btn:hover {
+  background-color: #FFFFFF !important;
+  background-image: none !important;
+}
+
 /* Form Inputs, Selects & Textareas */
 input, select, textarea {
   font-family: var(--font-body);
