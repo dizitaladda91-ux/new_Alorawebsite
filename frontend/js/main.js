@@ -175,6 +175,96 @@ function toggleCartState(button) {
         button.disabled = false;
     }, 1200);
 }
+function getFeaturedCart() {
+    try {
+        const currentCart = JSON.parse(localStorage.getItem('glowCart') || 'null');
+        const legacyCart = JSON.parse(localStorage.getItem('glowRitualCartData') || 'null');
+        return Array.isArray(currentCart) ? currentCart : (Array.isArray(legacyCart) ? legacyCart : []);
+    } catch (error) {
+        console.warn('Unable to read featured product quantities from the cart.', error);
+        return [];
+    }
+}
+function getFeaturedCartItemId(card) {
+    const activeSizeBtn = Array.from(card.querySelectorAll('.size-btn'))
+        .find(button => button.classList.contains('border-[#3B2418]')) || card.querySelector('.size-btn');
+    const size = activeSizeBtn ? activeSizeBtn.innerText.trim() : 'Standard';
+    const productId = card.dataset.productId || card.dataset.id || card.querySelector('h3')?.innerText.trim() || 'product';
+    return `${productId}__${size}`;
+}
+function renderFeaturedCartControl(card) {
+    const control = card.querySelector('.featured-cart-control');
+    if (!control) return;
+    const itemId = getFeaturedCartItemId(card);
+    const item = getFeaturedCart().find(cartItem => cartItem.id === itemId || cartItem.uniqueCartItemKeyId === itemId);
+    const quantity = Math.max(0, Number(item?.qty || item?.qtyCountOrderMetric || 0));
+
+    if (quantity > 0) {
+        control.innerHTML = `
+            <div class="flex w-full items-center justify-between rounded-lg bg-[#8EC5FF] px-3 py-1.5 text-[#3B2418]">
+                <button type="button" onclick="changeFeaturedCartQuantity(this, -1)" aria-label="Decrease quantity" class="flex h-8 w-8 items-center justify-center rounded-full bg-white text-lg font-bold">−</button>
+                <span class="text-sm font-bold" aria-live="polite">Qty: ${quantity}</span>
+                <button type="button" onclick="changeFeaturedCartQuantity(this, 1)" aria-label="Increase quantity" class="flex h-8 w-8 items-center justify-center rounded-full bg-white text-lg font-bold">+</button>
+            </div>
+        `;
+        return;
+    }
+
+    control.innerHTML = `
+        <button type="button" onclick="addFeaturedProductToCart(this)" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
+            <svg class="w-4 h-4 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            <span>Add to Cart</span>
+        </button>
+    `;
+}
+function syncFeaturedCartCards() {
+    document.querySelectorAll('#productSliderWrapper .product-card').forEach(renderFeaturedCartControl);
+}
+function addFeaturedProductToCart(button) {
+    const card = button.closest('.product-card');
+    if (!card) return;
+    const activeSizeBtn = Array.from(card.querySelectorAll('.size-btn'))
+        .find(sizeButton => sizeButton.classList.contains('border-[#3B2418]')) || card.querySelector('.size-btn');
+    const size = activeSizeBtn ? activeSizeBtn.innerText.trim() : 'Standard';
+    const name = card.querySelector('h3')?.innerText.trim() || '';
+    const priceText = card.querySelector('.product-price')?.innerText.replace(/[^\d.]/g, '') || '0';
+    const mrpText = card.querySelector('.product-mrp')?.innerText.replace(/[^\d.]/g, '') || priceText;
+    const image = card.querySelector('img')?.getAttribute('src') || '';
+    addToCart(
+        getFeaturedCartItemId(card),
+        name,
+        parseFloat(priceText) || 0,
+        image,
+        1,
+        size,
+        parseFloat(mrpText) || parseFloat(priceText) || 0
+    );
+    renderFeaturedCartControl(card);
+}
+function changeFeaturedCartQuantity(button, change) {
+    const card = button.closest('.product-card');
+    if (!card) return;
+    const itemId = getFeaturedCartItemId(card);
+    const cart = getFeaturedCart();
+    const itemIndex = cart.findIndex(item => item.id === itemId || item.uniqueCartItemKeyId === itemId);
+    if (itemIndex === -1) {
+        renderFeaturedCartControl(card);
+        return;
+    }
+
+    const nextQuantity = Number(cart[itemIndex].qty || cart[itemIndex].qtyCountOrderMetric || 0) + change;
+    if (nextQuantity <= 0) {
+        cart.splice(itemIndex, 1);
+    } else {
+        cart[itemIndex].qty = nextQuantity;
+        cart[itemIndex].qtyCountOrderMetric = nextQuantity;
+    }
+    localStorage.setItem('glowCart', JSON.stringify(cart));
+    localStorage.setItem('glowRitualCartData', JSON.stringify(cart));
+    document.dispatchEvent(new Event('cartUpdated'));
+    updateHeaderCartCount();
+    renderFeaturedCartControl(card);
+}
 function addToCart(id, name, price, img, qty = 1, size = 'Standard', mrp = 0) {
     let cart = [];
     try {
@@ -487,8 +577,8 @@ async function loadSliderProducts() {
                 </div>
 
                 <!-- Add to Cart CTA Button -->
-                <div class="px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-1">
-                    <button type="button" onclick="toggleCartState(this)" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
+                <div class="featured-cart-control px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-1">
+                    <button type="button" onclick="addFeaturedProductToCart(this)" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
                         <svg class="w-4 h-4 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                         <span>Add to Cart</span>
                     </button>
@@ -499,6 +589,7 @@ async function loadSliderProducts() {
         if (window.syncWishlistHeartsOnPage) {
             window.syncWishlistHeartsOnPage();
         }
+        syncFeaturedCartCards();
     });
 }
 function changeCardSize(volume, price, comparePrice, buttonElement) {
@@ -539,6 +630,7 @@ function changeCardSize(volume, price, comparePrice, buttonElement) {
             discountEl.style.display = 'none';
         }
     }
+    renderFeaturedCartControl(card);
 }
 
 function slideProducts(direction) {
@@ -634,3 +726,6 @@ window.changeCardSize = changeCardSize;
 window.updateQty = updateQty;
 window.slideProducts = slideProducts;
 window.loadSliderProducts = loadSliderProducts;
+window.addFeaturedProductToCart = addFeaturedProductToCart;
+window.changeFeaturedCartQuantity = changeFeaturedCartQuantity;
+document.addEventListener('cartUpdated', syncFeaturedCartCards);
