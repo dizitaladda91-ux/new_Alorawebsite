@@ -16,7 +16,7 @@ function createIngredientCard(ingredient) {
 
     const cardLink = document.createElement("a");
     cardLink.href = `/ingredients/${encodeURIComponent(slug)}`;
-    cardLink.className = "group relative block h-full w-full overflow-hidden rounded-2xl bg-[#E8DEC8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+    cardLink.className = "ingredient-card-link group relative block h-full w-full overflow-hidden rounded-2xl bg-[#E8DEC8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
     cardLink.setAttribute("aria-label", `Read more about ${ingredient.name || "this ingredient"}`);
 
     const image = document.createElement("img");
@@ -36,13 +36,14 @@ function createIngredientCard(ingredient) {
     content.style.zIndex = "2";
 
     const title = document.createElement("h3");
-    title.className = "line-clamp-2 font-heading text-xl font-bold leading-tight text-white sm:text-3xl";
-    title.style.textShadow = "0 2px 6px rgba(0, 0, 0, 0.4)";
+    title.className = "ingredient-card-title line-clamp-2 font-heading text-xl font-bold leading-tight sm:text-3xl";
+    title.style.color = "#FFFFFF";
+    title.style.textShadow = "0 2px 6px rgba(0, 0, 0, 0.8)";
     title.textContent = ingredient.name || "Ingredient";
     const summary = document.createElement("p");
-    summary.className = "mt-2 line-clamp-2 text-sm leading-snug";
-    summary.style.color = "#F5EDE3";
-    summary.style.textShadow = "0 1px 3px rgba(0, 0, 0, 0.45)";
+    summary.className = "ingredient-card-summary mt-2 line-clamp-2 text-sm font-medium leading-snug sm:text-base";
+    summary.style.color = "#FFFFFF";
+    summary.style.textShadow = "0 1px 3px rgba(0, 0, 0, 0.8)";
     summary.textContent = ingredient.shortDescription || "";
     const readMore = document.createElement("span");
     readMore.className = "ingredient-read-more mt-3 inline-flex rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wide";
