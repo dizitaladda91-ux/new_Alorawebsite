@@ -182,6 +182,14 @@ a[class*="px-"][class*="py-"][class*="rounded"]:focus-visible {
   outline-offset: 3px;
 }
 
+#search-open-btn,
+#search-open-btn:hover,
+#search-open-btn:active {
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+}
+
 /* Form Inputs, Selects & Textareas */
 input, select, textarea {
   font-family: var(--font-body);
