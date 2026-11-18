@@ -1303,6 +1303,12 @@
 
             <!-- Product Slider Container Wrapper (Touch Swipe & Mouse Drag Enabled) -->
             <div class="relative group/featured-slider">
+                <button type="button" onclick="slideProducts('left')" class="absolute left-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-stone-200 bg-white/95 text-[#3B2418] shadow-md transition hover:bg-[#8EC5FF] focus:outline-none focus:ring-2 focus:ring-[#205D96] sm:left-3" aria-label="Previous products" aria-controls="productSliderContainer">
+                    <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                </button>
+                <button type="button" onclick="slideProducts('right')" class="absolute right-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-stone-200 bg-white/95 text-[#3B2418] shadow-md transition hover:bg-[#8EC5FF] focus:outline-none focus:ring-2 focus:ring-[#205D96] sm:right-3" aria-label="Next products" aria-controls="productSliderContainer">
+                    <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                </button>
                 <!-- Product Slider Container -->
                 <div id="productSliderContainer" class="overflow-x-auto w-full py-3 sm:py-4 scroll-smooth snap-x snap-mandatory no-scrollbar cursor-grab active:cursor-grabbing select-none">
                     <div id="productSliderWrapper" class="flex items-stretch gap-4 sm:gap-6">
@@ -2029,10 +2035,10 @@
         #reviews .reviews-summary-rating { font-size:26px; font-weight:600; line-height:1; }
         #reviews .reviews-summary-stars { display:inline-flex; }
         #reviews .reviews-summary-count { color:#81786F; font-size:13px; }
-        #reviews .review-stars { position:relative; display:inline-flex; flex:none; width:max-content; line-height:0; }
-        #reviews .review-stars-row { display:flex; gap:1px; }
+        #reviews .review-stars { position:relative; display:inline-grid; flex:none; width:99px; height:19px; align-items:center; line-height:0; vertical-align:middle; }
+        #reviews .review-stars-row { display:grid; grid-template-columns:repeat(5,19px); column-gap:1px; width:99px; height:19px; align-items:center; }
         #reviews .review-stars-row svg { display:block; width:19px; height:19px; }
-        #reviews .review-stars-filled { position:absolute; top:0; left:0; overflow:hidden; white-space:nowrap; }
+        #reviews .review-stars-filled { position:absolute; top:0; left:0; z-index:1; height:19px; overflow:hidden; white-space:nowrap; }
         #reviews .reviews-carousel { display:flex; gap:16px; overflow-x:auto; padding:0 2px 8px; scroll-padding-inline:2px; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
         #reviews .reviews-carousel::-webkit-scrollbar { display:none; }
         #reviews .review-card { display:flex; flex:0 0 84%; flex-direction:column; gap:14px; min-width:0; padding:20px; border:1px solid #EFE6DA; border-radius:16px; background:#fff; box-shadow:0 4px 16px rgba(59, 36, 24,.045); scroll-snap-align:start; }

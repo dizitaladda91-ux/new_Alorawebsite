@@ -12,7 +12,12 @@ const slugify = value => String(value || "")
 function createIngredientCard(ingredient) {
     const slug = ingredient.slug || slugify(ingredient.name);
     const card = document.createElement("article");
-    card.className = "group relative overflow-hidden rounded-2xl bg-[#E8DEC8]";
+    card.className = "relative";
+
+    const cardLink = document.createElement("a");
+    cardLink.href = `/ingredients/${encodeURIComponent(slug)}`;
+    cardLink.className = "group relative block h-full w-full overflow-hidden rounded-2xl bg-[#E8DEC8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+    cardLink.setAttribute("aria-label", `Read more about ${ingredient.name || "this ingredient"}`);
 
     const image = document.createElement("img");
     image.src = getImageUrl(ingredient.imageUrl, "/static/placeholder.png");
@@ -39,16 +44,15 @@ function createIngredientCard(ingredient) {
     summary.style.color = "#F5EDE3";
     summary.style.textShadow = "0 1px 3px rgba(0, 0, 0, 0.45)";
     summary.textContent = ingredient.shortDescription || "";
-    const link = document.createElement("a");
-    link.href = `/ingredients/${encodeURIComponent(slug)}`;
-    link.className = "ingredient-read-more mt-3 inline-flex rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wide focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
-    link.style.backgroundColor = "#E8A33D";
-    link.style.color = "#2B1E16";
-    link.textContent = "Read More";
-    link.setAttribute("aria-label", `Read more about ${ingredient.name || "this ingredient"}`);
+    const readMore = document.createElement("span");
+    readMore.className = "ingredient-read-more mt-3 inline-flex rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wide";
+    readMore.style.backgroundColor = "#E8A33D";
+    readMore.style.color = "#2B1E16";
+    readMore.textContent = "Read More";
 
-    content.append(title, summary, link);
-    card.append(image, overlay, content);
+    content.append(title, summary, readMore);
+    cardLink.append(image, overlay, content);
+    card.append(cardLink);
     return card;
 }
 

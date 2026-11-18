@@ -133,7 +133,7 @@ test("ingredient SSR includes the editable guide content and its sections", () =
   assert.match(html, /Walnut-derived ingredients are used in some rinse-off exfoliating products/);
   assert.match(html, /What does walnut mean in skincare\?/);
   assert.match(html, /Walnut shell powder is used in some rinse-off formulas/);
-  assert.match(html, /href="#ingredient-section-2"/);
+  assert.match(html, /href="\/ingredients\/walnut#ingredient-section-2"/);
   assert.match(html, /Related skincare blogs/);
   assert.match(html, /href="\/blog\/walnut-scrubs-gentle-exfoliation"/);
   assert.match(html, /What to know about walnut in skincare/);

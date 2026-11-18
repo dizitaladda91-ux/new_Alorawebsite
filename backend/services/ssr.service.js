@@ -251,6 +251,7 @@ export const renderIngredientSsr = (templateHtml, ingredient) => {
     const title = escapeHtml(ingredient.seoTitle || `${name} in Skincare | Alora Radiance`);
     const description = escapeHtml(ingredient.seoDescription || ingredient.shortDescription || `Learn about ${name} and how it is used in skincare.`);
     const canonicalUrl = getIngredientSlugUrl(ingredient);
+    const ingredientPath = new URL(canonicalUrl).pathname;
     const imageUrl = formatImageUrl(ingredient.imageUrl);
     const paragraphs = (value) => String(value || "")
         .split(/\n{2,}/)
@@ -260,7 +261,7 @@ export const renderIngredientSsr = (templateHtml, ingredient) => {
         .join("");
     const pageSections = Array.isArray(ingredient.pageSections) ? ingredient.pageSections : [];
     const tocHtml = pageSections.map((section, index) =>
-        `<a href="#ingredient-section-${index + 1}" class="block border-l-2 border-[#E8DCCB] py-2 pl-4 text-sm text-[#4E443B] hover:border-[#8B5C2A] hover:text-[#8B5C2A]">${escapeHtml(section.heading)}</a>`
+        `<a href="${escapeHtml(ingredientPath)}#ingredient-section-${index + 1}" class="block border-l-2 border-[#E8DCCB] py-2 pl-4 text-sm text-[#4E443B] hover:border-[#8B5C2A] hover:text-[#8B5C2A]">${escapeHtml(section.heading)}</a>`
     ).join("");
     const sectionsHtml = pageSections.map((section, index) => `
         <section id="ingredient-section-${index + 1}" class="scroll-mt-24 border-b border-[#E8DCCB] py-8 sm:py-10">
