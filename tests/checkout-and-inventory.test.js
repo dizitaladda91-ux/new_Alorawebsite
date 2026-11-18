@@ -22,8 +22,8 @@ test("checkout totals are calculated on the server with delivery rules", () => {
 
 test("coupon codes are normalised, deduplicated, and validated", () => {
   assert.deepEqual(
-    getRequestedCouponCodes({ couponCodes: [" glow10 ", "GLOW10"], referral: { code: "ref-123" } }),
-    ["GLOW10", "REF-123"]
+    getRequestedCouponCodes({ couponCodes: [" winter20 ", "WINTER20"], referral: { code: "ref-123" } }),
+    ["WINTER20", "REF-123"]
   );
   assert.throws(() => getRequestedCouponCodes({ couponCode: "not valid!" }), /invalid/);
 });

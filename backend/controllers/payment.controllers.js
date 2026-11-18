@@ -375,7 +375,7 @@ export const createOrder = async (req, res) => {
         const candidateCodes = getRequestedCouponCodes(req.body);
 
         for (const candidateCode of candidateCodes) {
-            if (["RAKHI30", "RAKHI", "FESTIVE30", "RAKHI30OFF", "TEST134", "DIWALI", "FESTIVE20", "DIWALI20OFF"].includes(candidateCode)) {
+            if (["RAKHI30", "RAKHI", "FESTIVE30", "RAKHI30OFF", "TEST134", "DIWALI", "FESTIVE20", "DIWALI20OFF", "DIWALI20", "GLOW10"].includes(candidateCode)) {
                 throw new Error(`Coupon '${candidateCode}' is no longer available.`);
             }
 
@@ -399,14 +399,8 @@ export const createOrder = async (req, res) => {
                 }
             }
 
-            if (candidateCode === "DIWALI20") {
+            if (candidateCode === "WINTER20") {
                 discountPercent += 20;
-                appliedCoupons.push(candidateCode);
-                continue;
-            }
-
-            if (candidateCode === "GLOW10") {
-                discountPercent += 10;
                 appliedCoupons.push(candidateCode);
                 continue;
             }

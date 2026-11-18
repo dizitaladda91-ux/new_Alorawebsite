@@ -64,12 +64,12 @@ window.closeLeadModal = function() {
         modal.classList.add('hidden');
         modal.style.display = 'none';
     }
-    sessionStorage.setItem('diwaliPopupSeen', 'true');
+    sessionStorage.setItem('winterPopupSeen', 'true');
     pendingCartAction = null;
 };
 
-window.copyDiwaliCoupon = function() {
-    const code = "DIWALI20";
+window.copyWinterCoupon = function() {
+    const code = "WINTER20";
     navigator.clipboard.writeText(code).then(() => {
         const btn = document.getElementById('copyCouponBtn');
         if (btn) {
@@ -174,7 +174,7 @@ window.handleLeadSubmit = async function(event) {
             body: JSON.stringify({
                 name,
                 email,
-                source: "Diwali 20% OFF Popup"
+                source: "Winter 20% OFF Popup"
             })
         });
 
@@ -182,8 +182,8 @@ window.handleLeadSubmit = async function(event) {
 
         if (response.ok && data.success) {
             localStorage.setItem('leadFilled', 'true');
-            localStorage.setItem('diwaliCoupon', 'DIWALI20');
-            sessionStorage.setItem('diwaliPopupSeen', 'true');
+            localStorage.setItem('winterCoupon', 'WINTER20');
+            sessionStorage.setItem('winterPopupSeen', 'true');
 
             // Switch to Celebratory Coupon Code Screen
             const formContainer = document.getElementById('leadFormContainer');

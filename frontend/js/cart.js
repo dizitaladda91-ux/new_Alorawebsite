@@ -11,7 +11,7 @@ try {
     if (Array.isArray(storedCoupons)) {
         appliedCoupons = storedCoupons.filter((coupon) => {
             const code = String(coupon?.code || "").toUpperCase();
-            const validCode = code === "GLOW10" || code === "DIWALI20" || code === "ALORA15" || coupon?.source === "referral";
+            const validCode = code === "WINTER20" || code === "ALORA15" || coupon?.source === "referral";
             return validCode && /^[A-Z0-9_-]{5,64}$/.test(code) && Number(coupon.rate) > 0;
         });
         sessionStorage.setItem(APPLIED_COUPONS_KEY, JSON.stringify(appliedCoupons));
@@ -440,26 +440,15 @@ async function applyCoupon() {
         recalculateBill();
         return;
     }
-    if (["RAKHI30", "RAKHI", "FESTIVE30", "RAKHI30OFF", "TEST134", "DIWALI", "FESTIVE20", "DIWALI20OFF"].includes(typedCode)) {
+    if (["RAKHI30", "RAKHI", "FESTIVE30", "RAKHI30OFF", "TEST134", "DIWALI", "FESTIVE20", "DIWALI20OFF", "DIWALI20", "GLOW10"].includes(typedCode)) {
         couponMessage.innerText = "This coupon is no longer available.";
         couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
         recalculateBill();
         return;
     }
-    if (typedCode === "DIWALI20") {
+    if (typedCode === "WINTER20") {
         if (addAppliedCoupon(typedCode, 20)) {
-            couponMessage.innerText = `🪔 Shubh Diwali Special Coupon '${typedCode}' applied successfully! (20% Off)`;
-            couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
-            couponInput.value = "";
-        } else {
-            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
-            couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
-        }
-        return;
-    }
-    if (typedCode === "GLOW10") {
-        if (addAppliedCoupon(typedCode, 10)) {
-            couponMessage.innerText = "Coupon 'GLOW10' applied successfully! (10% Off)";
+            couponMessage.innerText = `❄️ Winter Special Coupon '${typedCode}' applied successfully! (20% Off)`;
             couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
             couponInput.value = "";
         } else {
@@ -547,7 +536,7 @@ async function applyCoupon() {
             couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
         }
     } catch (err) {
-        couponMessage.innerText = "Could not validate code. Try 'GLOW10'.";
+        couponMessage.innerText = "Could not validate code. Try 'WINTER20'.";
         couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
     }
     recalculateBill();

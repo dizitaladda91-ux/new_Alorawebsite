@@ -65,8 +65,8 @@ export const trackReferralClick = async (req, res) => {
       }
     }
 
-    if (code === "GLOW10") {
-      return res.status(200).json({ success: true, referralCode: "GLOW10", clickId: null, discountPercent: 10 });
+    if (["GLOW10", "DIWALI20"].includes(code)) {
+      return res.status(400).json({ success: false, message: `Coupon '${code}' is no longer available.` });
     }
 
     const click = await createAffiliateClick({ referralCode: code });
