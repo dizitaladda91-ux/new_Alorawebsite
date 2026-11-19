@@ -218,13 +218,6 @@ async function loadAllPartials() {
         }
 
         await loadPartial("#footer-placeholder", footerUrl);
-        await loadPartial("#chatbot-placeholder", chatbotUrl);
-        if (!document.getElementById("alora-chatbot-js")) {
-            const script = document.createElement("script");
-            script.id = "alora-chatbot-js";
-            script.src = chatbotJsUrl;
-            document.body.appendChild(script);
-        }
 
         if (!isAdminOrAuth && !document.getElementById("alora-lead-script")) {
             const isFile = location.protocol === "file:";

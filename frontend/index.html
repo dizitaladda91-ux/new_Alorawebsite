@@ -304,12 +304,12 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="dns-prefetch" href="https://res.cloudinary.com">
 
-    <link rel="preload" as="image" href="./static/alorafull.webp" media="(min-width: 768px)" type="image/webp" fetchpriority="high">
-    <link rel="preload" as="image" href="./static/hero_banner_allproducts_mob_2x.webp" media="(max-width: 767px)" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="./static/hero_banner_allproducts_desk_hd.webp" media="(min-width: 768px)" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="./static/hero_banner_allproducts_mob_hd.webp" media="(max-width: 767px)" type="image/webp" fetchpriority="high">
 
     <noscript></noscript>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
 
     <link rel="stylesheet" href="./styles/tailwind.min.css">
@@ -1074,7 +1074,7 @@
         })();
     </script>
 <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4SESNT1QEZ"></script>
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-4SESNT1QEZ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -1083,11 +1083,15 @@
       gtag('config', 'G-4SESNT1QEZ');
     </script>
 <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "z5aoauqqip");
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "z5aoauqqip");
+        }, 3000);
+    }, { once: true });
 </script>
     <link rel="stylesheet" href="./styles/typography.css">
 </head>
@@ -1248,21 +1252,11 @@
 
     <!-- 1st Slide: All Products -->
     <a href="/products" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#F2EBDA]">
-        <img src="./static/alorafull.webp" alt="Alora Radiance skincare collection banner" width="14996" height="4690" fetchpriority="high" loading="eager" decoding="async" class="hero-desk-img">
-        <div class="hero-desktop-copy">
-            <h1>Reveal Your Natural Radiance</h1>
-            <p>Cleanse. Exfoliate. Hydrate. Radiate.</p>
-        </div>
-        <img src="./static/hero_banner_allproducts_mob_2x.webp" alt="Alora Radiance Complete Skincare Collection Mobile" width="2458" height="3072" fetchpriority="high" loading="eager" decoding="async" class="hero-mob-img">
+        <img src="./static/hero_banner_allproducts_mob_hd.webp" alt="Alora Radiance Complete Skincare Collection Mobile" width="2458" height="3072" fetchpriority="high" loading="eager" decoding="async" class="hero-mob-img">
     </a>
 
     <!-- 2nd Slide: Face Wash -->
     <a href="/product/purifying-glow-face-wash" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#F2EBDA]">
-        <img src="./static/facewash.webp" alt="Purifying Glow Face Wash Banner Desktop" width="2560" height="800" fetchpriority="low" loading="lazy" decoding="async" class="hero-desk-img">
-        <div class="hero-desktop-copy">
-            <h1>Purifying Glow Face Wash</h1>
-            <p>Gentle cleansing with Mulberry, Niacinamide &amp; Hyaluronic Acid for a radiant glow.</p>
-        </div>
         <img src="./static/hero_banner_facewash_mob_2x.webp" alt="Purifying Glow Face Wash Banner Mobile" width="2458" height="3072" fetchpriority="low" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
@@ -1274,26 +1268,14 @@
  
     <!-- 4th Slide: Face Cream & Sunscreen -->
     <a href="/product/face-cream-sunscreen-spf-30" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#F2EBDA]">
-        <img src="./static/CREAM.webp" alt="Mulberry Face Cream SPF 30++ Banner Desktop" width="2560" height="800" loading="lazy" decoding="async" class="hero-desk-img">
-        <div class="hero-desktop-copy hero-desktop-copy-right">
-            <h1>Mulberry-powered care with SPF 30++ for soft, radiant-looking skin.</h1>
-        </div>
         <img src="./static/hero_banner_facecream_mob_2x.webp" alt="Mulberry Face Cream &amp; Sunscreen SPF 30++ Banner Mobile" width="2458" height="3072" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
   <!-- 5th slide:face serum -->
    <a href="/product/face-serum" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#F2EBDA]">
-        <img src="./static/serum final.webp" alt="Face Serum Banner Desktop" width="2560" height="800" loading="lazy" decoding="async" class="hero-desk-img">
-        <div class="hero-desktop-copy hero-desktop-copy-left">
-            <h1>Brighten &amp; Hydrate Skin with Mulberry, Niacinamide &amp; Hyaluronic Acid</h1>
-        </div>
         <img src="./static/hero_banner_faceserum_mob_2x.webp" alt="Face Serum Banner Mobile" width="2458" height="3072" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
     <!-- 6th Slide: Walnut Scrub -->
     <a href="/product/gentle-exfoliating-walnut-scrub" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#F2EBDA]">
-        <img src="./static/SCRUB BANNER.webp" alt="Walnut Face Scrub Banner Desktop" width="2560" height="800" loading="lazy" decoding="async" class="hero-desk-img">
-        <div class="hero-desktop-copy hero-desktop-copy-right">
-            <h1>Gentle Exfoliation for Fresh, Radiant Skin</h1>
-        </div>
         <img src="./static/hero_banner_scrub_mob_2x.webp" alt="Gentle Exfoliating Walnut Scrub Banner Mobile" width="2458" height="3072" loading="lazy" decoding="async" class="hero-mob-img">
     </a>
 
