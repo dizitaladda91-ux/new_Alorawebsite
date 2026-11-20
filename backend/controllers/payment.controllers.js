@@ -23,6 +23,23 @@ if (!process.env.RAZORPAY_WEBHOOK_SECRET) {
 
 const roundCurrency = (amount) => Number(Number(amount).toFixed(2));
 
+export const buildCouponUsageQuery = (customerEmail, candidateCode, userId = null) => {
+    const validUserId = userId && /^[0-9a-fA-F]{24}$/.test(userId);
+    const escapedEmail = String(customerEmail || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return {
+        $and: [
+            { $or: [
+                { "customer.email": { $regex: new RegExp(`^${escapedEmail}$`, "i") } },
+                ...(validUserId ? [{ userId }] : [])
+            ] },
+            { $or: [
+                { appliedCoupons: candidateCode },
+                { "referral.code": candidateCode }
+            ] }
+        ]
+    };
+};
+
 export const calculateCheckoutTotals = ({ subtotal, discountPercent, flatDiscount = 0, founderHandDelivery }) => {
     const percentDiscount = roundCurrency(subtotal * discountPercent / 100);
     const totalDiscount = Math.min(subtotal, roundCurrency(percentDiscount + flatDiscount));
@@ -391,20 +408,7 @@ export const createOrder = async (req, res) => {
 
             // Strict Single-Use Per Account/Email Check
             if (customerEmail) {
-                const validUserId = req.user?.id && /^[0-9a-fA-F]{24}$/.test(req.user.id);
-                const escapedEmail = customerEmail.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-                const usedOrder = await Order.findOne({
-                    $and: [
-                        { $or: [
-                            { "customer.email": { $regex: new RegExp(`^${escapedEmail}$`, "i") } },
-                            ...(validUserId ? [{ userId: req.user.id }] : [])
-                        ] },
-                        { $or: [
-                            { appliedCoupons: candidateCode },
-                            { "referral.code": candidateCode }
-                        ] }
-                    ]
-                }).lean();
+                const usedOrder = await Order.findOne(buildCouponUsageQuery(customerEmail, candidateCode, req.user?.id)).lean();
 
                 if (usedOrder) {
                     skippedCoupons.push(candidateCode);
@@ -497,6 +501,7 @@ export const createOrder = async (req, res) => {
             deliveryCharge,
             founderDeliveryCharge,
             appliedCoupons,
+            skippedCoupons,
             customerEmail
         });
     } catch (error) {

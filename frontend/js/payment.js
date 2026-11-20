@@ -17,6 +17,11 @@ function getSafeCart() {
 function clearAllCart() {
     localStorage.removeItem("glowCart");
     localStorage.removeItem("glowRitualCartData");
+    sessionStorage.removeItem("aloraAppliedCoupons");
+    sessionStorage.removeItem("aloraReferral");
+    if (typeof window.clearAppliedCoupons === "function") {
+        window.clearAppliedCoupons();
+    }
     if (typeof window.updateHeaderCartCount === "function") {
         window.updateHeaderCartCount();
     }
@@ -35,7 +40,7 @@ async function registerAndAuthenticate({ name, email, phone, address, password }
     if (!registerResponse.ok) {
         throw new Error(registerData.message || "Account could not be created.");
     }
-    signedInCustomer = true;
+    // Unverified user has no active session; keep signedInCustomer = false until session confirmed
     return registerData.user;
 }
 function fillSignedInCustomer(user) {
@@ -137,10 +142,21 @@ button?.addEventListener("click", async (e) => {
     }
     try {
         button.disabled = true;
-        if (!signedInCustomer) {
+        if (!signedInCustomer && password) {
             button.innerHTML = 'Creating account... <i class="fa-solid fa-spinner fa-spin text-xs"></i>';
-            const registeredUser = await registerAndAuthenticate({ name, email, phone, address, password });
-            fillSignedInCustomer(registeredUser || { name, email, phone, address });
+            try {
+                const registeredUser = await registerAndAuthenticate({ name, email, phone, address, password });
+                fillSignedInCustomer(registeredUser || { name, email, phone, address });
+                signedInCustomer = false; // Keep false until session is verified
+            } catch (regErr) {
+                if (/already exists|already registered/i.test(regErr.message)) {
+                    window.showToast('Is email se account hai, pehle login karein: <a href="/login.html" class="underline font-bold text-amber-900 ml-1">Login Here</a>', "warning", 8000);
+                    button.disabled = false;
+                    button.innerHTML = 'Pay Now <i class="fa-solid fa-arrow-right text-xs"></i>';
+                    return;
+                }
+                console.warn("Registration during checkout failed, proceeding with guest checkout:", regErr.message);
+            }
         }
         await saveMissingDeliveryAddress(address);
         let referral = null;
@@ -192,6 +208,11 @@ button?.addEventListener("click", async (e) => {
             window.showToast(orderData.error || "Order could not be created. Please try again.", "error");
             return;
         }
+        if (Array.isArray(orderData.skippedCoupons) && orderData.skippedCoupons.length > 0) {
+            orderData.skippedCoupons.forEach((code) => {
+                window.showToast(`Coupon '${code}' apply nahi hua.`, "warning", 5000);
+            });
+        }
         if (Number(orderData.affiliateDiscount) > 0) {
             window.showToast(`Referral discount applied: ₹${Number(orderData.affiliateDiscount).toFixed(2)}`, "success");
         }
@@ -210,6 +231,7 @@ button?.addEventListener("click", async (e) => {
             },
             "handler": async function (response) {
                 console.log("Razorpay Response:", response);
+                const delaySupportMsg = `Aapka payment capture ho chuka hai. Order confirmation me delay ho sakta hai. Payment ID: ${response.razorpay_payment_id} ke saath support se contact karein.`;
                 try {
                     const verifyResponse = await fetch(`${BASE_URL}/api/payments/verify-payment`, {
                         method: "POST",
@@ -227,11 +249,11 @@ button?.addEventListener("click", async (e) => {
                         clearAllCart();
                         showPaymentSuccessPopup(verificationResult.orderData);
                     } else {
-                        window.showToast("Payment verification failed. Please contact support with your payment details.", "error", 8000);
+                        window.showToast(delaySupportMsg, "error", 12000);
                     }
                 } catch (error) {
                     console.error("Verification Error:", error);
-                    window.showToast("Could not reach the server to verify your payment. Please check your internet connection.", "error", 8000);
+                    window.showToast(delaySupportMsg, "error", 12000);
                 }
             },
             "prefill": {

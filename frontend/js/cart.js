@@ -4,7 +4,7 @@ const FREE_SHIPPING_LIMIT = 499;
 const DELIVERY_FEE = 40;
 const FOUNDER_DELIVERY_CHARGE = 5000; 
 const APPLIED_COUPONS_KEY = "aloraAppliedCoupons";
-const MAX_STACKED_COUPONS = 3;
+const MAX_STACKED_COUPONS = 4;
 let appliedCoupons = [];
 try {
     const storedCoupons = JSON.parse(sessionStorage.getItem(APPLIED_COUPONS_KEY) || "[]");
@@ -19,6 +19,14 @@ try {
 } catch (error) {
     console.warn("Applied coupons could not be restored.", error);
 }
+function clearAppliedCoupons() {
+    appliedCoupons = [];
+    sessionStorage.removeItem(APPLIED_COUPONS_KEY);
+    sessionStorage.removeItem("aloraReferral");
+    renderAppliedCoupons();
+    recalculateBill();
+}
+window.clearAppliedCoupons = clearAppliedCoupons;
 function persistAppliedCoupons() {
     sessionStorage.setItem(APPLIED_COUPONS_KEY, JSON.stringify(appliedCoupons));
 }
@@ -391,12 +399,13 @@ function recalculateBill() {
             couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
         }
     }
+    const roundCurrency = (amount) => Number(Number(amount).toFixed(2));
     const flatDiscountTotal = appliedCoupons.filter(c => c.isFlat).reduce((sum, c) => sum + (Number(c.rate) || 0), 0);
     const totalDiscountRate = Math.min(50, appliedCoupons.filter(c => !c.isFlat).reduce((sum, coupon) => sum + (Number(coupon.rate) || 0), 0));
-    const percentDiscount = Math.round(subtotal * totalDiscountRate / 100);
-    const discount = Math.min(subtotal, percentDiscount + flatDiscountTotal);
+    const percentDiscount = roundCurrency(subtotal * totalDiscountRate / 100);
+    const discount = Math.min(subtotal, roundCurrency(percentDiscount + flatDiscountTotal));
     if (discount > 0 && subtotal > 0) {
-        if (billDiscountEl) billDiscountEl.innerText = `${discount}`;
+        if (billDiscountEl) billDiscountEl.innerText = `${discount % 1 === 0 ? discount : discount.toFixed(2)}`;
         if (appliedCouponName) appliedCouponName.innerText = appliedCoupons.map((coupon) => coupon.code).join(" + ");
         if (discountRow) discountRow.classList.remove("hidden");
     } else {
@@ -420,8 +429,8 @@ function recalculateBill() {
     if (founderCheckbox && founderCheckbox.checked && subtotal > 0) {
         extraFounderCharge = FOUNDER_DELIVERY_CHARGE;
     }
-    const netFinalTotal = Math.max(0, subtotal - discount + deliveryFee + extraFounderCharge);
-    if (billTotalEl) billTotalEl.innerText = `₹${netFinalTotal}`;
+    const netFinalTotal = roundCurrency(Math.max(0, subtotal - discount + deliveryFee + extraFounderCharge));
+    if (billTotalEl) billTotalEl.innerText = `₹${netFinalTotal % 1 === 0 ? netFinalTotal : netFinalTotal.toFixed(2)}`;
 }
 function autoFillCoupon(code) {
     const couponInput = document.getElementById("coupon-input");
@@ -452,7 +461,7 @@ async function applyCoupon() {
             couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
             couponInput.value = "";
         } else {
-            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
+            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : `You can apply up to ${MAX_STACKED_COUPONS} coupons.`;
             couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
         }
         return;
@@ -469,7 +478,7 @@ async function applyCoupon() {
             couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
             couponInput.value = "";
         } else {
-            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
+            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : `You can apply up to ${MAX_STACKED_COUPONS} coupons.`;
             couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
         }
         return;
@@ -480,7 +489,7 @@ async function applyCoupon() {
             couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
             couponInput.value = "";
         } else {
-            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
+            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : `You can apply up to ${MAX_STACKED_COUPONS} coupons.`;
             couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
         }
         return;
@@ -494,7 +503,7 @@ async function applyCoupon() {
             couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
             couponInput.value = "";
         } else {
-            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
+            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : `You can apply up to ${MAX_STACKED_COUPONS} coupons.`;
             couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
         }
         return;
@@ -539,7 +548,7 @@ async function applyCoupon() {
                     window.showReferralBanner(typedCode, discountPercent);
                 }
             } else {
-                couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
+                couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : `You can apply up to ${MAX_STACKED_COUPONS} coupons.`;
                 couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
             }
         } else {

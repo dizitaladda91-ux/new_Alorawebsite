@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  buildCouponUsageQuery,
   calculateCheckoutTotals,
   findCheckoutVariant,
   getRequestedCouponCodes,
@@ -8,6 +9,31 @@ import {
   normalizeCheckoutItems
 } from "../backend/controllers/payment.controllers.js";
 import { inventoryTrackingEnabled } from "../backend/config/inventory.js";
+
+test("coupon usage query isolates coupons per customer email and does not block other users", () => {
+  const queryAlice = buildCouponUsageQuery("alice@example.com", "WINTER20");
+  const queryBob = buildCouponUsageQuery("bob@example.com", "WINTER20");
+
+  assert.ok(queryAlice.$and, "Query must use $and to avoid overwriting $or keys");
+  assert.equal(queryAlice.$and.length, 2);
+
+  // Check that Alice's query matches Alice (case-insensitive) but not Bob
+  const aliceEmailRegex = queryAlice.$and[0].$or[0]["customer.email"].$regex;
+  assert.ok(aliceEmailRegex.test("alice@example.com"));
+  assert.ok(aliceEmailRegex.test("ALICE@EXAMPLE.COM"));
+  assert.equal(aliceEmailRegex.test("bob@example.com"), false);
+
+  // Check that Bob's query matches Bob, not Alice
+  const bobEmailRegex = queryBob.$and[0].$or[0]["customer.email"].$regex;
+  assert.ok(bobEmailRegex.test("bob@example.com"));
+  assert.equal(bobEmailRegex.test("alice@example.com"), false);
+
+  // Check coupon candidates
+  assert.deepEqual(queryAlice.$and[1].$or, [
+    { appliedCoupons: "WINTER20" },
+    { "referral.code": "WINTER20" }
+  ]);
+});
 
 test("checkout totals are calculated on the server with delivery rules", () => {
   assert.deepEqual(

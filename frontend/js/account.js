@@ -244,7 +244,7 @@ function renderFilteredOrders() {
                         </div>
                         <div class="text-right shrink-0">
                             <span class="font-bold text-slate-900 text-sm">${money(item.lineTotal || (item.price * (item.quantity || 1)))}</span>
-                            <button type="button" onclick="quickReorder('${escapeHtml(item.name)}', '${escapeHtml(item.variant || 'Standard')}', ${item.price || 0})" class="block text-[11px] text-[#3B2418] font-bold hover:underline mt-0.5">
+                            <button type="button" onclick="quickReorder('${escapeHtml(item.productId || item._id || '')}', '${escapeHtml(item.name)}', '${escapeHtml(item.variant || 'Standard')}', ${item.price || 0})" class="block text-[11px] text-[#3B2418] font-bold hover:underline mt-0.5">
                                 Re-order <i class="fa-solid fa-arrow-right text-[9px]"></i>
                             </button>
                         </div>
@@ -267,10 +267,12 @@ function renderFilteredOrders() {
     }).join("");
 }
 
-export function quickReorder(name, size, price) {
+export function quickReorder(productId, name, size, price) {
     if (typeof window.addToCart === "function") {
+        const pId = productId || name;
         window.addToCart({
-            id: `${name}__${size}`,
+            id: `${pId}__${size}`,
+            productId: productId || undefined,
             name: name,
             size: size,
             price: price,
@@ -479,7 +481,7 @@ async function loadBuyAgainItems() {
                     </div>
                 </div>
                 <div class="mt-4 pt-2">
-                    <button type="button" onclick="buyAgainAddToCart(this, '${escapeHtml(p.name)}', '${escapeHtml(p.preferredVariant || 'Standard')}', ${initialPrice}, '${img}')" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
+                    <button type="button" onclick="buyAgainAddToCart(this, '${p._id || p.id || p.productId || ''}', '${escapeHtml(p.name)}', '${escapeHtml(p.preferredVariant || (p.variants && p.variants[0]?.volume) || 'Standard')}', ${initialPrice}, '${img}')" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
                         <i class="fa-solid fa-cart-shopping text-xs"></i> Add to Cart
                     </button>
                 </div>
@@ -490,10 +492,12 @@ async function loadBuyAgainItems() {
     }
 }
 
-export function buyAgainAddToCart(btnEl, name, size, price, img) {
+export function buyAgainAddToCart(btnEl, productId, name, size, price, img) {
     if (typeof window.addToCart === "function") {
+        const pId = productId || name;
         window.addToCart({
-            id: `${name}__${size}`,
+            id: `${pId}__${size}`,
+            productId: productId || undefined,
             name,
             size,
             price,
@@ -508,6 +512,8 @@ export function buyAgainAddToCart(btnEl, name, size, price, img) {
             btnEl.classList.remove("bg-emerald-600");
         }, 1200);
         showToast(`'${name}' added to cart!`, "success");
+    } else {
+        showToast("Cart functionality unavailable.", "error");
     }
 }
 window.buyAgainAddToCart = buyAgainAddToCart;
@@ -575,6 +581,7 @@ async function loadWishlistTab() {
             const isObj = typeof item === "object" && item !== null;
             const id = isObj ? (item._id || item.id) : item;
             const name = isObj ? (item.name || "Skincare Product") : "Alora Product";
+            const defaultVariant = (isObj && Array.isArray(item.variants) && item.variants[0]?.volume) ? item.variants[0].volume : "Standard";
             const price = isObj ? (item.price || (item.variants && item.variants[0]?.price) || 149) : 149;
             const rawImg = isObj ? (item.imagepath || item.imageUrl || item.image || "/static/placeholder.png") : "/static/placeholder.png";
             const img = getImageUrl(rawImg, "/static/placeholder.png");
@@ -595,7 +602,7 @@ async function loadWishlistTab() {
                     <p class="font-sans font-semibold text-[#3B2418] text-base mt-1.5">${money(price)}</p>
                 </div>
                 <div class="mt-4 pt-2">
-                    <button type="button" onclick="moveWishlistToCart('${id}', '${escapeHtml(name)}', ${price}, '${img}', this)" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
+                    <button type="button" onclick="moveWishlistToCart('${id}', '${escapeHtml(name)}', ${price}, '${img}', '${escapeHtml(defaultVariant)}', this)" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
                         <i class="fa-solid fa-cart-shopping text-xs"></i> Move to Cart
                     </button>
                 </div>
@@ -613,20 +620,28 @@ export async function removeFromWishlistTab(productId, btnEl) {
 }
 window.removeFromWishlistTab = removeFromWishlistTab;
 
-export async function moveWishlistToCart(productId, name, price, img, btnEl) {
-    if (typeof window.addToCart === "function") {
+export async function moveWishlistToCart(productId, name, price, img, variant = "Standard", btnEl) {
+    if (typeof window.addToCart !== "function") {
+        showToast("Cart functionality unavailable. Please refresh the page.", "error");
+        return;
+    }
+    try {
         window.addToCart({
-            id: `${productId}__Standard`,
+            id: `${productId}__${variant}`,
+            productId,
             name,
-            size: "Standard",
+            size: variant,
             price,
             img,
             qty: 1
         });
+        await toggleProductWishlist(productId);
+        loadWishlistTab();
+        showToast(`'${name}' moved to cart!`, "success");
+    } catch (err) {
+        console.error("Failed to move wishlist item to cart:", err);
+        showToast("Could not add item to cart. Please try again.", "error");
     }
-    await toggleProductWishlist(productId);
-    loadWishlistTab();
-    showToast(`'${name}' moved to cart!`, "success");
 }
 window.moveWishlistToCart = moveWishlistToCart;
 

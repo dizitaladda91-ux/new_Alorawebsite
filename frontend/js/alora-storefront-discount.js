@@ -94,39 +94,8 @@
   }
 
   function autoFillCouponFields() {
-    if (!activeRefCode) return;
-
-    const allInputs = document.querySelectorAll('input');
-    allInputs.forEach(input => {
-      if (input.type === 'hidden' || input.type === 'submit' || input.type === 'radio' || input.type === 'checkbox') return;
-
-      const ph = (input.placeholder || '').toLowerCase();
-      const name = (input.name || '').toLowerCase();
-      const id = (input.id || '').toLowerCase();
-      const cls = (input.className || '').toLowerCase();
-
-      const isCouponField = ph.includes('coupon') || ph.includes('promo') || ph.includes('code') ||
-                            name.includes('coupon') || name.includes('discount') || name.includes('promo') ||
-                            id.includes('coupon') || id.includes('discount') || cls.includes('coupon') || cls.includes('discount');
-
-      if (isCouponField) {
-        if (!input.value || input.dataset.aloraFilled !== activeRefCode) {
-          input.value = activeRefCode;
-          input.dataset.aloraFilled = activeRefCode;
-
-          input.dispatchEvent(new Event('input', { bubbles: true }));
-          input.dispatchEvent(new Event('change', { bubbles: true }));
-          input.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: 'Enter' }));
-
-          const parentContainer = input.parentElement || input.closest('form, div, section');
-          const applyBtn = parentContainer?.querySelector('button, input[type="submit"], .apply-btn, #apply-coupon, [class*="apply" i]');
-          if (applyBtn && !applyBtn.dataset.aloraClicked) {
-            applyBtn.dataset.aloraClicked = 'true';
-            setTimeout(() => applyBtn.click(), 300);
-          }
-        }
-      }
-    });
+    // Disabled: Server calculates true coupon and referral discounts at checkout
+    return;
   }
 
   const priceSelectors = [
@@ -158,35 +127,8 @@
   }
 
   function showDiscountedProductPrices() {
-    const candidates = Array.from(document.querySelectorAll(priceSelectors.join(', ')));
-    candidates
-      .filter((element) => !element.dataset.aloraPriceApplied)
-      .filter((element) => !element.closest('[data-alora-price-applied]'))
-      .filter((element) => !element.classList.contains('alora-original-price'))
-      .filter((element) => !element.classList.contains('alora-discounted-price'))
-      .filter((element) => !candidates.some((candidate) => candidate !== element && element.contains(candidate)))
-      .forEach((element) => {
-        const originalText = element.textContent.trim();
-        if (originalText.includes('OFF') || originalText.includes('line-through')) return;
-
-        const amount = parseSinglePrice(originalText);
-        if (!amount) return;
-
-        element.dataset.aloraOriginalPrice = originalText;
-        element.textContent = formatDiscountedPrice(originalText, amount);
-        element.style.color = '#c026d3';
-        element.style.fontWeight = '700';
-        element.dataset.aloraPriceApplied = 'true';
-
-        if (!element.nextElementSibling?.classList.contains('alora-discount-badge')) {
-          const badge = document.createElement('span');
-          badge.className = 'alora-discount-badge';
-          badge.textContent = `${discountPercent}% OFF`;
-          badge.setAttribute('aria-label', `${discountPercent} percent affiliate discount`);
-          badge.style.cssText = 'display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:#dcfce7;color:#166534;font:700 11px/1.35 system-ui,-apple-system,sans-serif;vertical-align:middle;white-space:nowrap;';
-          element.insertAdjacentElement('afterend', badge);
-        }
-      });
+    // Disabled: Do not rewrite product prices visually on storefront
+    return;
   }
 
   function propagateReferralToInternalLinks() {

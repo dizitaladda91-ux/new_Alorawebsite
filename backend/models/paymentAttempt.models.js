@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const PAYMENT_ATTEMPT_TTL_MS = 48 * 60 * 60 * 1000;
+const PAYMENT_ATTEMPT_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours TTL
 
 const paymentAttemptItemSchema = new mongoose.Schema({
   productId: { type: String, required: true },
