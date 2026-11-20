@@ -33,6 +33,17 @@ test("ALORA15 requires a subtotal strictly above ₹2,000", () => {
   assert.equal(isAlora15CouponEligible(2000.01), true);
 });
 
+test("ALORA398 applies a ₹398 flat discount", () => {
+  assert.deepEqual(
+    calculateCheckoutTotals({ subtotal: 600, discountPercent: 0, flatDiscount: 398, founderHandDelivery: false }),
+    { affiliateDiscount: 398, deliveryCharge: 0, founderDeliveryCharge: 0, totalAmount: 202 }
+  );
+  assert.equal(
+    calculateCheckoutTotals({ subtotal: 300, discountPercent: 0, flatDiscount: 398, founderHandDelivery: false }).affiliateDiscount,
+    300
+  );
+});
+
 test("checkout item normalisation rejects invalid quantities", () => {
   assert.deepEqual(
     normalizeCheckoutItems([

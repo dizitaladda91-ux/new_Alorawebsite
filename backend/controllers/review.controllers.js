@@ -72,6 +72,18 @@ export const getReviewsByProduct = async (req, res) => {
 
         const reviews = await Review.find({ productId: { $in: uniqueCandidates } }).sort({ createdAt: -1 });
 
+        if (reviews.length === 0) {
+            const sampleReviews = await getSampleReviews(uniqueCandidates);
+            if (sampleReviews.length > 0) {
+                return res.status(200).json({
+                    success: true,
+                    count: sampleReviews.length,
+                    data: sampleReviews,
+                    isSample: true
+                });
+            }
+        }
+
         res.status(200).json({ success: true, count: reviews.length, data: reviews });
     } catch (error) {
         console.error('Review fetch failed:', error);

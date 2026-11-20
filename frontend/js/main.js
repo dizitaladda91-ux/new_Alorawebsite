@@ -106,6 +106,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalSlides = slides.length;
     const prevButton = document.querySelector(".hero-slider-prev");
     const nextButton = document.querySelector(".hero-slider-next");
+    if (totalSlides <= 1) {
+        if (prevButton) prevButton.style.display = 'none';
+        if (nextButton) nextButton.style.display = 'none';
+        return;
+    }
     let currentIndex = 0;
     const updateSlider = () => {
         track.style.transform = `translateX(-${currentIndex * 100}%)`;
@@ -512,6 +517,9 @@ async function loadSliderProducts() {
                 ? Math.round(((Number(initialComparePrice) - Number(initialPrice)) / Number(initialComparePrice)) * 100)
                 : 0;
 
+            const sizeText = (initialSizeLabel || '').trim();
+            const sizeDisplay = (sizeText && sizeText.toLowerCase() !== 'standard' && sizeText.toLowerCase() !== 'undefined') ? `(${sizeText})` : '';
+
             const reviewSummary = reviewCount > 0
                 ? `<span class="font-bold text-amber-700 text-xs">${ratingScore.toFixed(1)}</span>
                     <div class="flex gap-0.5 text-xs">${starsHTML}</div>
@@ -558,7 +566,7 @@ async function loadSliderProducts() {
                         <div class="flex items-baseline flex-wrap gap-1 mb-0.5">
                             <span class="text-xs font-semibold text-[#3B2418] align-super">₹</span>
                             <span class="product-price text-2xl font-bold text-[#3B2418] tracking-tight leading-none">${initialPrice}</span>
-                            <span class="unit-size-text text-[11px] text-stone-500 font-normal">(${initialSizeLabel})</span>
+                            ${sizeDisplay ? `<span class="unit-size-text text-[11px] text-stone-500 font-normal">${sizeDisplay}</span>` : ''}
                         </div>
 
                         <!-- MRP & Discount Row: "M.R.P.: ₹4,250 (20% off)" -->
@@ -615,7 +623,8 @@ function changeCardSize(volume, price, comparePrice, buttonElement) {
         mrpEl.innerHTML = comparePrice ? `<span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${comparePrice}` : '';
     }
     if (unitEl) {
-        unitEl.textContent = `(${volume})`;
+        const cleanVol = (volume || '').trim();
+        unitEl.textContent = (cleanVol && cleanVol.toLowerCase() !== 'standard' && cleanVol.toLowerCase() !== 'undefined') ? `(${cleanVol})` : '';
     }
     if (discountEl) {
         if (comparePrice && Number(comparePrice) > Number(price)) {

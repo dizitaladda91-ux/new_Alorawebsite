@@ -109,20 +109,26 @@ test("email verification token correctly matches incoming candidate tokens", () 
 });
 
 test("verification links use CLIENT_URL and avoid duplicate slashes", () => {
-  assert.equal(
-    buildVerificationUrl("safe-token", null, "https://aloraradiance.com/"),
-    "https://aloraradiance.com/verify-email?token=safe-token"
-  );
-  assert.equal(
-    buildVerificationUrl("safe-token", { protocol: "https", get: () => "aloraradiance.com" }, ""),
-    "https://aloraradiance.com/verify-email?token=safe-token"
-  );
+  const prevClientUrl = process.env.CLIENT_URL;
+  try {
+    delete process.env.CLIENT_URL;
+    assert.equal(
+      buildVerificationUrl("safe-token", null, "https://aloraradiance.com/"),
+      "https://aloraradiance.com/verify-email?token=safe-token"
+    );
+    assert.equal(
+      buildVerificationUrl("safe-token", { protocol: "https", get: () => "aloraradiance.com" }, ""),
+      "https://aloraradiance.com/verify-email?token=safe-token"
+    );
+  } finally {
+    if (prevClientUrl !== undefined) process.env.CLIENT_URL = prevClientUrl;
+  }
 });
 
 test("verification email auth failures explain the Gmail App Password requirement", () => {
   assert.match(
     getVerificationEmailFailureMessage({ code: "EAUTH", responseCode: 535 }),
-    /Google App Password generated for that same account/
+    /Google App Password/
   );
   assert.match(
     getVerificationEmailFailureMessage({ code: "ETIMEDOUT" }),

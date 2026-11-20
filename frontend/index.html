@@ -304,8 +304,13 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="dns-prefetch" href="https://res.cloudinary.com">
 
-    <link rel="preload" as="image" href="./static/hero_banner_allproducts_desk_hd.webp" media="(min-width: 768px)" type="image/webp" fetchpriority="high">
-    <link rel="preload" as="image" href="./static/hero_banner_allproducts_mob_hd.webp" media="(max-width: 767px)" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="./static/Banner 1.webp" media="(min-width: 768px)" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="./static/Banner 1_mob.webp" media="(max-width: 767px)" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="./static/1.webp" type="image/webp">
+    <link rel="preload" as="image" href="./static/2.webp" type="image/webp">
+    <link rel="preload" as="image" href="./static/3.webp" type="image/webp">
+    <link rel="preload" as="image" href="./static/4.webp" type="image/webp">
+    <link rel="preload" as="image" href="./static/5.webp" type="image/webp">
 
     <noscript></noscript>
 
@@ -679,7 +684,7 @@
             position: relative !important;
             overflow: hidden !important;
             background-color: #F2EBDA !important;
-            aspect-ratio: 1229 / 1536 !important;
+            aspect-ratio: 2461 / 768 !important;
             height: auto !important;
             min-height: 0 !important;
             max-height: none !important;
@@ -695,7 +700,7 @@
         .hero-desk-img {
             width: 100% !important;
             height: 100% !important;
-            object-fit: contain !important;
+            object-fit: cover !important;
             object-position: center !important;
             display: none !important;
             image-rendering: auto !important;
@@ -703,7 +708,7 @@
         .hero-mob-img {
             width: 100% !important;
             height: 100% !important;
-            object-fit: contain !important;
+            object-fit: cover !important;
             object-position: center !important;
             display: block !important;
             image-rendering: auto !important;
@@ -1247,41 +1252,16 @@
 
 <div class="hero-slider-container flex w-full relative group shadow-xs overflow-hidden" style="image-rendering: -webkit-optimize-contrast;">
 
-    <!-- Slider Track -->
-    <div id="slider-track" class="flex w-full h-full transition-transform duration-700 ease-in-out">
+    <!-- Slider Track: Radiant Winter Offer Banner -->
+    <div id="slider-track" class="flex w-full h-full">
+        <a href="/product/alora-radiance-travel-essentials-kit" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#F2EBDA]">
+            <img src="./static/Banner 1.webp" alt="Alora Radiance Winter Sale - Travel Essentials Kit" width="2461" height="768" fetchpriority="high" loading="eager" decoding="async" class="hero-desk-img">
+            <img src="./static/Banner 1_mob.webp" alt="Alora Radiance Winter Sale - Travel Essentials Kit" width="1280" height="400" fetchpriority="high" loading="eager" decoding="async" class="hero-mob-img">
+        </a>
+    </div>
 
-    <!-- 1st Slide: All Products -->
-    <a href="/products" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#F2EBDA]">
-        <img src="./static/hero_banner_allproducts_mob_hd.webp" alt="Alora Radiance Complete Skincare Collection Mobile" width="2458" height="3072" fetchpriority="high" loading="eager" decoding="async" class="hero-mob-img">
-    </a>
-
-    <!-- 2nd Slide: Face Wash -->
-    <a href="/product/purifying-glow-face-wash" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#F2EBDA]">
-        <img src="./static/hero_banner_facewash_mob_2x.webp" alt="Purifying Glow Face Wash Banner Mobile" width="2458" height="3072" fetchpriority="low" loading="lazy" decoding="async" class="hero-mob-img">
-    </a>
-
-    <!-- 3rd Slide: Body Lotion -->
-    <a href="/product/soothing-body-lotion" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#F2EBDA]">
-        <img src="./static/Banner 1.webp" alt="Soothing Body Lotion Banner Desktop" width="2461" height="768" loading="lazy" decoding="async" class="hero-desk-img">
-        <img src="./static/hero_banner_bodylotion_mob_2x.webp" alt="Soothing Body Lotion Banner Mobile" width="2458" height="3072" loading="lazy" decoding="async" class="hero-mob-img">
-    </a
- 
-    <!-- 4th Slide: Face Cream & Sunscreen -->
-    <a href="/product/face-cream-sunscreen-spf-30" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#F2EBDA]">
-        <img src="./static/hero_banner_facecream_mob_2x.webp" alt="Mulberry Face Cream &amp; Sunscreen SPF 30++ Banner Mobile" width="2458" height="3072" loading="lazy" decoding="async" class="hero-mob-img">
-    </a>
-  <!-- 5th slide:face serum -->
-   <a href="/product/face-serum" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#F2EBDA]">
-        <img src="./static/hero_banner_faceserum_mob_2x.webp" alt="Face Serum Banner Mobile" width="2458" height="3072" loading="lazy" decoding="async" class="hero-mob-img">
-    </a>
-    <!-- 6th Slide: Walnut Scrub -->
-    <a href="/product/gentle-exfoliating-walnut-scrub" class="hero-slide-link relative w-full shrink-0 block h-full bg-[#F2EBDA]">
-        <img src="./static/hero_banner_scrub_mob_2x.webp" alt="Gentle Exfoliating Walnut Scrub Banner Mobile" width="2458" height="3072" loading="lazy" decoding="async" class="hero-mob-img">
-    </a>
-
-</div>
-    <button type="button" class="hero-slider-arrow hero-slider-prev" aria-label="Previous banner" aria-controls="slider-track">&#8249;</button>
-    <button type="button" class="hero-slider-arrow hero-slider-next" aria-label="Next banner" aria-controls="slider-track">&#8250;</button>
+    <button type="button" class="hero-slider-arrow hero-slider-prev hidden" aria-label="Previous banner" aria-controls="slider-track" style="display:none;">&#8249;</button>
+    <button type="button" class="hero-slider-arrow hero-slider-next hidden" aria-label="Next banner" aria-controls="slider-track" style="display:none;">&#8250;</button>
 </div>
 
   <!-- ============ FEATURED PRODUCTS COLLECTION ============ -->
@@ -1341,7 +1321,7 @@
 
     <!-- ============ HERO BUNDLE HIGHLIGHT SECTION ============ -->
     <section id="offers" class="bundle-hero scroll-mt-24" aria-labelledby="bundle-hero-title">
-        <img class="bundle-hero-image" src="./static/combo1.webp" alt="Hydration Duo skincare bundle" fetchpriority="high">
+        <img class="bundle-hero-image" src="./static/combo 1.png" alt="Hydration Duo skincare bundle" fetchpriority="high">
         <div class="bundle-hero-overlay" aria-hidden="true"></div>
         <div class="bundle-hero-inner">
             <div class="bundle-hero-copy">

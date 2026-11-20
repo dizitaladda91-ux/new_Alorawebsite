@@ -414,6 +414,12 @@ export const createOrder = async (req, res) => {
                 continue;
             }
 
+            if (candidateCode === "ALORA398") {
+                flatDiscount += 398;
+                appliedCoupons.push(candidateCode);
+                continue;
+            }
+
             if (referralCode) continue;
 
             const referralStatus = await validateReferral({ referralCode: candidateCode, customerEmail });

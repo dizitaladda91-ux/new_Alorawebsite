@@ -50,10 +50,11 @@ function normalizeAndAssignBestsellers(rawProducts) {
         const sizes = (product.variants && product.variants.length > 0)
             ? product.variants.map(v => ({
                 ml: v.volume || "Standard",
+                label: v.volume || "",
                 price: v.price || 0,
                 mrp: v.comparePrice || v.price || 0
               }))
-            : [{ ml: "Standard", price: product.price || 0, mrp: product.comparePrice || product.price || 0 }];
+            : [{ ml: product.size || "Standard", label: product.size || "", price: product.price || 0, mrp: product.comparePrice || product.price || 0 }];
         let rawCategory = (product.category || "uncategorized").toLowerCase().trim();
         if (rawCategory === 'skincare') rawCategory = 'skin';
         if (rawCategory === 'bodycare') rawCategory = 'body';
@@ -171,6 +172,9 @@ function renderProductCatalog(products) {
             ? Math.round(((Number(initialSize.mrp) - Number(initialSize.price)) / Number(initialSize.mrp)) * 100)
             : 0;
 
+        const sizeText = (initialSize.label || initialSize.ml || '').trim();
+        const sizeDisplay = (sizeText && sizeText.toLowerCase() !== 'standard' && sizeText.toLowerCase() !== 'undefined') ? `(${sizeText})` : '';
+
         return `
         <div data-product-id="${product.id}" class="animate-fade-in relative w-full flex-shrink-0 product-card bg-white rounded-xl shadow-xs hover:shadow-md border border-stone-200/90 flex flex-col justify-between overflow-hidden transition-shadow duration-300">
             <div>
@@ -209,7 +213,7 @@ function renderProductCatalog(products) {
                     <div class="flex items-baseline flex-wrap gap-1 mb-0.5">
                         <span class="text-xs font-semibold text-[#3B2418] align-super">₹</span>
                         <span class="product-price text-2xl font-bold text-[#3B2418] tracking-tight leading-none">${initialSize.price}</span>
-                        <span class="unit-size-text text-[11px] text-stone-500 font-normal">(${initialSize.label})</span>
+                        ${sizeDisplay ? `<span class="unit-size-text text-[11px] text-stone-500 font-normal">${sizeDisplay}</span>` : ''}
                     </div>
 
                     <!-- MRP & Discount Row -->
@@ -255,6 +259,11 @@ function changeCardSize(sizeLabel, exactPrice, exactMrp, element) {
     const currentCard = element.closest('.product-card');
     if (!currentCard) return;
     currentCard.querySelector('.product-price').innerHTML = `<span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${exactPrice}`;
+    const unitSizeEl = currentCard.querySelector('.unit-size-text');
+    if (unitSizeEl) {
+        const cleanSize = (sizeLabel || '').trim();
+        unitSizeEl.textContent = (cleanSize && cleanSize.toLowerCase() !== 'standard' && cleanSize.toLowerCase() !== 'undefined') ? `(${cleanSize})` : '';
+    }
     const mrpEl = currentCard.querySelector('.product-mrp');
     if (mrpEl) mrpEl.innerHTML = exactMrp ? `<span style="font-family:Arial,'Noto Sans',sans-serif">&#8377;</span>${exactMrp}` : '';
     const discountBadgeEl = currentCard.querySelector('.discount-badge');

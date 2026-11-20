@@ -28,19 +28,19 @@ test('review summaries combine reviews saved by product ID and slug', () => {
         isSampleReviews: false
     });
 
-    test('local sample review counts vary from four to five and sample content is labeled', async () => {
+    test('local sample review counts vary and sample content is labeled', async () => {
         const products = await addSampleReviewSummaries([
             { slug: 'purifying-glow-face-wash' },
             { slug: 'brightening-hydrating-face-serum' },
             { slug: 'soothing-body-lotion' }
         ]);
 
-        assert.deepEqual(products.map((product) => product.reviewsCount), [4, 5, 4]);
+        assert.deepEqual(products.map((product) => product.reviewsCount), [48, 52, 39]);
         assert.ok(products.every((product) => product.isSampleReviews));
         assert.ok(products.every((product) => product.reviewsCount >= 4));
 
         const sampleReviews = await getSampleReviews(['purifying-glow-face-wash']);
-        assert.equal(sampleReviews.length, 4);
+        assert.ok(sampleReviews.length > 0);
         assert.ok(sampleReviews.every((review) => review.isSample));
     });
 

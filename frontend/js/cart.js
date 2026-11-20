@@ -11,7 +11,7 @@ try {
     if (Array.isArray(storedCoupons)) {
         appliedCoupons = storedCoupons.filter((coupon) => {
             const code = String(coupon?.code || "").toUpperCase();
-            const validCode = code === "WINTER20" || code === "ALORA15" || coupon?.source === "referral";
+            const validCode = code === "WINTER20" || code === "ALORA15" || code === "ALORA398" || coupon?.source === "referral";
             return validCode && /^[A-Z0-9_-]{5,64}$/.test(code) && Number(coupon.rate) > 0;
         });
         sessionStorage.setItem(APPLIED_COUPONS_KEY, JSON.stringify(appliedCoupons));
@@ -466,6 +466,17 @@ async function applyCoupon() {
         }
         if (addAppliedCoupon(typedCode, 15)) {
             couponMessage.innerText = "Coupon 'ALORA15' applied successfully! (15% Off)";
+            couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
+            couponInput.value = "";
+        } else {
+            couponMessage.innerText = appliedCoupons.some((coupon) => coupon.code === typedCode) ? "This coupon is already applied." : "You can apply up to 3 coupons.";
+            couponMessage.className = "text-xs font-semibold mt-2 text-red-600 block";
+        }
+        return;
+    }
+    if (typedCode === "ALORA398") {
+        if (addAppliedCoupon(typedCode, 398, "coupon", true)) {
+            couponMessage.innerText = "Secret Coupon 'ALORA398' applied successfully! (₹398 Off)";
             couponMessage.className = "text-xs font-semibold mt-2 text-emerald-600 block";
             couponInput.value = "";
         } else {

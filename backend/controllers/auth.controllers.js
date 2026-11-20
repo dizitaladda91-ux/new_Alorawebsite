@@ -129,7 +129,8 @@ export const generate6DigitOtp = () => {
 };
 
 export const buildVerificationUrl = (rawToken, req, clientUrl = process.env.CLIENT_URL) => {
-  const configuredUrl = String(clientUrl || "").trim().replace(/\/+$/, "");
+  const reqBase = req && typeof req.get === "function" ? `${req.protocol || "https"}://${req.get("host")}` : "";
+  const configuredUrl = String(clientUrl || reqBase || "").trim().replace(/\/+$/, "");
   const baseUrl = configuredUrl || "https://www.aloraradiance.com";
   return `${baseUrl}/verify-email?token=${encodeURIComponent(rawToken)}`;
 };

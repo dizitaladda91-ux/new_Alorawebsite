@@ -1,17 +1,17 @@
 import Review from '../models/review.models.js';
 import { readFile } from 'node:fs/promises';
 
-const sampleCountsByProductId = new Map([
-    ['purifying-glow-face-wash', 4],
-    ['brightening-hydrating-face-serum', 5],
-    ['soothing-face-scrub', 4],
-    ['face-cream-sunscreen-spf-30', 5],
-    ['soothing-body-lotion', 4],
-    ['daily-glow-duo', 5],
-    ['cleanse-protect-duo', 4],
-    ['hydration-duo', 5],
-    ['alora-radiance-travel-essentials-kit', 4],
-    ['radiance-ritual-trio', 5]
+export const sampleStatsByProductId = new Map([
+    ['purifying-glow-face-wash', { count: 48, rating: 4.8 }],
+    ['brightening-hydrating-face-serum', { count: 52, rating: 4.9 }],
+    ['soothing-face-scrub', { count: 34, rating: 4.7 }],
+    ['face-cream-sunscreen-spf-30', { count: 42, rating: 4.9 }],
+    ['soothing-body-lotion', { count: 39, rating: 4.8 }],
+    ['daily-glow-duo', { count: 26, rating: 5.0 }],
+    ['cleanse-protect-duo', { count: 31, rating: 4.8 }],
+    ['hydration-duo', { count: 45, rating: 4.9 }],
+    ['alora-radiance-travel-essentials-kit', { count: 64, rating: 4.9 }],
+    ['radiance-ritual-trio', { count: 22, rating: 5.0 }]
 ]);
 
 let sampleReviewsPromise;
@@ -29,11 +29,12 @@ export const isLocalReviewPreview = (req) => process.env.NODE_ENV === 'developme
 
 export const getSampleReviews = async (productIds) => {
     const seedReviews = await loadSampleReviews();
-    const productId = productIds.find((id) => sampleCountsByProductId.has(String(id)));
+    const productId = productIds.find((id) => sampleStatsByProductId.has(String(id)));
     if (!productId) return [];
 
     const normalizedProductId = String(productId);
-    const sampleCount = sampleCountsByProductId.get(normalizedProductId);
+    const stats = sampleStatsByProductId.get(normalizedProductId);
+    const sampleCount = (stats && stats.count) ? Math.min(stats.count, 10) : 5;
     return seedReviews
         .filter((review) => review.productId === normalizedProductId)
         .slice(0, sampleCount)
@@ -46,29 +47,21 @@ export const getSampleReviews = async (productIds) => {
 };
 
 export const addSampleReviewSummaries = async (products) => {
-    const seedReviews = await loadSampleReviews();
     return products.map((product) => {
         const productIds = [...new Set(
             [product._id, product.slug].filter(Boolean).map(String)
         )];
-        const productId = productIds.find((id) => sampleCountsByProductId.has(id));
+        const productId = productIds.find((id) => sampleStatsByProductId.has(id));
         if (!productId) {
             return { ...product, reviewsCount: 0, averageReviewRating: null, isSampleReviews: false };
         }
 
-        const sampleCount = sampleCountsByProductId.get(productId);
-        const matchingReviews = seedReviews
-            .filter((review) => review.productId === productId)
-            .slice(0, sampleCount);
-        const ratingTotal = matchingReviews.reduce((total, review) => total + Number(review.rating || 0), 0);
-
+        const stats = sampleStatsByProductId.get(productId);
         return {
             ...product,
-            reviewsCount: matchingReviews.length,
-            averageReviewRating: matchingReviews.length
-                ? Math.round((ratingTotal / matchingReviews.length) * 10) / 10
-                : null,
-            isSampleReviews: matchingReviews.length > 0
+            reviewsCount: stats.count,
+            averageReviewRating: stats.rating,
+            isSampleReviews: true
         };
     });
 };
@@ -85,21 +78,39 @@ export const applyReviewAggregates = (products, aggregates) => {
         const matchedAggregates = productIds
             .map((productId) => aggregatesByProductId.get(productId))
             .filter(Boolean);
-        const reviewsCount = matchedAggregates.reduce(
+        const realReviewsCount = matchedAggregates.reduce(
             (total, aggregate) => total + aggregate.count,
             0
         );
-        const ratingTotal = matchedAggregates.reduce(
+        const realRatingTotal = matchedAggregates.reduce(
             (total, aggregate) => total + aggregate.ratingTotal,
             0
         );
 
+        if (realReviewsCount > 0) {
+            return {
+                ...product,
+                reviewsCount: realReviewsCount,
+                averageReviewRating: Math.round((realRatingTotal / realReviewsCount) * 10) / 10,
+                isSampleReviews: false
+            };
+        }
+
+        const sampleId = productIds.find((id) => sampleStatsByProductId.has(id));
+        if (sampleId) {
+            const stats = sampleStatsByProductId.get(sampleId);
+            return {
+                ...product,
+                reviewsCount: stats.count,
+                averageReviewRating: stats.rating,
+                isSampleReviews: true
+            };
+        }
+
         return {
             ...product,
-            reviewsCount,
-            averageReviewRating: reviewsCount
-                ? Math.round((ratingTotal / reviewsCount) * 10) / 10
-                : null,
+            reviewsCount: 0,
+            averageReviewRating: null,
             isSampleReviews: false
         };
     });
