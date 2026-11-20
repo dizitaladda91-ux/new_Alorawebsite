@@ -59,6 +59,26 @@ export const sendMail = async (mailOptions) => {
     }
 };
 
+export const verifyEmailConnection = async () => {
+    const transporter = getTransporter();
+    if (!transporter) {
+        return { configured: false, connected: false, error: "EMAIL_USER or EMAIL_PASS is not configured." };
+    }
+    try {
+        await transporter.verify();
+        return { configured: true, connected: true };
+    } catch (error) {
+        return {
+            configured: true,
+            connected: false,
+            code: error.code || null,
+            error: error.code === "EAUTH"
+                ? "Gmail rejected EMAIL_USER/EMAIL_PASS. Use a valid Gmail App Password."
+                : error.message
+        };
+    }
+};
+
 // Shipping/tracking email, sent once when an order transitions into "shipped".
 export const sendShippingEmail = async (order) => {
     const { customer, trackingNumber, courierLink, razorpayOrderId } = order;

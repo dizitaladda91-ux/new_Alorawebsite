@@ -137,7 +137,7 @@ export const buildVerificationUrl = (rawToken, req, clientUrl = process.env.CLIE
 
 export const getVerificationEmailFailureMessage = (error) => {
   if (error?.code === "EAUTH" || error?.responseCode === 535) {
-    return "Gmail rejected the sender login. Check EMAIL_USER and set EMAIL_PASS to a valid Google App Password for that same account, then redeploy the backend.";
+    return "Gmail rejected the sender login. Set EMAIL_PASS to a Google App Password generated for that same account, then redeploy the backend.";
   }
   if (error?.code === "EMAIL_CONFIG_MISSING") {
     return "Email delivery is not configured. Set EMAIL_USER and EMAIL_PASS in the backend deployment settings, then redeploy.";

@@ -7,7 +7,7 @@ import User from "../models/userAuth.models.js";
 import WebhookEvent from "../models/webhookEvent.models.js";
 import { createAffiliateConversion, validateReferral } from "../services/affiliate.service.js";
 import { AffiliateReferral, AffiliateConversion } from "../models/affiliate.models.js";
-import { sendMail, escapeHtml } from "../services/email.service.js";
+import { sendMail, escapeHtml, verifyEmailConnection } from "../services/email.service.js";
 import { inventoryTrackingEnabled } from "../config/inventory.js";
 
 // Checkout prices must be calculated here, never from browser-rendered totals.
@@ -187,7 +187,11 @@ const isValidCustomer = (customer) => (
 );
 
 const sendOrderEmails = async ({ orderData, savedOrder, itemsList }) => {
-    const adminEmail = String(process.env.ADMIN_EMAIL || "").trim();
+    const configuredAdminEmail = String(process.env.ADMIN_EMAIL || "").trim();
+    const fallbackEmail = String(process.env.EMAIL_USER || "").trim();
+    const adminEmail = /^\S+@\S+\.\S+$/.test(configuredAdminEmail)
+        ? configuredAdminEmail
+        : (/^\S+@\S+\.\S+$/.test(fallbackEmail) ? fallbackEmail : "");
     const { customer } = savedOrder;
     const safeItems = orderData.cart.map((item) => (
         `<li>${escapeHtml(item.name)} (${escapeHtml(item.size)}) &times; ${item.qty} — INR ${item.price * item.qty}</li>`
@@ -587,6 +591,10 @@ export const handleRazorpayWebhook = async (req, res) => {
     }
 };
 
-export const testConnection = (req, res) => {
-    res.json({ message: "Backend connection is working." });
+export const testConnection = async (req, res) => {
+    const emailStatus = await verifyEmailConnection();
+    res.json({
+        message: "Backend connection is working.",
+        email: emailStatus
+    });
 };
