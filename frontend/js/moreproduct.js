@@ -93,7 +93,16 @@ function normalizeAndAssignBestsellers(rawProducts) {
             normalized[targetIdx].isBestseller = true;
         }
     }
-    return normalized;
+    const productOrder = (product) => {
+        const name = `${product.name || ""} ${product.slug || ""}`.toLowerCase();
+        if (/(purifying|face wash|cleanser)/.test(name)) return 0;
+        if (/(brightening|serum)/.test(name)) return 1;
+        if (/(body lotion|lotion)/.test(name)) return 2;
+        if (/(face scrub|scrub)/.test(name)) return 3;
+        if (/(face cream|cream|sunscreen|spf)/.test(name)) return 4;
+        return 5;
+    };
+    return normalized.sort((a, b) => productOrder(a) - productOrder(b));
 }
 function renderProductCatalog(products) {
     const gridContainer = document.getElementById('product-grid');

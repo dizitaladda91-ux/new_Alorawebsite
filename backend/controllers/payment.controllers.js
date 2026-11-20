@@ -17,6 +17,10 @@ const FOUNDER_DELIVERY_CHARGE = 5000;
 const MAX_STACKED_COUPONS = 4;
 const MAX_COUPON_DISCOUNT_PERCENT = 50;
 
+if (!process.env.RAZORPAY_WEBHOOK_SECRET) {
+    console.warn("⚠️ Warning: RAZORPAY_WEBHOOK_SECRET is not configured. Webhook payment verification will be disabled.");
+}
+
 const roundCurrency = (amount) => Number(Number(amount).toFixed(2));
 
 export const calculateCheckoutTotals = ({ subtotal, discountPercent, flatDiscount = 0, founderHandDelivery }) => {
@@ -376,30 +380,35 @@ export const createOrder = async (req, res) => {
         let referralCode = null;
         let clickId = referral?.clickId ? String(referral.clickId) : null;
         const appliedCoupons = [];
+        const skippedCoupons = [];
         const candidateCodes = getRequestedCouponCodes(req.body);
 
         for (const candidateCode of candidateCodes) {
             if (["RAKHI30", "RAKHI", "FESTIVE30", "RAKHI30OFF", "TEST134", "DIWALI", "FESTIVE20", "DIWALI20OFF", "DIWALI20", "GLOW10"].includes(candidateCode)) {
-                throw new Error(`Coupon '${candidateCode}' is no longer available.`);
+                skippedCoupons.push(candidateCode);
+                continue;
             }
 
             // Strict Single-Use Per Account/Email Check
             if (customerEmail) {
+                const validUserId = req.user?.id && /^[0-9a-fA-F]{24}$/.test(req.user.id);
+                const escapedEmail = customerEmail.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
                 const usedOrder = await Order.findOne({
                     $and: [
                         { $or: [
-                        { "customer.email": customerEmail },
-                        ...(req.user?.id && /^[0-9a-fA-F]{24}$/.test(req.user.id) ? [{ userId: req.user.id }] : [])
+                            { "customer.email": { $regex: new RegExp(`^${escapedEmail}$`, "i") } },
+                            ...(validUserId ? [{ userId: req.user.id }] : [])
                         ] },
                         { $or: [
-                        { appliedCoupons: candidateCode },
-                        { "referral.code": candidateCode }
+                            { appliedCoupons: candidateCode },
+                            { "referral.code": candidateCode }
                         ] }
                     ]
                 }).lean();
 
                 if (usedOrder) {
-                    throw new Error(`Coupon '${candidateCode}' has already been redeemed on your account and can only be used once.`);
+                    skippedCoupons.push(candidateCode);
+                    continue;
                 }
             }
 
@@ -411,7 +420,8 @@ export const createOrder = async (req, res) => {
 
             if (candidateCode === "ALORA15") {
                 if (!isAlora15CouponEligible(subtotal)) {
-                    throw new Error("Coupon 'ALORA15' is valid only on orders above ₹2,000.");
+                    skippedCoupons.push(candidateCode);
+                    continue;
                 }
                 discountPercent += 15;
                 appliedCoupons.push(candidateCode);
@@ -424,14 +434,24 @@ export const createOrder = async (req, res) => {
                 continue;
             }
 
-            if (referralCode) continue;
+            if (referralCode) {
+                skippedCoupons.push(candidateCode);
+                continue;
+            }
 
-            const referralStatus = await validateReferral({ referralCode: candidateCode, customerEmail });
-            const referralMatchesCandidate = String(referral?.code || "").trim().toUpperCase() === candidateCode;
-            if (referralStatus.valid === true && referralStatus.eligible === true && referralMatchesCandidate && clickId) {
-                discountPercent += Math.max(0, Number(referralStatus.discountPercent) || 0);
-                referralCode = candidateCode;
-                appliedCoupons.push(candidateCode);
+            try {
+                const referralStatus = await validateReferral({ referralCode: candidateCode, customerEmail });
+                const referralMatchesCandidate = String(referral?.code || "").trim().toUpperCase() === candidateCode;
+                if (referralStatus && referralStatus.valid === true && referralStatus.eligible === true && referralMatchesCandidate && clickId) {
+                    discountPercent += Math.max(0, Number(referralStatus.discountPercent) || 0);
+                    referralCode = candidateCode;
+                    appliedCoupons.push(candidateCode);
+                } else {
+                    skippedCoupons.push(candidateCode);
+                }
+            } catch (err) {
+                console.warn(`Referral validation skipped for coupon '${candidateCode}':`, err.message);
+                skippedCoupons.push(candidateCode);
             }
         }
 
