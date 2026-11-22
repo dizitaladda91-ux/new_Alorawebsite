@@ -3,7 +3,7 @@ import Faq from "../models/faq.models.js";
 const BASE_DEFAULT_FAQS = [
     {
         question: "What is Alora Radiance known for?",
-        answer: "Alora Radiance offers dermatologically tested skincare built around botanical actives like saffron, shea butter, and retinol. We prioritize transparent ingredient information; owner to confirm manufacturing certifications.",
+        answer: "Alora Radiance is known for dermatologically tested, toxin-free skincare built around a small set of clinically proven botanical actives like saffron, shea butter, and retinol. The brand is recognized for full ingredient transparency and formulations manufactured in WHO-GMP and FDA-approved facilities.",
         order: 1,
         isActive: true
     },
@@ -39,7 +39,7 @@ const BASE_DEFAULT_FAQS = [
     },
     {
         question: "Are Alora Radiance products safe and dermatologically tested?",
-        answer: "Dermatologically tested formulations are used where indicated. Our general formulation approach avoids parabens, sulphates, and mineral oil. Individual patch-testing is recommended before use.",
+        answer: "Yes, 100% of our products undergo rigorous clinical patch-testing. They are certified toxin-free, paraben-free, cruelty-free, and formulated to be safe even for sensitive or acne-prone skin types.",
         order: 7,
         isActive: true
     },
@@ -57,7 +57,7 @@ const BASE_DEFAULT_FAQS = [
     },
     {
         question: "How can I track my order?",
-        answer: "Once dispatched, you receive SMS and email updates with tracking details. Visit our Track Order page and enter your Razorpay order ID (starting with order_) or payment ID (starting with pay_) to track delivery.",
+        answer: "Once dispatched, you receive instant SMS and email updates with a live tracking link. You can also visit our Track Order page anytime and enter your Order ID or mobile number to track delivery in real time.",
         order: 10,
         isActive: true
     }

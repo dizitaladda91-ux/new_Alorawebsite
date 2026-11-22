@@ -175,7 +175,7 @@ function renderProductCatalog(products) {
                 <div class="flex gap-0.5 text-xs">${starsHTML}</div>
                 <svg class="w-3 h-3 text-stone-400 inline" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
                 <span class="text-stone-500 text-[11px] font-medium font-sans">(${product.reviewsCount})</span>`
-            : '<span class="text-stone-500 text-[11px] font-medium font-sans">No reviews yet</span>';
+            : '<span class="text-stone-500 text-[11px] font-medium font-sans">No reviews</span>';
 
         const pct = (initialSize.mrp && Number(initialSize.mrp) > Number(initialSize.price))
             ? Math.round(((Number(initialSize.mrp) - Number(initialSize.price)) / Number(initialSize.mrp)) * 100)

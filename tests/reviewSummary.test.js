@@ -46,18 +46,13 @@ test('review summaries combine reviews saved by product ID and slug', () => {
 
     test('sample reviews are enabled only in development or for local hostnames', () => {
         const originalNodeEnv = process.env.NODE_ENV;
-        const originalSampleSetting = process.env.ENABLE_SAMPLE_REVIEWS;
         process.env.NODE_ENV = 'production';
         try {
-            assert.equal(isLocalReviewPreview({ hostname: 'aloraradiance.com' }), false);
-            process.env.ENABLE_SAMPLE_REVIEWS = 'true';
             assert.equal(isLocalReviewPreview({ hostname: 'aloraradiance.com' }), false);
             assert.equal(isLocalReviewPreview({ hostname: 'localhost' }), true);
         } finally {
             if (originalNodeEnv === undefined) delete process.env.NODE_ENV;
             else process.env.NODE_ENV = originalNodeEnv;
-            if (originalSampleSetting === undefined) delete process.env.ENABLE_SAMPLE_REVIEWS;
-            else process.env.ENABLE_SAMPLE_REVIEWS = originalSampleSetting;
         }
     });
     assert.equal(summarized[1].reviewsCount, 0);

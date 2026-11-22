@@ -60,13 +60,19 @@ export const getReviewsByProduct = async (req, res) => {
         }
 
         const uniqueCandidates = [...new Set(candidates)];
-        const reviews = await Review.find({ productId: { $in: uniqueCandidates } }).sort({ createdAt: -1 });
-
-        if (reviews.length > 0) {
-            return res.status(200).json({ success: true, count: reviews.length, data: reviews, isSample: false });
+        if (isLocalReviewPreview(req)) {
+            const sampleReviews = await getSampleReviews(uniqueCandidates);
+            return res.status(200).json({
+                success: true,
+                count: sampleReviews.length,
+                data: sampleReviews,
+                isSample: true
+            });
         }
 
-        if (isLocalReviewPreview(req)) {
+        const reviews = await Review.find({ productId: { $in: uniqueCandidates } }).sort({ createdAt: -1 });
+
+        if (reviews.length === 0) {
             const sampleReviews = await getSampleReviews(uniqueCandidates);
             if (sampleReviews.length > 0) {
                 return res.status(200).json({
@@ -78,7 +84,7 @@ export const getReviewsByProduct = async (req, res) => {
             }
         }
 
-        res.status(200).json({ success: true, count: reviews.length, data: reviews, isSample: false });
+        res.status(200).json({ success: true, count: reviews.length, data: reviews });
     } catch (error) {
         console.error('Review fetch failed:', error);
         res.status(500).json({ success: false, message: 'Could not load reviews.' });

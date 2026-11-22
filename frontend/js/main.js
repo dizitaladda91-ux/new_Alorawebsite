@@ -538,7 +538,7 @@ async function loadSliderProducts() {
                     <div class="flex gap-0.5 text-xs">${starsHTML}</div>
                     <svg class="w-3 h-3 text-stone-400 inline" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
                     <span class="text-stone-500 text-[11px] font-medium font-sans">(${reviewCount})</span>`
-                : '<span class="text-stone-500 text-[11px] font-medium font-sans">No reviews yet</span>';
+                : '<span class="text-stone-500 text-[11px] font-medium font-sans">No reviews</span>';
 
             return `
             <div data-product-id="${prodId}" class="relative w-[calc(80%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center product-card bg-white rounded-xl shadow-xs hover:shadow-md border border-stone-200/90 flex flex-col justify-between overflow-hidden transition-shadow duration-300">
