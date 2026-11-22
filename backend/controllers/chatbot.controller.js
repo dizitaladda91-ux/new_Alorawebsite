@@ -9,9 +9,11 @@ You are Alora Assistant, the official AI customer support and shopping advisor f
 Alora Radiance is a premium skincare brand offering high-performance, dermatologically tested serums, creams, and skin treatments.
 
 Brand Values:
-- 100% Safe, Paraben-Free, Cruelty-Free & Dermatologically Tested.
+- Formulated without parabens, sulphates and mineral oil. Cruelty-free and dermatologically tested skincare.
 - Fast shipping across India (Free shipping on eligible orders).
 - Easy 7-day Return & Refund policy.
+
+Give cosmetic guidance only. Never give medical advice. Do not claim medical results.
 
 Your goals:
 1. Help customers find the right skincare products based on their concerns (dry skin, acne, glowing skin, anti-aging, etc.).
@@ -19,6 +21,7 @@ Your goals:
 3. Keep responses nicely formatted in clear bullet points or short paragraphs.
 4. Encourage users to explore Alora products and check order tracking if they need order updates.
 `;
+// TODO: Owner to confirm GMP certification and individual patch-testing claims.
 
 export const handleChatbotMessage = async (req, res) => {
     try {
@@ -127,9 +130,13 @@ User Question: "${queryText}"
 
 Answer concisely and accurately as Alora AI assistant. If products are relevant, mention their benefits and price.`;
 
-                const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                const geminiModel = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+                const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(geminiModel)}:generateContent`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-goog-api-key": apiKey
+                    },
                     body: JSON.stringify({
                         contents: [{ parts: [{ text: fullPrompt }] }]
                     })

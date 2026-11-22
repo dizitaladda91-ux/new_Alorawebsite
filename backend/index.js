@@ -205,7 +205,7 @@ app.get('/products', async (req, res) => {
   const moreProductHtmlPath = path.join(frontendRoot, 'moreproduct.html');
   try {
     await db();
-    const products = await Product.find({ isActive: { $ne: false } }).sort({ isBestseller: -1, createdAt: -1 }).lean();
+    const products = await Product.find({ isAvailable: { $ne: false } }).sort({ isBestseller: -1, createdAt: -1 }).lean();
     const templateHtml = await fs.promises.readFile(moreProductHtmlPath, 'utf8');
     const productsWithReviews = await addReviewSummaries(products, {
       useSampleReviews: isLocalReviewPreview(req)
@@ -326,11 +326,11 @@ app.get(['/blog/:slug', '/blogs/:slug'], async (req, res) => {
       if (blog.category) {
         relatedProducts = await Product.find({
           category: new RegExp(blog.category, 'i'),
-          isActive: { $ne: false }
+          isAvailable: { $ne: false }
         }).limit(3).lean();
       }
       if (relatedProducts.length === 0) {
-        relatedProducts = await Product.find({ isActive: { $ne: false } }).limit(3).lean();
+        relatedProducts = await Product.find({ isAvailable: { $ne: false } }).limit(3).lean();
       }
     } catch (_) {}
 

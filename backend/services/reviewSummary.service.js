@@ -24,8 +24,8 @@ const loadSampleReviews = () => {
     return sampleReviewsPromise;
 };
 
-export const isLocalReviewPreview = (req) => process.env.NODE_ENV === 'development'
-    || ['localhost', '127.0.0.1', '::1'].includes(req.hostname);
+export const isLocalReviewPreview = (req) => process.env.ENABLE_SAMPLE_REVIEWS === 'true'
+    && ['localhost', '127.0.0.1', '::1'].includes(req.hostname);
 
 export const getSampleReviews = async (productIds) => {
     const seedReviews = await loadSampleReviews();
@@ -93,17 +93,6 @@ export const applyReviewAggregates = (products, aggregates) => {
                 reviewsCount: realReviewsCount,
                 averageReviewRating: Math.round((realRatingTotal / realReviewsCount) * 10) / 10,
                 isSampleReviews: false
-            };
-        }
-
-        const sampleId = productIds.find((id) => sampleStatsByProductId.has(id));
-        if (sampleId) {
-            const stats = sampleStatsByProductId.get(sampleId);
-            return {
-                ...product,
-                reviewsCount: stats.count,
-                averageReviewRating: stats.rating,
-                isSampleReviews: true
             };
         }
 
