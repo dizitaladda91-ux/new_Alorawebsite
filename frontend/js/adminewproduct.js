@@ -60,6 +60,12 @@ document.getElementById('productForm').addEventListener('submit', async (e) => {
         submitButton.innerText = "Saving Product...";
     }
     const formData = new FormData(formElement);
+    const skinTypes = Array.from(formElement.querySelectorAll('input[name="skinTypesOption"]:checked'), input => input.value);
+    const concerns = Array.from(formElement.querySelectorAll('input[name="concernsOption"]:checked'), input => input.value);
+    formData.delete('skinTypesOption');
+    formData.delete('concernsOption');
+    formData.set('skinTypes', skinTypes.join(','));
+    formData.set('concerns', concerns.join(','));
     const variantRows = document.querySelectorAll('.variant-row');
     const variantsArray = [];
     variantRows.forEach(row => {

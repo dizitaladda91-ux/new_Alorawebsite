@@ -110,6 +110,41 @@
                         </div>
                     </div>
 
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Product Type</label>
+                            <select name="productType" class="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white text-sm">
+                                <option value="">Select Product Type</option>
+                                <option value="cleanser">Cleansers</option><option value="serum">Serums</option><option value="scrub">Scrubs</option><option value="moisturizer">Moisturizers</option><option value="sunscreen">Sunscreens</option><option value="body">Body Care</option><option value="combo">Combos</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Badge</label>
+                            <select name="badge" class="w-full px-3 py-2 border border-gray-200 rounded-xl bg-white text-sm">
+                                <option value="">No Badge</option><option value="bestseller">Bestseller</option><option value="new">New</option><option value="trending">Trending</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <fieldset class="border border-gray-200 rounded-xl p-3">
+                            <legend class="px-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">Skin Types</legend>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <label class="flex gap-2 items-center"><input type="checkbox" name="skinTypesOption" value="dry"> Dry</label><label class="flex gap-2 items-center"><input type="checkbox" name="skinTypesOption" value="oily"> Oily</label>
+                                <label class="flex gap-2 items-center"><input type="checkbox" name="skinTypesOption" value="combination"> Combination</label><label class="flex gap-2 items-center"><input type="checkbox" name="skinTypesOption" value="sensitive"> Sensitive</label>
+                                <label class="flex gap-2 items-center"><input type="checkbox" name="skinTypesOption" value="normal"> Normal</label><label class="flex gap-2 items-center"><input type="checkbox" name="skinTypesOption" value="all"> All</label>
+                            </div>
+                        </fieldset>
+                        <fieldset class="border border-gray-200 rounded-xl p-3">
+                            <legend class="px-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">Concerns</legend>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <label class="flex gap-2 items-center"><input type="checkbox" name="concernsOption" value="dullness"> Dullness</label><label class="flex gap-2 items-center"><input type="checkbox" name="concernsOption" value="dryness"> Dryness</label>
+                                <label class="flex gap-2 items-center"><input type="checkbox" name="concernsOption" value="pigmentation"> Pigmentation</label><label class="flex gap-2 items-center"><input type="checkbox" name="concernsOption" value="acne"> Acne</label>
+                                <label class="flex gap-2 items-center"><input type="checkbox" name="concernsOption" value="barrier"> Barrier</label><label class="flex gap-2 items-center"><input type="checkbox" name="concernsOption" value="oil"> Oil</label>
+                                <label class="flex gap-2 items-center"><input type="checkbox" name="concernsOption" value="ageing"> Ageing</label><label class="flex gap-2 items-center"><input type="checkbox" name="concernsOption" value="uneven-tone"> Uneven Tone</label>
+                            </div>
+                        </fieldset>
+                    </div>
+
                     <div class="bg-gray-50/50 p-4 border border-gray-200/60 rounded-2xl space-y-3">
                         <div class="flex items-center justify-between border-b border-gray-200 pb-2">
                             <h3 class="text-xs font-bold uppercase tracking-wider text-gray-700">Product Volumes & Pricing Variants</h3>

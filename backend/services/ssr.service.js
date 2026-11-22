@@ -409,16 +409,20 @@ export const renderProductSsr = (templateHtml, product, faqs = []) => {
 // ==========================================
 // 4. PRODUCT CATALOG LISTING SSR PRE-RENDERER
 // ==========================================
-export const renderProductListSsr = (templateHtml, products = []) => {
+export const renderProductListSsr = (templateHtml, products = [], meta = {}) => {
     let html = templateHtml;
 
-    const title = "Shop Premium Skincare Products | Alora Radiance";
-    const desc = "Explore our luxury collection of dermatologically tested face washes, serums, scrubs, and creams formulated with pure botanicals and active essentials.";
-    const canonical = `${DOMAIN}/products`;
+    const title = escapeHtml(meta.title || "Shop Premium Skincare Products | Alora Radiance");
+    const desc = escapeHtml(meta.description || "Explore our luxury collection of dermatologically tested face washes, serums, scrubs, and creams formulated with pure botanicals and active essentials.");
+    const canonicalPath = meta.canonicalPath || '/products';
+    const canonical = escapeHtml(`${DOMAIN}${canonicalPath}`);
 
     html = html.replace(/<title>.*?<\/title>/i, `<title>${title}</title>`);
     html = html.replace(/<meta name="description" content="[^"]*">/i, `<meta name="description" content="${desc}">`);
     html = html.replace(/<link rel="canonical" href="[^"]*" \/>/i, `<link rel="canonical" href="${canonical}" />`);
+    if (meta.heading !== undefined) {
+        html = html.replace(/<h1 id="product-list-heading"[^>]*>[\s\S]*?<\/h1>/i, `<h1 id="product-list-heading" class="text-lg font-fraunces font-bold text-slate-900 leading-tight">${escapeHtml(meta.heading)}</h1>`);
+    }
 
     if (Array.isArray(products) && products.length > 0) {
         const cardsHtml = products.map(product => {
@@ -467,6 +471,11 @@ export const renderProductListSsr = (templateHtml, products = []) => {
 
         html = html.replace(/<span id="results-count"[^>]*>.*?<\/span>/i, `<span id="results-count" class="text-sm font-medium text-ash">Showing ${products.length} products</span>`);
         html = html.replace(/<div id="product-grid"[^>]*>[\s\S]*?<\/div>/i, `<div id="product-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">${cardsHtml}</div>`);
+        html = html.replace(/<div id="no-products"[^>]*>[\s\S]*?<\/div>/i, `<div id="no-products" class="hidden text-center py-20 bg-white border border-[#ECE4CE] rounded-2xl mt-4"><i class="fa-solid fa-magnifying-glass text-4xl text-[#D9D2BC] mb-3"></i><p class="text-ash font-medium">No products found. <a href="/products" class="text-[#8B4513] underline">Browse all products</a>.</p></div>`);
+    } else {
+        html = html.replace(/<span id="results-count"[^>]*>.*?<\/span>/i, `<span id="results-count" class="text-sm font-medium text-ash">0 products found</span>`);
+        html = html.replace(/<div id="product-grid"[^>]*>[\s\S]*?<\/div>/i, `<div id="product-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6"></div>`);
+        html = html.replace(/<div id="no-products"[^>]*>[\s\S]*?<\/div>/i, `<div id="no-products" class="text-center py-20 bg-white border border-[#ECE4CE] rounded-2xl mt-4"><i class="fa-solid fa-magnifying-glass text-4xl text-[#D9D2BC] mb-3"></i><p class="text-ash font-medium">No products found. <a href="/products" class="text-[#8B4513] underline">Browse all products</a>.</p></div>`);
     }
 
     return html;

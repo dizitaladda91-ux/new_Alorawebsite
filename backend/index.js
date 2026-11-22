@@ -24,11 +24,13 @@ import { fileURLToPath } from "url";
 
 import User from "./models/userAuth.models.js"; 
 import Product from "./models/product.models.js";
+import Review from "./models/review.models.js";
 import Post from "./models/blog.models.js"; 
 import { generateSitemapXml } from "./services/sitemap.service.js"; 
 import { parseAndNormalizeSchemas } from "./services/contentSanitizer.service.js"; 
 import { renderBlogArticleSsr, renderBlogListSsr, renderProductSsr, renderProductListSsr } from "./services/ssr.service.js";
 import { setSecurityHeaders, sanitizeNoSql, createRateLimiter } from "./middlewares/security.middleware.js"; 
+import { CONCERNS, LABELS, PRODUCT_TYPES, PRODUCT_TYPE_LABELS, SKIN_TYPES, SKIN_TYPE_LABELS, isCatalogValue } from "./config/catalog.js";
 
 if (!process.env.VERCEL) {
     try {
@@ -165,14 +167,29 @@ app.get('/', (req, res) => {
 // 🚀 SERVER-SIDE PRE-RENDERING (SSR) ROUTES
 // ==========================================
 
-// 1. Product Catalog Listing Page SSR
-app.get('/products', async (req, res) => {
+// 1. Product Catalog Listing Pages SSR
+const sendProductList = async (req, res, filter = {}, meta = {}) => {
   const moreProductHtmlPath = path.join(frontendRoot, 'moreproduct.html');
   try {
     await db();
-    const products = await Product.find({ isActive: { $ne: false } }).sort({ isBestseller: -1, createdAt: -1 }).lean();
+    const products = await Product.find({ isAvailable: { $ne: false }, ...filter }).sort({ isBestseller: -1, createdAt: -1 }).lean();
+    const productIds = products.flatMap(product => [
+      String(product._id),
+      product.slug
+    ].filter(Boolean));
+    const reviewCounts = await Review.aggregate([
+      { $match: { productId: { $in: productIds } } },
+      { $group: { _id: "$productId", count: { $sum: 1 } } }
+    ]);
+    const countsByProductId = new Map(
+      reviewCounts.map(({ _id, count }) => [String(_id), count])
+    );
+    products.forEach(product => {
+      product.reviewsCount = (countsByProductId.get(String(product._id)) || 0)
+        + (product.slug ? countsByProductId.get(product.slug) || 0 : 0);
+    });
     const templateHtml = await fs.promises.readFile(moreProductHtmlPath, 'utf8');
-    const renderedHtml = renderProductListSsr(templateHtml, products);
+    const renderedHtml = renderProductListSsr(templateHtml, products, meta);
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
@@ -180,7 +197,50 @@ app.get('/products', async (req, res) => {
   } catch (err) {
     return sendSsrUnavailable(res, 'Products list', err);
   }
+};
+
+app.get('/products', (req, res) => {
+  const type = typeof req.query.type === 'string' ? req.query.type.trim().toLowerCase() : '';
+  if (!isCatalogValue(type, PRODUCT_TYPES)) return sendProductList(req, res);
+  const label = PRODUCT_TYPE_LABELS[type];
+  return sendProductList(req, res, { productType: type }, {
+    heading: label,
+    title: `${label} | Alora Radiance`,
+    description: `Shop our ${label.toLowerCase()} collection at Alora Radiance.`,
+    canonicalPath: '/products'
+  });
 });
+
+app.get('/concern/:slug', (req, res, next) => {
+  const slug = req.params.slug;
+  if (!isCatalogValue(slug, CONCERNS)) return next();
+  const label = LABELS[slug];
+  return sendProductList(req, res, { concerns: slug }, {
+    heading: slug === 'acne' ? 'Acne' : label,
+    title: `Skincare for ${label} | Alora Radiance`,
+    description: `Discover skincare products formulated for ${label.toLowerCase()} at Alora Radiance.`,
+    canonicalPath: `/concern/${slug}`
+  });
+});
+
+app.get('/skin-type/:slug', (req, res, next) => {
+  const slug = req.params.slug;
+  if (!isCatalogValue(slug, SKIN_TYPES)) return next();
+  const label = SKIN_TYPE_LABELS[slug];
+  return sendProductList(req, res, { skinTypes: { $in: [slug, 'all'] } }, {
+    heading: label,
+    title: `Skincare for ${label} | Alora Radiance`,
+    description: `Shop skincare for ${label.toLowerCase()} at Alora Radiance.`,
+    canonicalPath: `/skin-type/${slug}`
+  });
+});
+
+app.get('/best-sellers', (req, res) => sendProductList(req, res, { isBestseller: true }, {
+  heading: 'Best Sellers',
+  title: 'Best Sellers | Alora Radiance',
+  description: 'Shop Alora Radiance best-selling skincare products.',
+  canonicalPath: '/best-sellers'
+}));
 
 // 2. Individual Product Detail Page SSR
 app.get('/product/:id', async (req, res) => {

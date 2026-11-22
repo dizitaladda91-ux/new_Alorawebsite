@@ -64,6 +64,18 @@ async function fetchProductDetails() {
         document.querySelector('input[name="metaDescription"]').value = product.metaDescription || '';
         document.querySelector('input[name="isBestseller"]').checked = Boolean(product.isBestseller);
         document.querySelector('input[name="isFeatured"]').checked = Boolean(product.isFeatured);
+        document.querySelector('select[name="productType"]').value = product.productType || '';
+        document.querySelector('select[name="badge"]').value = product.badge || '';
+        const selectedSkinTypes = Array.isArray(product.skinTypes) && product.skinTypes.length > 0
+            ? product.skinTypes
+            : ['all'];
+        document.querySelectorAll('input[name="skinTypesOption"]').forEach(input => {
+            input.checked = selectedSkinTypes.includes(input.value);
+        });
+        const selectedConcerns = Array.isArray(product.concerns) ? product.concerns : [];
+        document.querySelectorAll('input[name="concernsOption"]').forEach(input => {
+            input.checked = selectedConcerns.includes(input.value);
+        });
         if (product.category) {
             const categorySelect = document.querySelector('select[name="category"]');
             if (categorySelect) categorySelect.value = product.category;
@@ -100,6 +112,12 @@ if (form) {
         const formData = new FormData(e.target);
         formData.set('isBestseller', String(e.target.querySelector('input[name="isBestseller"]').checked));
         formData.set('isFeatured', String(e.target.querySelector('input[name="isFeatured"]').checked));
+        const skinTypes = Array.from(e.target.querySelectorAll('input[name="skinTypesOption"]:checked'), input => input.value);
+        const concerns = Array.from(e.target.querySelectorAll('input[name="concernsOption"]:checked'), input => input.value);
+        formData.delete('skinTypesOption');
+        formData.delete('concernsOption');
+        formData.set('skinTypes', skinTypes.join(','));
+        formData.set('concerns', concerns.join(','));
         const variantRows = document.querySelectorAll('.variant-row');
         const variantsArray = [];
         variantRows.forEach(row => {

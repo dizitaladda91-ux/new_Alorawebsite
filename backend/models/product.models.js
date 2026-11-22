@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { CONCERNS, PRODUCT_TYPES, SKIN_TYPES } from "../config/catalog.js";
 
 // 1. Variant Schema (Flexible Volume: allows 100g, 50ml, Combo, Kit, etc.)
 const ProductVariantSchema = new mongoose.Schema({
@@ -48,6 +49,10 @@ const SimpleProductSchema = new mongoose.Schema({
     usageInstructions: { type: String, trim: true, default: '' },
     isBestseller: { type: Boolean, default: false },
     isFeatured: { type: Boolean, default: false },
+    productType: { type: String, enum: PRODUCT_TYPES, trim: true, index: true },
+    skinTypes: { type: [{ type: String, enum: SKIN_TYPES }], default: ['all'] },
+    concerns: { type: [{ type: String, enum: CONCERNS }], default: [] },
+    badge: { type: String, enum: ['bestseller', 'new', 'trending', ''], default: '' },
     metaTitle: { type: String, trim: true, default: '' },
     metaDescription: { type: String, trim: true, default: '' },
     keywords: { type: String, trim: true, default: '' },
@@ -91,6 +96,9 @@ const SimpleProductSchema = new mongoose.Schema({
         answer: { type: String, trim: true }
     }]
 }, { timestamps: true });
+
+SimpleProductSchema.index({ concerns: 1 });
+SimpleProductSchema.index({ skinTypes: 1 });
 
 const SimpleProduct = mongoose.models.SimpleProduct || mongoose.model('SimpleProduct', SimpleProductSchema);
 if (!mongoose.models.Product) {

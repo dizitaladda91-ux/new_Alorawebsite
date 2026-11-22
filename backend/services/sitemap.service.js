@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import Blog from "../models/blog.models.js";
 import SimpleProduct from "../models/product.models.js";
+import { CONCERNS, SKIN_TYPES } from "../config/catalog.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,6 +13,7 @@ export async function generateSitemapXml() {
     const staticPages = [
         '',
         '/products',
+        '/best-sellers',
         '/about',
         '/blog',
         '/certificates',
@@ -46,6 +48,22 @@ export async function generateSitemapXml() {
         });
     } catch (e) {
         console.warn("Sitemap generator product fetch warning:", e.message);
+    }
+
+    try {
+        const availableFilter = { isAvailable: true };
+        const [productConcerns, productSkinTypes] = await Promise.all([
+            SimpleProduct.distinct('concerns', availableFilter),
+            SimpleProduct.distinct('skinTypes', availableFilter)
+        ]);
+        productConcerns.filter(slug => CONCERNS.includes(slug)).forEach(slug => {
+            xml += `  <url>\n    <loc>${baseUrl}/concern/${encodeURIComponent(slug)}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
+        });
+        productSkinTypes.filter(slug => SKIN_TYPES.includes(slug)).forEach(slug => {
+            xml += `  <url>\n    <loc>${baseUrl}/skin-type/${encodeURIComponent(slug)}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
+        });
+    } catch (e) {
+        console.warn("Sitemap generator catalog page warning:", e.message);
     }
 
     // 3. Blog Articles (All non-draft articles)

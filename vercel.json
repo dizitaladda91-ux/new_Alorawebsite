@@ -52,6 +52,18 @@
       "dest": "/api/index.js"
     },
     {
+      "src": "/concern/[^/]+/?",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/skin-type/[^/]+/?",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/best-sellers/?",
+      "dest": "/api/index.js"
+    },
+    {
       "src": "/product/[^/]+/?",
       "dest": "/api/index.js"
     },

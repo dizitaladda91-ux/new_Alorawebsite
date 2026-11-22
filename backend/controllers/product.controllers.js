@@ -3,6 +3,19 @@ import Review from "../models/review.models.js";
 import fs from "fs";
 import db from "../config/db.js";
 import { deleteFromCloudinary } from "../middlewares/cloudinaryUpload.js";
+import { CONCERNS, PRODUCT_TYPES, SKIN_TYPES } from "../config/catalog.js";
+
+export const parseList = (value, allowed) => {
+    const values = Array.isArray(value)
+        ? value
+        : typeof value === 'string'
+            ? value.split(',')
+            : [];
+    return [...new Set(values
+        .filter(item => typeof item === 'string')
+        .map(item => item.trim().toLowerCase())
+        .filter(item => item && allowed.includes(item)))];
+};
 
 const toProductSlug = (value = "") => String(value)
     .toLowerCase()
@@ -47,9 +60,18 @@ export const addnewproduct = async (req, res) => {
             isAvailable: isAvailable === 'true' || isAvailable === true, 
             isBestseller: req.body.isBestseller === 'true' || req.body.isBestseller === true,
             isFeatured: req.body.isFeatured === 'true' || req.body.isFeatured === true,
+            skinTypes: parseList(req.body.skinTypes, SKIN_TYPES),
+            concerns: parseList(req.body.concerns, CONCERNS),
             sku, ingredients, benefits, usageInstructions, metaTitle, metaDescription,
             variants 
         };
+
+        const [productType] = parseList(req.body.productType, PRODUCT_TYPES);
+        if (productType) addproduct.productType = productType;
+        const badge = String(req.body.badge || '').trim().toLowerCase();
+        if (['bestseller', 'new', 'trending', ''].includes(badge)) addproduct.badge = badge;
+        if (addproduct.skinTypes.length === 0) addproduct.skinTypes = ['all'];
+        if (addproduct.badge === 'bestseller') addproduct.isBestseller = true;
 
         const mainImage = req.files?.imagepath?.[0];
         if (mainImage) addproduct.imagepath = mainImage.path;
@@ -125,6 +147,25 @@ export const updateproduct = async (req, res) => {
         if (req.body.isFeatured !== undefined) {
             updateProductData.isFeatured = req.body.isFeatured === 'true' || req.body.isFeatured === true;
         }
+        if (req.body.productType !== undefined) {
+            const [productType] = parseList(req.body.productType, PRODUCT_TYPES);
+            if (productType) updateProductData.productType = productType;
+            else delete updateProductData.productType;
+        }
+        if (req.body.skinTypes !== undefined) {
+            updateProductData.skinTypes = parseList(req.body.skinTypes, SKIN_TYPES);
+            if (updateProductData.skinTypes.length === 0) updateProductData.skinTypes = ['all'];
+        }
+        if (req.body.concerns !== undefined) {
+            updateProductData.concerns = parseList(req.body.concerns, CONCERNS);
+        }
+        if (req.body.badge !== undefined) {
+            const badge = String(req.body.badge || '').trim().toLowerCase();
+            if (['bestseller', 'new', 'trending', ''].includes(badge)) {
+                updateProductData.badge = badge;
+                if (badge === 'bestseller') updateProductData.isBestseller = true;
+            } else delete updateProductData.badge;
+        }
         if (req.body.rating) updateProductData.rating = Number(req.body.rating);
         if (req.body.totalReviews) updateProductData.totalReviews = Number(req.body.totalReviews);
 
@@ -160,6 +201,11 @@ export const updateproduct = async (req, res) => {
 
         if (!updatedProduct) {
             return res.status(404).json({ message: "Product database me nahi mila ya update fail hua" });
+        }
+
+        if (updatedProduct.badge === 'bestseller' && !updatedProduct.isBestseller) {
+            updatedProduct.isBestseller = true;
+            await updatedProduct.save();
         }
 
         res.status(200).json(updatedProduct);

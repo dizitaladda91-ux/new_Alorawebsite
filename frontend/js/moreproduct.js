@@ -5,13 +5,31 @@ let selectedCategories = [];
 let maxPriceConstraint = 2500;
 let ratingFloorFilter = 0;
 let activeQuickTag = 'all';
+let catalogRouteFilter = null;
 let searchQuery = '';
 let pendingCatalogProductId = null;
 let pendingCatalogCartAction = null;
 document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
+    const path = window.location.pathname.replace(/\/+$/, '') || '/';
     const filterParam = urlParams.get('filter');
     const categoryParam = urlParams.get('category');
+    const productType = (urlParams.get('type') || '').toLowerCase().trim();
+    const productTypes = ['cleanser', 'serum', 'scrub', 'moisturizer', 'sunscreen', 'body', 'combo'];
+    const concerns = ['dullness', 'dryness', 'pigmentation', 'acne', 'barrier', 'oil', 'ageing', 'uneven-tone'];
+    const skinTypes = ['dry', 'oily', 'combination', 'sensitive', 'normal', 'all'];
+    if (path === '/best-sellers') {
+        catalogRouteFilter = { type: 'bestseller' };
+        activeQuickTag = 'bestseller';
+    } else if (path === '/products' && productTypes.includes(productType)) {
+        catalogRouteFilter = { type: 'productType', value: productType };
+    } else if (path.startsWith('/concern/')) {
+        const slug = path.slice('/concern/'.length);
+        if (concerns.includes(slug)) catalogRouteFilter = { type: 'concern', value: slug };
+    } else if (path.startsWith('/skin-type/')) {
+        const slug = path.slice('/skin-type/'.length);
+        if (skinTypes.includes(slug)) catalogRouteFilter = { type: 'skinType', value: slug };
+    }
     if (filterParam === 'bestseller') {
         activeQuickTag = 'bestseller';
     }
@@ -70,7 +88,12 @@ function normalizeAndAssignBestsellers(rawProducts) {
             productUrl: getProductUrl(product),
             name: product.name || 'Untitled Product',
             category: rawCategory, 
+            productType: product.productType || '',
+            skinTypes: Array.isArray(product.skinTypes) ? product.skinTypes : ['all'],
+            concerns: Array.isArray(product.concerns) ? product.concerns : [],
+            isAvailable: product.isAvailable !== false,
             isBestseller: backendIsBestseller,
+            isCatalogBestseller: backendIsBestseller,
             rating: product.rating || 4,
             reviewsCount: Number(product.reviewsCount) || 0,
             baseImg: imageSrc,
@@ -288,6 +311,15 @@ function filterProducts() {
     const priceRangeInput = document.getElementById('price-range');
     if (priceRangeInput) maxPriceConstraint = parseInt(priceRangeInput.value);
     let results = PRODUCTS_DATABASE.filter(item => {
+        if (catalogRouteFilter) {
+            if (!item.isAvailable) return false;
+            if (catalogRouteFilter.type === 'bestseller' && !item.isCatalogBestseller) return false;
+            if (catalogRouteFilter.type === 'productType' && item.productType !== catalogRouteFilter.value) return false;
+            if (catalogRouteFilter.type === 'concern' && !item.concerns.includes(catalogRouteFilter.value)) return false;
+            if (catalogRouteFilter.type === 'skinType'
+                && !item.skinTypes.includes(catalogRouteFilter.value)
+                && !item.skinTypes.includes('all')) return false;
+        }
         if (searchQuery) {
             const matchesName = item.name.toLowerCase().includes(searchQuery);
             const matchesDesc = item.description.toLowerCase().includes(searchQuery);
