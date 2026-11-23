@@ -385,102 +385,134 @@ async function loadSliderProducts() {
         console.warn("Featured products API fetch failed, using default showcase products:", err);
     }
 
-    if (productList.length > 0) {
-        const productOrder = (product) => {
-            const name = `${product.name || ""} ${product.slug || ""}`.toLowerCase();
-            if (/(purifying|face wash|cleanser)/.test(name)) return 0;
-            if (/(brightening|serum)/.test(name)) return 1;
-            if (/(body lotion|lotion)/.test(name)) return 2;
-            if (/(face scrub|scrub)/.test(name)) return 3;
-            if (/(face cream|cream|sunscreen|spf)/.test(name)) return 4;
-            return 5;
-        };
-        productList = [...productList].sort((a, b) => productOrder(a) - productOrder(b));
-    }
-
-    if (!productList || productList.length === 0) {
-        productList = [
-            {
-                id: "feat_1",
-                name: "Alora Gentle Hydrating Face Wash",
-                slug: "alora-gentle-hydrating-face-wash",
-                category: "skincare",
-                isBestseller: true,
-                rating: 4.9,
-                imagepath: "/static/1.webp",
-                price: 349,
-                comparePrice: 499,
-                variants: [
-                    { volume: "100ml", price: 349, comparePrice: 499 },
-                    { volume: "200ml", price: 599, comparePrice: 799 }
-                ]
+    // Curated 4 Best Seller items requested by user:
+    // 1. Facewash (Purifying Glow Face Wash)
+    // 2. Serum (Brightening & Hydrating Face Serum)
+    // 3. Travel Pack (Alora Radiance Travel Essentials Kit)
+    // 4. Combo of Lotion + Cream (Hydration Duo)
+    const targetConfigs = [
+        {
+            key: 'facewash',
+            matcher: (p) => {
+                const slug = (p.slug || '').toLowerCase();
+                const name = (p.name || '').toLowerCase();
+                const type = (p.productType || '').toLowerCase();
+                return slug === 'purifying-glow-face-wash' || type === 'cleanser' || name.includes('face wash') || name.includes('facewash');
             },
-            {
-                id: "feat_2",
-                name: "Alora Intense Hydration Body Lotion",
-                slug: "alora-intense-hydration-body-lotion",
-                category: "bodycare",
+            fallback: {
+                id: "feat_facewash",
+                _id: "6a77087799c1b5eff8a680cb",
+                name: "Alora Purifying Glow Face Wash",
+                slug: "purifying-glow-face-wash",
+                category: "face",
+                productType: "cleanser",
                 isBestseller: true,
                 rating: 4.8,
-                imagepath: "/static/2.webp",
+                reviewsCount: 48,
+                averageReviewRating: 4.8,
+                imagepath: "https://res.cloudinary.com/hgefnsjm/image/upload/v1795011183/ecommerce/rlvqxeaj5tfblxeszlbc.webp",
                 price: 499,
-                comparePrice: 699,
+                comparePrice: 533,
                 variants: [
-                    { volume: "200ml", price: 499, comparePrice: 699 },
-                    { volume: "400ml", price: 849, comparePrice: 1199 }
-                ]
-            },
-            {
-                id: "feat_3",
-                name: "Alora SPF 50+ Matte Sunscreen Gel",
-                slug: "alora-spf-50-matte-sunscreen-gel",
-                category: "skincare",
-                isBestseller: false,
-                rating: 4.7,
-                imagepath: "/static/3.webp",
-                price: 449,
-                comparePrice: 599,
-                variants: [
-                    { volume: "50g", price: 449, comparePrice: 599 }
-                ]
-            },
-            {
-                id: "feat_4",
-                name: "Alora Niacinamide Glow Serum",
-                slug: "alora-niacinamide-glow-serum",
-                category: "skincare",
-                isBestseller: true,
-                rating: 4.9,
-                imagepath: "/static/4.webp",
-                price: 599,
-                comparePrice: 799,
-                variants: [
-                    { volume: "30ml", price: 599, comparePrice: 799 }
-                ]
-            },
-            {
-                id: "feat_5",
-                name: "Alora Deep Nourishing Face Cream",
-                slug: "alora-deep-nourishing-face-cream",
-                category: "skincare",
-                isBestseller: false,
-                rating: 4.8,
-                imagepath: "/static/5.webp",
-                price: 499,
-                comparePrice: 649,
-                variants: [
-                    { volume: "50g", price: 499, comparePrice: 649 }
+                    { volume: "200ml", price: 499, comparePrice: 533, stock: 10 }
                 ]
             }
-        ];
-    }
+        },
+        {
+            key: 'serum',
+            matcher: (p) => {
+                const slug = (p.slug || '').toLowerCase();
+                const name = (p.name || '').toLowerCase();
+                const type = (p.productType || '').toLowerCase();
+                return slug === 'brightening-hydrating-face-serum' || type === 'serum' || (name.includes('serum') && !name.includes('combo') && !name.includes('trio'));
+            },
+            fallback: {
+                id: "feat_serum",
+                _id: "6a770ae64deebd68ab27ded2",
+                name: "Alora Brightening & Hydrating Face Serum",
+                slug: "brightening-hydrating-face-serum",
+                category: "face",
+                productType: "serum",
+                isBestseller: true,
+                rating: 4.9,
+                reviewsCount: 52,
+                averageReviewRating: 4.9,
+                imagepath: "https://res.cloudinary.com/hgefnsjm/image/upload/v1795011203/ecommerce/wcjje7m6zs8f7c1mxqdn.webp",
+                price: 649,
+                comparePrice: 999,
+                variants: [
+                    { volume: "30ml", price: 649, comparePrice: 999, stock: 10 }
+                ]
+            }
+        },
+        {
+            key: 'travel',
+            matcher: (p) => {
+                const slug = (p.slug || '').toLowerCase();
+                const name = (p.name || '').toLowerCase();
+                return slug === 'alora-radiance-travel-essentials-kit' || slug.includes('travel') || name.includes('travel');
+            },
+            fallback: {
+                id: "feat_travel",
+                _id: "6a6c2d16478a84d9d7169bcf",
+                name: "Alora Radiance Travel Essentials Kit",
+                slug: "alora-radiance-travel-essentials-kit",
+                category: "combo",
+                productType: "combo",
+                isBestseller: true,
+                rating: 4.9,
+                reviewsCount: 64,
+                averageReviewRating: 4.9,
+                imagepath: "https://res.cloudinary.com/hgefnsjm/image/upload/v1795330254/ecommerce/noeipnnyi3113xncgejn.png",
+                price: 149,
+                comparePrice: 499,
+                variants: [
+                    { volume: "Combo", price: 149, comparePrice: 499, stock: 10 }
+                ]
+            }
+        },
+        {
+            key: 'combo_lotion_cream',
+            matcher: (p) => {
+                const slug = (p.slug || '').toLowerCase();
+                const name = (p.name || '').toLowerCase();
+                const desc = (p.description || '').toLowerCase();
+                return slug === 'hydration-duo' || name.includes('hydration duo') || (name.includes('duo') && (desc.includes('lotion') || name.includes('lotion')) && (desc.includes('cream') || name.includes('cream')));
+            },
+            fallback: {
+                id: "feat_combo",
+                _id: "6a6c2c90478a84d9d7169bcb",
+                name: "Alora Hydration Duo (Lotion + Cream)",
+                slug: "hydration-duo",
+                category: "combo",
+                productType: "combo",
+                isBestseller: true,
+                rating: 4.9,
+                reviewsCount: 45,
+                averageReviewRating: 4.9,
+                imagepath: "https://res.cloudinary.com/hgefnsjm/image/upload/v1795167559/ecommerce/wi8jbenmilbmbondlhwe.png",
+                price: 1399,
+                comparePrice: 1598,
+                variants: [
+                    { volume: "Combo", price: 1399, comparePrice: 1598, stock: 10 }
+                ]
+            }
+        }
+    ];
+
+    const showcaseProducts = targetConfigs.map(cfg => {
+        const found = productList.find(cfg.matcher);
+        if (found) {
+            return { ...found, isBestseller: true };
+        }
+        return cfg.fallback;
+    });
 
     updateHeroBannerProductLinks(productList);
     if (!wrapper) return;
-    const top5Products = productList.slice(0, 5);
 
     requestAnimationFrame(() => {
-        wrapper.innerHTML = top5Products.map((product, index) => {
+        wrapper.innerHTML = showcaseProducts.map((product, index) => {
             const prodId = product._id || product.id || product.slug || 'prod_' + Math.random();
             const fullImgUrl = getImageUrl(product.imagepath, '/static/placeholder.png');
             const reviewCount = Number(product.reviewsCount) || 0;
@@ -531,7 +563,7 @@ async function loadSliderProducts() {
                 : 0;
 
             const sizeText = (initialSizeLabel || '').trim();
-            const sizeDisplay = (sizeText && sizeText.toLowerCase() !== 'standard' && sizeText.toLowerCase() !== 'undefined') ? `(${sizeText})` : '';
+            const sizeDisplay = (sizeText && !['standard', 'undefined', 'null', 'combo'].includes(sizeText.toLowerCase())) ? `(${sizeText})` : '';
 
             const reviewSummary = reviewCount > 0
                 ? `<span class="font-bold text-amber-700 text-xs">${ratingScore.toFixed(1)}</span>
@@ -637,7 +669,7 @@ function changeCardSize(volume, price, comparePrice, buttonElement) {
     }
     if (unitEl) {
         const cleanVol = (volume || '').trim();
-        unitEl.textContent = (cleanVol && cleanVol.toLowerCase() !== 'standard' && cleanVol.toLowerCase() !== 'undefined') ? `(${cleanVol})` : '';
+        unitEl.textContent = (cleanVol && !['standard', 'undefined', 'null', 'combo'].includes(cleanVol.toLowerCase())) ? `(${cleanVol})` : '';
     }
     if (discountEl) {
         if (comparePrice && Number(comparePrice) > Number(price)) {
