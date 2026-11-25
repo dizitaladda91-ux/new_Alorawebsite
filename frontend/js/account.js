@@ -481,7 +481,7 @@ async function loadBuyAgainItems() {
                     </div>
                 </div>
                 <div class="mt-4 pt-2">
-                    <button type="button" onclick="buyAgainAddToCart(this, '${p._id || p.id || p.productId || ''}', '${escapeHtml(p.name)}', '${escapeHtml(p.preferredVariant || (p.variants && p.variants[0]?.volume) || 'Standard')}', ${initialPrice}, '${img}')" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
+                    <button type="button" onclick="buyAgainAddToCart(this, '${p._id || p.id || p.productId || ''}', '${escapeHtml(p.name)}', '${escapeHtml(p.preferredVariant || (p.variants && p.variants[0]?.volume) || 'Standard')}', ${initialPrice}, '${img}')" class="w-full bg-[#E8A33D] hover:bg-[#D48D2A] text-[#2B1E16] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
                         <i class="fa-solid fa-cart-shopping text-xs"></i> Add to Cart
                     </button>
                 </div>
@@ -602,7 +602,7 @@ async function loadWishlistTab() {
                     <p class="font-sans font-semibold text-[#3B2418] text-base mt-1.5">${money(price)}</p>
                 </div>
                 <div class="mt-4 pt-2">
-                    <button type="button" onclick="moveWishlistToCart('${id}', '${escapeHtml(name)}', ${price}, '${img}', '${escapeHtml(defaultVariant)}', this)" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
+                    <button type="button" onclick="moveWishlistToCart('${id}', '${escapeHtml(name)}', ${price}, '${img}', '${escapeHtml(defaultVariant)}', this)" class="w-full bg-[#E8A33D] hover:bg-[#D48D2A] text-[#2B1E16] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
                         <i class="fa-solid fa-cart-shopping text-xs"></i> Move to Cart
                     </button>
                 </div>

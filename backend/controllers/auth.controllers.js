@@ -229,7 +229,7 @@ export const sendVerificationEmail = async (user, rawToken, req) => {
           .content h2 { color: #3B2418; font-size: 20px; margin-top: 0; font-weight: 600; }
           .content p { color: #555550; font-size: 14px; margin-bottom: 20px; }
           .btn-container { text-align: center; margin: 30px 0; }
-          .btn { background-color: #8EC5FF; color: #3B2418 !important; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; display: inline-block; }
+          .btn { background-color: #E8A33D; color: #2B1E16 !important; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; display: inline-block; }
           .footer { background: #F2EBDA; padding: 20px; text-align: center; font-size: 11px; color: #3B2418; border-top: 1px solid #E8DEC8; }
           .note { font-size: 12px; color: #3B2418; margin-top: 25px; border-top: 1px dashed #E8DEC8; padding-top: 15px; word-break: break-all; }
         </style>
@@ -761,7 +761,7 @@ export const forgotPassword = async (req, res) => {
           <h2 style="color: #3B2418;">Password Reset Request</h2>
           <p>Account Email: <strong>${accountEmail}</strong> ke liye password reset link request kiya gaya hai.</p>
           <p>Niche diye gaye link par click karke naya password banayein:</p>
-          <a href="${resetUrl}" style="background-color: #8EC5FF; color: #3B2418; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 15px 0;">Reset Password</a>
+          <a href="${resetUrl}" style="background-color: #E8A33D; color: #2B1E16; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 15px 0;">Reset Password</a>
           <p style="font-size: 12px; color: #3B2418;">Yeh link sirf 15 minutes ke liye valid hai.</p>
         </div>
       `

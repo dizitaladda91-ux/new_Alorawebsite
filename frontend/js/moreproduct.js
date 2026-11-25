@@ -12,43 +12,43 @@ let searchQuery = '';
 const PRODUCT_TAG_MAPPING = {
     'purifying-glow-face-wash': {
         skinTypes: ['all', 'oily', 'combination', 'normal', 'sensitive'],
-        concerns: ['acne', 'open-pores', 'oil', 'dullness', 'tan']
+        concerns: ['acne', 'open-pores']
     },
     'brightening-hydrating-face-serum': {
         skinTypes: ['all', 'dry', 'oily', 'combination', 'normal', 'sensitive'],
-        concerns: ['pigmentation', 'dark-spots', 'dullness', 'anti-ageing', 'ageing', 'dryness', 'uneven-tone']
+        concerns: ['pigmentation', 'dark-spots', 'dullness', 'anti-ageing', 'ageing', 'open-pores']
     },
     'soothing-face-scrub': {
         skinTypes: ['all', 'oily', 'combination', 'normal', 'dry'],
-        concerns: ['tan', 'open-pores', 'dullness', 'uneven-tone']
+        concerns: ['dullness']
     },
     'face-cream-sunscreen-spf-30': {
         skinTypes: ['all', 'dry', 'normal', 'combination', 'sensitive'],
-        concerns: ['tan', 'anti-ageing', 'ageing', 'dryness', 'dark-spots']
+        concerns: ['pigmentation', 'dark-spots', 'tan', 'anti-ageing', 'ageing', 'dryness']
     },
     'soothing-body-lotion': {
         skinTypes: ['all', 'dry', 'normal', 'sensitive', 'combination'],
-        concerns: ['dryness', 'dullness']
+        concerns: ['dryness']
     },
     'daily-glow-duo': {
         skinTypes: ['all', 'oily', 'combination', 'normal'],
-        concerns: ['dullness', 'pigmentation', 'dark-spots', 'acne', 'open-pores']
+        concerns: []
     },
     'cleanse-protect-duo': {
         skinTypes: ['all', 'oily', 'combination', 'normal', 'dry'],
-        concerns: ['tan', 'acne', 'oil', 'dullness']
+        concerns: []
     },
     'hydration-duo': {
         skinTypes: ['all', 'dry', 'normal', 'combination'],
-        concerns: ['dryness', 'tan', 'dullness']
+        concerns: []
     },
     'radiance-ritual-trio': {
         skinTypes: ['all', 'normal', 'dry', 'combination', 'oily'],
-        concerns: ['pigmentation', 'dark-spots', 'tan', 'anti-ageing', 'ageing', 'dullness', 'dryness']
+        concerns: []
     },
     'alora-radiance-travel-essentials-kit': {
         skinTypes: ['all', 'oily', 'dry', 'combination', 'sensitive', 'normal'],
-        concerns: ['acne', 'pigmentation', 'dark-spots', 'tan', 'dullness', 'anti-ageing', 'ageing', 'dryness', 'open-pores']
+        concerns: []
     }
 };
 
@@ -237,9 +237,11 @@ function normalizeAndAssignBestsellers(rawProducts) {
             skinTypes: (Array.isArray(product.skinTypes) && product.skinTypes.length > 0)
                 ? product.skinTypes.map(s => String(s).toLowerCase().trim())
                 : getProductTags(product).skinTypes,
-            concerns: (Array.isArray(product.concerns) && product.concerns.length > 0)
-                ? product.concerns.map(c => String(c).toLowerCase().trim())
-                : getProductTags(product).concerns
+            concerns: PRODUCT_TAG_MAPPING[(product.slug || '').toLowerCase().trim()]
+                ? [...PRODUCT_TAG_MAPPING[(product.slug || '').toLowerCase().trim()].concerns]
+                : (Array.isArray(product.concerns) && product.concerns.length > 0)
+                    ? product.concerns.map(c => String(c).toLowerCase().trim())
+                    : getProductTags(product).concerns
         };
     });
     const hasAnyBackendBestseller = normalized.some(p => p.isBestseller);
@@ -412,7 +414,7 @@ function renderProductCatalog(products) {
 
             <!-- Add to Cart Action Bar -->
             <div class="px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-1">
-                <button type="button" onclick="handleCartButtonClick('${product.id}', this)" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
+                <button type="button" onclick="handleCartButtonClick('${product.id}', this)" class="w-full bg-[#E8A33D] hover:bg-[#D48D2A] text-[#2B1E16] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
                     <svg class="w-4 h-4 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                     <span>Add to Cart</span>
                 </button>

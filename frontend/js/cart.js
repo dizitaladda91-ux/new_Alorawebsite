@@ -671,7 +671,7 @@ async function loadCartMoreProducts() {
                     </div>
                 </div>
                 <div class="pt-1">
-                    <button type="button" onclick="toggleCartState(this)" class="w-full bg-gradient-to-r from-[#8EC5FF] to-[#8EC5FF] hover:from-[#6FB3F5] hover:to-[#6FB3F5] text-[#3B2418] font-extrabold py-2.5 rounded-xl text-[11px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-md hover:shadow-[#6FB3F5]/25 transform active:scale-95">
+                    <button type="button" onclick="toggleCartState(this)" class="w-full bg-[#E8A33D] hover:bg-[#D48D2A] text-[#2B1E16] font-extrabold py-2.5 rounded-xl text-[11px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-md hover:shadow-[#D48D2A]/25 transform active:scale-95">
                         <i class="fa-solid fa-cart-shopping text-xs"></i> Add to Cart
                     </button>
                 </div>

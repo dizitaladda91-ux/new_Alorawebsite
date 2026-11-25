@@ -363,7 +363,7 @@
             <span class="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2 font-sans">
                 <i class="fa-solid fa-sliders text-[#205D96]"></i> Filter &amp; Sort
             </span>
-            <button id="toggle-filter-btn" type="button" class="bg-gradient-to-r from-[#8EC5FF] to-[#8EC5FF] hover:from-[#6FB3F5] hover:to-[#6FB3F5] text-[#3B2418] text-xs font-extrabold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-sm transition active:scale-95">
+            <button id="toggle-filter-btn" type="button" class="bg-[#E8A33D] hover:bg-[#D48D2A] text-[#2B1E16] text-xs font-extrabold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-sm transition active:scale-95">
                 <i class="fa-solid fa-filter text-xs"></i> <span>Filter Options</span>
             </button>
         </div>
@@ -379,7 +379,7 @@
                             <i class="fa-solid fa-sliders text-[#205D96] text-sm"></i> Filter Suite
                         </h2>
                         <div class="flex items-center gap-2">
-                            <button onclick="resetFilters()" class="text-[11px] font-extrabold text-[#3B2418] bg-[#E3F1FF] hover:bg-[#8EC5FF] hover:text-[#3B2418] px-2.5 py-1 rounded-full transition shadow-xs">
+                            <button onclick="resetFilters()" class="text-[11px] font-extrabold text-[#2B1E16] bg-[#E3F1FF] hover:bg-[#E8A33D] hover:text-[#2B1E16] px-2.5 py-1 rounded-full transition shadow-xs">
                                 Clear All
                             </button>
                             <button id="close-filter-btn" type="button" class="lg:hidden text-slate-500 hover:text-slate-900 text-xl font-bold p-1">
@@ -401,17 +401,17 @@
                     <div>
                         <label class="block text-[11px] font-extrabold text-slate-700 uppercase tracking-widest mb-2 font-mono">Category Collections</label>
                         <div class="space-y-1.5">
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-bold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-bold text-slate-800">
                                 <input type="checkbox" name="category" value="face" onchange="filterProducts()" class="rounded border-slate-300 text-[#205D96] focus:ring-amber-500 mr-2.5 w-4 h-4">
-                                <i class="fa-solid fa-spa text-amber-600 mr-2 text-xs"></i> Face Skincare
+                                Face Skincare
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-bold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-bold text-slate-800">
                                 <input type="checkbox" name="category" value="body" onchange="filterProducts()" class="rounded border-slate-300 text-emerald-700 focus:ring-emerald-500 mr-2.5 w-4 h-4">
-                                <i class="fa-solid fa-droplet text-emerald-600 mr-2 text-xs"></i> Bodycare Rituals
+                                Bodycare Rituals
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-bold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-bold text-slate-800">
                                 <input type="checkbox" name="category" value="combo" onchange="filterProducts()" class="rounded border-slate-300 text-purple-700 focus:ring-purple-500 mr-2.5 w-4 h-4">
-                                <i class="fa-solid fa-box-open text-purple-600 mr-2 text-xs"></i> Combos &amp; Kits
+                                Combos &amp; Kits
                             </label>
                         </div>
                     </div>
@@ -420,33 +420,28 @@
                     <div>
                         <label class="block text-[11px] font-extrabold text-slate-700 uppercase tracking-widest mb-2 font-mono">Skin Type</label>
                         <div class="space-y-1.5">
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="radio" name="skinType" value="all" checked onchange="filterProducts()" class="text-[#205D96] focus:ring-amber-500 mr-2.5">
                                 <span>All Skin Types</span>
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="radio" name="skinType" value="oily" onchange="filterProducts()" class="text-[#205D96] focus:ring-amber-500 mr-2.5">
-                                <span class="w-2 h-2 rounded-full bg-amber-500 mr-2"></span>
                                 <span>Oily Skin</span>
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="radio" name="skinType" value="dry" onchange="filterProducts()" class="text-[#205D96] focus:ring-amber-500 mr-2.5">
-                                <span class="w-2 h-2 rounded-full bg-blue-500 mr-2"></span>
                                 <span>Dry Skin</span>
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="radio" name="skinType" value="combination" onchange="filterProducts()" class="text-[#205D96] focus:ring-amber-500 mr-2.5">
-                                <span class="w-2 h-2 rounded-full bg-purple-500 mr-2"></span>
                                 <span>Combination Skin</span>
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="radio" name="skinType" value="sensitive" onchange="filterProducts()" class="text-[#205D96] focus:ring-amber-500 mr-2.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span>
                                 <span>Sensitive Skin</span>
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="radio" name="skinType" value="normal" onchange="filterProducts()" class="text-[#205D96] focus:ring-amber-500 mr-2.5">
-                                <span class="w-2 h-2 rounded-full bg-rose-400 mr-2"></span>
                                 <span>Normal Skin</span>
                             </label>
                         </div>
@@ -459,44 +454,36 @@
                             <span class="text-[10px] text-stone-400 font-mono">8 Options</span>
                         </div>
                         <div class="space-y-1.5 max-h-56 overflow-y-auto pr-1">
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="checkbox" name="concern" value="acne" onchange="filterProducts()" class="rounded border-slate-300 text-[#205D96] focus:ring-amber-500 mr-2.5 w-3.5 h-3.5">
-                                <i class="fa-solid fa-virus-slash text-amber-600 text-[10px] w-4"></i>
                                 <span>Acne &amp; Blemishes</span>
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="checkbox" name="concern" value="pigmentation" onchange="filterProducts()" class="rounded border-slate-300 text-[#205D96] focus:ring-amber-500 mr-2.5 w-3.5 h-3.5">
-                                <i class="fa-solid fa-sun text-amber-500 text-[10px] w-4"></i>
                                 <span>Pigmentation</span>
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="checkbox" name="concern" value="dark-spots" onchange="filterProducts()" class="rounded border-slate-300 text-[#205D96] focus:ring-amber-500 mr-2.5 w-3.5 h-3.5">
-                                <i class="fa-solid fa-bullseye text-rose-500 text-[10px] w-4"></i>
                                 <span>Dark Spots</span>
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="checkbox" name="concern" value="tan" onchange="filterProducts()" class="rounded border-slate-300 text-[#205D96] focus:ring-amber-500 mr-2.5 w-3.5 h-3.5">
-                                <i class="fa-solid fa-umbrella-beach text-orange-500 text-[10px] w-4"></i>
                                 <span>Tan Removal</span>
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="checkbox" name="concern" value="dullness" onchange="filterProducts()" class="rounded border-slate-300 text-[#205D96] focus:ring-amber-500 mr-2.5 w-3.5 h-3.5">
-                                <i class="fa-solid fa-wand-magic-sparkles text-amber-500 text-[10px] w-4"></i>
                                 <span>Dullness</span>
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="checkbox" name="concern" value="anti-ageing" onchange="filterProducts()" class="rounded border-slate-300 text-[#205D96] focus:ring-amber-500 mr-2.5 w-3.5 h-3.5">
-                                <i class="fa-solid fa-spa text-emerald-600 text-[10px] w-4"></i>
                                 <span>Anti-Ageing</span>
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="checkbox" name="concern" value="dryness" onchange="filterProducts()" class="rounded border-slate-300 text-[#205D96] focus:ring-amber-500 mr-2.5 w-3.5 h-3.5">
-                                <i class="fa-solid fa-droplet text-blue-500 text-[10px] w-4"></i>
                                 <span>Dryness</span>
                             </label>
-                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#8EC5FF] bg-white hover:bg-[#E3F1FF] transition cursor-pointer text-xs font-semibold text-slate-800">
+                            <label class="flex items-center p-2 rounded-xl border border-amber-900/10 hover:border-[#E8A33D] bg-white hover:bg-[#FAF7F2] transition cursor-pointer text-xs font-semibold text-slate-800">
                                 <input type="checkbox" name="concern" value="open-pores" onchange="filterProducts()" class="rounded border-slate-300 text-[#205D96] focus:ring-amber-500 mr-2.5 w-3.5 h-3.5">
-                                <i class="fa-solid fa-braille text-purple-600 text-[10px] w-4"></i>
                                 <span>Open Pores</span>
                             </label>
                         </div>

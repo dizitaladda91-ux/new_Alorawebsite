@@ -20,9 +20,9 @@
   --brown-40: rgba(59, 36, 24, 0.4);
   --brown-20: rgba(59, 36, 24, 0.15);
   --brown-10: rgba(59, 36, 24, 0.08);
-  --btn-blue: #8EC5FF;
-  --btn-blue-hover: #6FB3F5;
-  --btn-blue-active: #5AA3EA;
+  --btn-blue: #E8A33D;
+  --btn-blue-hover: #D48D2A;
+  --btn-blue-active: #C07B1E;
   --baby-blue: #8EC5FF;
   --baby-blue-soft: #E3F1FF;
   --baby-blue-deep: #2F7ACC;
@@ -77,7 +77,7 @@ nav, .navbar, .nav-link, nav a, .navbar a, #mobile-menu, #mobile-menu-drawer, he
   font-family: var(--font-body) !important;
 }
 
-/* Primary Action Buttons: Buy Now & Confirm Order / Pay Now ONLY */
+/* Primary Action Buttons: Add to Cart, Buy Now & Confirm Order / Pay Now */
 .btn-buy-now,
 .buy-now-btn,
 #buyNowBtn,
@@ -86,12 +86,15 @@ nav, .navbar, .nav-link, nav a, .navbar a, #mobile-menu, #mobile-menu-drawer, he
 .confirm-order-btn,
 .btn-blue-action,
 [data-action="buy-now"],
+.add-to-cart-btn,
+.bestseller-add-btn,
+#cart-toggle-btn,
 button.btn-primary,
 a.btn-primary {
   background-color: var(--btn-blue) !important;
   background-image: linear-gradient(var(--btn-blue), var(--btn-blue)) !important;
   border-color: var(--btn-blue) !important;
-  color: var(--brown) !important;
+  color: #2B1E16 !important;
   font-family: var(--font-body) !important;
 }
 
@@ -103,11 +106,15 @@ a.btn-primary {
 .confirm-order-btn:hover,
 .btn-blue-action:hover,
 [data-action="buy-now"]:hover,
+.add-to-cart-btn:hover,
+.bestseller-add-btn:hover,
+#cart-toggle-btn:hover,
 button.btn-primary:hover,
 a.btn-primary:hover {
   background-color: var(--btn-blue-hover) !important;
   background-image: linear-gradient(var(--btn-blue-hover), var(--btn-blue-hover)) !important;
   border-color: var(--btn-blue-hover) !important;
+  color: #2B1E16 !important;
 }
 
 .btn-buy-now:active,
@@ -118,21 +125,28 @@ a.btn-primary:hover {
 .confirm-order-btn:active,
 .btn-blue-action:active,
 [data-action="buy-now"]:active,
+.add-to-cart-btn:active,
+.bestseller-add-btn:active,
+#cart-toggle-btn:active,
 button.btn-primary:active,
 a.btn-primary:active {
   background-color: var(--btn-blue-active) !important;
   background-image: linear-gradient(var(--btn-blue-active), var(--btn-blue-active)) !important;
   border-color: var(--btn-blue-active) !important;
+  color: #2B1E16 !important;
 }
 
 .btn-buy-now:disabled,
 .buy-now-btn:disabled,
 #payNow:disabled,
-#confirm-order-btn:disabled {
-  background-color: #D9E8F7 !important;
-  background-image: linear-gradient(#D9E8F7, #D9E8F7) !important;
-  border-color: #D9E8F7 !important;
-  color: var(--brown) !important;
+#confirm-order-btn:disabled,
+.add-to-cart-btn:disabled,
+.bestseller-add-btn:disabled,
+#cart-toggle-btn:disabled {
+  background-color: #F3D8B0 !important;
+  background-image: linear-gradient(#F3D8B0, #F3D8B0) !important;
+  border-color: #F3D8B0 !important;
+  color: #8C7565 !important;
   cursor: not-allowed !important;
 }
 

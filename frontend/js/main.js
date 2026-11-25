@@ -206,17 +206,17 @@ function renderFeaturedCartControl(card) {
 
     if (quantity > 0) {
         control.innerHTML = `
-            <div class="flex w-full items-center justify-between rounded-full bg-[#8EC5FF] px-3.5 py-1.5 text-[#0F172A] shadow-xs">
-                <button type="button" onclick="changeFeaturedCartQuantity(this, -1)" aria-label="Decrease quantity" class="flex h-7 w-7 items-center justify-center rounded-full bg-white text-base font-bold text-[#0F172A] shadow-xs hover:bg-[#FAF7F2] transition-colors">−</button>
+            <div class="flex w-full items-center justify-between rounded-full bg-[#E8A33D] px-3.5 py-1.5 text-[#2B1E16] shadow-xs">
+                <button type="button" onclick="changeFeaturedCartQuantity(this, -1)" aria-label="Decrease quantity" class="flex h-7 w-7 items-center justify-center rounded-full bg-white text-base font-bold text-[#2B1E16] shadow-xs hover:bg-[#FAF7F2] transition-colors">−</button>
                 <span class="text-sm font-bold font-sans" aria-live="polite">Qty: ${quantity}</span>
-                <button type="button" onclick="changeFeaturedCartQuantity(this, 1)" aria-label="Increase quantity" class="flex h-7 w-7 items-center justify-center rounded-full bg-white text-base font-bold text-[#0F172A] shadow-xs hover:bg-[#FAF7F2] transition-colors">+</button>
+                <button type="button" onclick="changeFeaturedCartQuantity(this, 1)" aria-label="Increase quantity" class="flex h-7 w-7 items-center justify-center rounded-full bg-white text-base font-bold text-[#2B1E16] shadow-xs hover:bg-[#FAF7F2] transition-colors">+</button>
             </div>
         `;
         return;
     }
 
     control.innerHTML = `
-        <button type="button" onclick="addFeaturedProductToCart(this)" class="bestseller-add-btn w-full bg-[#0F172A] hover:bg-[#F59E0B] text-white hover:text-[#0F172A] font-bold py-3 px-5 rounded-full text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-xs hover:shadow-md active:scale-95 cursor-pointer group/btn">
+        <button type="button" onclick="addFeaturedProductToCart(this)" class="bestseller-add-btn w-full bg-[#E8A33D] hover:bg-[#D48D2A] text-[#2B1E16] hover:text-[#2B1E16] font-bold py-3 px-5 rounded-full text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-xs hover:shadow-md active:scale-95 cursor-pointer group/btn">
             <svg class="w-4 h-4 pointer-events-none transition-transform group-hover/btn:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
             <span class="font-bold tracking-wide">Add to Cart</span>
         </button>
@@ -665,7 +665,7 @@ async function loadSliderProducts() {
 
                 <!-- Add to Cart CTA Button Container -->
                 <div class="featured-cart-control px-4 pb-4 pt-1.5">
-                    <button type="button" onclick="addFeaturedProductToCart(this)" class="bestseller-add-btn w-full bg-[#0F172A] hover:bg-[#F59E0B] text-white hover:text-[#0F172A] font-bold py-3 px-5 rounded-full text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-xs hover:shadow-md active:scale-95 cursor-pointer group/btn">
+                    <button type="button" onclick="addFeaturedProductToCart(this)" class="bestseller-add-btn w-full bg-[#E8A33D] hover:bg-[#D48D2A] text-[#2B1E16] hover:text-[#2B1E16] font-bold py-3 px-5 rounded-full text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-xs hover:shadow-md active:scale-95 cursor-pointer group/btn">
                         <svg class="w-4 h-4 pointer-events-none transition-transform group-hover/btn:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                         <span class="font-bold tracking-wide">Add to Cart</span>
                     </button>

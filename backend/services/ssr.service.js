@@ -230,7 +230,7 @@ export const renderBlogArticleSsr = (templateHtml, blog, relatedProducts = []) =
                             ${pMrp ? `<span class="text-xs text-slate-400 line-through">₹${pMrp}</span>` : ''}
                         </div>
                     </div>
-                    <a href="${pUrl}" class="w-full text-center bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] font-bold text-xs py-2 rounded-xl transition">
+                    <a href="${pUrl}" class="w-full text-center bg-[#E8A33D] hover:bg-[#D48D2A] text-[#2B1E16] font-bold text-xs py-2 rounded-xl transition">
                         View Product
                     </a>
                 </div>
@@ -597,7 +597,7 @@ export const renderProductListSsr = (templateHtml, products = []) => {
                             ${mrp ? `<span class="text-xs text-slate-400 line-through">₹${mrp}</span>` : ''}
                         </div>
                     </div>
-                    <a href="${pUrl}" class="w-full text-center bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] font-bold text-xs py-2.5 rounded-xl transition">
+                    <a href="${pUrl}" class="w-full text-center bg-[#E8A33D] hover:bg-[#D48D2A] text-[#2B1E16] font-bold text-xs py-2.5 rounded-xl transition">
                         View Product
                     </a>
                 </div>
