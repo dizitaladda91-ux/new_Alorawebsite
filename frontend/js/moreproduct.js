@@ -2,16 +2,142 @@ import BASE_URL, { getImageUrl, safeFetchJson, getProductUrl } from "./config.js
 import "./wishlist.js";
 let PRODUCTS_DATABASE = [];
 let selectedCategories = [];
+let activeSkinType = 'all';
+let selectedConcerns = [];
 let maxPriceConstraint = 2500;
 let ratingFloorFilter = 0;
 let activeQuickTag = 'all';
 let searchQuery = '';
+
+const PRODUCT_TAG_MAPPING = {
+    'purifying-glow-face-wash': {
+        skinTypes: ['all', 'oily', 'combination', 'normal', 'sensitive'],
+        concerns: ['acne', 'open-pores', 'oil', 'dullness', 'tan']
+    },
+    'brightening-hydrating-face-serum': {
+        skinTypes: ['all', 'dry', 'oily', 'combination', 'normal', 'sensitive'],
+        concerns: ['pigmentation', 'dark-spots', 'dullness', 'anti-ageing', 'ageing', 'dryness', 'uneven-tone']
+    },
+    'soothing-face-scrub': {
+        skinTypes: ['all', 'oily', 'combination', 'normal', 'dry'],
+        concerns: ['tan', 'open-pores', 'dullness', 'uneven-tone']
+    },
+    'face-cream-sunscreen-spf-30': {
+        skinTypes: ['all', 'dry', 'normal', 'combination', 'sensitive'],
+        concerns: ['tan', 'anti-ageing', 'ageing', 'dryness', 'dark-spots']
+    },
+    'soothing-body-lotion': {
+        skinTypes: ['all', 'dry', 'normal', 'sensitive', 'combination'],
+        concerns: ['dryness', 'dullness']
+    },
+    'daily-glow-duo': {
+        skinTypes: ['all', 'oily', 'combination', 'normal'],
+        concerns: ['dullness', 'pigmentation', 'dark-spots', 'acne', 'open-pores']
+    },
+    'cleanse-protect-duo': {
+        skinTypes: ['all', 'oily', 'combination', 'normal', 'dry'],
+        concerns: ['tan', 'acne', 'oil', 'dullness']
+    },
+    'hydration-duo': {
+        skinTypes: ['all', 'dry', 'normal', 'combination'],
+        concerns: ['dryness', 'tan', 'dullness']
+    },
+    'radiance-ritual-trio': {
+        skinTypes: ['all', 'normal', 'dry', 'combination', 'oily'],
+        concerns: ['pigmentation', 'dark-spots', 'tan', 'anti-ageing', 'ageing', 'dullness', 'dryness']
+    },
+    'alora-radiance-travel-essentials-kit': {
+        skinTypes: ['all', 'oily', 'dry', 'combination', 'sensitive', 'normal'],
+        concerns: ['acne', 'pigmentation', 'dark-spots', 'tan', 'dullness', 'anti-ageing', 'ageing', 'dryness', 'open-pores']
+    }
+};
+
+const SKIN_TYPE_DISPLAY = {
+    all: 'All Skin Types',
+    oily: 'Oily Skin',
+    dry: 'Dry Skin',
+    combination: 'Combination Skin',
+    sensitive: 'Sensitive Skin',
+    normal: 'Normal Skin'
+};
+
+const CONCERN_DISPLAY = {
+    acne: 'Acne & Blemishes',
+    pigmentation: 'Pigmentation',
+    'dark-spots': 'Dark Spots',
+    tan: 'Tan Removal',
+    dullness: 'Dullness & Glow',
+    'anti-ageing': 'Anti-Ageing',
+    dryness: 'Dryness & Dehydration',
+    'open-pores': 'Open Pores'
+};
+
+function getProductTags(product) {
+    const slug = (product.slug || '').toLowerCase().trim();
+    const name = (product.name || '').toLowerCase();
+    const desc = (product.description || '').toLowerCase();
+    if (PRODUCT_TAG_MAPPING[slug]) {
+        return {
+            skinTypes: [...PRODUCT_TAG_MAPPING[slug].skinTypes],
+            concerns: [...PRODUCT_TAG_MAPPING[slug].concerns]
+        };
+    }
+    const skinTypes = ['all'];
+    const concerns = [];
+    if (name.includes('oil') || desc.includes('oily') || desc.includes('sebum') || name.includes('wash') || name.includes('cleanser')) {
+        skinTypes.push('oily');
+    }
+    if (name.includes('dry') || desc.includes('dry') || desc.includes('nourish') || name.includes('lotion') || name.includes('cream')) {
+        skinTypes.push('dry');
+    }
+    if (name.includes('combination') || desc.includes('combination') || name.includes('serum')) {
+        skinTypes.push('combination');
+    }
+    if (desc.includes('sensitive') || desc.includes('gentle') || desc.includes('soothing')) {
+        skinTypes.push('sensitive');
+    }
+    if (desc.includes('normal')) {
+        skinTypes.push('normal');
+    }
+    if (name.includes('acne') || desc.includes('acne') || desc.includes('blemish') || desc.includes('breakout')) {
+        concerns.push('acne');
+    }
+    if (name.includes('pigment') || desc.includes('pigment') || desc.includes('even tone')) {
+        concerns.push('pigmentation');
+    }
+    if (name.includes('dark spot') || desc.includes('dark spot') || desc.includes('spot')) {
+        concerns.push('dark-spots');
+    }
+    if (name.includes('tan') || desc.includes('tan') || name.includes('sun') || name.includes('spf')) {
+        concerns.push('tan');
+    }
+    if (name.includes('bright') || name.includes('glow') || desc.includes('dull') || desc.includes('radiance')) {
+        concerns.push('dullness');
+    }
+    if (name.includes('age') || desc.includes('age') || desc.includes('wrinkle') || desc.includes('fine line') || desc.includes('firm')) {
+        concerns.push('anti-ageing');
+    }
+    if (name.includes('dry') || desc.includes('dry') || desc.includes('dehydrat') || desc.includes('moisture')) {
+        concerns.push('dryness');
+    }
+    if (name.includes('pore') || desc.includes('pore') || name.includes('scrub')) {
+        concerns.push('open-pores');
+    }
+    return {
+        skinTypes: [...new Set(skinTypes)],
+        concerns: [...new Set(concerns)]
+    };
+}
 let pendingCatalogProductId = null;
 let pendingCatalogCartAction = null;
 document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
     const filterParam = urlParams.get('filter');
     const categoryParam = urlParams.get('category');
+    const skinTypeParam = urlParams.get('skinType') || urlParams.get('skintype');
+    const concernParam = urlParams.get('concern');
+    const searchParam = urlParams.get('search') || urlParams.get('q');
+
     if (filterParam === 'bestseller') {
         activeQuickTag = 'bestseller';
     }
@@ -23,6 +149,34 @@ document.addEventListener("DOMContentLoaded", () => {
             targetCheckbox.checked = true;
         }
     }
+    if (skinTypeParam) {
+        const cleanSkin = skinTypeParam.toLowerCase().trim();
+        if (cleanSkin) {
+            activeSkinType = cleanSkin;
+            const targetRadio = document.querySelector(`input[name="skinType"][value="${cleanSkin}"]`);
+            if (targetRadio) {
+                targetRadio.checked = true;
+            }
+        }
+    }
+    if (concernParam) {
+        const concerns = concernParam.toLowerCase().split(',').map(c => c.trim()).filter(Boolean);
+        selectedConcerns = concerns;
+        concerns.forEach(c => {
+            const targetCheckbox = document.querySelector(`input[name="concern"][value="${c}"]`);
+            if (targetCheckbox) {
+                targetCheckbox.checked = true;
+            }
+        });
+    }
+    if (searchParam) {
+        searchQuery = searchParam.toLowerCase().trim();
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.value = searchParam;
+        }
+    }
+
     loadProductsFromBackend();
     syncCartCounterIcon();
     setupMobileMenu();
@@ -79,7 +233,13 @@ function normalizeAndAssignBestsellers(rawProducts) {
             baseImg: imageSrc,
             galleryImages: (product.galleryImages || []).map(img => getImageUrl(img, '')).filter(Boolean),
             description: product.description || 'No description available', 
-            sizes
+            sizes,
+            skinTypes: (Array.isArray(product.skinTypes) && product.skinTypes.length > 0)
+                ? product.skinTypes.map(s => String(s).toLowerCase().trim())
+                : getProductTags(product).skinTypes,
+            concerns: (Array.isArray(product.concerns) && product.concerns.length > 0)
+                ? product.concerns.map(c => String(c).toLowerCase().trim())
+                : getProductTags(product).concerns
         };
     });
     const hasAnyBackendBestseller = normalized.some(p => p.isBestseller);
@@ -117,7 +277,20 @@ function renderProductCatalog(products) {
     }
     if (noProductsPlaceholder) noProductsPlaceholder.classList.add('hidden');
     const countEl = document.getElementById('results-count');
-    if (countEl) countEl.innerText = `Showing ${products.length} products`;
+    if (countEl) {
+        let filterContext = '';
+        if (activeSkinType && activeSkinType !== 'all') {
+            filterContext = ` for ${SKIN_TYPE_DISPLAY[activeSkinType] || activeSkinType}`;
+        }
+        if (selectedConcerns.length === 1) {
+            filterContext += ` (${CONCERN_DISPLAY[selectedConcerns[0]] || selectedConcerns[0]})`;
+        } else if (selectedConcerns.length > 1) {
+            filterContext += ` (${selectedConcerns.length} Concerns)`;
+        }
+        countEl.innerText = products.length === 0 
+            ? `0 Products Found${filterContext}` 
+            : `Showing ${products.length} products${filterContext}`;
+    }
     gridContainer.innerHTML = products.map(product => {
         const initialSize = product.sizes[0];
         let discountBadgeHTML = '';
@@ -305,8 +478,16 @@ function updateQty(change, element) {
 function filterProducts() {
     const checkboxes = document.querySelectorAll('input[name="category"]:checked');
     selectedCategories = Array.from(checkboxes).map(cb => cb.value.toLowerCase().trim());
+
+    const skinRadio = document.querySelector('input[name="skinType"]:checked');
+    activeSkinType = skinRadio ? skinRadio.value.toLowerCase().trim() : 'all';
+
+    const concernCheckboxes = document.querySelectorAll('input[name="concern"]:checked');
+    selectedConcerns = Array.from(concernCheckboxes).map(cb => cb.value.toLowerCase().trim());
+
     const priceRangeInput = document.getElementById('price-range');
     if (priceRangeInput) maxPriceConstraint = parseInt(priceRangeInput.value);
+
     let results = PRODUCTS_DATABASE.filter(item => {
         if (searchQuery) {
             const matchesName = item.name.toLowerCase().includes(searchQuery);
@@ -317,6 +498,19 @@ function filterProducts() {
         if (selectedCategories.length > 0 && !selectedCategories.includes(item.category)) {
             return false;
         }
+        if (activeSkinType && activeSkinType !== 'all') {
+            const itemSkins = item.skinTypes || ['all'];
+            if (!itemSkins.includes(activeSkinType) && !itemSkins.includes('all')) {
+                return false;
+            }
+        }
+        if (selectedConcerns.length > 0) {
+            const itemConcerns = item.concerns || [];
+            const matchesAnyConcern = selectedConcerns.some(c => itemConcerns.includes(c));
+            if (!matchesAnyConcern) {
+                return false;
+            }
+        }
         if (item.rating < ratingFloorFilter) return false;
         if (activeQuickTag === 'bestseller' && !item.isBestseller) {
             return false;
@@ -325,6 +519,7 @@ function filterProducts() {
         if (basePrice > maxPriceConstraint) return false;
         return true;
     });
+
     const sortFilter = document.getElementById('sort-filter');
     if (sortFilter) {
         const sortSelection = sortFilter.value;
@@ -336,7 +531,71 @@ function filterProducts() {
             results.sort((a, b) => b.rating - a.rating);
         }
     }
+
+    renderActiveFilterBadges();
     renderProductCatalog(results);
+    syncFilterUrl();
+}
+
+function renderActiveFilterBadges() {
+    const chipsContainer = document.getElementById('active-filter-chips');
+    if (!chipsContainer) return;
+    const chips = [];
+
+    if (activeSkinType && activeSkinType !== 'all') {
+        const label = SKIN_TYPE_DISPLAY[activeSkinType] || activeSkinType;
+        chips.push(`
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E3F1FF] text-[#205D96] text-xs font-bold border border-[#8EC5FF]/80 shadow-2xs">
+                <span>Skin: ${label}</span>
+                <button type="button" onclick="clearSkinTypeFilter()" class="hover:text-rose-600 transition-colors ml-0.5 cursor-pointer font-extrabold text-sm leading-none" aria-label="Clear skin type filter">&times;</button>
+            </span>
+        `);
+    }
+
+    selectedConcerns.forEach(c => {
+        const label = CONCERN_DISPLAY[c] || c;
+        chips.push(`
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/90 text-amber-900 text-xs font-bold border border-amber-300 shadow-2xs">
+                <span>Concern: ${label}</span>
+                <button type="button" onclick="removeSingleConcern('${c}')" class="hover:text-rose-600 transition-colors ml-0.5 cursor-pointer font-extrabold text-sm leading-none" aria-label="Remove ${label} filter">&times;</button>
+            </span>
+        `);
+    });
+
+    chipsContainer.innerHTML = chips.join('');
+}
+
+function clearSkinTypeFilter() {
+    activeSkinType = 'all';
+    const allRadio = document.querySelector('input[name="skinType"][value="all"]');
+    if (allRadio) allRadio.checked = true;
+    filterProducts();
+}
+
+function removeSingleConcern(c) {
+    const cb = document.querySelector(`input[name="concern"][value="${c}"]`);
+    if (cb) cb.checked = false;
+    filterProducts();
+}
+
+function clearConcernFilter() {
+    selectedConcerns = [];
+    document.querySelectorAll('input[name="concern"]').forEach(cb => cb.checked = false);
+    filterProducts();
+}
+
+function syncFilterUrl() {
+    try {
+        const params = new URLSearchParams();
+        if (activeQuickTag === 'bestseller') params.set('filter', 'bestseller');
+        if (selectedCategories.length === 1) params.set('category', selectedCategories[0]);
+        if (activeSkinType && activeSkinType !== 'all') params.set('skinType', activeSkinType);
+        if (selectedConcerns.length > 0) params.set('concern', selectedConcerns.join(','));
+        if (searchQuery) params.set('search', searchQuery);
+        const query = params.toString();
+        const newUrl = query ? `${window.location.pathname}?${query}` : window.location.pathname;
+        window.history.replaceState(null, '', newUrl);
+    } catch (_) {}
 }
 function updateQuickFilterUI() {
     const bestsellerBadge = document.getElementById('badge-bestseller');
@@ -368,6 +627,11 @@ function setRatingFilter(minStars) {
 }
 function resetFilters() {
     document.querySelectorAll('input[name="category"]').forEach(cb => cb.checked = false);
+    document.querySelectorAll('input[name="concern"]').forEach(cb => cb.checked = false);
+    const allRadio = document.querySelector('input[name="skinType"][value="all"]');
+    if (allRadio) allRadio.checked = true;
+    activeSkinType = 'all';
+    selectedConcerns = [];
     const range = document.getElementById('price-range');
     if (range) range.value = 2500;
     const sort = document.getElementById('sort-filter');
@@ -647,3 +911,7 @@ document.addEventListener('partialsLoaded', () => {
         try { window.updateHeaderCartCount(); } catch (e) { console.warn('updateHeaderCartCount failed', e); }
     }
 });
+
+window.clearSkinTypeFilter = clearSkinTypeFilter;
+window.clearConcernFilter = clearConcernFilter;
+window.removeSingleConcern = removeSingleConcern;

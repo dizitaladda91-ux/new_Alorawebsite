@@ -30,6 +30,17 @@ window.closeMobileDrawer = function (event) {
         document.body.style.overflow = '';
     }, 300);
 };
+window.toggleMobileAccordion = function (menuId, btn) {
+    const target = document.getElementById(menuId);
+    if (!target) return;
+    const isHidden = target.classList.contains('hidden');
+    target.classList.toggle('hidden');
+    const chevron = btn?.querySelector('svg');
+    if (chevron) {
+        chevron.style.transform = isHidden ? 'rotate(180deg)' : '';
+    }
+};
+
 
 document.addEventListener('click', (event) => {
     const mobileMenu = document.getElementById('mobile-menu');

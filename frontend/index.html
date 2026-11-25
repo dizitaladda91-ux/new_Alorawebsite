@@ -1169,11 +1169,132 @@
 
     <!-- Center/Right: Desktop Menu Links (Bigger, Clear, DM Sans) -->
     <div class="hidden lg:flex items-center">
-      <ul class="flex items-center gap-4 xl:gap-6 text-[12px] lg:text-[14px] xl:text-[15px] font-semibold tracking-wide uppercase text-[#3B2418] whitespace-nowrap">
+      <ul class="flex items-center gap-3.5 xl:gap-5 text-[12px] lg:text-[13px] xl:text-[14px] font-semibold tracking-wide uppercase text-[#3B2418] whitespace-nowrap">
         <li><a href="/" class="hover:text-[#205D96] transition-colors py-1">HOME</a></li>
         <li><a href="/products" class="hover:text-[#205D96] transition-colors py-1">PRODUCTS</a></li>
+
+        <!-- SKIN TYPE DROPDOWN -->
+        <li class="relative group/skintype py-2">
+          <a href="/products" class="inline-flex items-center gap-1 hover:text-[#205D96] transition-colors py-1 cursor-pointer">
+            <span>SKIN TYPE</span>
+            <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/skintype:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+          </a>
+          <div class="absolute left-0 top-full pt-1.5 w-52 hidden group-hover/skintype:block z-50 animate-fade-in">
+            <div class="bg-white rounded-2xl shadow-xl border border-[#3B2418]/10 py-2 text-[#3B2418] normal-case overflow-hidden">
+              <div class="px-3.5 py-1.5 border-b border-stone-100 bg-[#FAF7F2]">
+                <span class="text-[10px] font-bold tracking-wider uppercase text-[#787392]">By Skin Type</span>
+              </div>
+              <a href="/products?skinType=oily" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                <span>Oily Skin</span>
+              </a>
+              <a href="/products?skinType=dry" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                <span>Dry Skin</span>
+              </a>
+              <a href="/products?skinType=combination" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                <span>Combination Skin</span>
+              </a>
+              <a href="/products?skinType=sensitive" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span>Sensitive Skin</span>
+              </a>
+              <a href="/products?skinType=normal" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                <span>Normal Skin</span>
+              </a>
+              <div class="border-t border-stone-100 mt-1 pt-1">
+                <a href="/products?skinType=all" class="flex items-center justify-between px-3.5 py-1.5 text-[11px] font-bold text-[#205D96] hover:bg-[#FAF7F2] transition-colors">
+                  <span>All Skin Types</span>
+                  <span>&rarr;</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- CONCERN DROPDOWN -->
+        <li class="relative group/concern py-2">
+          <a href="/products" class="inline-flex items-center gap-1 hover:text-[#205D96] transition-colors py-1 cursor-pointer">
+            <span>CONCERNS</span>
+            <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/concern:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+          </a>
+          <div class="absolute -left-10 top-full pt-1.5 w-64 hidden group-hover/concern:block z-50 animate-fade-in">
+            <div class="bg-white rounded-2xl shadow-xl border border-[#3B2418]/10 py-2 text-[#3B2418] normal-case overflow-hidden">
+              <div class="px-3.5 py-1.5 border-b border-stone-100 bg-[#FAF7F2] flex items-center justify-between">
+                <span class="text-[10px] font-bold tracking-wider uppercase text-[#787392]">By Skin Concern</span>
+                <span class="text-[10px] text-[#205D96] font-semibold">8 Concerns</span>
+              </div>
+              <div class="py-1">
+                <a href="/products?concern=acne" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-virus-slash text-amber-600 text-[11px] w-3.5"></i>
+                    <span>Acne &amp; Blemishes</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Clarifying</span>
+                </a>
+                <a href="/products?concern=pigmentation" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-sun text-amber-500 text-[11px] w-3.5"></i>
+                    <span>Pigmentation</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Even Tone</span>
+                </a>
+                <a href="/products?concern=dark-spots" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-bullseye text-rose-500 text-[11px] w-3.5"></i>
+                    <span>Dark Spots</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Correction</span>
+                </a>
+                <a href="/products?concern=tan" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-umbrella-beach text-orange-500 text-[11px] w-3.5"></i>
+                    <span>Tan Removal</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Sun Care</span>
+                </a>
+                <a href="/products?concern=dullness" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-500 text-[11px] w-3.5"></i>
+                    <span>Dullness</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Glow Ritual</span>
+                </a>
+                <a href="/products?concern=anti-ageing" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-spa text-emerald-600 text-[11px] w-3.5"></i>
+                    <span>Anti-Ageing</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Firming</span>
+                </a>
+                <a href="/products?concern=dryness" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-droplet text-blue-500 text-[11px] w-3.5"></i>
+                    <span>Dryness</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Hydration</span>
+                </a>
+                <a href="/products?concern=open-pores" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-braille text-purple-600 text-[11px] w-3.5"></i>
+                    <span>Open Pores</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Refining</span>
+                </a>
+              </div>
+              <div class="border-t border-stone-100 mt-1 pt-1">
+                <a href="/products" class="flex items-center justify-between px-3.5 py-1.5 text-[11px] font-bold text-[#205D96] hover:bg-[#FAF7F2] transition-colors">
+                  <span>View All Solutions</span>
+                  <span>&rarr;</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
         <li><a href="/about" class="hover:text-[#205D96] transition-colors py-1">WHY US</a></li>
-        <li><a href="/#how-we-make" class="hover:text-[#205D96] transition-colors py-1">HOW WE MAKE</a></li>
         <li><a href="/#ingredients-discovery" class="hover:text-[#205D96] transition-colors py-1">INGREDIENTS</a></li>
         <li><a href="/#reviews" class="hover:text-[#205D96] transition-colors py-1">REVIEWS</a></li>
         <li><a href="/#offers" class="hover:text-[#205D96] transition-colors py-1">OFFERS</a></li>
@@ -1226,9 +1347,44 @@
           </button>
         </div>
 
-        <ul class="mt-8 space-y-5 text-base font-semibold uppercase tracking-wide text-[#3B2418]">
+        <ul class="mt-6 space-y-2.5 text-base font-semibold uppercase tracking-wide text-[#3B2418]">
           <li><a href="/" class="block py-1 hover:text-[#205D96]">Home</a></li>
           <li><a href="/products" class="block py-1 hover:text-[#205D96]">Products</a></li>
+
+          <!-- Mobile Skin Type Accordion -->
+          <li class="border-y border-[#3B2418]/10 py-1.5">
+            <button type="button" onclick="window.toggleMobileAccordion('mobile-skintype-submenu', this)" class="w-full flex items-center justify-between py-1 text-left uppercase hover:text-[#205D96] cursor-pointer">
+              <span>Skin Type</span>
+              <svg class="w-4 h-4 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+            </button>
+            <ul id="mobile-skintype-submenu" class="hidden pl-3 pt-2 pb-1 space-y-2 text-sm normal-case font-medium text-[#3B2418]/90">
+              <li><a href="/products?skinType=oily" class="flex items-center gap-2 py-0.5 hover:text-[#205D96]"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Oily Skin</a></li>
+              <li><a href="/products?skinType=dry" class="flex items-center gap-2 py-0.5 hover:text-[#205D96]"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>Dry Skin</a></li>
+              <li><a href="/products?skinType=combination" class="flex items-center gap-2 py-0.5 hover:text-[#205D96]"><span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>Combination Skin</a></li>
+              <li><a href="/products?skinType=sensitive" class="flex items-center gap-2 py-0.5 hover:text-[#205D96]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Sensitive Skin</a></li>
+              <li><a href="/products?skinType=normal" class="flex items-center gap-2 py-0.5 hover:text-[#205D96]"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>Normal Skin</a></li>
+              <li><a href="/products?skinType=all" class="block py-0.5 font-bold text-[#205D96]">All Skin Types &rarr;</a></li>
+            </ul>
+          </li>
+
+          <!-- Mobile Concerns Accordion -->
+          <li class="border-b border-[#3B2418]/10 pb-1.5">
+            <button type="button" onclick="window.toggleMobileAccordion('mobile-concern-submenu', this)" class="w-full flex items-center justify-between py-1 text-left uppercase hover:text-[#205D96] cursor-pointer">
+              <span>Concerns</span>
+              <svg class="w-4 h-4 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+            </button>
+            <ul id="mobile-concern-submenu" class="hidden pl-3 pt-2 pb-1 space-y-2 text-sm normal-case font-medium text-[#3B2418]/90">
+              <li><a href="/products?concern=acne" class="block py-0.5 hover:text-[#205D96]">Acne &amp; Blemishes</a></li>
+              <li><a href="/products?concern=pigmentation" class="block py-0.5 hover:text-[#205D96]">Pigmentation</a></li>
+              <li><a href="/products?concern=dark-spots" class="block py-0.5 hover:text-[#205D96]">Dark Spots</a></li>
+              <li><a href="/products?concern=tan" class="block py-0.5 hover:text-[#205D96]">Tan Removal</a></li>
+              <li><a href="/products?concern=dullness" class="block py-0.5 hover:text-[#205D96]">Dullness</a></li>
+              <li><a href="/products?concern=anti-ageing" class="block py-0.5 hover:text-[#205D96]">Anti-Ageing</a></li>
+              <li><a href="/products?concern=dryness" class="block py-0.5 hover:text-[#205D96]">Dryness</a></li>
+              <li><a href="/products?concern=open-pores" class="block py-0.5 hover:text-[#205D96]">Open Pores</a></li>
+            </ul>
+          </li>
+
           <li><a href="/about" class="block py-1 hover:text-[#205D96]">Why Us</a></li>
           <li><a href="/#how-we-make" class="block py-1 hover:text-[#205D96]">How We Make</a></li>
           <li><a href="/#ingredients-discovery" class="block py-1 hover:text-[#205D96]">Ingredients</a></li>
@@ -1274,9 +1430,6 @@
                   <!-- 1. Face Wash -->
                   <a href="/product/purifying-glow-face-wash" class="flex flex-col items-center group shrink-0 snap-start text-center focus:outline-none" aria-label="Face Wash">
                       <div class="relative flex flex-col items-center">
-                          <span class="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20 bg-[#C43826] text-white text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md whitespace-nowrap border border-white">
-                              Bestseller
-                          </span>
                           <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full border-2 border-[#3B2418]/25 group-hover:border-[#205D96] transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 flex items-center justify-center overflow-hidden">
                               <img src="https://res.cloudinary.com/hgefnsjm/image/upload/v1795011183/ecommerce/rlvqxeaj5tfblxeszlbc.webp" alt="Purifying Glow Face Wash" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-300 scale-125 group-hover:scale-135" style="transform: scale(1.22);">
                           </div>
@@ -1287,9 +1440,6 @@
                   <!-- 2. Face Serum -->
                   <a href="/product/brightening-hydrating-face-serum" class="flex flex-col items-center group shrink-0 snap-start text-center focus:outline-none" aria-label="Face Serum">
                       <div class="relative flex flex-col items-center">
-                          <span class="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20 bg-[#C43826] text-white text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md whitespace-nowrap border border-white">
-                              Bestseller
-                          </span>
                           <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full border-2 border-[#3B2418]/25 group-hover:border-[#205D96] transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 flex items-center justify-center overflow-hidden">
                               <img src="https://res.cloudinary.com/hgefnsjm/image/upload/v1795011203/ecommerce/wcjje7m6zs8f7c1mxqdn.webp" alt="Brightening & Hydrating Face Serum" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-300 scale-125 group-hover:scale-135" style="transform: scale(1.22);">
                           </div>
@@ -1300,9 +1450,6 @@
                   <!-- 3. Body Lotion -->
                   <a href="/product/soothing-body-lotion" class="flex flex-col items-center group shrink-0 snap-start text-center focus:outline-none" aria-label="Body Lotion">
                       <div class="relative flex flex-col items-center">
-                          <span class="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20 bg-[#C43826] text-white text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md whitespace-nowrap border border-white">
-                              Bestseller
-                          </span>
                           <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full border-2 border-[#3B2418]/25 group-hover:border-[#205D96] transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 flex items-center justify-center overflow-hidden">
                               <img src="https://res.cloudinary.com/hgefnsjm/image/upload/v1795011297/ecommerce/h4b7ewunh0gaeuo136nc.webp" alt="Soothing Body Lotion" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-300 scale-125 group-hover:scale-135" style="transform: scale(1.22);">
                           </div>
@@ -1313,9 +1460,6 @@
                   <!-- 4. Face Cream -->
                   <a href="/product/face-cream-sunscreen-spf-30" class="flex flex-col items-center group shrink-0 snap-start text-center focus:outline-none" aria-label="Face Cream">
                       <div class="relative flex flex-col items-center">
-                          <span class="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20 bg-[#C43826] text-white text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md whitespace-nowrap border border-white">
-                              Bestseller
-                          </span>
                           <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full border-2 border-[#3B2418]/25 group-hover:border-[#205D96] transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 flex items-center justify-center overflow-hidden">
                               <img src="https://res.cloudinary.com/hgefnsjm/image/upload/v1795011258/ecommerce/kcqkjnjhetef9a1nnm3e.webp" alt="Face Cream + Sunscreen SPF 30++" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-300 scale-125 group-hover:scale-135" style="transform: scale(1.22);">
                           </div>
@@ -1326,9 +1470,6 @@
                   <!-- 5. Face Scrub -->
                   <a href="/product/soothing-face-scrub" class="flex flex-col items-center group shrink-0 snap-start text-center focus:outline-none" aria-label="Face Scrub">
                       <div class="relative flex flex-col items-center">
-                          <span class="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20 bg-[#C43826] text-white text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md whitespace-nowrap border border-white">
-                              Bestseller
-                          </span>
                           <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full border-2 border-[#3B2418]/25 group-hover:border-[#205D96] transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 flex items-center justify-center overflow-hidden">
                               <img src="https://res.cloudinary.com/hgefnsjm/image/upload/v1795011235/ecommerce/ncdwqg2jym2aizcqzgvy.webp" alt="Soothing Face Scrub" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-300 scale-125 group-hover:scale-135" style="transform: scale(1.22);">
                           </div>
@@ -1339,9 +1480,6 @@
                   <!-- 6. All Combos -->
                   <a href="/products?category=combo" class="flex flex-col items-center group shrink-0 snap-start text-center focus:outline-none" aria-label="All Combos">
                       <div class="relative flex flex-col items-center">
-                          <span class="absolute -top-2.5 left-1/2 -translate-x-1/2 z-20 bg-[#C43826] text-white text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md whitespace-nowrap border border-white">
-                              Bestseller
-                          </span>
                           <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full border-2 border-[#3B2418]/25 group-hover:border-[#205D96] transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 flex items-center justify-center overflow-hidden">
                               <img src="https://res.cloudinary.com/hgefnsjm/image/upload/v1795167559/ecommerce/wi8jbenmilbmbondlhwe.png" alt="All Combos & Bundles" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-300 scale-125 group-hover:scale-135" style="transform: scale(1.22);">
                           </div>
@@ -1354,59 +1492,176 @@
       </div>
   </section>
 
-<section id="featured" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+  <!-- ============ BEST SELLERS COLLECTION ============ -->
+  <style>
+    :root {
+      --alora-bg: #F2EBDA;              /* page/section background (warm cream) */
+      --alora-card-bg: #FFFFFF;         /* card background */
+      --alora-heading: #0F172A;         /* heading text (dark navy) */
+      --alora-title: #3B2418;           /* product title text (dark brown) */
+      --alora-pill-bg: #FBF1CC;         /* eyebrow pill background (soft butter yellow) */
+      --alora-pill-text: #205D96;       /* eyebrow pill text and rating number (deep blue) */
+      --alora-star: #F59E0B;            /* rating stars (amber) */
+      --alora-muted: #787392;           /* review count / muted text */
+      --alora-deal-bg: #C43826;         /* BESTSELLER DEAL badge background (red) */
+      --alora-arrow-bg: #8EC5FF;        /* carousel arrow buttons (light blue circle) */
+    }
 
-            <!-- Top Header Bar -->
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6 sm:mb-8">
-                <div>
-                    <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-100/80 text-[#205D96] text-[11px] font-bold tracking-widest uppercase font-roboto border border-amber-300/40 mb-2">
-                        Customer Favorites
-                    </span>
-                    <h2 class="text-2xl sm:text-4xl font-fraunces font-bold text-slate-900 leading-tight">Best Sellers</h2>
-                </div>
-            </div>
+    #featured {
+      background-color: var(--alora-bg, #F2EBDA);
+    }
 
-            <!-- Product Slider Container Wrapper (Touch Swipe & Mouse Drag Enabled) -->
-            <div class="relative group/featured-slider">
-                <button type="button" onclick="slideProducts('left')" class="absolute left-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-stone-200 bg-white/95 text-[#3B2418] shadow-md transition hover:bg-[#8EC5FF] focus:outline-none focus:ring-2 focus:ring-[#205D96] sm:left-3" aria-label="Previous products" aria-controls="productSliderContainer">
-                    <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
-                </button>
-                <button type="button" onclick="slideProducts('right')" class="absolute right-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-stone-200 bg-white/95 text-[#3B2418] shadow-md transition hover:bg-[#8EC5FF] focus:outline-none focus:ring-2 focus:ring-[#205D96] sm:right-3" aria-label="Next products" aria-controls="productSliderContainer">
-                    <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
-                </button>
-                <!-- Product Slider Container -->
-                <div id="productSliderContainer" class="overflow-x-auto w-full py-3 sm:py-4 scroll-smooth snap-x snap-mandatory no-scrollbar cursor-grab active:cursor-grabbing select-none">
-                    <div id="productSliderWrapper" class="flex items-stretch gap-4 sm:gap-6">
-                        <!-- Skeleton Product Card Placeholders (Exact width & height match eliminates CLS layout shift) -->
-                        <div class="w-[calc(80%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center rounded-xl bg-white/70 border border-stone-200/90 p-3.5 min-h-[460px] sm:min-h-[490px] animate-pulse flex flex-col justify-between">
-                            <div class="w-full h-44 bg-slate-200/70 rounded-xl mb-3"></div>
-                            <div class="h-4 bg-slate-200/70 rounded w-3/4 mb-2"></div>
-                            <div class="h-3 bg-slate-200/70 rounded w-1/2 mb-4"></div>
-                            <div class="h-8 bg-slate-200/70 rounded-xl w-full"></div>
-                        </div>
-                        <div class="w-[calc(80%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center rounded-xl bg-white/70 border border-stone-200/90 p-3.5 min-h-[460px] sm:min-h-[490px] animate-pulse flex flex-col justify-between">
-                            <div class="w-full h-44 bg-slate-200/70 rounded-xl mb-3"></div>
-                            <div class="h-4 bg-slate-200/70 rounded w-3/4 mb-2"></div>
-                            <div class="h-3 bg-slate-200/70 rounded w-1/2 mb-4"></div>
-                            <div class="h-8 bg-slate-200/70 rounded-xl w-full"></div>
-                        </div>
-                        <div class="w-[calc(80%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center rounded-xl bg-white/70 border border-stone-200/90 p-3.5 min-h-[460px] sm:min-h-[490px] animate-pulse flex flex-col justify-between">
-                            <div class="w-full h-44 bg-slate-200/70 rounded-xl mb-3"></div>
-                            <div class="h-4 bg-slate-200/70 rounded w-3/4 mb-2"></div>
-                            <div class="h-3 bg-slate-200/70 rounded w-1/2 mb-4"></div>
-                            <div class="h-8 bg-slate-200/70 rounded-xl w-full"></div>
-                        </div>
-                        <div class="w-[calc(80%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center rounded-xl bg-white/70 border border-stone-200/90 p-3.5 min-h-[460px] sm:min-h-[490px] animate-pulse flex flex-col justify-between hidden md:flex">
-                            <div class="w-full h-44 bg-slate-200/70 rounded-xl mb-3"></div>
-                            <div class="h-4 bg-slate-200/70 rounded w-3/4 mb-2"></div>
-                            <div class="h-3 bg-slate-200/70 rounded w-1/2 mb-4"></div>
-                            <div class="h-8 bg-slate-200/70 rounded-xl w-full"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    .bestseller-fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
 
-</section>
+    .bestseller-fade-up.bestseller-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .bestseller-card {
+      background-color: var(--alora-card-bg, #FFFFFF);
+      border-radius: 20px;
+      box-shadow: 0 10px 25px -5px rgba(59, 36, 24, 0.07), 0 4px 10px -3px rgba(59, 36, 24, 0.03);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .bestseller-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 44px -10px rgba(59, 36, 24, 0.16), 0 8px 18px -4px rgba(59, 36, 24, 0.08);
+    }
+
+    .bestseller-card .card-img-zoom {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .bestseller-card:hover .card-img-zoom {
+      transform: scale(1.05);
+    }
+
+    .bestseller-add-btn {
+      background-color: var(--alora-heading, #0F172A);
+      color: #FFFFFF;
+      border-radius: 9999px;
+      transition: all 0.28s ease;
+    }
+
+    .bestseller-add-btn:hover {
+      background-color: var(--alora-star, #F59E0B) !important;
+      color: var(--alora-heading, #0F172A) !important;
+    }
+
+    .bestseller-arrow-btn {
+      background-color: var(--alora-arrow-bg, #8EC5FF);
+      color: var(--alora-heading, #0F172A);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.16);
+      transition: all 0.25s ease;
+    }
+
+    .bestseller-arrow-btn:hover {
+      background-color: #6FB3F5;
+      transform: translateY(-50%) scale(1.08);
+    }
+  </style>
+
+  <section id="featured" class="bestseller-fade-up w-full py-10 sm:py-16 scroll-mt-24 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <!-- Top Header Bar -->
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 sm:mb-10">
+              <div>
+                  <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#FBF1CC] text-[#205D96] text-[11px] font-bold tracking-[0.15em] uppercase font-sans border border-[#FBF1CC] mb-2.5 shadow-2xs select-none">
+                      ★ CUSTOMER FAVORITES
+                  </span>
+                  <h2 class="text-3xl sm:text-4xl lg:text-[48px] font-sans font-bold text-[#0F172A] leading-tight tracking-tight">
+                      Best Sellers
+                  </h2>
+              </div>
+              <div class="hidden sm:flex items-center gap-2">
+                  <a href="/products?filter=bestseller" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#205D96] hover:text-[#0F172A] transition-colors py-1.5 px-3.5 rounded-full hover:bg-white/60">
+                      <span>View All Best Sellers</span>
+                      <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+                  </a>
+              </div>
+          </div>
+
+          <!-- Product Slider Container Wrapper -->
+          <div class="relative group/featured-slider">
+              <!-- Left Arrow -->
+              <button type="button" onclick="slideProducts('left')" class="bestseller-arrow-btn absolute -left-3 sm:-left-4 top-1/2 z-20 flex h-10 w-10 sm:h-11 sm:w-11 -translate-y-1/2 items-center justify-center rounded-full bg-[#8EC5FF] text-[#0F172A] shadow-md hover:bg-[#6FB3F5] focus:outline-none focus:ring-2 focus:ring-[#205D96] cursor-pointer" aria-label="Previous products" aria-controls="productSliderContainer">
+                  <i class="fa-solid fa-chevron-left text-sm" aria-hidden="true"></i>
+              </button>
+              <!-- Right Arrow -->
+              <button type="button" onclick="slideProducts('right')" class="bestseller-arrow-btn absolute -right-3 sm:-right-4 top-1/2 z-20 flex h-10 w-10 sm:h-11 sm:w-11 -translate-y-1/2 items-center justify-center rounded-full bg-[#8EC5FF] text-[#0F172A] shadow-md hover:bg-[#6FB3F5] focus:outline-none focus:ring-2 focus:ring-[#205D96] cursor-pointer" aria-label="Next products" aria-controls="productSliderContainer">
+                  <i class="fa-solid fa-chevron-right text-sm" aria-hidden="true"></i>
+              </button>
+
+              <!-- Product Slider Container -->
+              <div id="productSliderContainer" class="overflow-x-auto w-full py-4 sm:py-5 scroll-smooth snap-x snap-mandatory no-scrollbar cursor-grab active:cursor-grabbing select-none">
+                  <div id="productSliderWrapper" class="flex items-stretch gap-4 sm:gap-6">
+                      <!-- Skeletons (matched with new rounded-[20px] and layout) -->
+                      <div class="w-[calc(82%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center rounded-[20px] bg-white border border-[#3B2418]/10 p-4 min-h-[490px] animate-pulse flex flex-col justify-between">
+                          <div class="w-full h-48 bg-slate-200/70 rounded-xl mb-3"></div>
+                          <div class="h-4 bg-slate-200/70 rounded w-3/4 mb-2"></div>
+                          <div class="h-3 bg-slate-200/70 rounded w-1/2 mb-4"></div>
+                          <div class="h-10 bg-slate-200/70 rounded-full w-full"></div>
+                      </div>
+                      <div class="w-[calc(82%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center rounded-[20px] bg-white border border-[#3B2418]/10 p-4 min-h-[490px] animate-pulse flex flex-col justify-between">
+                          <div class="w-full h-48 bg-slate-200/70 rounded-xl mb-3"></div>
+                          <div class="h-4 bg-slate-200/70 rounded w-3/4 mb-2"></div>
+                          <div class="h-3 bg-slate-200/70 rounded w-1/2 mb-4"></div>
+                          <div class="h-10 bg-slate-200/70 rounded-full w-full"></div>
+                      </div>
+                      <div class="w-[calc(82%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center rounded-[20px] bg-white border border-[#3B2418]/10 p-4 min-h-[490px] animate-pulse flex flex-col justify-between">
+                          <div class="w-full h-48 bg-slate-200/70 rounded-xl mb-3"></div>
+                          <div class="h-4 bg-slate-200/70 rounded w-3/4 mb-2"></div>
+                          <div class="h-3 bg-slate-200/70 rounded w-1/2 mb-4"></div>
+                          <div class="h-10 bg-slate-200/70 rounded-full w-full"></div>
+                      </div>
+                      <div class="w-[calc(82%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center rounded-[20px] bg-white border border-[#3B2418]/10 p-4 min-h-[490px] animate-pulse flex flex-col justify-between hidden md:flex">
+                          <div class="w-full h-48 bg-slate-200/70 rounded-xl mb-3"></div>
+                          <div class="h-4 bg-slate-200/70 rounded w-3/4 mb-2"></div>
+                          <div class="h-3 bg-slate-200/70 rounded w-1/2 mb-4"></div>
+                          <div class="h-10 bg-slate-200/70 rounded-full w-full"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Trust Points Bar Below Cards -->
+          <div class="mt-8 sm:mt-12 pt-6 border-t border-[#3B2418]/10 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div class="flex items-center justify-center gap-2 text-xs sm:text-[13px] font-semibold text-[#0F172A]">
+                  <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#FBF1CC] text-[#205D96] text-xs">
+                      <i class="fa-solid fa-user-doctor"></i>
+                  </span>
+                  <span>Dermatologist Tested</span>
+              </div>
+              <div class="flex items-center justify-center gap-2 text-xs sm:text-[13px] font-semibold text-[#0F172A]">
+                  <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#FBF1CC] text-[#205D96] text-xs">
+                      <i class="fa-solid fa-paw"></i>
+                  </span>
+                  <span>100% Cruelty Free</span>
+              </div>
+              <div class="flex items-center justify-center gap-2 text-xs sm:text-[13px] font-semibold text-[#0F172A]">
+                  <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#FBF1CC] text-[#205D96] text-xs">
+                      <i class="fa-solid fa-truck-fast"></i>
+                  </span>
+                  <span>Free Shipping ₹499+</span>
+              </div>
+              <div class="flex items-center justify-center gap-2 text-xs sm:text-[13px] font-semibold text-[#0F172A]">
+                  <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#FBF1CC] text-[#205D96] text-xs">
+                      <i class="fa-solid fa-leaf"></i>
+                  </span>
+                  <span>Clean Active Botanicals</span>
+              </div>
+          </div>
+
+      </div>
+  </section>
 
     <!-- ============ HERO BUNDLE HIGHLIGHT SECTION ============ -->
     <section id="offers" class="bundle-hero scroll-mt-24" aria-labelledby="bundle-hero-title">
@@ -2026,8 +2281,8 @@
 
             <div id="skin-concern-grid" class="grid grid-cols-2 md:grid-cols-4">
 
-                <!-- Card 1: Uneven Tone -->
-                <a href="/products" class="group block text-left">
+                <!-- Card 1: Uneven Tone / Pigmentation -->
+                <a href="/products?concern=pigmentation" class="group block text-left">
                     <div class="relative mb-4 aspect-[4/5] w-full overflow-hidden rounded-2xl bg-[#E8DEC8]">
                         <img src="./static/before and after image.webp" alt="Uneven skin tone before and after skincare" width="300" height="375" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
                     </div>
@@ -2038,7 +2293,7 @@
                 </a>
 
                 <!-- Card 2: Acne control -->
-                <a href="/products" class="group block text-left">
+                <a href="/products?concern=acne" class="group block text-left">
                     <div class="relative mb-4 aspect-[4/5] w-full overflow-hidden rounded-2xl bg-[#E8DEC8]">
                         <img src="./static/faceskin2.webp" alt="Acne-prone skin close-up" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
                     </div>
@@ -2048,8 +2303,8 @@
                     </span>
                 </a>
 
-                <!-- Card 3: Oiliness -->
-                <a href="/products" class="group block text-left">
+                <!-- Card 3: Oiliness / Oily Skin -->
+                <a href="/products?skinType=oily" class="group block text-left">
                     <div class="relative mb-4 aspect-[4/5] w-full overflow-hidden rounded-2xl bg-[#E8DEC8]">
                         <img src="./static/faceskin3.webp" alt="Close-up of skin with visible pores" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
                     </div>
@@ -2059,8 +2314,8 @@
                     </span>
                 </a>
 
-                <!-- Card 4: Wrinkles -->
-                <a href="/products" class="group block text-left">
+                <!-- Card 4: Fine Lines & Firming / Anti-Ageing -->
+                <a href="/products?concern=anti-ageing" class="group block text-left">
                     <div class="relative mb-4 aspect-[4/5] w-full overflow-hidden rounded-2xl bg-[#E8DEC8]">
                         <img src="./static/faceskin4.webp" alt="Close-up showing fine lines around the eye" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
                     </div>
@@ -2071,7 +2326,6 @@
                 </a>
 
             </div>
-
 </section>
 
 

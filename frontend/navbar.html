@@ -125,11 +125,132 @@
 
     <!-- Center/Right: Desktop Menu Links (Bigger, Clear, DM Sans) -->
     <div class="hidden lg:flex items-center">
-      <ul class="flex items-center gap-4 xl:gap-6 text-[12px] lg:text-[14px] xl:text-[15px] font-semibold tracking-wide uppercase text-[#3B2418] whitespace-nowrap">
+      <ul class="flex items-center gap-3.5 xl:gap-5 text-[12px] lg:text-[13px] xl:text-[14px] font-semibold tracking-wide uppercase text-[#3B2418] whitespace-nowrap">
         <li><a href="/" class="hover:text-[#205D96] transition-colors py-1">HOME</a></li>
         <li><a href="/products" class="hover:text-[#205D96] transition-colors py-1">PRODUCTS</a></li>
+
+        <!-- SKIN TYPE DROPDOWN -->
+        <li class="relative group/skintype py-2">
+          <a href="/products" class="inline-flex items-center gap-1 hover:text-[#205D96] transition-colors py-1 cursor-pointer">
+            <span>SKIN TYPE</span>
+            <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/skintype:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+          </a>
+          <div class="absolute left-0 top-full pt-1.5 w-52 hidden group-hover/skintype:block z-50 animate-fade-in">
+            <div class="bg-white rounded-2xl shadow-xl border border-[#3B2418]/10 py-2 text-[#3B2418] normal-case overflow-hidden">
+              <div class="px-3.5 py-1.5 border-b border-stone-100 bg-[#FAF7F2]">
+                <span class="text-[10px] font-bold tracking-wider uppercase text-[#787392]">By Skin Type</span>
+              </div>
+              <a href="/products?skinType=oily" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                <span>Oily Skin</span>
+              </a>
+              <a href="/products?skinType=dry" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                <span>Dry Skin</span>
+              </a>
+              <a href="/products?skinType=combination" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                <span>Combination Skin</span>
+              </a>
+              <a href="/products?skinType=sensitive" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span>Sensitive Skin</span>
+              </a>
+              <a href="/products?skinType=normal" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                <span>Normal Skin</span>
+              </a>
+              <div class="border-t border-stone-100 mt-1 pt-1">
+                <a href="/products?skinType=all" class="flex items-center justify-between px-3.5 py-1.5 text-[11px] font-bold text-[#205D96] hover:bg-[#FAF7F2] transition-colors">
+                  <span>All Skin Types</span>
+                  <span>&rarr;</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- CONCERN DROPDOWN -->
+        <li class="relative group/concern py-2">
+          <a href="/products" class="inline-flex items-center gap-1 hover:text-[#205D96] transition-colors py-1 cursor-pointer">
+            <span>CONCERNS</span>
+            <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/concern:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+          </a>
+          <div class="absolute -left-10 top-full pt-1.5 w-64 hidden group-hover/concern:block z-50 animate-fade-in">
+            <div class="bg-white rounded-2xl shadow-xl border border-[#3B2418]/10 py-2 text-[#3B2418] normal-case overflow-hidden">
+              <div class="px-3.5 py-1.5 border-b border-stone-100 bg-[#FAF7F2] flex items-center justify-between">
+                <span class="text-[10px] font-bold tracking-wider uppercase text-[#787392]">By Skin Concern</span>
+                <span class="text-[10px] text-[#205D96] font-semibold">8 Concerns</span>
+              </div>
+              <div class="py-1">
+                <a href="/products?concern=acne" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-virus-slash text-amber-600 text-[11px] w-3.5"></i>
+                    <span>Acne &amp; Blemishes</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Clarifying</span>
+                </a>
+                <a href="/products?concern=pigmentation" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-sun text-amber-500 text-[11px] w-3.5"></i>
+                    <span>Pigmentation</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Even Tone</span>
+                </a>
+                <a href="/products?concern=dark-spots" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-bullseye text-rose-500 text-[11px] w-3.5"></i>
+                    <span>Dark Spots</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Correction</span>
+                </a>
+                <a href="/products?concern=tan" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-umbrella-beach text-orange-500 text-[11px] w-3.5"></i>
+                    <span>Tan Removal</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Sun Care</span>
+                </a>
+                <a href="/products?concern=dullness" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-500 text-[11px] w-3.5"></i>
+                    <span>Dullness</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Glow Ritual</span>
+                </a>
+                <a href="/products?concern=anti-ageing" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-spa text-emerald-600 text-[11px] w-3.5"></i>
+                    <span>Anti-Ageing</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Firming</span>
+                </a>
+                <a href="/products?concern=dryness" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-droplet text-blue-500 text-[11px] w-3.5"></i>
+                    <span>Dryness</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Hydration</span>
+                </a>
+                <a href="/products?concern=open-pores" class="flex items-center justify-between px-3.5 py-1.5 text-xs font-semibold hover:bg-[#FAF7F2] hover:text-[#205D96] transition-colors">
+                  <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-braille text-purple-600 text-[11px] w-3.5"></i>
+                    <span>Open Pores</span>
+                  </span>
+                  <span class="text-[10px] text-stone-400 font-normal">Refining</span>
+                </a>
+              </div>
+              <div class="border-t border-stone-100 mt-1 pt-1">
+                <a href="/products" class="flex items-center justify-between px-3.5 py-1.5 text-[11px] font-bold text-[#205D96] hover:bg-[#FAF7F2] transition-colors">
+                  <span>View All Solutions</span>
+                  <span>&rarr;</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
         <li><a href="/about" class="hover:text-[#205D96] transition-colors py-1">WHY US</a></li>
-        <li><a href="/#how-we-make" class="hover:text-[#205D96] transition-colors py-1">HOW WE MAKE</a></li>
         <li><a href="/#ingredients-discovery" class="hover:text-[#205D96] transition-colors py-1">INGREDIENTS</a></li>
         <li><a href="/#reviews" class="hover:text-[#205D96] transition-colors py-1">REVIEWS</a></li>
         <li><a href="/#offers" class="hover:text-[#205D96] transition-colors py-1">OFFERS</a></li>
@@ -183,9 +304,44 @@
           </button>
         </div>
 
-        <ul class="mt-8 space-y-5 text-base font-semibold uppercase tracking-wide text-[#3B2418]">
+        <ul class="mt-6 space-y-2.5 text-base font-semibold uppercase tracking-wide text-[#3B2418]">
           <li><a href="/" class="block py-1 hover:text-[#205D96]">Home</a></li>
           <li><a href="/products" class="block py-1 hover:text-[#205D96]">Products</a></li>
+
+          <!-- Mobile Skin Type Accordion -->
+          <li class="border-y border-[#3B2418]/10 py-1.5">
+            <button type="button" onclick="window.toggleMobileAccordion('mobile-skintype-submenu', this)" class="w-full flex items-center justify-between py-1 text-left uppercase hover:text-[#205D96] cursor-pointer">
+              <span>Skin Type</span>
+              <svg class="w-4 h-4 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+            </button>
+            <ul id="mobile-skintype-submenu" class="hidden pl-3 pt-2 pb-1 space-y-2 text-sm normal-case font-medium text-[#3B2418]/90">
+              <li><a href="/products?skinType=oily" class="flex items-center gap-2 py-0.5 hover:text-[#205D96]"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Oily Skin</a></li>
+              <li><a href="/products?skinType=dry" class="flex items-center gap-2 py-0.5 hover:text-[#205D96]"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>Dry Skin</a></li>
+              <li><a href="/products?skinType=combination" class="flex items-center gap-2 py-0.5 hover:text-[#205D96]"><span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>Combination Skin</a></li>
+              <li><a href="/products?skinType=sensitive" class="flex items-center gap-2 py-0.5 hover:text-[#205D96]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Sensitive Skin</a></li>
+              <li><a href="/products?skinType=normal" class="flex items-center gap-2 py-0.5 hover:text-[#205D96]"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>Normal Skin</a></li>
+              <li><a href="/products?skinType=all" class="block py-0.5 font-bold text-[#205D96]">All Skin Types &rarr;</a></li>
+            </ul>
+          </li>
+
+          <!-- Mobile Concerns Accordion -->
+          <li class="border-b border-[#3B2418]/10 pb-1.5">
+            <button type="button" onclick="window.toggleMobileAccordion('mobile-concern-submenu', this)" class="w-full flex items-center justify-between py-1 text-left uppercase hover:text-[#205D96] cursor-pointer">
+              <span>Concerns</span>
+              <svg class="w-4 h-4 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+            </button>
+            <ul id="mobile-concern-submenu" class="hidden pl-3 pt-2 pb-1 space-y-2 text-sm normal-case font-medium text-[#3B2418]/90">
+              <li><a href="/products?concern=acne" class="block py-0.5 hover:text-[#205D96]">Acne &amp; Blemishes</a></li>
+              <li><a href="/products?concern=pigmentation" class="block py-0.5 hover:text-[#205D96]">Pigmentation</a></li>
+              <li><a href="/products?concern=dark-spots" class="block py-0.5 hover:text-[#205D96]">Dark Spots</a></li>
+              <li><a href="/products?concern=tan" class="block py-0.5 hover:text-[#205D96]">Tan Removal</a></li>
+              <li><a href="/products?concern=dullness" class="block py-0.5 hover:text-[#205D96]">Dullness</a></li>
+              <li><a href="/products?concern=anti-ageing" class="block py-0.5 hover:text-[#205D96]">Anti-Ageing</a></li>
+              <li><a href="/products?concern=dryness" class="block py-0.5 hover:text-[#205D96]">Dryness</a></li>
+              <li><a href="/products?concern=open-pores" class="block py-0.5 hover:text-[#205D96]">Open Pores</a></li>
+            </ul>
+          </li>
+
           <li><a href="/about" class="block py-1 hover:text-[#205D96]">Why Us</a></li>
           <li><a href="/#how-we-make" class="block py-1 hover:text-[#205D96]">How We Make</a></li>
           <li><a href="/#ingredients-discovery" class="block py-1 hover:text-[#205D96]">Ingredients</a></li>

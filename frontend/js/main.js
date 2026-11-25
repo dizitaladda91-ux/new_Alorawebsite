@@ -206,19 +206,19 @@ function renderFeaturedCartControl(card) {
 
     if (quantity > 0) {
         control.innerHTML = `
-            <div class="flex w-full items-center justify-between rounded-lg bg-[#8EC5FF] px-3 py-1.5 text-[#3B2418]">
-                <button type="button" onclick="changeFeaturedCartQuantity(this, -1)" aria-label="Decrease quantity" class="flex h-8 w-8 items-center justify-center rounded-full bg-white text-lg font-bold">−</button>
-                <span class="text-sm font-bold" aria-live="polite">Qty: ${quantity}</span>
-                <button type="button" onclick="changeFeaturedCartQuantity(this, 1)" aria-label="Increase quantity" class="flex h-8 w-8 items-center justify-center rounded-full bg-white text-lg font-bold">+</button>
+            <div class="flex w-full items-center justify-between rounded-full bg-[#8EC5FF] px-3.5 py-1.5 text-[#0F172A] shadow-xs">
+                <button type="button" onclick="changeFeaturedCartQuantity(this, -1)" aria-label="Decrease quantity" class="flex h-7 w-7 items-center justify-center rounded-full bg-white text-base font-bold text-[#0F172A] shadow-xs hover:bg-[#FAF7F2] transition-colors">−</button>
+                <span class="text-sm font-bold font-sans" aria-live="polite">Qty: ${quantity}</span>
+                <button type="button" onclick="changeFeaturedCartQuantity(this, 1)" aria-label="Increase quantity" class="flex h-7 w-7 items-center justify-center rounded-full bg-white text-base font-bold text-[#0F172A] shadow-xs hover:bg-[#FAF7F2] transition-colors">+</button>
             </div>
         `;
         return;
     }
 
     control.innerHTML = `
-        <button type="button" onclick="addFeaturedProductToCart(this)" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
-            <svg class="w-4 h-4 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-            <span>Add to Cart</span>
+        <button type="button" onclick="addFeaturedProductToCart(this)" class="bestseller-add-btn w-full bg-[#0F172A] hover:bg-[#F59E0B] text-white hover:text-[#0F172A] font-bold py-3 px-5 rounded-full text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-xs hover:shadow-md active:scale-95 cursor-pointer group/btn">
+            <svg class="w-4 h-4 pointer-events-none transition-transform group-hover/btn:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            <span class="font-bold tracking-wide">Add to Cart</span>
         </button>
     `;
 }
@@ -385,14 +385,12 @@ async function loadSliderProducts() {
         console.warn("Featured products API fetch failed, using default showcase products:", err);
     }
 
-    // Curated 4 Best Seller items requested by user:
-    // 1. Facewash (Purifying Glow Face Wash)
-    // 2. Serum (Brightening & Hydrating Face Serum)
-    // 3. Travel Pack (Alora Radiance Travel Essentials Kit)
-    // 4. Combo of Lotion + Cream (Hydration Duo)
+    // Curated 4 Best Seller items with rank tags & active ingredients:
     const targetConfigs = [
         {
             key: 'facewash',
+            rankTag: '#1 Best Seller',
+            ingredientLine: 'Saffron Extract & Vitamin E',
             matcher: (p) => {
                 const slug = (p.slug || '').toLowerCase();
                 const name = (p.name || '').toLowerCase();
@@ -420,6 +418,8 @@ async function loadSliderProducts() {
         },
         {
             key: 'serum',
+            rankTag: '#2 Most Loved',
+            ingredientLine: 'Niacinamide & 24K Saffron Extract',
             matcher: (p) => {
                 const slug = (p.slug || '').toLowerCase();
                 const name = (p.name || '').toLowerCase();
@@ -447,6 +447,8 @@ async function loadSliderProducts() {
         },
         {
             key: 'travel',
+            rankTag: '#3 Trending Kit',
+            ingredientLine: '5-in-1 Daily Glow Minis',
             matcher: (p) => {
                 const slug = (p.slug || '').toLowerCase();
                 const name = (p.name || '').toLowerCase();
@@ -473,6 +475,8 @@ async function loadSliderProducts() {
         },
         {
             key: 'combo_lotion_cream',
+            rankTag: '#4 Value Duo',
+            ingredientLine: 'Body Lotion + Face Cream SPF 30++',
             matcher: (p) => {
                 const slug = (p.slug || '').toLowerCase();
                 const name = (p.name || '').toLowerCase();
@@ -503,9 +507,18 @@ async function loadSliderProducts() {
     const showcaseProducts = targetConfigs.map(cfg => {
         const found = productList.find(cfg.matcher);
         if (found) {
-            return { ...found, isBestseller: true };
+            return {
+                ...found,
+                isBestseller: true,
+                rankTag: cfg.rankTag,
+                ingredientLine: cfg.ingredientLine
+            };
         }
-        return cfg.fallback;
+        return {
+            ...cfg.fallback,
+            rankTag: cfg.rankTag,
+            ingredientLine: cfg.ingredientLine
+        };
     });
 
     updateHeroBannerProductLinks(productList);
@@ -517,13 +530,15 @@ async function loadSliderProducts() {
             const fullImgUrl = getImageUrl(product.imagepath, '/static/placeholder.png');
             const reviewCount = Number(product.reviewsCount) || 0;
             const ratingScore = Number(product.averageReviewRating) || 0;
+            const rankTag = product.rankTag || '#1 Best Seller';
+            const ingredientLine = product.ingredientLine || 'Clean Active Formulation';
             let starsHTML = '';
             if (reviewCount > 0) {
                 for (let i = 1; i <= 5; i++) {
                     starsHTML += i <= Math.floor(ratingScore)
-                        ? `<i class="fa-solid fa-star text-amber-500"></i>`
+                        ? `<i class="fa-solid fa-star text-[#F59E0B]"></i>`
                         : i - 0.5 <= ratingScore
-                            ? `<i class="fa-solid fa-star-half-stroke text-amber-500"></i>`
+                            ? `<i class="fa-solid fa-star-half-stroke text-[#F59E0B]"></i>`
                             : `<i class="fa-regular fa-star text-stone-300"></i>`;
                 }
             }
@@ -566,57 +581,76 @@ async function loadSliderProducts() {
             const sizeDisplay = (sizeText && !['standard', 'undefined', 'null', 'combo'].includes(sizeText.toLowerCase())) ? `(${sizeText})` : '';
 
             const reviewSummary = reviewCount > 0
-                ? `<span class="font-bold text-amber-700 text-xs">${ratingScore.toFixed(1)}</span>
-                    <div class="flex gap-0.5 text-xs">${starsHTML}</div>
-                    <svg class="w-3 h-3 text-stone-400 inline" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-                    <span class="text-stone-500 text-[11px] font-medium font-sans">(${reviewCount})</span>`
-                : '<span class="text-stone-500 text-[11px] font-medium font-sans">No reviews</span>';
+                ? `<span class="font-bold text-[#205D96] text-xs font-sans">${ratingScore.toFixed(1)}</span>
+                    <div class="flex gap-0.5 text-xs text-[#F59E0B]">${starsHTML}</div>
+                    <span class="text-[#787392] text-[11px] font-medium font-sans">(${reviewCount} reviews)</span>`
+                : '<span class="text-[#787392] text-[11px] font-medium font-sans">No reviews yet</span>';
 
             return `
-            <div data-product-id="${prodId}" class="relative w-[calc(80%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center product-card bg-white rounded-xl shadow-xs hover:shadow-md border border-stone-200/90 flex flex-col justify-between overflow-hidden transition-shadow duration-300">
+            <div data-product-id="${prodId}" class="bestseller-card relative w-[calc(82%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center product-card bg-white rounded-[20px] border border-[#3B2418]/10 flex flex-col justify-between overflow-hidden">
                 <div>
                     <!-- Product Image Container -->
-                    <div class="relative w-full aspect-square overflow-hidden bg-[#FAF7F2] p-2 flex items-center justify-center">
-                        <a href="${getProductUrl(product)}" class="w-full h-full block">
-                            <img src="${fullImgUrl}" alt="${product.name}" loading="${index < 2 ? 'eager' : 'lazy'}" fetchpriority="${index === 0 ? 'high' : 'auto'}" decoding="async" class="product-card-img w-full h-full object-contain mix-blend-multiply transition-transform duration-300 hover:scale-105">
-                        </a>
+                    <div class="relative w-full aspect-square overflow-hidden bg-gradient-to-b from-[#FAF7F2] to-[#F2EBDA]/40 p-3 flex items-center justify-center rounded-t-[20px]">
+                        
+                        <!-- Top-Left Rank Tag on Image -->
+                        <span class="absolute top-3 left-3 z-10 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#0F172A] text-[10px] font-bold tracking-wide shadow-xs border border-stone-200/80 select-none">
+                            <i class="fa-solid fa-crown text-[9px] text-[#F59E0B]"></i>
+                            <span>${rankTag}</span>
+                        </span>
 
-                        <!-- Floating Top-Right Wishlist Button -->
-                        <button type="button" onclick="window.handleCardWishlistToggle && window.handleCardWishlistToggle('${prodId}', this, event)" class="wishlist-toggle-btn absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-stone-500 hover:text-rose-600 shadow-xs border border-stone-200/60 flex items-center justify-center cursor-pointer transition-colors" title="Add to Wishlist" aria-label="Add to Wishlist">
+                        <!-- Top-Right Floating Wishlist Button -->
+                        <button type="button" onclick="window.handleCardWishlistToggle && window.handleCardWishlistToggle('${prodId}', this, event)" class="wishlist-toggle-btn absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/95 backdrop-blur-xs hover:bg-white text-stone-500 hover:text-rose-600 shadow-xs border border-stone-200/80 flex items-center justify-center cursor-pointer transition-colors" title="Add to Wishlist" aria-label="Add to Wishlist">
                             <i class="fa-regular fa-heart text-xs sm:text-sm hover:text-rose-600 transition-colors"></i>
                         </button>
+
+                        <!-- Product Image Link -->
+                        <a href="${getProductUrl(product)}" class="w-full h-full block flex items-center justify-center">
+                            <img src="${fullImgUrl}" alt="${product.name}" loading="${index < 2 ? 'eager' : 'lazy'}" fetchpriority="${index === 0 ? 'high' : 'auto'}" decoding="async" class="card-img-zoom product-card-img w-full h-full object-contain mix-blend-multiply">
+                        </a>
+
+                        <!-- Discount Pill (Bottom-Right if discount exists) -->
+                        ${pct > 0 ? `
+                        <span class="absolute bottom-3 right-3 z-10 inline-block px-2 py-0.5 rounded-full bg-emerald-100/95 text-emerald-800 text-[10px] font-extrabold uppercase tracking-wide border border-emerald-300/60 shadow-2xs">
+                            ${pct}% OFF
+                        </span>
+                        ` : ''}
                     </div>
 
-                    <!-- Product Info Section (Amazon Card Style from Image) -->
-                    <div class="px-3.5 sm:px-4 pt-3 pb-2 flex flex-col text-left">
+                    <!-- Product Info Section -->
+                    <div class="px-4 pt-3.5 pb-2 flex flex-col text-left">
                         
-                        <!-- Title (2 lines clamp, Times New Roman, bold) -->
-                        <h3 class="text-sm sm:text-[15px] font-bold text-[#3B2418] leading-snug line-clamp-2 hover:text-[#205D96] transition-colors mb-1.5">
-                            <a href="${getProductUrl(product)}" class="block">${product.name}</a>
-                        </h3>
-
-                        <!-- Rating and review count come from submitted customer reviews. -->
-                        <div class="flex items-center gap-1.5 text-xs text-[#3B2418] mb-2">
+                        <!-- Rating Row: Blue score + amber stars + muted review count -->
+                        <div class="flex items-center gap-1.5 text-xs mb-1.5">
                             ${reviewSummary}
                         </div>
 
-                        <!-- Deal / Promo Badge (Crimson banner like in user screenshot) -->
-                        <div class="mb-2">
-                            <span class="inline-block bg-[#C43826] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xs">
-                                ${product.isBestseller ? 'Bestseller Deal' : (pct > 0 ? `${pct}% OFF DEAL` : 'Special Offer')}
+                        <!-- Title (Jost 500/600, 18-20px, #3B2418) -->
+                        <h3 class="text-[17px] sm:text-[18px] font-sans font-semibold text-[#3B2418] leading-snug line-clamp-2 hover:text-[#205D96] transition-colors mb-1">
+                            <a href="${getProductUrl(product)}" class="block">${product.name}</a>
+                        </h3>
+
+                        <!-- Short Ingredient Subtitle Line -->
+                        <p class="text-[12px] text-[#787392] font-normal line-clamp-1 mb-2.5">
+                            ${ingredientLine}
+                        </p>
+
+                        <!-- Deal / Promo Badge -->
+                        <div class="mb-2.5">
+                            <span class="inline-block bg-[#C43826] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.08em] px-2.5 py-0.5 rounded-[3px]">
+                                BESTSELLER DEAL
                             </span>
                         </div>
 
-                        <!-- Price Row (Amazon Layout: bold large rupee + price + unit size) -->
-                        <div class="flex items-baseline flex-wrap gap-1 mb-0.5">
+                        <!-- Price Row: Large Current Price + Strikethrough MRP -->
+                        <div class="flex items-baseline flex-wrap gap-2 mb-1">
                             <span class="text-xs font-semibold text-[#3B2418] align-super">₹</span>
                             <span class="product-price text-2xl font-bold text-[#3B2418] tracking-tight leading-none">${initialPrice}</span>
-                            ${sizeDisplay ? `<span class="unit-size-text text-[11px] text-stone-500 font-normal">${sizeDisplay}</span>` : ''}
-                        </div>
-
-                        <!-- MRP & Discount Row: "M.R.P.: ₹4,250 (20% off)" -->
-                        <div class="text-xs text-stone-600 mb-1.5">
-                            ${initialComparePrice ? `M.R.P.: <span class="product-mrp line-through text-stone-400 font-mono">₹${initialComparePrice}</span> <span class="discount-badge text-emerald-800 font-bold">(${pct}% off)</span>` : ''}
+                            ${sizeDisplay ? `<span class="unit-size-text text-[11px] text-[#787392] font-normal">${sizeDisplay}</span>` : ''}
+                            ${initialComparePrice ? `
+                            <span class="text-xs text-[#787392] ml-1">
+                                M.R.P.: <span class="product-mrp line-through text-[#787392]/80">₹${initialComparePrice}</span>
+                            </span>
+                            ` : ''}
                         </div>
 
                         <!-- Size Variant Selection Buttons -->
@@ -629,11 +663,11 @@ async function loadSliderProducts() {
                     </div>
                 </div>
 
-                <!-- Add to Cart CTA Button -->
-                <div class="featured-cart-control px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-1">
-                    <button type="button" onclick="addFeaturedProductToCart(this)" class="w-full bg-[#8EC5FF] hover:bg-[#6FB3F5] text-[#3B2418] font-bold py-2.5 sm:py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer">
-                        <svg class="w-4 h-4 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                        <span>Add to Cart</span>
+                <!-- Add to Cart CTA Button Container -->
+                <div class="featured-cart-control px-4 pb-4 pt-1.5">
+                    <button type="button" onclick="addFeaturedProductToCart(this)" class="bestseller-add-btn w-full bg-[#0F172A] hover:bg-[#F59E0B] text-white hover:text-[#0F172A] font-bold py-3 px-5 rounded-full text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-xs hover:shadow-md active:scale-95 cursor-pointer group/btn">
+                        <svg class="w-4 h-4 pointer-events-none transition-transform group-hover/btn:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        <span class="font-bold tracking-wide">Add to Cart</span>
                     </button>
                 </div>
             </div>
@@ -783,3 +817,18 @@ window.loadSliderProducts = loadSliderProducts;
 window.addFeaturedProductToCart = addFeaturedProductToCart;
 window.changeFeaturedCartQuantity = changeFeaturedCartQuantity;
 document.addEventListener('cartUpdated', syncFeaturedCartCards);
+
+// Best Sellers Section Viewport Fade-up Animation
+document.addEventListener('DOMContentLoaded', () => {
+    const featuredSec = document.getElementById('featured');
+    if (!featuredSec) return;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                featuredSec.classList.add('bestseller-visible');
+                observer.disconnect();
+            }
+        });
+    }, { threshold: 0.1 });
+    observer.observe(featuredSec);
+});
