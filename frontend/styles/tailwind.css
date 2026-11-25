@@ -77,22 +77,17 @@ nav, .navbar, .nav-link, nav a, .navbar a, #mobile-menu, #mobile-menu-drawer, he
   font-family: var(--font-body) !important;
 }
 
-/* Buttons & button-styled links */
-button,
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
-.btn-primary,
-.btn-secondary,
-.primary-btn,
-.secondary-btn,
-.add-to-cart-btn,
-a[class*="bg-"],
-a[class*="btn-"],
-a[class*="primary-btn"],
-a[class*="secondary-btn"],
-a[class*="add-to-cart-btn"],
-a[class*="px-"][class*="py-"][class*="rounded"] {
+/* Primary Action Buttons: Buy Now & Confirm Order / Pay Now ONLY */
+.btn-buy-now,
+.buy-now-btn,
+#buyNowBtn,
+#payNow,
+#confirm-order-btn,
+.confirm-order-btn,
+.btn-blue-action,
+[data-action="buy-now"],
+button.btn-primary,
+a.btn-primary {
   background-color: var(--btn-blue) !important;
   background-image: linear-gradient(var(--btn-blue), var(--btn-blue)) !important;
   border-color: var(--btn-blue) !important;
@@ -100,65 +95,40 @@ a[class*="px-"][class*="py-"][class*="rounded"] {
   font-family: var(--font-body) !important;
 }
 
-button *,
-a[class*="bg-"] *,
-a[class*="btn-"] *,
-a[class*="primary-btn"] *,
-a[class*="secondary-btn"] *,
-a[class*="add-to-cart-btn"] *,
-a[class*="px-"][class*="py-"][class*="rounded"] * {
-  color: var(--brown) !important;
-}
-
-button:hover,
-input[type="button"]:hover,
-input[type="submit"]:hover,
-input[type="reset"]:hover,
-.btn-primary:hover,
-.btn-secondary:hover,
-.primary-btn:hover,
-.secondary-btn:hover,
-.add-to-cart-btn:hover,
-a[class*="bg-"]:hover,
-a[class*="btn-"]:hover,
-a[class*="primary-btn"]:hover,
-a[class*="secondary-btn"]:hover,
-a[class*="add-to-cart-btn"]:hover,
-a[class*="px-"][class*="py-"][class*="rounded"]:hover {
+.btn-buy-now:hover,
+.buy-now-btn:hover,
+#buyNowBtn:hover,
+#payNow:hover,
+#confirm-order-btn:hover,
+.confirm-order-btn:hover,
+.btn-blue-action:hover,
+[data-action="buy-now"]:hover,
+button.btn-primary:hover,
+a.btn-primary:hover {
   background-color: var(--btn-blue-hover) !important;
   background-image: linear-gradient(var(--btn-blue-hover), var(--btn-blue-hover)) !important;
   border-color: var(--btn-blue-hover) !important;
 }
 
-button:active,
-input[type="button"]:active,
-input[type="submit"]:active,
-input[type="reset"]:active,
-.btn-primary:active,
-.btn-secondary:active,
-.primary-btn:active,
-.secondary-btn:active,
-.add-to-cart-btn:active,
-a[class*="bg-"]:active,
-a[class*="btn-"]:active,
-a[class*="primary-btn"]:active,
-a[class*="secondary-btn"]:active,
-a[class*="add-to-cart-btn"]:active,
-a[class*="px-"][class*="py-"][class*="rounded"]:active {
+.btn-buy-now:active,
+.buy-now-btn:active,
+#buyNowBtn:active,
+#payNow:active,
+#confirm-order-btn:active,
+.confirm-order-btn:active,
+.btn-blue-action:active,
+[data-action="buy-now"]:active,
+button.btn-primary:active,
+a.btn-primary:active {
   background-color: var(--btn-blue-active) !important;
   background-image: linear-gradient(var(--btn-blue-active), var(--btn-blue-active)) !important;
   border-color: var(--btn-blue-active) !important;
 }
 
-button:disabled,
-input[type="button"]:disabled,
-input[type="submit"]:disabled,
-input[type="reset"]:disabled,
-.btn-primary:disabled,
-.btn-secondary:disabled,
-.primary-btn:disabled,
-.secondary-btn:disabled,
-.add-to-cart-btn:disabled {
+.btn-buy-now:disabled,
+.buy-now-btn:disabled,
+#payNow:disabled,
+#confirm-order-btn:disabled {
   background-color: #D9E8F7 !important;
   background-image: linear-gradient(#D9E8F7, #D9E8F7) !important;
   border-color: #D9E8F7 !important;
@@ -166,20 +136,24 @@ input[type="reset"]:disabled,
   cursor: not-allowed !important;
 }
 
-button:focus-visible,
-input[type="button"]:focus-visible,
-input[type="submit"]:focus-visible,
-input[type="reset"]:focus-visible,
-.btn-primary:focus-visible,
-.btn-secondary:focus-visible,
-.primary-btn:focus-visible,
-.secondary-btn:focus-visible,
-.add-to-cart-btn:focus-visible,
-a[class*="bg-"]:focus-visible,
-a[class*="btn-"]:focus-visible,
-a[class*="px-"][class*="py-"][class*="rounded"]:focus-visible {
-  outline: 2px solid var(--brown) !important;
-  outline-offset: 3px;
+/* Navigation & Dropdowns - completely isolated from button styles & blue background */
+nav a,
+nav button,
+#mobile-menu a,
+#mobile-menu button,
+.dropdown-link,
+[class*="group/skintype"] a,
+[class*="group/concern"] a {
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+[class*="group/skintype"] a:hover,
+[class*="group/concern"] a:hover {
+  background-color: #F2EBDA !important;
+  color: #3B2418 !important;
 }
 
 #search-open-btn,
