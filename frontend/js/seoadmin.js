@@ -331,12 +331,13 @@ blogForm.addEventListener('submit', async function(event) {
     }
     submitBtn.innerText = "Processing & Uploading Images...";
     submitBtn.disabled = true;
-    const content = await sanitizeAndUploadQuillImages(quill);
-    const coverFile = coverUpload.files[0];
-    if (!title || !slug || quill.getText().trim().length === 0) {
-        alert("Bro! Title, Slug, and Blog Content are mandatory fields");
-        return;
-    }
+    try {
+        const content = await sanitizeAndUploadQuillImages(quill);
+        const coverFile = coverUpload.files[0];
+        if (!title || !slug || quill.getText().trim().length === 0) {
+            alert("Bro! Title, Slug, and Blog Content are mandatory fields");
+            return;
+        }
 function parseMultipleSchemas(rawInput) {
     if (!rawInput || !String(rawInput).trim()) return [];
     let cleaned = String(rawInput).trim();
@@ -398,7 +399,6 @@ function parseMultipleSchemas(rawInput) {
         alert("⚠️ Warning: You have pasted large raw image(s) directly into the text editor. Pasted images increase post size beyond server limits.\n\nPlease upload images using the Toolbar Image Button 🖼️.");
         return;
     }
-    try {
         submitBtn.innerText = "Publishing...";
         submitBtn.disabled = true;
         let finalCoverFile = coverFile;
@@ -448,7 +448,7 @@ function parseMultipleSchemas(rawInput) {
         }
         if (response.ok && data.success !== false) {
             alert("🎉 Awesome! Your blog has been successfully published.");
-            window.location.href = "./seoallpost.html";
+            window.location.href = "./seoadmin.html";
         } else {
             alert(`Error: ${data.message || data.error || 'Something went wrong while saving the post.'}`);
         }
@@ -456,7 +456,7 @@ function parseMultipleSchemas(rawInput) {
         console.error("API Integration Failure:", error);
         alert(`⚠️ Upload / Network Notice: ${error.message || 'Connection interrupted'}.\n\nPlease ensure:\n1. Cover image size is under 3.5 MB.\n2. Admin session is logged in.`);
     } finally {
-        submitBtn.innerText = "Publish Post";
+        submitBtn.innerText = "Publish Article Live";
         submitBtn.disabled = false;
     }
 });

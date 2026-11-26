@@ -2,7 +2,10 @@ import BASE_URL, { getAuthHeaders } from './config.js';
 const blogTableBody = document.getElementById('blog-table-body');
 async function fetchAllBlogs() {
     try {
-        const response = await fetch(`${BASE_URL}/api/blogs/all`);
+        const response = await fetch(`${BASE_URL}/api/blogs/all?t=${Date.now()}`, {
+            credentials: 'include',
+            cache: 'no-store'
+        });
         const data = await response.json();
         const blogs = data.blogs || data.data || data;
         if (!response.ok || !blogs || blogs.length === 0) {

@@ -126,7 +126,8 @@ app.use([
 // High-Speed HTTP Response Caching for Public Catalog GET Endpoints
 app.use(['/api/product/all', '/api/product/search', '/api/products/all', '/api/blogs/all', '/api/blog/all', '/api/blogs', '/api/blog', '/api/reviews'], (req, res, next) => {
   if (req.method === 'GET') {
-    res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
+    const hasAuth = Boolean(req.cookies?.token || req.headers.authorization);
+    res.setHeader('Cache-Control', hasAuth ? 'no-store' : 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
   }
   next();
 });

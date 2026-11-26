@@ -218,7 +218,7 @@ function renderFeaturedCartControl(card) {
     control.innerHTML = `
         <button type="button" onclick="addFeaturedProductToCart(this)" class="bestseller-add-btn w-full bg-[#E8A33D] hover:bg-[#D48D2A] text-[#2B1E16] hover:text-[#2B1E16] font-bold py-3 px-5 rounded-full text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-xs hover:shadow-md active:scale-95 cursor-pointer group/btn">
             <svg class="w-4 h-4 pointer-events-none transition-transform group-hover/btn:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-            <span class="font-bold tracking-wide">Add to Cart</span>
+            <span class="font-bold tracking-wide whitespace-nowrap">Add to Cart</span>
         </button>
     `;
 }
@@ -581,13 +581,13 @@ async function loadSliderProducts() {
             const sizeDisplay = (sizeText && !['standard', 'undefined', 'null', 'combo'].includes(sizeText.toLowerCase())) ? `(${sizeText})` : '';
 
             const reviewSummary = reviewCount > 0
-                ? `<span class="font-bold text-[#205D96] text-xs font-sans">${ratingScore.toFixed(1)}</span>
-                    <div class="flex gap-0.5 text-xs text-[#F59E0B]">${starsHTML}</div>
-                    <span class="text-[#787392] text-[11px] font-medium font-sans">(${reviewCount} reviews)</span>`
-                : '<span class="text-[#787392] text-[11px] font-medium font-sans">No reviews yet</span>';
+                ? `<span class="font-bold text-[#205D96] text-xs font-sans whitespace-nowrap shrink-0">${ratingScore.toFixed(1)}</span>
+                    <div class="flex gap-0.5 text-xs text-[#F59E0B] whitespace-nowrap shrink-0">${starsHTML}</div>
+                    <span class="text-[#787392] text-[11px] font-medium font-sans whitespace-nowrap">(${reviewCount} reviews)</span>`
+                : '<span class="text-[#787392] text-[11px] font-medium font-sans whitespace-nowrap">No reviews yet</span>';
 
             return `
-            <div data-product-id="${prodId}" class="bestseller-card relative w-[calc(82%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(25%-18px)] flex-shrink-0 snap-center product-card bg-white rounded-[20px] border border-[#3B2418]/10 flex flex-col justify-between overflow-hidden">
+            <div data-product-id="${prodId}" class="bestseller-card relative w-[calc(82%-8px)] sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] flex-shrink-0 snap-center product-card bg-white rounded-[20px] border border-[#3B2418]/10 flex flex-col justify-between overflow-hidden">
                 <div>
                     <!-- Product Image Container -->
                     <div class="relative w-full aspect-square overflow-hidden bg-gradient-to-b from-[#FAF7F2] to-[#F2EBDA]/40 p-3 flex items-center justify-center rounded-t-[20px]">
@@ -636,7 +636,7 @@ async function loadSliderProducts() {
 
                         <!-- Deal / Promo Badge -->
                         <div class="mb-2.5">
-                            <span class="inline-block bg-[#C43826] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.08em] px-2.5 py-0.5 rounded-[3px]">
+                            <span class="inline-block bg-[#C43826] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.08em] px-2.5 py-0.5 rounded-[3px] whitespace-nowrap">
                                 BESTSELLER DEAL
                             </span>
                         </div>
@@ -667,7 +667,7 @@ async function loadSliderProducts() {
                 <div class="featured-cart-control px-4 pb-4 pt-1.5">
                     <button type="button" onclick="addFeaturedProductToCart(this)" class="bestseller-add-btn w-full bg-[#E8A33D] hover:bg-[#D48D2A] text-[#2B1E16] hover:text-[#2B1E16] font-bold py-3 px-5 rounded-full text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-xs hover:shadow-md active:scale-95 cursor-pointer group/btn">
                         <svg class="w-4 h-4 pointer-events-none transition-transform group-hover/btn:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                        <span class="font-bold tracking-wide">Add to Cart</span>
+                        <span class="font-bold tracking-wide whitespace-nowrap">Add to Cart</span>
                     </button>
                 </div>
             </div>
