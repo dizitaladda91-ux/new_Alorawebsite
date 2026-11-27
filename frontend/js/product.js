@@ -563,8 +563,8 @@ function renderGoodToKnowFaqs(product) {
                 answer: "Use the Face Scrub 2–3 times a week to gently exfoliate dead skin cells, unclog pores, and restore skin smoothness."
             },
             {
-                question: "Are Alora Radiance products safe and dermatologically tested?",
-                answer: "Yes, all Alora Radiance formulations are 100% dermatologically tested, paraben-free, cruelty-free, and formulated with clean, high-grade ingredients safe for all skin types."
+                question: "Are Alora Radiance products safe and 48-hour patch tested?",
+                answer: "Yes, all Alora Radiance formulations are 100% 48-hour patch tested, paraben-free, cruelty-free, and formulated with clean, high-grade ingredients safe for all skin types."
             },
             {
                 question: "What is the difference between a face serum and a toner?",

@@ -78,8 +78,8 @@
             </span>
             <span class="ticker-star text-[11px] opacity-75">✦</span>
             <span class="inline-flex items-center gap-2">
-                <span class="uppercase tracking-wider font-bold">DERMATOLOGIST TESTED:</span>
-                <span>100% Toxin-Free &amp; Cruelty-Free Formulations!</span>
+                <span class="uppercase tracking-wider font-bold">CLEAN FORMULATIONS:</span>
+                <span>Paraben-Free, Sulphate-Free &amp; Cruelty-Free!</span>
             </span>
             <span class="ticker-star text-[11px] opacity-75">✦</span>
         </div>
@@ -102,8 +102,8 @@
             </span>
             <span class="ticker-star text-[11px] opacity-75">✦</span>
             <span class="inline-flex items-center gap-2">
-                <span class="uppercase tracking-wider font-bold">DERMATOLOGIST TESTED:</span>
-                <span>100% Toxin-Free &amp; Cruelty-Free Formulations!</span>
+                <span class="uppercase tracking-wider font-bold">CLEAN FORMULATIONS:</span>
+                <span>Paraben-Free, Sulphate-Free &amp; Cruelty-Free!</span>
             </span>
             <span class="ticker-star text-[11px] opacity-75">✦</span>
         </div>
@@ -127,7 +127,33 @@
     <div class="hidden lg:flex items-center">
       <ul class="flex items-center gap-3.5 xl:gap-5 text-[12px] lg:text-[13px] xl:text-[14px] font-semibold tracking-wide uppercase text-[#3B2418] whitespace-nowrap">
         <li><a href="/" class="hover:text-[#A0522D] transition-colors py-1">HOME</a></li>
-        <li><a href="/products" class="hover:text-[#A0522D] transition-colors py-1">PRODUCTS</a></li>
+
+        <!-- PRODUCTS DROPDOWN (Product-Wise Categories) -->
+        <li class="relative group/products py-2">
+          <a href="/products" class="inline-flex items-center gap-1 hover:text-[#A0522D] transition-colors py-1 cursor-pointer">
+            <span>PRODUCTS</span>
+            <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/products:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+          </a>
+          <div class="absolute left-0 top-full pt-1.5 w-52 hidden group-hover/products:block z-50 animate-fade-in">
+            <div class="bg-white rounded-2xl shadow-xl border border-[#3B2418]/10 py-2 text-[#3B2418] normal-case overflow-hidden">
+              <div class="px-3.5 py-1.5 border-b border-stone-100 bg-[#FAF7F2]">
+                <span class="text-[10px] font-bold tracking-wider uppercase text-[#787392]">Shop by Product</span>
+              </div>
+              <a href="/products?category=face-wash" class="block px-3.5 py-2 text-xs font-semibold hover:bg-[#F2EBDA] text-[#3B2418] hover:text-[#A0522D] transition-colors">Face Wash</a>
+              <a href="/products?category=serum" class="block px-3.5 py-2 text-xs font-semibold hover:bg-[#F2EBDA] text-[#3B2418] hover:text-[#A0522D] transition-colors">Face Serum</a>
+              <a href="/products?category=cream" class="block px-3.5 py-2 text-xs font-semibold hover:bg-[#F2EBDA] text-[#3B2418] hover:text-[#A0522D] transition-colors">Face Cream &amp; SPF</a>
+              <a href="/products?category=scrub" class="block px-3.5 py-2 text-xs font-semibold hover:bg-[#F2EBDA] text-[#3B2418] hover:text-[#A0522D] transition-colors">Face Scrub</a>
+              <a href="/products?category=lotion" class="block px-3.5 py-2 text-xs font-semibold hover:bg-[#F2EBDA] text-[#3B2418] hover:text-[#A0522D] transition-colors">Body Lotion</a>
+              <a href="/products?category=combo" class="block px-3.5 py-2 text-xs font-semibold hover:bg-[#F2EBDA] text-[#3B2418] hover:text-[#A0522D] transition-colors">Combos &amp; Kits</a>
+              <div class="border-t border-stone-100 mt-1 pt-1">
+                <a href="/products" class="flex items-center justify-between px-3.5 py-1.5 text-[11px] font-bold text-[#3B2418] hover:text-[#A0522D] hover:bg-[#F2EBDA] transition-colors">
+                  <span>All Products</span>
+                  <span>&rarr;</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
 
         <!-- SKIN TYPE DROPDOWN -->
         <li class="relative group/skintype py-2">

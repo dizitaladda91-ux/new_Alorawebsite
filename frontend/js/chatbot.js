@@ -90,7 +90,7 @@
                                     <h4 class="text-xs font-bold text-slate-800 truncate">${p.name}</h4>
                                     <p class="text-[11px] text-amber-900 font-semibold mt-0.5">₹${p.price} ${p.comparePrice ? `<span class="line-through text-slate-400 font-normal text-[10px] ml-1">₹${p.comparePrice}</span>` : ''}</p>
                                 </div>
-                                <a href="${pUrl}" class="px-2.5 py-1 text-[11px] bg-[#8EC5FF] text-[#3B2418] rounded-lg font-medium hover:bg-[#6FB3F5] transition-colors flex-shrink-0">
+                                <a href="${pUrl}" class="px-2.5 py-1 text-[11px] bg-[#E8A33D] text-[#2B1E16] rounded-lg font-medium hover:bg-[#D48D2A] transition-colors flex-shrink-0">
                                     View
                                 </a>
                             </div>

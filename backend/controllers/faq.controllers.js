@@ -4,7 +4,7 @@ import { CACHE_TTL, getOrSetCache, invalidateCachePrefix } from "../services/cac
 const BASE_DEFAULT_FAQS = [
     {
         question: "What is Alora Radiance known for?",
-        answer: "Alora Radiance is known for dermatologically tested, toxin-free skincare built around a small set of clinically proven botanical actives like saffron, shea butter, and retinol. The brand is recognized for full ingredient transparency and formulations manufactured in WHO-GMP and FDA-approved facilities.",
+        answer: "Alora Radiance is known for 48-hour patch tested, paraben-free and sulphate-free skincare built around a small set of clinically proven botanical actives like saffron, shea butter, and retinol. The brand is recognized for full ingredient transparency and formulations manufactured in WHO-GMP and FDA-approved facilities.",
         order: 1,
         isActive: true
     },
@@ -39,8 +39,8 @@ const BASE_DEFAULT_FAQS = [
         isActive: true
     },
     {
-        question: "Are Alora Radiance products safe and dermatologically tested?",
-        answer: "Yes, 100% of our products undergo rigorous clinical patch-testing. They are certified toxin-free, paraben-free, cruelty-free, and formulated to be safe even for sensitive or acne-prone skin types.",
+        question: "Are Alora Radiance products safe and 48-hour patch tested?",
+        answer: "Yes, 100% of our products undergo rigorous clinical patch-testing. They are formulated without parabens or sulphates, paraben-free, cruelty-free, and formulated to be safe even for sensitive or acne-prone skin types.",
         order: 7,
         isActive: true
     },

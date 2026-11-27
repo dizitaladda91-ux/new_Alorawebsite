@@ -4,7 +4,7 @@
     <!-- Floating Trigger Button -->
     <button id="alora-chat-trigger" 
             onclick="window.toggleAloraChat()"
-            class="relative flex items-center justify-center w-14 h-14 bg-[#8EC5FF] text-[#3B2418] rounded-full shadow-2xl hover:bg-[#6FB3F5] hover:scale-105 active:scale-95 transition-all duration-300 group focus:outline-none border-2 border-[#8EC5FF]">
+            class="relative flex items-center justify-center w-14 h-14 bg-[#E8A33D] text-[#2B1E16] rounded-full shadow-2xl hover:bg-[#D48D2A] hover:scale-105 active:scale-95 transition-all duration-300 group focus:outline-none border-2 border-[#E8A33D]">
         <span class="sr-only">Toggle Chat</span>
 
         <!-- Closed Icon (Chat Bubble) -->
@@ -39,10 +39,9 @@
                 </div>
                 <div>
                     <h3 class="font-bold text-sm tracking-wide text-amber-50 flex items-center gap-1.5">
-                        Alora Care Assistant
-
+                        BENÉ &bull; Skincare Guide
                     </h3>
-                    <p class="text-[11px] text-amber-200/80 font-light">Online • Always ready to help</p>
+                    <p class="text-[11px] text-amber-200/80 font-light">Alora Radiance &bull; Online</p>
                 </div>
             </div>
 
@@ -61,15 +60,12 @@
 
             <!-- Welcome Message -->
             <div class="flex items-start space-x-2.5">
-                <div class="w-7 h-7 rounded-full bg-[#8EC5FF] text-[#3B2418] flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-sm">
-                    <i class="fa-solid fa-spa text-xs"></i>
+                <div class="w-7 h-7 rounded-full bg-[#E8A33D] text-[#2B1E16] flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5 shadow-sm">
+                    B
                 </div>
                 <div class="bg-white border border-amber-900/10 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] space-y-2">
                     <p class="text-slate-700 leading-relaxed">
-                        Namaste! 🙏 Welcome to **Alora Radiance**.
-                    </p>
-                    <p class="text-slate-600 text-xs leading-relaxed">
-                        I am your skincare & order assistant. How can I help you today?
+                        Hi, main <strong>BENÉ</strong> hoon, Alora Radiance ki skincare guide. Aapki skin type kya hai? Oily, dry, combination, sensitive ya normal?
                     </p>
                 </div>
             </div>
@@ -78,21 +74,21 @@
 
         <!-- Quick Suggestions Chips -->
         <div id="alora-quick-suggestions" class="px-3 py-2 bg-amber-100/40 border-t border-amber-200/40 flex items-center gap-1.5 overflow-x-auto scrollbar-none text-xs">
-            <button onclick="window.sendAloraQuickQuery('Show me top products')" 
-                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-[#8EC5FF] text-[#3B2418] font-medium rounded-full hover:bg-[#8EC5FF] hover:text-[#3B2418] transition-all shadow-xs flex items-center gap-1">
-                🛍️ Top Products
+            <button onclick="window.sendAloraQuickQuery('Meri skin oily hai aur acne hai')" 
+                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-[#E8A33D] text-[#2B1E16] font-medium rounded-full hover:bg-[#E8A33D] hover:text-[#2B1E16] transition-all shadow-xs flex items-center gap-1">
+                Oily / Acne
             </button>
-            <button onclick="window.sendAloraQuickQuery('Track my order')" 
-                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-[#8EC5FF] text-[#3B2418] font-medium rounded-full hover:bg-[#8EC5FF] hover:text-[#3B2418] transition-all shadow-xs flex items-center gap-1">
-                📦 Track Order
+            <button onclick="window.sendAloraQuickQuery('Dry skin ke liye kya best hai?')" 
+                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-[#E8A33D] text-[#2B1E16] font-medium rounded-full hover:bg-[#E8A33D] hover:text-[#2B1E16] transition-all shadow-xs flex items-center gap-1">
+                Dry Skin
             </button>
-            <button onclick="window.sendAloraQuickQuery('Shipping & Delivery')" 
-                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-[#8EC5FF] text-[#3B2418] font-medium rounded-full hover:bg-[#8EC5FF] hover:text-[#3B2418] transition-all shadow-xs flex items-center gap-1">
-                🚚 Delivery Info
+            <button onclick="window.sendAloraQuickQuery('Combo packs aur offers batao')" 
+                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-[#E8A33D] text-[#2B1E16] font-medium rounded-full hover:bg-[#E8A33D] hover:text-[#2B1E16] transition-all shadow-xs flex items-center gap-1">
+                Combos &amp; Offers
             </button>
-            <button onclick="window.sendAloraQuickQuery('Return policy')" 
-                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-[#8EC5FF] text-[#3B2418] font-medium rounded-full hover:bg-[#8EC5FF] hover:text-[#3B2418] transition-all shadow-xs flex items-center gap-1">
-                🔄 Returns
+            <button onclick="window.sendAloraQuickQuery('Shipping aur return policy kya hai?')" 
+                    class="whitespace-nowrap px-2.5 py-1 bg-white border border-[#E8A33D] text-[#2B1E16] font-medium rounded-full hover:bg-[#E8A33D] hover:text-[#2B1E16] transition-all shadow-xs flex items-center gap-1">
+                Shipping &amp; Returns
             </button>
         </div>
 

@@ -52,6 +52,43 @@ const PRODUCT_TAG_MAPPING = {
     }
 };
 
+const CATEGORY_DISPLAY = {
+    'face-wash': 'Face Wash',
+    serum: 'Face Serum',
+    cream: 'Face Cream & SPF',
+    scrub: 'Face Scrub',
+    lotion: 'Body Lotion',
+    combo: 'Combos & Kits',
+    face: 'Face Skincare',
+    body: 'Bodycare Rituals'
+};
+
+function getProductCategorySlug(product) {
+    const rawCat = String(product.category || '').toLowerCase().trim();
+    const rawType = String(product.productType || '').toLowerCase().trim();
+    const text = `${product.slug || ''} ${product.name || ''}`.toLowerCase();
+
+    if (rawCat === 'combo' || rawType === 'combo' || /\b(duo|trio|combo|kit|travel)\b/.test(text)) {
+        return 'combo';
+    }
+    if (rawType === 'cleanser' || /face\s*wash|cleanser/.test(text)) {
+        return 'face-wash';
+    }
+    if (rawType === 'serum' || /serum/.test(text)) {
+        return 'serum';
+    }
+    if (rawType === 'scrub' || /scrub/.test(text)) {
+        return 'scrub';
+    }
+    if (rawType === 'body' || /lotion/.test(text)) {
+        return 'lotion';
+    }
+    if (rawType === 'sunscreen' || rawType === 'moisturizer' || /cream|sunscreen|spf/.test(text)) {
+        return 'cream';
+    }
+    return rawCat || 'face';
+}
+
 const SKIN_TYPE_DISPLAY = {
     all: 'All Skin Types',
     oily: 'Oily Skin',
@@ -142,12 +179,14 @@ document.addEventListener("DOMContentLoaded", () => {
         activeQuickTag = 'bestseller';
     }
     if (categoryParam) {
-        const cleanCategory = categoryParam.toLowerCase().trim();
-        selectedCategories = [cleanCategory];
-        const targetCheckbox = document.querySelector(`input[name="category"][value="${cleanCategory}"]`);
-        if (targetCheckbox) {
-            targetCheckbox.checked = true;
-        }
+        const categories = categoryParam.toLowerCase().split(',').map(c => c.trim()).filter(Boolean);
+        selectedCategories = categories;
+        categories.forEach(cat => {
+            const targetCheckbox = document.querySelector(`input[name="category"][value="${cat}"]`);
+            if (targetCheckbox) {
+                targetCheckbox.checked = true;
+            }
+        });
     }
     if (skinTypeParam) {
         const cleanSkin = skinTypeParam.toLowerCase().trim();
@@ -224,7 +263,8 @@ function normalizeAndAssignBestsellers(rawProducts) {
             slug: product.slug,
             productUrl: getProductUrl(product),
             name: product.name || 'Untitled Product',
-            category: rawCategory, 
+            category: rawCategory,
+            productCategory: getProductCategorySlug(product), 
             isBestseller: backendIsBestseller,
             rating: product.rating || 4,
             reviewsCount: Number(product.reviewsCount) || 0,
@@ -281,7 +321,17 @@ function renderProductCatalog(products) {
     const countEl = document.getElementById('results-count');
     if (countEl) {
         let filterContext = '';
-        if (activeSkinType && activeSkinType !== 'all') {
+        selectedCategories.forEach(cat => {
+        const label = CATEGORY_DISPLAY[cat] || cat;
+        chips.push(`
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF7F2] text-[#3B2418] text-xs font-bold border border-[#E8A33D] shadow-2xs">
+                <span>Category: ${label}</span>
+                <button type="button" onclick="removeSingleCategory('${cat}')" class="hover:text-rose-600 transition-colors ml-0.5 cursor-pointer font-extrabold text-sm leading-none" aria-label="Remove ${label} filter">&times;</button>
+            </span>
+        `);
+    });
+
+    if (activeSkinType && activeSkinType !== 'all') {
             filterContext = ` for ${SKIN_TYPE_DISPLAY[activeSkinType] || activeSkinType}`;
         }
         if (selectedConcerns.length === 1) {
@@ -497,10 +547,23 @@ function filterProducts() {
             const matchesCategory = item.category.toLowerCase().includes(searchQuery);
             if (!matchesName && !matchesDesc && !matchesCategory) return false;
         }
-        if (selectedCategories.length > 0 && !selectedCategories.includes(item.category)) {
-            return false;
+        if (selectedCategories.length > 0) {
+            const matchesProductCategory = selectedCategories.includes(item.productCategory) || selectedCategories.includes(item.category);
+            if (!matchesProductCategory) {
+                return false;
+            }
         }
-        if (activeSkinType && activeSkinType !== 'all') {
+        selectedCategories.forEach(cat => {
+        const label = CATEGORY_DISPLAY[cat] || cat;
+        chips.push(`
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF7F2] text-[#3B2418] text-xs font-bold border border-[#E8A33D] shadow-2xs">
+                <span>Category: ${label}</span>
+                <button type="button" onclick="removeSingleCategory('${cat}')" class="hover:text-rose-600 transition-colors ml-0.5 cursor-pointer font-extrabold text-sm leading-none" aria-label="Remove ${label} filter">&times;</button>
+            </span>
+        `);
+    });
+
+    if (activeSkinType && activeSkinType !== 'all') {
             const itemSkins = item.skinTypes || ['all'];
             if (!itemSkins.includes(activeSkinType) && !itemSkins.includes('all')) {
                 return false;
@@ -544,6 +607,16 @@ function renderActiveFilterBadges() {
     if (!chipsContainer) return;
     const chips = [];
 
+    selectedCategories.forEach(cat => {
+        const label = CATEGORY_DISPLAY[cat] || cat;
+        chips.push(`
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF7F2] text-[#3B2418] text-xs font-bold border border-[#E8A33D] shadow-2xs">
+                <span>Category: ${label}</span>
+                <button type="button" onclick="removeSingleCategory('${cat}')" class="hover:text-rose-600 transition-colors ml-0.5 cursor-pointer font-extrabold text-sm leading-none" aria-label="Remove ${label} filter">&times;</button>
+            </span>
+        `);
+    });
+
     if (activeSkinType && activeSkinType !== 'all') {
         const label = SKIN_TYPE_DISPLAY[activeSkinType] || activeSkinType;
         chips.push(`
@@ -565,6 +638,13 @@ function renderActiveFilterBadges() {
     });
 
     chipsContainer.innerHTML = chips.join('');
+}
+
+function removeSingleCategory(cat) {
+    const cb = document.querySelector(`input[name="category"][value="${cat}"]`);
+    if (cb) cb.checked = false;
+    selectedCategories = selectedCategories.filter(c => c !== cat);
+    filterProducts();
 }
 
 function clearSkinTypeFilter() {
@@ -914,6 +994,7 @@ document.addEventListener('partialsLoaded', () => {
     }
 });
 
+window.removeSingleCategory = removeSingleCategory;
 window.clearSkinTypeFilter = clearSkinTypeFilter;
 window.clearConcernFilter = clearConcernFilter;
 window.removeSingleConcern = removeSingleConcern;

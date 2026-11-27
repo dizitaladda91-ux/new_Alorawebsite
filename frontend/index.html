@@ -179,7 +179,7 @@
               "name": "What is Alora Radiance known for?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Alora Radiance is known for dermatologically tested, toxin-free skincare built around a small set of clinically proven botanical actives like saffron, shea butter, and retinol. The brand is recognized for full ingredient transparency and formulations manufactured in WHO-GMP and FDA-approved facilities."
+                "text": "Alora Radiance is known for 48-hour patch tested, paraben-free and sulphate-free skincare built around botanical actives like saffron, shea butter, and retinol, manufactured in a facility licensed under the Drugs & Cosmetics Act."
               }
             },
             {
@@ -232,10 +232,10 @@
             },
             {
               "@type": "Question",
-              "name": "Are Alora Radiance products safe and toxin-free?",
+              "name": "Are Alora Radiance products paraben-free and sulphate-free?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes, Alora Radiance products are formulated without parabens, SLS/sulfates, mineral oils, or silicones, and every batch is certified 100% toxin-free. Each formulation is also dermatologically tested in certified labs to confirm it's safe and non-irritating before it reaches customers."
+                "text": "Yes, Alora Radiance products are formulated without parabens, SLS/sulphates, or mineral oils, and undergo 48-hour patch safety testing."
               }
             },
             {
@@ -1124,8 +1124,8 @@
             </span>
             <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
             <span class="inline-flex items-center gap-2" style="color: #F2EBDA !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">DERMATOLOGIST TESTED:</span>
-                <span>100% Toxin-Free &amp; Cruelty-Free Formulations!</span>
+                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">CLEAN FORMULATIONS:</span>
+                <span>Paraben-Free, Sulphate-Free &amp; Cruelty-Free!</span>
             </span>
             <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
         </div>
@@ -1146,8 +1146,8 @@
             </span>
             <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
             <span class="inline-flex items-center gap-2" style="color: #F2EBDA !important;">
-                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">DERMATOLOGIST TESTED:</span>
-                <span>100% Toxin-Free &amp; Cruelty-Free Formulations!</span>
+                <span class="uppercase tracking-wider font-bold" style="color: #D98E2B !important;">CLEAN FORMULATIONS:</span>
+                <span>Paraben-Free, Sulphate-Free &amp; Cruelty-Free!</span>
             </span>
             <span class="ticker-star text-[11px] opacity-75" style="color: #D98E2B !important;">✦</span>
         </div>
@@ -1171,7 +1171,33 @@
     <div class="hidden lg:flex items-center">
       <ul class="flex items-center gap-3.5 xl:gap-5 text-[12px] lg:text-[13px] xl:text-[14px] font-semibold tracking-wide uppercase text-[#3B2418] whitespace-nowrap">
         <li><a href="/" class="hover:text-[#A0522D] transition-colors py-1">HOME</a></li>
-        <li><a href="/products" class="hover:text-[#A0522D] transition-colors py-1">PRODUCTS</a></li>
+
+        <!-- PRODUCTS DROPDOWN (Product-Wise Categories) -->
+        <li class="relative group/products py-2">
+          <a href="/products" class="inline-flex items-center gap-1 hover:text-[#A0522D] transition-colors py-1 cursor-pointer">
+            <span>PRODUCTS</span>
+            <svg class="w-3.5 h-3.5 transition-transform duration-200 group-hover/products:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+          </a>
+          <div class="absolute left-0 top-full pt-1.5 w-52 hidden group-hover/products:block z-50 animate-fade-in">
+            <div class="bg-white rounded-2xl shadow-xl border border-[#3B2418]/10 py-2 text-[#3B2418] normal-case overflow-hidden">
+              <div class="px-3.5 py-1.5 border-b border-stone-100 bg-[#FAF7F2]">
+                <span class="text-[10px] font-bold tracking-wider uppercase text-[#787392]">Shop by Product</span>
+              </div>
+              <a href="/products?category=face-wash" class="block px-3.5 py-2 text-xs font-semibold hover:bg-[#F2EBDA] text-[#3B2418] hover:text-[#A0522D] transition-colors">Face Wash</a>
+              <a href="/products?category=serum" class="block px-3.5 py-2 text-xs font-semibold hover:bg-[#F2EBDA] text-[#3B2418] hover:text-[#A0522D] transition-colors">Face Serum</a>
+              <a href="/products?category=cream" class="block px-3.5 py-2 text-xs font-semibold hover:bg-[#F2EBDA] text-[#3B2418] hover:text-[#A0522D] transition-colors">Face Cream &amp; SPF</a>
+              <a href="/products?category=scrub" class="block px-3.5 py-2 text-xs font-semibold hover:bg-[#F2EBDA] text-[#3B2418] hover:text-[#A0522D] transition-colors">Face Scrub</a>
+              <a href="/products?category=lotion" class="block px-3.5 py-2 text-xs font-semibold hover:bg-[#F2EBDA] text-[#3B2418] hover:text-[#A0522D] transition-colors">Body Lotion</a>
+              <a href="/products?category=combo" class="block px-3.5 py-2 text-xs font-semibold hover:bg-[#F2EBDA] text-[#3B2418] hover:text-[#A0522D] transition-colors">Combos &amp; Kits</a>
+              <div class="border-t border-stone-100 mt-1 pt-1">
+                <a href="/products" class="flex items-center justify-between px-3.5 py-1.5 text-[11px] font-bold text-[#3B2418] hover:text-[#A0522D] hover:bg-[#F2EBDA] transition-colors">
+                  <span>All Products</span>
+                  <span>&rarr;</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
 
         <!-- SKIN TYPE DROPDOWN -->
         <li class="relative group/skintype py-2">
@@ -1609,7 +1635,7 @@
                   <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#FBF1CC] text-[#205D96] text-xs">
                       <i class="fa-solid fa-user-doctor"></i>
                   </span>
-                  <span>Dermatologist Tested</span>
+                  <span>48-Hr Patch Tested</span>
               </div>
               <div class="flex items-center justify-center gap-2 text-xs sm:text-[13px] font-semibold text-[#0F172A]">
                   <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#FBF1CC] text-[#205D96] text-xs">
@@ -1652,8 +1678,8 @@
                 </div>
                 <div class="bundle-hero-stats" aria-label="Bundle highlights">
                     <div class="bundle-hero-stat"><strong>25%</strong><span>Max bundle savings</span></div>
-                    <div class="bundle-hero-stat"><strong>4.9★</strong><span>Verified buyers</span></div>
-                    <div class="bundle-hero-stat"><strong>100%</strong><span>Dermatologically tested</span></div>
+                    <div class="bundle-hero-stat"><strong>48-Hr</strong><span>Patch tested safety</span></div>
+                    <div class="bundle-hero-stat"><strong>0%</strong><span>Parabens &amp; sulphates</span></div>
                 </div>
             </div>
         </div>
@@ -2171,19 +2197,19 @@
                 <!-- Section Header -->
                 <div class="max-w-2xl mx-auto mb-6 sm:mb-10">
                     <span class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-emerald-100/90 text-emerald-900 text-[11px] font-bold tracking-widest uppercase font-mono border border-emerald-300 shadow-xs mb-3">
-                        100% Certified Safety
+                        Quality &amp; Transparency
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-fraunces font-bold text-slate-900 leading-tight mb-2">
-                        Super Safe Standards
+                        Thoughtful Skincare Standards
                     </h2>
                     <p class="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">
-                        Every batch of Alora Radiance is manufactured under strict WHO-GMP compliance, dermatologically tested, and certified toxin-free for absolute peace of mind.
+                        Every batch of Alora Radiance is crafted in a licensed facility, 48-hour patch tested, and formulated without parabens or sulphates.
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-stretch gap-3 sm:gap-5">
 
-                            <!-- Card 1: Dermatologically Tested -->
+                            <!-- Card 1: 48-Hr Patch Tested -->
                             <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between">
                                 <div class="absolute -top-10 -right-10 w-20 h-20 bg-amber-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-amber-400/30 transition-all"></div>
 
@@ -2191,15 +2217,15 @@
                                     <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-[#205D96] flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform">
                                         <i class="fa-solid fa-user-shield text-[#205D96]"></i>
                                     </div>
-                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-[#205D96] transition-colors">Dermatologically Tested</h3>
+                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-[#205D96] transition-colors">48-Hr Patch Tested</h3>
                                     <p class="text-[11px] sm:text-xs text-slate-600 leading-normal">
-                                        Clinically tested on sensitive human skin to guarantee gentle safety.
+                                        Evaluated via 48-hour human volunteer patch testing with zero observed irritation.
                                     </p>
                                 </div>
 
                             </div>
 
-                            <!-- Card 2: FDA Approved Standards -->
+                            <!-- Card 2: Licensed Manufacturing -->
                             <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between">
                                 <div class="absolute -top-10 -right-10 w-20 h-20 bg-emerald-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-emerald-400/30 transition-all"></div>
 
@@ -2207,15 +2233,15 @@
                                     <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-200/80 text-emerald-800 flex items-center justify-center text-lg mb-3 shadow-xs border border-emerald-300/60 group-hover:scale-105 transition-transform">
                                         <i class="fa-solid fa-square-check text-emerald-800"></i>
                                     </div>
-                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-emerald-800 transition-colors">FDA Approved Standards</h3>
+                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-emerald-800 transition-colors">Licensed Manufacturing</h3>
                                     <p class="text-[11px] sm:text-xs text-slate-600 leading-normal">
-                                        Formulated in WHO-GMP &amp; FDA approved facilities conforming to global protocols.
+                                        Formulated in a facility licensed under the Drugs &amp; Cosmetics Act with strict quality controls.
                                     </p>
                                 </div>
 
                             </div>
 
-                            <!-- Card 3: Made Safe Certified -->
+                            <!-- Card 3: Clean Botanical Formulas -->
                             <div class="bg-gradient-to-b from-[#FFFDF9] via-white to-[#FFFDF9] p-4 sm:p-5 rounded-2xl border border-amber-900/15 shadow-sm hover:shadow-md transition-all duration-300 group text-left relative overflow-hidden flex flex-col justify-between">
                                 <div class="absolute -top-10 -right-10 w-20 h-20 bg-amber-400/15 rounded-full blur-lg pointer-events-none group-hover:bg-amber-400/30 transition-all"></div>
 
@@ -2223,9 +2249,9 @@
                                     <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-200/80 text-[#205D96] flex items-center justify-center text-lg mb-3 shadow-xs border border-amber-300/60 group-hover:scale-105 transition-transform">
                                         <i class="fa-solid fa-shield-heart text-[#205D96]"></i>
                                     </div>
-                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-[#205D96] transition-colors">Made Safe Certified</h3>
+                                    <h3 class="font-fraunces font-bold text-slate-900 text-base mb-1.5 group-hover:text-[#205D96] transition-colors">Paraben &amp; Sulphate Free</h3>
                                     <p class="text-[11px] sm:text-xs text-slate-600 leading-normal">
-                                        Guarantees zero endocrine disruptors, neurotoxins, or harsh chemical additives.
+                                        Formulated without parabens, sulphates, or mineral oils for gentle daily skincare.
                                     </p>
                                 </div>
 
