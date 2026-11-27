@@ -354,7 +354,40 @@ export const renderIngredientSsr = (templateHtml, ingredient) => {
 // ==========================================
 // 2. BLOG LISTING PAGE SSR PRE-RENDERER
 // ==========================================
-export const renderBlogListSsr = (templateHtml, posts = []) => {
+const buildBlogPaginationHtml = (pagination) => {
+    if (!pagination || pagination.totalPages <= 1) return '';
+    const { page, totalPages, totalCount } = pagination;
+    const links = [];
+
+    if (page > 1) {
+        const prevHref = page - 1 === 1 ? '/blog' : `/blog?page=${page - 1}`;
+        links.push(`<a href="${prevHref}" class="px-4 py-2 rounded-full border border-[#3B2418]/20 bg-white text-[#3B2418] text-xs font-bold hover:bg-[#FAF7F2] transition">&laquo; Prev</a>`);
+    } else {
+        links.push(`<span class="px-4 py-2 rounded-full border border-[#3B2418]/10 bg-white/50 text-[#3B2418]/40 text-xs font-bold cursor-not-allowed">&laquo; Prev</span>`);
+    }
+
+    for (let p = 1; p <= totalPages; p++) {
+        const href = p === 1 ? '/blog' : `/blog?page=${p}`;
+        if (p === page) {
+            links.push(`<span aria-current="page" class="w-9 h-9 inline-flex items-center justify-center rounded-full bg-[#E8A33D] text-[#2B1E16] text-xs font-bold shadow-xs">${p}</span>`);
+        } else {
+            links.push(`<a href="${href}" class="w-9 h-9 inline-flex items-center justify-center rounded-full border border-[#3B2418]/15 bg-white text-[#3B2418] text-xs font-semibold hover:bg-[#FAF7F2] transition">${p}</a>`);
+        }
+    }
+
+    if (page < totalPages) {
+        links.push(`<a href="/blog?page=${page + 1}" class="px-4 py-2 rounded-full border border-[#3B2418]/20 bg-white text-[#3B2418] text-xs font-bold hover:bg-[#FAF7F2] transition">Next &raquo;</a>`);
+    } else {
+        links.push(`<span class="px-4 py-2 rounded-full border border-[#3B2418]/10 bg-white/50 text-[#3B2418]/40 text-xs font-bold cursor-not-allowed">Next &raquo;</span>`);
+    }
+
+    return `
+        <div class="flex flex-wrap items-center justify-center gap-2 w-full">${links.join('')}</div>
+        <p class="w-full text-center text-xs text-[#787392] mt-2">Page ${page} of ${totalPages}${totalCount ? ` &bull; ${totalCount} Articles` : ''}</p>
+    `;
+};
+
+export const renderBlogListSsr = (templateHtml, posts = [], pagination = null) => {
     let html = templateHtml;
 
     const title = "Alora Radiance | Skincare Blog & Beauty Guides";
@@ -402,6 +435,8 @@ export const renderBlogListSsr = (templateHtml, posts = []) => {
         }).join('');
 
         html = html.replace(/<div id="blog-posts-grid"[^>]*>[\s\S]*?<\/div>/i, `<div id="blog-posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${cardsHtml}</div>`);
+        const paginationHtml = buildBlogPaginationHtml(pagination);
+        html = html.replace(/<nav id="blog-pagination"[^>]*>[\s\S]*?<\/nav>/i, `<nav id="blog-pagination" aria-label="Blog Pagination" class="mt-12 flex flex-wrap items-center justify-center gap-2">${paginationHtml}</nav>`);
     }
 
     return html;

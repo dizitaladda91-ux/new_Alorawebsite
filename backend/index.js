@@ -328,16 +328,28 @@ app.get(['/blog', '/blogs', '/Blog', '/Blog.html', '/blog.html', '/blogs.html'],
   const target = fs.existsSync(path.join(frontendRoot, 'Blog.html'))
     ? path.join(frontendRoot, 'Blog.html')
     : path.join(frontendRoot, 'blog.html');
+  const requestedPage = Math.max(1, parseInt(req.query.page, 10) || 1);
+  const limit = 9;
   try {
-    const { data: renderedHtml, hit } = await getOrSetCache('ssr:blog:list', CACHE_TTL.BLOG_LIST, async () => {
+    const { data: renderedHtml, hit } = await getOrSetCache(`ssr:blog:list:page:${requestedPage}`, CACHE_TTL.BLOG_LIST, async () => {
       await db();
-      const posts = await Post.find({ status: { $ne: 'draft' } })
+      const filter = { status: { $ne: 'draft' } };
+      const totalCount = await Post.countDocuments(filter);
+      const totalPages = Math.max(1, Math.ceil(totalCount / limit));
+      const currentPage = Math.min(requestedPage, totalPages);
+      const posts = await Post.find(filter)
         .select('title slug metaTitle category metaDesc coverImage coverUrl createdAt publishedAt')
         .sort({ publishedAt: -1, createdAt: -1 })
-        .limit(30)
+        .skip((currentPage - 1) * limit)
+        .limit(limit)
         .lean();
       const templateHtml = await fs.promises.readFile(target, 'utf8');
-      return renderBlogListSsr(templateHtml, posts);
+      return renderBlogListSsr(templateHtml, posts, {
+        page: currentPage,
+        totalPages,
+        totalCount,
+        limit
+      });
     });
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8');

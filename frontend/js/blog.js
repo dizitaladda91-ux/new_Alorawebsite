@@ -1,10 +1,66 @@
 import BASE_URL from './config.js'; 
-async function renderBlogCards() {
+const BLOGS_PER_PAGE = 9;
+
+function renderBlogPagination(page, totalPages, totalCount) {
+    const nav = document.getElementById('blog-pagination');
+    if (!nav) return;
+    if (totalPages <= 1) {
+        nav.innerHTML = '';
+        return;
+    }
+
+    const buttons = [];
+    if (page > 1) {
+        buttons.push(`<button type="button" data-page="${page - 1}" class="blog-page-btn px-4 py-2 rounded-full border border-[#3B2418]/20 bg-white text-[#3B2418] text-xs font-bold hover:bg-[#FAF7F2] transition cursor-pointer">&laquo; Prev</button>`);
+    } else {
+        buttons.push(`<span class="px-4 py-2 rounded-full border border-[#3B2418]/10 bg-white/50 text-[#3B2418]/40 text-xs font-bold cursor-not-allowed">&laquo; Prev</span>`);
+    }
+
+    for (let p = 1; p <= totalPages; p++) {
+        if (p === page) {
+            buttons.push(`<span aria-current="page" class="w-9 h-9 inline-flex items-center justify-center rounded-full bg-[#E8A33D] text-[#2B1E16] text-xs font-bold shadow-xs">${p}</span>`);
+        } else {
+            buttons.push(`<button type="button" data-page="${p}" class="blog-page-btn w-9 h-9 inline-flex items-center justify-center rounded-full border border-[#3B2418]/15 bg-white text-[#3B2418] text-xs font-semibold hover:bg-[#FAF7F2] transition cursor-pointer">${p}</button>`);
+        }
+    }
+
+    if (page < totalPages) {
+        buttons.push(`<button type="button" data-page="${page + 1}" class="blog-page-btn px-4 py-2 rounded-full border border-[#3B2418]/20 bg-white text-[#3B2418] text-xs font-bold hover:bg-[#FAF7F2] transition cursor-pointer">Next &raquo;</button>`);
+    } else {
+        buttons.push(`<span class="px-4 py-2 rounded-full border border-[#3B2418]/10 bg-white/50 text-[#3B2418]/40 text-xs font-bold cursor-not-allowed">Next &raquo;</span>`);
+    }
+
+    nav.innerHTML = `
+        <div class="flex flex-wrap items-center justify-center gap-2 w-full">${buttons.join('')}</div>
+        <p class="w-full text-center text-xs text-[#787392] mt-2">Page ${page} of ${totalPages}${totalCount ? ` &bull; ${totalCount} Articles` : ''}</p>
+    `;
+
+    nav.querySelectorAll('.blog-page-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const nextPage = Number(btn.getAttribute('data-page')) || 1;
+            const url = new URL(window.location.href);
+            if (nextPage <= 1) {
+                url.searchParams.delete('page');
+            } else {
+                url.searchParams.set('page', String(nextPage));
+            }
+            window.history.pushState({}, '', url);
+            renderBlogCards(nextPage, true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+}
+
+async function renderBlogCards(requestedPage = null, forceClientFetch = false) {
     const container = document.getElementById('blog-posts-grid');
     if (!container) return;
     // The production route renders article links on the server; keep them visible
     // and avoid a second request that would replace the already usable page.
-    if (container.querySelector('article a[href^="/blog/"]')) return;
+    if (!forceClientFetch && container.querySelector('article a[href^="/blog/"]')) return;
+
+    const urlPage = Math.max(1, parseInt(new URLSearchParams(window.location.search).get('page'), 10) || 1);
+    const currentPage = requestedPage || urlPage;
+
     container.innerHTML = `
         <div class="col-span-full text-center py-10 text-ash animate__animated animate__fadeIn">
             <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-clay"></i>
@@ -12,9 +68,12 @@ async function renderBlogCards() {
         </div>
     `; 
     try {
-        const response = await fetch(`${BASE_URL}/api/blogs/all?limit=30`);
+        const response = await fetch(`${BASE_URL}/api/blogs/all?page=${currentPage}&limit=${BLOGS_PER_PAGE}`);
         const result = await response.json();
         const posts = Array.isArray(result.blogs) ? result.blogs : (Array.isArray(result.data) ? result.data : []);
+        const totalPages = Math.max(1, Number(result.totalPages) || 1);
+        const totalCount = Number(result.totalCount) || posts.length;
+        renderBlogPagination(currentPage, totalPages, totalCount);
         if (response.ok && result.success && posts.length > 0) {
             const latestPost = posts[0];
             if (latestPost) {
@@ -154,4 +213,4 @@ function goToPost(slug) {
     window.location.href = targetUrl;
 }
 window.goToPost = goToPost;
-document.addEventListener('DOMContentLoaded', renderBlogCards);
+document.addEventListener('DOMContentLoaded', () => renderBlogCards());
