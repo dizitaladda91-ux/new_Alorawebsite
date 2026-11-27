@@ -2,6 +2,7 @@ import Review from '../models/review.models.js';
 import SimpleProduct from '../models/product.models.js';
 import User from '../models/userAuth.models.js';
 import { getSampleReviews, isLocalReviewPreview } from '../services/reviewSummary.service.js';
+import { CACHE_TTL, getOrSetCache, invalidateCachePrefix } from '../services/cache.service.js';
 
 export const createReview = async (req, res) => {
     try {
@@ -34,6 +35,13 @@ export const createReview = async (req, res) => {
             comment
         });
 
+        await Promise.all([
+            invalidateCachePrefix('reviews:'),
+            invalidateCachePrefix('products:'),
+            invalidateCachePrefix('product:detail:'),
+            invalidateCachePrefix('ssr:product')
+        ]);
+
         res.status(201).json({ success: true, data: newReview });
     } catch (error) {
         if (error.code === 11000) return res.status(409).json({ success: false, message: 'You have already reviewed this product.' });
@@ -45,46 +53,53 @@ export const createReview = async (req, res) => {
 export const getReviewsByProduct = async (req, res) => {
     try {
         const { productId } = req.params;
-        const candidates = [productId];
+        const preview = isLocalReviewPreview(req);
+        const cacheKey = `reviews:product:${String(productId || '').toLowerCase()}:${preview ? 'preview' : 'live'}`;
+        const { data: payload, hit } = await getOrSetCache(cacheKey, CACHE_TTL.PRODUCT_DETAIL, async () => {
+            const candidates = [productId];
 
-        const product = await SimpleProduct.findOne({
-            $or: [
-                { slug: productId },
-                ...(/^[a-f\d]{24}$/i.test(productId) ? [{ _id: productId }] : [])
-            ]
-        }).select('_id slug').lean();
+            const product = await SimpleProduct.findOne({
+                $or: [
+                    { slug: productId },
+                    ...(/^[a-f\d]{24}$/i.test(productId) ? [{ _id: productId }] : [])
+                ]
+            }).select('_id slug').lean();
 
-        if (product) {
-            candidates.push(String(product._id));
-            if (product.slug) candidates.push(product.slug);
-        }
+            if (product) {
+                candidates.push(String(product._id));
+                if (product.slug) candidates.push(product.slug);
+            }
 
-        const uniqueCandidates = [...new Set(candidates)];
-        if (isLocalReviewPreview(req)) {
-            const sampleReviews = await getSampleReviews(uniqueCandidates);
-            return res.status(200).json({
-                success: true,
-                count: sampleReviews.length,
-                data: sampleReviews,
-                isSample: true
-            });
-        }
-
-        const reviews = await Review.find({ productId: { $in: uniqueCandidates } }).sort({ createdAt: -1 });
-
-        if (reviews.length === 0) {
-            const sampleReviews = await getSampleReviews(uniqueCandidates);
-            if (sampleReviews.length > 0) {
-                return res.status(200).json({
+            const uniqueCandidates = [...new Set(candidates)];
+            if (preview) {
+                const sampleReviews = await getSampleReviews(uniqueCandidates);
+                return {
                     success: true,
                     count: sampleReviews.length,
                     data: sampleReviews,
                     isSample: true
-                });
+                };
             }
-        }
 
-        res.status(200).json({ success: true, count: reviews.length, data: reviews });
+            const reviews = await Review.find({ productId: { $in: uniqueCandidates } }).sort({ createdAt: -1 }).lean();
+
+            if (reviews.length === 0) {
+                const sampleReviews = await getSampleReviews(uniqueCandidates);
+                if (sampleReviews.length > 0) {
+                    return {
+                        success: true,
+                        count: sampleReviews.length,
+                        data: sampleReviews,
+                        isSample: true
+                    };
+                }
+            }
+
+            return { success: true, count: reviews.length, data: reviews };
+        });
+
+        res.setHeader('X-Cache', hit ? 'HIT' : 'MISS');
+        res.status(200).json(payload);
     } catch (error) {
         console.error('Review fetch failed:', error);
         res.status(500).json({ success: false, message: 'Could not load reviews.' });

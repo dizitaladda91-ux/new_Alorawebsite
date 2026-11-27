@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userAuth.models.js";
+import { getSessionById } from "../services/session.service.js";
 
 const jwtOptions = { issuer: "alora-radiance", audience: "alora-web" };
 
-const getTokenFromRequest = (req) => {
+export const getTokenFromRequest = (req) => {
   const authorization = req.headers.authorization || "";
   if (authorization.startsWith("Bearer ")) {
     return authorization.slice(7).trim();
@@ -31,6 +32,12 @@ export const requireAuth = async (req, res, next) => {
 
   try {
     const claims = verifyAuthToken(token);
+    if (claims.sid) {
+      const session = await getSessionById(claims.sid);
+      if (!session || session.userId !== String(claims.id) || session.role !== claims.role) {
+        return res.status(401).json({ success: false, message: "Session has expired or been logged out." });
+      }
+    }
     const user = await User.findById(claims.id).select("role").lean();
     if (!user || user.role !== claims.role) {
       return res.status(401).json({ success: false, message: "Session is no longer valid." });
@@ -43,12 +50,19 @@ export const requireAuth = async (req, res, next) => {
 };
 
 // Attaches a user when a valid cookie/token exists, but keeps guest checkout available.
-export const optionalAuth = (req, res, next) => {
+export const optionalAuth = async (req, res, next) => {
   const token = getTokenFromRequest(req);
   if (!token || !process.env.JWT_SECRET) return next();
 
   try {
-    req.user = verifyAuthToken(token);
+    const claims = verifyAuthToken(token);
+    if (claims.sid) {
+      const session = await getSessionById(claims.sid);
+      if (!session || session.userId !== String(claims.id) || session.role !== claims.role) {
+        return next();
+      }
+    }
+    req.user = claims;
   } catch {
     // A guest checkout must not fail because an old/expired browser cookie exists.
   }

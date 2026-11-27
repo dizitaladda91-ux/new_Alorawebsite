@@ -3,6 +3,16 @@ import fs from "fs";
 import db from "../config/db.js";
 import { deleteFromCloudinary } from "../middlewares/cloudinaryUpload.js";
 import { addReviewSummaries, isLocalReviewPreview } from "../services/reviewSummary.service.js";
+import { CACHE_TTL, getOrSetCache, invalidateCachePrefix } from "../services/cache.service.js";
+
+const invalidateProductCaches = async () => {
+    await Promise.all([
+        invalidateCachePrefix("products:"),
+        invalidateCachePrefix("product:detail:"),
+        invalidateCachePrefix("ssr:product"),
+        invalidateCachePrefix("ingredients:")
+    ]);
+};
 
 const toProductSlug = (value = "") => String(value)
     .toLowerCase()
@@ -61,6 +71,7 @@ export const addnewproduct = async (req, res) => {
 
         const newProduct = new SimpleProduct(addproduct);
         const savedProduct = await newProduct.save();
+        await invalidateProductCaches();
         
         res.status(201).json(savedProduct);
 
@@ -71,14 +82,18 @@ export const addnewproduct = async (req, res) => {
     }
 };
 
-// 2. READ (Saare Products Get Karna - Ultra Fast Lean Query)
+// 2. READ (Saare Products Get Karna - Cached Lean Query)
 export const readproduct = async (req, res) => {
     try {
-        await db();
-        const products = await SimpleProduct.find().lean();
-        res.status(200).json(await addReviewSummaries(products, {
-            useSampleReviews: isLocalReviewPreview(req)
-        }));
+        const preview = isLocalReviewPreview(req);
+        const cacheKey = `products:all:${preview ? "preview" : "live"}`;
+        const { data, hit } = await getOrSetCache(cacheKey, CACHE_TTL.PRODUCT_LIST, async () => {
+            await db();
+            const products = await SimpleProduct.find().lean();
+            return addReviewSummaries(products, { useSampleReviews: preview });
+        });
+        res.setHeader("X-Cache", hit ? "HIT" : "MISS");
+        res.status(200).json(data);
     } catch (err) {
         console.error("readproduct error:", err);
         res.status(500).json({ success: false, message: "Could not load product." });
@@ -149,6 +164,7 @@ export const updateproduct = async (req, res) => {
             return res.status(404).json({ message: "Product database me nahi mila ya update fail hua" });
         }
 
+        await invalidateProductCaches();
         res.status(200).json(updatedProduct);
     } catch (err) {
         res.status(500).json({ success: false, message: "Could not load products." });
@@ -239,6 +255,7 @@ export const updateProductForSeo = async (req, res) => {
         }
 
         await product.save();
+        await invalidateProductCaches();
         res.status(200).json(product);
     } catch (err) {
         res.status(500).json({ success: false, message: "Could not load product." });
@@ -259,6 +276,7 @@ export const deleteproduct = async (req, res) => {
             await deleteFromCloudinary(deleteProduct.imagepath);
         }
         await Promise.all((deleteProduct.galleryImages || []).map(deleteFromCloudinary));
+        await invalidateProductCaches();
 
         res.status(200).json({ message: "Product successfully deleted!" });
     } catch (err) {
@@ -266,50 +284,67 @@ export const deleteproduct = async (req, res) => {
     }
 };
 
-// 5. GET SINGLE PRODUCT (Ultra Fast Lean Query)
+// 5. GET SINGLE PRODUCT (Cached Lean Query)
 export const getproductbyid = async (req, res) => {
     try {
         const { id } = req.params;
-        let product = await SimpleProduct.findOne({ slug: id }).lean();
-        if (!product && /^[a-f\d]{24}$/i.test(id)) {
-            product = await SimpleProduct.findById(id).lean();
-        }
-        if (!product) {
-            const products = await SimpleProduct.find().lean();
-            product = products.find((item) => toProductSlug(item.name) === id);
-        }
+        const preview = isLocalReviewPreview(req);
+        const cacheKey = `product:detail:${String(id || "").toLowerCase()}:${preview ? "preview" : "live"}`;
+        const { data: productWithReviews, hit } = await getOrSetCache(cacheKey, CACHE_TTL.PRODUCT_DETAIL, async () => {
+            await db();
+            let product = await SimpleProduct.findOne({ slug: id }).lean();
+            if (!product && /^[a-f\d]{24}$/i.test(id)) {
+                product = await SimpleProduct.findById(id).lean();
+            }
+            if (!product) {
+                const products = await SimpleProduct.find().lean();
+                product = products.find((item) => toProductSlug(item.name) === id);
+            }
 
-        if (!product) {
+            if (!product) {
+                return null;
+            }
+
+            await ensureProductSlug(product);
+
+            const [enriched] = await addReviewSummaries([product], {
+                useSampleReviews: preview
+            });
+            return enriched;
+        });
+
+        if (!productWithReviews) {
             return res.status(404).json({ error: "Product nahi mila" });
         }
 
-        await ensureProductSlug(product);
-
-        const [productWithReviews] = await addReviewSummaries([product], {
-            useSampleReviews: isLocalReviewPreview(req)
-        });
+        res.setHeader("X-Cache", hit ? "HIT" : "MISS");
         res.status(200).json(productWithReviews);
     } catch (err) {
         res.status(500).json({ success: false, message: "Could not load product." });
     }
 };
 
-// 6. SEARCH PRODUCTS
+// 6. SEARCH PRODUCTS (Cached Query)
 export const searchProducts = async (req, res) => {
     try {
         const q = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 100) : '';
         if (!q) {
             return res.status(200).json({ success: true, products: [] });
         }
-        const escapedQuery = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const regex = new RegExp(escapedQuery, "i");
-        const products = await SimpleProduct.find({
-            $or: [
-                { name: regex },
-                { description: regex },
-                { category: regex }
-            ]
+        const cacheKey = `products:search:${q.toLowerCase()}`;
+        const { data: products, hit } = await getOrSetCache(cacheKey, CACHE_TTL.SEARCH_RESULTS, async () => {
+            await db();
+            const escapedQuery = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(escapedQuery, "i");
+            return SimpleProduct.find({
+                $or: [
+                    { name: regex },
+                    { description: regex },
+                    { category: regex }
+                ]
+            }).lean();
         });
+        res.setHeader("X-Cache", hit ? "HIT" : "MISS");
         res.status(200).json({ success: true, products });
     } catch (err) {
         res.status(500).json({ success: false, message: "Could not search products." });

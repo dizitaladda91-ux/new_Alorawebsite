@@ -5,6 +5,8 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { sanitizePlainText } from "../services/contentSanitizer.service.js";
+import { getTokenFromRequest, verifyAuthToken } from "../middlewares/auth.middleware.js";
+import { createSession, getSessionTtlSeconds, revokeAllUserSessions, revokeSession, touchSession } from "../services/session.service.js";
 
 const authCookieOptions = {
   httpOnly: true,
@@ -14,7 +16,7 @@ const authCookieOptions = {
   maxAge: 24 * 60 * 60 * 1000
 };
 
-const generateToken = (id, role) => {
+const generateToken = (id, role, sid) => {
   if (!process.env.JWT_SECRET) {
     throw new Error("JWT_SECRET is not configured");
   }
@@ -30,15 +32,23 @@ const generateToken = (id, role) => {
     }
   }
 
-  return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn, issuer: "alora-radiance", audience: "alora-web" });
+  return jwt.sign({ id, role, ...(sid ? { sid } : {}) }, process.env.JWT_SECRET, { expiresIn, issuer: "alora-radiance", audience: "alora-web" });
 };
 
 export const requiresTwoFactor = (user) => user.role === "user";
 export const requiresEmailVerification = (user) => user.role === "user";
 const TWO_FACTOR_OTP_TTL_MS = 5 * 60 * 1000;
 
-const completeLogin = (res, user, extra = {}) => {
-  const token = generateToken(user._id, user.role);
+const completeLogin = async (res, user, req = null, extra = {}) => {
+  const session = await createSession({
+    userId: user._id,
+    role: user.role,
+    email: user.email,
+    userAgent: req?.headers?.["user-agent"] || "",
+    ip: req?.ip || "",
+    ttlSeconds: getSessionTtlSeconds()
+  });
+  const token = generateToken(user._id, user.role, session.sid);
   res.cookie("token", token, authCookieOptions);
 
   return res.status(200).json({
@@ -545,7 +555,7 @@ export const login = async (req, res, next) => {
     }
 
     if (!requiresTwoFactor(user)) {
-      return completeLogin(res, user);
+      return await completeLogin(res, user, req);
     }
 
     const otp = generate6DigitOtp();
@@ -601,7 +611,7 @@ export const verify2FA = async (req, res) => {
       });
     }
 
-    return completeLogin(res, user);
+    return await completeLogin(res, user, req);
   } catch (error) {
     console.error("VERIFY_2FA_ERROR:", error);
     return res.status(500).json({ success: false, message: 'Server error during 2FA verification.' });
@@ -645,7 +655,18 @@ export const resend2FAOtp = async (req, res) => {
   }
 };
 
-export const logout = (req, res) => {
+export const logout = async (req, res) => {
+  try {
+    const token = getTokenFromRequest(req);
+    if (token && process.env.JWT_SECRET) {
+      const claims = verifyAuthToken(token);
+      if (claims?.sid) {
+        await revokeSession(claims.sid);
+      }
+    }
+  } catch {
+    // Clear cookie even if token is already expired/malformed
+  }
   res.clearCookie("token", {
     httpOnly: true,
     secure: authCookieOptions.secure,
@@ -662,7 +683,10 @@ export const getSession = async (req, res) => {
       return res.status(200).json({ success: true, authenticated: false, user: null });
     }
 
-    const { id } = req.user;
+    const { id, sid } = req.user;
+    if (sid) {
+      await touchSession(sid);
+    }
 
     const user = await User.findById(id).select("name email phone address role title dob gender wishlist isEmailVerified createdAt").lean();
     if (!user) {
@@ -816,6 +840,7 @@ export const resetPassword = async (req, res) => {
     user.resetTokenExpiry = null;
 
     await user.save();
+    await revokeAllUserSessions(user._id);
 
     res.status(200).json({ success: true, message: "Password kamyabi se badal gaya hai! Ab aap login kar sakte hain." });
 

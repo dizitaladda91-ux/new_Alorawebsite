@@ -1,4 +1,5 @@
 import Faq from "../models/faq.models.js";
+import { CACHE_TTL, getOrSetCache, invalidateCachePrefix } from "../services/cache.service.js";
 
 const BASE_DEFAULT_FAQS = [
     {
@@ -89,19 +90,21 @@ const ensurePageFaqsSeeded = async () => {
 // 🟢 1. GET ALL ACTIVE FAQS (Public Endpoint, Supports ?page=)
 export const getAllFaqs = async (req, res) => {
     try {
-        await ensurePageFaqsSeeded();
-
         const { category, page } = req.query;
-        let query = { isActive: true };
-        
         const targetPage = String(page || category || "").trim().slice(0, 100);
-        if (targetPage) {
-            const escapedPage = targetPage.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            query.category = new RegExp(`^${escapedPage}$`, "i");
-        }
+        const cacheKey = `faqs:list:${targetPage.toLowerCase() || "all"}`;
 
-        let faqs = await Faq.find(query).sort({ order: 1, createdAt: 1 }).lean();
+        const { data: faqs, hit } = await getOrSetCache(cacheKey, CACHE_TTL.HOMEPAGE_CONTENT, async () => {
+            await ensurePageFaqsSeeded();
+            let query = { isActive: true };
+            if (targetPage) {
+                const escapedPage = targetPage.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                query.category = new RegExp(`^${escapedPage}$`, "i");
+            }
+            return Faq.find(query).sort({ order: 1, createdAt: 1 }).lean();
+        });
 
+        res.setHeader("X-Cache", hit ? "HIT" : "MISS");
         return res.status(200).json({
             success: true,
             count: faqs.length,
@@ -166,6 +169,7 @@ export const createFaq = async (req, res) => {
         });
 
         await newFaq.save();
+        await invalidateCachePrefix("faqs:");
 
         return res.status(201).json({
             success: true,
@@ -199,6 +203,7 @@ export const updateFaq = async (req, res) => {
         if (isActive !== undefined) faq.isActive = Boolean(isActive);
 
         await faq.save();
+        await invalidateCachePrefix("faqs:");
 
         return res.status(200).json({
             success: true,
@@ -224,6 +229,7 @@ export const deleteFaq = async (req, res) => {
             return res.status(404).json({ success: false, message: "FAQ not found." });
         }
 
+        await invalidateCachePrefix("faqs:");
         return res.status(200).json({
             success: true,
             message: "FAQ deleted successfully",

@@ -32,6 +32,7 @@ import { addReviewSummaries, isLocalReviewPreview } from "./services/reviewSumma
 import { generateSitemapXml } from "./services/sitemap.service.js"; 
 import { parseAndNormalizeSchemas } from "./services/contentSanitizer.service.js"; 
 import { renderBlogArticleSsr, renderBlogListSsr, renderIngredientSsr, renderProductSsr, renderProductListSsr } from "./services/ssr.service.js";
+import { CACHE_TTL, getOrSetCache } from "./services/cache.service.js";
 import { setSecurityHeaders, sanitizeNoSql, createRateLimiter } from "./middlewares/security.middleware.js"; 
 
 if (!process.env.VERCEL) {
@@ -123,11 +124,22 @@ app.use([
   "/api/auth/verify-email"
 ], authLimiter);
 
-// High-Speed HTTP Response Caching for Public Catalog GET Endpoints
-app.use(['/api/product/all', '/api/product/search', '/api/products/all', '/api/blogs/all', '/api/blog/all', '/api/blogs', '/api/blog', '/api/reviews'], (req, res, next) => {
+// High-Speed HTTP Response Caching for Public Catalog, Config & Content GET Endpoints
+app.use([
+  '/api/product/all', '/api/product/search', '/api/products/all', '/api/products', '/api/product',
+  '/api/blogs/all', '/api/blog/all', '/api/blogs', '/api/blog',
+  '/api/reviews', '/api/faqs', '/api/faq', '/api/homepage-ingredients'
+], (req, res, next) => {
   if (req.method === 'GET') {
     const hasAuth = Boolean(req.cookies?.token || req.headers.authorization);
     res.setHeader('Cache-Control', hasAuth ? 'no-store' : 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
+  }
+  next();
+});
+
+app.use('/api/config', (req, res, next) => {
+  if (req.method === 'GET') {
+    res.setHeader('Cache-Control', 'public, max-age=900, s-maxage=1800, stale-while-revalidate=3600');
   }
   next();
 });
@@ -141,12 +153,35 @@ app.get('/api/health', async (req, res) => {
   }
 });
 
-app.get(['/api/config/gtm', '/api/config/analytics'], (req, res) => {
-  return res.status(200).json({
+app.get(['/api/config/gtm', '/api/config/analytics'], async (req, res) => {
+  const { data, hit } = await getOrSetCache('config:analytics', CACHE_TTL.SITE_CONFIG, async () => ({
     success: true,
     gtmId: (process.env.GTM_ID || "").trim(),
     gaMeasurementId: (process.env.GA_MEASUREMENT_ID || "").trim()
-  });
+  }));
+  res.setHeader('X-Cache', hit ? 'HIT' : 'MISS');
+  return res.status(200).json(data);
+});
+
+app.get('/api/config/site', async (req, res) => {
+  const { data, hit } = await getOrSetCache('config:site', CACHE_TTL.SITE_CONFIG, async () => ({
+    success: true,
+    brand: 'Alora Radiance',
+    currency: {
+      default: 'INR',
+      symbol: '₹',
+      rates: { INR: 1 }
+    },
+    shipping: {
+      freeThreshold: 499
+    },
+    navigation: {
+      skinTypes: ['oily', 'dry', 'combination', 'sensitive', 'normal'],
+      concerns: ['acne', 'pigmentation', 'dark-spots', 'tan', 'dullness', 'anti-ageing', 'dryness', 'open-pores']
+    }
+  }));
+  res.setHeader('X-Cache', hit ? 'HIT' : 'MISS');
+  return res.status(200).json(data);
 });
 
 app.use('/api', async (req, res, next) => {
@@ -205,16 +240,20 @@ app.get('/', (req, res) => {
 app.get('/products', async (req, res) => {
   const moreProductHtmlPath = path.join(frontendRoot, 'moreproduct.html');
   try {
-    await db();
-    const products = await Product.find({ isActive: { $ne: false } }).sort({ isBestseller: -1, createdAt: -1 }).lean();
-    const templateHtml = await fs.promises.readFile(moreProductHtmlPath, 'utf8');
-    const productsWithReviews = await addReviewSummaries(products, {
-      useSampleReviews: isLocalReviewPreview(req)
+    const preview = isLocalReviewPreview(req);
+    const { data: renderedHtml, hit } = await getOrSetCache(`ssr:products:${preview ? 'preview' : 'live'}`, CACHE_TTL.PRODUCT_LIST, async () => {
+      await db();
+      const products = await Product.find({ isActive: { $ne: false } }).sort({ isBestseller: -1, createdAt: -1 }).lean();
+      const templateHtml = await fs.promises.readFile(moreProductHtmlPath, 'utf8');
+      const productsWithReviews = await addReviewSummaries(products, {
+        useSampleReviews: preview
+      });
+      return renderProductListSsr(templateHtml, productsWithReviews);
     });
-    const renderedHtml = renderProductListSsr(templateHtml, productsWithReviews);
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+    res.setHeader('X-Cache', hit ? 'HIT' : 'MISS');
+    res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
     return res.status(200).send(renderedHtml);
   } catch (err) {
     return sendSsrUnavailable(res, 'Products list', err);
@@ -228,27 +267,35 @@ app.get('/product/:id', async (req, res) => {
   if (!rawId) return res.status(404).sendFile(productHtmlPath);
 
   try {
-    await db();
-    const product = await Product.findOne({
-      $or: [
-        { slug: rawId },
-        { slug: decodeURIComponent(rawId) },
-        { _id: rawId.match(/^[0-9a-fA-F]{24}$/) ? rawId : null }
-      ].filter(Boolean)
-    }).lean();
+    const preview = isLocalReviewPreview(req);
+    const { data: renderedHtml, hit } = await getOrSetCache(`ssr:product:${rawId.toLowerCase()}:${preview ? 'preview' : 'live'}`, CACHE_TTL.PRODUCT_DETAIL, async () => {
+      await db();
+      const product = await Product.findOne({
+        $or: [
+          { slug: rawId },
+          { slug: decodeURIComponent(rawId) },
+          { _id: rawId.match(/^[0-9a-fA-F]{24}$/) ? rawId : null }
+        ].filter(Boolean)
+      }).lean();
 
-    if (!product) {
+      if (!product) {
+        return null;
+      }
+
+      const [productWithReviews] = await addReviewSummaries([product], {
+        useSampleReviews: preview
+      });
+      const templateHtml = await fs.promises.readFile(productHtmlPath, 'utf8');
+      return renderProductSsr(templateHtml, productWithReviews);
+    });
+
+    if (!renderedHtml) {
       return res.status(404).sendFile(productHtmlPath);
     }
 
-    const [productWithReviews] = await addReviewSummaries([product], {
-      useSampleReviews: isLocalReviewPreview(req)
-    });
-    const templateHtml = await fs.promises.readFile(productHtmlPath, 'utf8');
-    const renderedHtml = renderProductSsr(templateHtml, productWithReviews);
-
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+    res.setHeader('X-Cache', hit ? 'HIT' : 'MISS');
+    res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
     return res.status(200).send(renderedHtml);
   } catch (err) {
     return sendSsrUnavailable(res, 'Product', err);
@@ -282,17 +329,20 @@ app.get(['/blog', '/blogs', '/Blog', '/Blog.html', '/blog.html', '/blogs.html'],
     ? path.join(frontendRoot, 'Blog.html')
     : path.join(frontendRoot, 'blog.html');
   try {
-    await db();
-    const posts = await Post.find({ status: { $ne: 'draft' } })
-      .select('title slug metaTitle category metaDesc coverImage coverUrl createdAt publishedAt')
-      .sort({ publishedAt: -1, createdAt: -1 })
-      .limit(30)
-      .lean();
-    const templateHtml = await fs.promises.readFile(target, 'utf8');
-    const renderedHtml = renderBlogListSsr(templateHtml, posts);
+    const { data: renderedHtml, hit } = await getOrSetCache('ssr:blog:list', CACHE_TTL.BLOG_LIST, async () => {
+      await db();
+      const posts = await Post.find({ status: { $ne: 'draft' } })
+        .select('title slug metaTitle category metaDesc coverImage coverUrl createdAt publishedAt')
+        .sort({ publishedAt: -1, createdAt: -1 })
+        .limit(30)
+        .lean();
+      const templateHtml = await fs.promises.readFile(target, 'utf8');
+      return renderBlogListSsr(templateHtml, posts);
+    });
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+    res.setHeader('X-Cache', hit ? 'HIT' : 'MISS');
+    res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
     return res.status(200).send(renderedHtml);
   } catch (err) {
     return sendSsrUnavailable(res, 'Blog list', err);
@@ -308,38 +358,45 @@ app.get(['/blog/:slug', '/blogs/:slug'], async (req, res) => {
   }
 
   try {
-    await db();
-    const blog = await Post.findOne({
-      $or: [
-        { slug: rawSlug },
-        { slug: decodeURIComponent(rawSlug) },
-        { _id: rawSlug.match(/^[0-9a-fA-F]{24}$/) ? rawSlug : null }
-      ].filter(Boolean),
-      status: { $ne: 'draft' }
-    }).lean();
+    const { data: renderedHtml, hit } = await getOrSetCache(`ssr:blog:${rawSlug.toLowerCase()}`, CACHE_TTL.BLOG_LIST, async () => {
+      await db();
+      const blog = await Post.findOne({
+        $or: [
+          { slug: rawSlug },
+          { slug: decodeURIComponent(rawSlug) },
+          { _id: rawSlug.match(/^[0-9a-fA-F]{24}$/) ? rawSlug : null }
+        ].filter(Boolean),
+        status: { $ne: 'draft' }
+      }).lean();
 
-    if (!blog) {
+      if (!blog) {
+        return null;
+      }
+
+      let relatedProducts = [];
+      try {
+        if (blog.category) {
+          relatedProducts = await Product.find({
+            category: new RegExp(blog.category, 'i'),
+            isActive: { $ne: false }
+          }).limit(3).lean();
+        }
+        if (relatedProducts.length === 0) {
+          relatedProducts = await Product.find({ isActive: { $ne: false } }).limit(3).lean();
+        }
+      } catch (_) {}
+
+      const templateHtml = await fs.promises.readFile(postHtmlPath, 'utf8');
+      return renderBlogArticleSsr(templateHtml, blog, relatedProducts);
+    });
+
+    if (!renderedHtml) {
       return res.status(404).sendFile(postHtmlPath);
     }
 
-    let relatedProducts = [];
-    try {
-      if (blog.category) {
-        relatedProducts = await Product.find({
-          category: new RegExp(blog.category, 'i'),
-          isActive: { $ne: false }
-        }).limit(3).lean();
-      }
-      if (relatedProducts.length === 0) {
-        relatedProducts = await Product.find({ isActive: { $ne: false } }).limit(3).lean();
-      }
-    } catch (_) {}
-
-    const templateHtml = await fs.promises.readFile(postHtmlPath, 'utf8');
-    const renderedHtml = renderBlogArticleSsr(templateHtml, blog, relatedProducts);
-
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+    res.setHeader('X-Cache', hit ? 'HIT' : 'MISS');
+    res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
     return res.status(200).send(renderedHtml);
   } catch (err) {
     return sendSsrUnavailable(res, 'Blog article', err);

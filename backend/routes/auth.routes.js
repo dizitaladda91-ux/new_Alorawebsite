@@ -15,6 +15,7 @@ import {
 } from '../controllers/auth.controllers.js';
 import jwt from "jsonwebtoken";
 import { optionalAuth, requireAuth, verifyAuthToken } from "../middlewares/auth.middleware.js";
+import { getSessionById } from "../services/session.service.js";
 import User from "../models/userAuth.models.js";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -37,6 +38,13 @@ const protectView = async (req, res, next) => {
 
   try {
     const decoded = verifyAuthToken(token);
+    if (decoded.sid) {
+      const session = await getSessionById(decoded.sid);
+      if (!session || session.userId !== String(decoded.id) || session.role !== decoded.role) {
+        res.clearCookie("token");
+        return res.redirect("/login.html");
+      }
+    }
     const user = await User.findById(decoded.id).select("role").lean();
     if (!user || user.role !== decoded.role) {
       res.clearCookie("token");

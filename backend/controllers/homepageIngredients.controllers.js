@@ -2,6 +2,7 @@ import HomepageIngredients from "../models/homepageIngredients.models.js";
 import SimpleProduct from "../models/product.models.js";
 import Blog from "../models/blog.models.js";
 import { cloudinary } from "../config/cloudinary.js";
+import { CACHE_TTL, getOrSetCache, invalidateCachePrefix } from "../services/cache.service.js";
 
 const DEFAULT_INGREDIENTS = [
     {
@@ -292,17 +293,21 @@ const resolveProducts = async ingredients => Promise.all(ingredients.map(async i
 
 const getHomepageIngredients = async (req, res) => {
     try {
-        const content = await loadHomepageContentWithSeededIngredients();
-        const useDefaults = !content?.ingredients?.length;
-        const sourceIngredients = (useDefaults ? DEFAULT_INGREDIENTS : content.ingredients).map(enrichIngredient);
-        const ingredients = await resolveProducts(sourceIngredients);
-        return res.status(200).json({
-            success: true,
-            data: {
+        const { data, hit } = await getOrSetCache("ingredients:homepage", CACHE_TTL.HOMEPAGE_CONTENT, async () => {
+            const content = await loadHomepageContentWithSeededIngredients();
+            const useDefaults = !content?.ingredients?.length;
+            const sourceIngredients = (useDefaults ? DEFAULT_INGREDIENTS : content.ingredients).map(enrichIngredient);
+            const ingredients = await resolveProducts(sourceIngredients);
+            return {
                 ...DEFAULT_HOMEPAGE_INGREDIENTS,
                 ...(content || {}),
                 ingredients
-            }
+            };
+        });
+        res.setHeader("X-Cache", hit ? "HIT" : "MISS");
+        return res.status(200).json({
+            success: true,
+            data
         });
     } catch (error) {
         console.error("Failed to load homepage ingredient section:", error);
@@ -311,30 +316,33 @@ const getHomepageIngredients = async (req, res) => {
 };
 
 const getHomepageIngredientBySlug = async (slug) => {
-    const content = await loadHomepageContentWithSeededIngredients();
-    const useDefaults = !content?.ingredients?.length;
-    const sourceIngredients = (useDefaults ? DEFAULT_INGREDIENTS : content.ingredients).map(enrichIngredient);
-    const ingredient = sourceIngredients.find(item => item.slug === slug);
-    if (!ingredient) return null;
-    const [resolvedIngredient] = await resolveProducts([ingredient]);
-    if (!resolvedIngredient) return null;
+    const { data } = await getOrSetCache(`ingredients:slug:${String(slug || "").toLowerCase()}`, CACHE_TTL.HOMEPAGE_CONTENT, async () => {
+        const content = await loadHomepageContentWithSeededIngredients();
+        const useDefaults = !content?.ingredients?.length;
+        const sourceIngredients = (useDefaults ? DEFAULT_INGREDIENTS : content.ingredients).map(enrichIngredient);
+        const ingredient = sourceIngredients.find(item => item.slug === slug);
+        if (!ingredient) return null;
+        const [resolvedIngredient] = await resolveProducts([ingredient]);
+        if (!resolvedIngredient) return null;
 
-    const searchTerm = String(resolvedIngredient.name || resolvedIngredient.slug || "").trim();
-    const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const relatedBlogs = searchTerm
-        ? await Blog.find({
-            status: "published",
-            $or: ["title", "metaTitle", "keywords", "metaDesc", "category", "content"].map(field => ({
-                [field]: { $regex: escapedSearchTerm, $options: "i" }
-            }))
-        })
-            .select("title slug metaDesc coverImage createdAt")
-            .sort({ createdAt: -1 })
-            .limit(3)
-            .lean()
-        : [];
+        const searchTerm = String(resolvedIngredient.name || resolvedIngredient.slug || "").trim();
+        const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const relatedBlogs = searchTerm
+            ? await Blog.find({
+                status: "published",
+                $or: ["title", "metaTitle", "keywords", "metaDesc", "category", "content"].map(field => ({
+                    [field]: { $regex: escapedSearchTerm, $options: "i" }
+                }))
+            })
+                .select("title slug metaDesc coverImage createdAt")
+                .sort({ createdAt: -1 })
+                .limit(3)
+                .lean()
+            : [];
 
-    return { ...resolvedIngredient, relatedBlogs };
+        return { ...resolvedIngredient, relatedBlogs };
+    });
+    return data;
 };
 
 const updateHomepageIngredients = async (req, res) => {
@@ -405,6 +413,7 @@ const updateHomepageIngredients = async (req, res) => {
             { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true }
         ).lean();
 
+        await invalidateCachePrefix("ingredients:");
         return res.status(200).json({ success: true, message: "Homepage section saved.", data: content });
     } catch (error) {
         if (error instanceof HomepageContentValidationError) {

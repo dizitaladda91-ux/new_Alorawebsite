@@ -2,6 +2,15 @@ import Blog from '../models/blog.models.js';
 import { deleteFromCloudinary } from '../middlewares/cloudinaryUpload.js';
 import { sanitizeBlogHtml, sanitizePlainText, decodeEntities, parseAndNormalizeSchemas, formatSchemaForStorage } from '../services/contentSanitizer.service.js';
 import { syncStaticSitemapFile } from '../services/sitemap.service.js';
+import { CACHE_TTL, getOrSetCache, invalidateCachePrefix } from '../services/cache.service.js';
+
+const invalidateBlogCaches = async () => {
+    await Promise.all([
+        invalidateCachePrefix('blogs:'),
+        invalidateCachePrefix('ssr:blog'),
+        invalidateCachePrefix('ingredients:slug:')
+    ]);
+};
 
 function cleanBlogFieldsAndSave(blog) {
     if (!blog) return blog;
@@ -145,6 +154,7 @@ export const createBlogPost = async (req, res) => {
         });
 
         await newBlog.save();
+        await invalidateBlogCaches();
         syncStaticSitemapFile().catch(e => console.warn("Sitemap sync warning:", e));
         return res.status(201).json({ 
             success: true, 
@@ -172,26 +182,34 @@ export const getAllBlogs = async (req, res) => {
         const canViewDrafts = ['admin', 'seoadmin'].includes(req.user?.role);
         const filter = canViewDrafts ? {} : { status: { $ne: 'draft' } };
 
-        // Light Projection excluding heavy rich text content for card listing performance
-        const blogs = await Blog.find(filter)
-            .select("title slug metaTitle category metaDesc publisher coverImage status createdAt updatedAt")
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(limit)
-            .lean();
+        const fetchList = async () => {
+            const blogs = await Blog.find(filter)
+                .select("title slug metaTitle category metaDesc publisher coverImage status createdAt updatedAt")
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit)
+                .lean();
 
-        const totalCount = await Blog.countDocuments(filter);
-        const cleanedBlogs = blogs.map(cleanBlogFieldsAndSave);
-        
-        return res.status(200).json({ 
-            success: true, 
-            count: cleanedBlogs.length,
-            totalCount,
-            page,
-            totalPages: Math.ceil(totalCount / limit),
-            blogs: cleanedBlogs, 
-            data: cleanedBlogs 
-        });
+            const totalCount = await Blog.countDocuments(filter);
+            const cleanedBlogs = blogs.map(cleanBlogFieldsAndSave);
+            return {
+                success: true,
+                count: cleanedBlogs.length,
+                totalCount,
+                page,
+                totalPages: Math.ceil(totalCount / limit),
+                blogs: cleanedBlogs,
+                data: cleanedBlogs
+            };
+        };
+
+        if (canViewDrafts) {
+            return res.status(200).json(await fetchList());
+        }
+
+        const { data: payload, hit } = await getOrSetCache(`blogs:list:${page}:${limit}`, CACHE_TTL.BLOG_LIST, fetchList);
+        res.setHeader("X-Cache", hit ? "HIT" : "MISS");
+        return res.status(200).json(payload);
     } catch (error) {
         console.error("Fetch all blogs error:", error);
         return res.status(500).json({ success: false, message: "Could not load blog posts." });
@@ -289,6 +307,7 @@ export const updateBlogPost = async (req, res) => {
             return res.status(404).json({ success: false, message: "Blog not found to update." });
         }
 
+        await invalidateBlogCaches();
         syncStaticSitemapFile().catch(e => console.warn("Sitemap sync warning:", e));
 
         return res.status(200).json({ success: true, message: "Blog updated successfully!", data: updatedBlog, blog: updatedBlog });
@@ -323,6 +342,7 @@ export const deleteBlogPost = async (req, res) => {
             try { await deleteFromCloudinary(inlineUrl); } catch (e) { console.warn("Cloudinary inline delete warning:", e); }
         }
 
+        await invalidateBlogCaches();
         syncStaticSitemapFile().catch(e => console.warn("Sitemap sync warning:", e));
 
         return res.status(200).json({ success: true, message: "Blog and associated assets deleted successfully!" });
