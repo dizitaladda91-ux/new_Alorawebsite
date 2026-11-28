@@ -86,11 +86,12 @@ app.use(helmet({
       objectSrc: ["'none'"],
       frameAncestors: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com", "https://www.google-analytics.com", "https://checkout.razorpay.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net"],
+      scriptSrcAttr: ["'unsafe-inline'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net"],
       imgSrc: ["'self'", "data:", "blob:", "https://res.cloudinary.com", "https://images.unsplash.com", "https://www.googletagmanager.com"],
       fontSrc: ["'self'", "data:", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
       connectSrc: ["'self'", "https://www.google-analytics.com", "https://analytics.google.com", "https://*.razorpay.com", "https://generativelanguage.googleapis.com"],
-      frameSrc: ["'self'", "https://checkout.razorpay.com", "https://www.youtube.com", "https://www.youtube-nocookie.com"],
+      frameSrc: ["'self'", "https://checkout.razorpay.com", "https://www.youtube.com", "https://www.youtube-nocookie.com", "https://maps.google.com", "https://www.google.com"],
       mediaSrc: ["'self'", "blob:", "https://res.cloudinary.com"],
       formAction: ["'self'", "https://checkout.razorpay.com", "https://api.razorpay.com"],
       ...(process.env.NODE_ENV === "production" ? { upgradeInsecureRequests: [] } : {})
