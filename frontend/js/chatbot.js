@@ -1,10 +1,40 @@
 (function () {
     let isChatOpen = false;
     let isWaitingForResponse = false;
-    let voiceEnabled = true;
-    let hasSpokenIntro = false;
+    let selectedLanguage = "hinglish";
 
-    const BENE_INTRO_TEXT = "Hi, main Bene hoon, Alora Radiance ki skincare guide. Aapki skin type kya hai? Oily, dry, combination, sensitive ya normal?";
+    const BENE_COPY = {
+        english: {
+            welcome: "Hi, I'm <strong>BENÉ</strong>, your skincare guide at Alora Radiance. What is your skin type — oily, dry, combination, sensitive, or normal?",
+            placeholder: "Type your skincare question...",
+            quick: {
+                oily: "I have oily skin and acne",
+                dry: "What is best for dry skin?",
+                combos: "Tell me about combo packs and offers",
+                shipping: "What is your shipping and return policy?"
+            }
+        },
+        hindi: {
+            welcome: "नमस्ते, मैं <strong>BENÉ</strong> हूँ, Alora Radiance की स्किनकेयर गाइड। आपकी स्किन टाइप क्या है — ऑयली, ड्राई, कॉम्बिनेशन, सेंसिटिव या नॉर्मल?",
+            placeholder: "अपना सवाल लिखें...",
+            quick: {
+                oily: "मेरी स्किन ऑयली है और पिंपल्स आते हैं",
+                dry: "ड्राई स्किन के लिए क्या अच्छा रहेगा?",
+                combos: "कॉम्बो पैक्स और ऑफर्स बताएं",
+                shipping: "शिपिंग और रिटर्न पॉलिसी क्या है?"
+            }
+        },
+        hinglish: {
+            welcome: "Hi, main <strong>BENÉ</strong> hoon, Alora Radiance ki skincare guide. Aapki skin type kya hai? Oily, dry, combination, sensitive ya normal?",
+            placeholder: "Apna sawal likhein...",
+            quick: {
+                oily: "Meri skin oily hai aur acne hai",
+                dry: "Dry skin ke liye kya best hai?",
+                combos: "Combo packs aur offers batao",
+                shipping: "Shipping aur return policy kya hai?"
+            }
+        }
+    };
 
     function getAvatarUrl() {
         return location.protocol === "file:" ? "./static/bene-avatar.jpg" : "/static/bene-avatar.jpg";
@@ -18,59 +48,29 @@
         return isLocal ? "http://localhost:5000" : "";
     }
 
-    function stopBeneSpeech() {
-        if (typeof window !== "undefined" && "speechSynthesis" in window) {
-            try { window.speechSynthesis.cancel(); } catch {}
-        }
-    }
-
-    function speakBeneText(text) {
-        if (!voiceEnabled || typeof window === "undefined" || !("speechSynthesis" in window) || !text) return;
-        try {
-            window.speechSynthesis.cancel();
-            const cleanText = String(text).replace(/[*_`#]/g, "").replace(/BENÉ/g, "Bene");
-            const utterance = new SpeechSynthesisUtterance(cleanText);
-            const voices = window.speechSynthesis.getVoices() || [];
-            const preferredVoice =
-                voices.find(v => /hi-IN/i.test(v.lang)) ||
-                voices.find(v => /en-IN/i.test(v.lang)) ||
-                voices.find(v => /female|zira|heera|kalpana|swara/i.test(v.name));
-            if (preferredVoice) {
-                utterance.voice = preferredVoice;
-                utterance.lang = preferredVoice.lang;
-            } else {
-                utterance.lang = "en-IN";
-            }
-            utterance.rate = 0.98;
-            utterance.pitch = 1.05;
-            window.speechSynthesis.speak(utterance);
-        } catch (err) {
-            console.warn("Speech synthesis unavailable:", err);
-        }
-    }
-
-    window.playBeneIntro = function () {
-        voiceEnabled = true;
-        updateVoiceToggleIcon();
-        speakBeneText(BENE_INTRO_TEXT);
+    window.getBeneQuickText = function (key) {
+        return (BENE_COPY[selectedLanguage] || BENE_COPY.hinglish).quick[key] || "";
     };
 
-    function updateVoiceToggleIcon() {
-        const btn = document.getElementById("bene-voice-toggle");
-        if (!btn) return;
-        btn.innerHTML = voiceEnabled
-            ? '<i class="fa-solid fa-volume-high"></i>'
-            : '<i class="fa-solid fa-volume-xmark"></i>';
-        btn.title = voiceEnabled ? "Mute BENÉ Voice" : "Unmute BENÉ Voice";
-    }
+    window.setBeneLanguage = function (lang) {
+        if (!BENE_COPY[lang]) return;
+        selectedLanguage = lang;
 
-    window.toggleBeneVoice = function () {
-        voiceEnabled = !voiceEnabled;
-        updateVoiceToggleIcon();
-        if (!voiceEnabled) {
-            stopBeneSpeech();
-        } else {
-            speakBeneText(BENE_INTRO_TEXT);
+        document.querySelectorAll(".bene-lang-btn").forEach((btn) => {
+            const isActive = btn.getAttribute("data-lang") === lang;
+            btn.classList.toggle("bg-[#E8A33D]", isActive);
+            btn.classList.toggle("text-[#2B1E16]", isActive);
+            btn.classList.toggle("text-[#3B2418]", !isActive);
+        });
+
+        const input = document.getElementById("alora-chat-input");
+        if (input) {
+            input.placeholder = BENE_COPY[lang].placeholder;
+        }
+
+        const welcomeEl = document.getElementById("bene-welcome-text");
+        if (welcomeEl) {
+            welcomeEl.innerHTML = BENE_COPY[lang].welcome;
         }
     };
 
@@ -93,12 +93,7 @@
             if (badge) badge.classList.add("hidden");
             if (input) input.focus();
             scrollToBottom();
-            if (!hasSpokenIntro) {
-                hasSpokenIntro = true;
-                speakBeneText(BENE_INTRO_TEXT);
-            }
         } else {
-            stopBeneSpeech();
             modal.classList.remove("scale-100", "opacity-100");
             modal.classList.add("scale-95", "opacity-0");
             setTimeout(() => {
@@ -233,7 +228,7 @@
             const response = await fetch(`${baseUrl}/api/chatbot/message`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: userMsg })
+                body: JSON.stringify({ message: userMsg, language: selectedLanguage })
             });
             removeTypingIndicator();
             if (!response.ok) {
@@ -258,20 +253,16 @@
     };
 
     window.clearAloraChat = function () {
-        stopBeneSpeech();
         const container = document.getElementById("alora-chat-messages");
         if (!container) return;
+        const copy = BENE_COPY[selectedLanguage] || BENE_COPY.hinglish;
         container.innerHTML = `
             <div class="flex items-start space-x-2.5">
                 <img src="${getAvatarUrl()}" alt="BENÉ" class="w-8 h-8 rounded-full object-cover border border-[#E8A33D] flex-shrink-0 mt-0.5 shadow-sm">
-                <div class="bg-white border border-[#3B2418]/10 p-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] space-y-2.5">
-                    <p class="text-[#3B2418] text-xs sm:text-sm leading-relaxed">
-                        Hi, main <strong>BENÉ</strong> hoon, Alora Radiance ki skincare guide. Aapki skin type kya hai? Oily, dry, combination, sensitive ya normal?
+                <div class="bg-white border border-[#3B2418]/10 p-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
+                    <p id="bene-welcome-text" class="text-[#3B2418] text-xs sm:text-sm leading-relaxed">
+                        ${copy.welcome}
                     </p>
-                    <button type="button" onclick="window.playBeneIntro()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F2EBDA] hover:bg-[#E8A33D] text-[#3B2418] text-[11px] font-bold transition-colors cursor-pointer">
-                        <i class="fa-solid fa-volume-high text-[10px]"></i>
-                        <span>Listen Intro</span>
-                    </button>
                 </div>
             </div>
         `;

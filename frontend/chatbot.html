@@ -49,9 +49,6 @@
             </div>
 
             <div class="flex items-center space-x-1 text-[#F2EBDA]/80">
-                <button id="bene-voice-toggle" onclick="window.toggleBeneVoice()" class="hover:text-[#E8A33D] transition-colors p-2 text-xs rounded-full hover:bg-white/10" title="Mute / Unmute Voice">
-                    <i class="fa-solid fa-volume-high"></i>
-                </button>
                 <button onclick="window.clearAloraChat()" class="hover:text-[#E8A33D] transition-colors p-2 text-xs rounded-full hover:bg-white/10" title="Clear Chat History">
                     <i class="fas fa-trash-alt"></i>
                 </button>
@@ -61,20 +58,26 @@
             </div>
         </div>
 
+        <!-- Language Selector Bar -->
+        <div class="px-4 py-2 bg-[#F2EBDA] border-b border-[#3B2418]/10 flex items-center justify-between gap-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-[#3B2418]/75">Language</span>
+            <div id="bene-lang-selector" class="inline-flex items-center bg-white rounded-full p-0.5 border border-[#3B2418]/15 shadow-2xs">
+                <button type="button" data-lang="english" onclick="window.setBeneLanguage('english')" class="bene-lang-btn px-2.5 py-1 rounded-full text-[11px] font-bold text-[#3B2418] hover:bg-[#FAF7F2] transition cursor-pointer">English</button>
+                <button type="button" data-lang="hindi" onclick="window.setBeneLanguage('hindi')" class="bene-lang-btn px-2.5 py-1 rounded-full text-[11px] font-bold text-[#3B2418] hover:bg-[#FAF7F2] transition cursor-pointer">हिंदी</button>
+                <button type="button" data-lang="hinglish" onclick="window.setBeneLanguage('hinglish')" class="bene-lang-btn px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#E8A33D] text-[#2B1E16] transition cursor-pointer">Hinglish</button>
+            </div>
+        </div>
+
         <!-- Chat Body Messages -->
         <div id="alora-chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3.5 bg-[#FAF7F2] text-[#3B2418] text-sm scroll-smooth">
 
             <!-- Welcome Message -->
             <div class="flex items-start space-x-2.5">
                 <img src="./static/bene-avatar.jpg" alt="BENÉ" class="w-8 h-8 rounded-full object-cover border border-[#E8A33D] flex-shrink-0 mt-0.5 shadow-sm">
-                <div class="bg-white border border-[#3B2418]/10 p-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] space-y-2.5">
-                    <p class="text-[#3B2418] text-xs sm:text-sm leading-relaxed">
+                <div class="bg-white border border-[#3B2418]/10 p-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
+                    <p id="bene-welcome-text" class="text-[#3B2418] text-xs sm:text-sm leading-relaxed">
                         Hi, main <strong>BENÉ</strong> hoon, Alora Radiance ki skincare guide. Aapki skin type kya hai? Oily, dry, combination, sensitive ya normal?
                     </p>
-                    <button type="button" onclick="window.playBeneIntro()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F2EBDA] hover:bg-[#E8A33D] text-[#3B2418] text-[11px] font-bold transition-colors cursor-pointer">
-                        <i class="fa-solid fa-volume-high text-[10px]"></i>
-                        <span>Listen Intro</span>
-                    </button>
                 </div>
             </div>
 
@@ -82,20 +85,20 @@
 
         <!-- Quick Suggestions Chips -->
         <div id="alora-quick-suggestions" class="px-3 py-2.5 bg-[#F2EBDA]/70 border-t border-[#3B2418]/10 flex items-center gap-1.5 overflow-x-auto scrollbar-none text-xs">
-            <button onclick="window.sendAloraQuickQuery('Meri skin oily hai aur acne hai')"
-                    class="whitespace-nowrap px-3 py-1 bg-white border border-[#E8A33D] text-[#2B1E16] font-semibold rounded-full hover:bg-[#E8A33D] transition-all shadow-2xs cursor-pointer">
+            <button onclick="window.sendAloraQuickQuery(window.getBeneQuickText('oily'))"
+                    class="bene-quick-chip whitespace-nowrap px-3 py-1 bg-white border border-[#E8A33D] text-[#2B1E16] font-semibold rounded-full hover:bg-[#E8A33D] transition-all shadow-2xs cursor-pointer">
                 Oily / Acne
             </button>
-            <button onclick="window.sendAloraQuickQuery('Dry skin ke liye kya best hai?')"
-                    class="whitespace-nowrap px-3 py-1 bg-white border border-[#E8A33D] text-[#2B1E16] font-semibold rounded-full hover:bg-[#E8A33D] transition-all shadow-2xs cursor-pointer">
+            <button onclick="window.sendAloraQuickQuery(window.getBeneQuickText('dry'))"
+                    class="bene-quick-chip whitespace-nowrap px-3 py-1 bg-white border border-[#E8A33D] text-[#2B1E16] font-semibold rounded-full hover:bg-[#E8A33D] transition-all shadow-2xs cursor-pointer">
                 Dry Skin
             </button>
-            <button onclick="window.sendAloraQuickQuery('Combo packs aur offers batao')"
-                    class="whitespace-nowrap px-3 py-1 bg-white border border-[#E8A33D] text-[#2B1E16] font-semibold rounded-full hover:bg-[#E8A33D] transition-all shadow-2xs cursor-pointer">
+            <button onclick="window.sendAloraQuickQuery(window.getBeneQuickText('combos'))"
+                    class="bene-quick-chip whitespace-nowrap px-3 py-1 bg-white border border-[#E8A33D] text-[#2B1E16] font-semibold rounded-full hover:bg-[#E8A33D] transition-all shadow-2xs cursor-pointer">
                 Combos &amp; Offers
             </button>
-            <button onclick="window.sendAloraQuickQuery('Shipping aur return policy kya hai?')"
-                    class="whitespace-nowrap px-3 py-1 bg-white border border-[#E8A33D] text-[#2B1E16] font-semibold rounded-full hover:bg-[#E8A33D] transition-all shadow-2xs cursor-pointer">
+            <button onclick="window.sendAloraQuickQuery(window.getBeneQuickText('shipping'))"
+                    class="bene-quick-chip whitespace-nowrap px-3 py-1 bg-white border border-[#E8A33D] text-[#2B1E16] font-semibold rounded-full hover:bg-[#E8A33D] transition-all shadow-2xs cursor-pointer">
                 Shipping &amp; Returns
             </button>
         </div>

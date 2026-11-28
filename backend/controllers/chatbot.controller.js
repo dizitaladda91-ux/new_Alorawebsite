@@ -102,7 +102,10 @@ Then add one short tip (how to use or what to pair it with) and end with ONE fol
 
 export const handleChatbotMessage = async (req, res) => {
     try {
-        const { message } = req.body;
+        const { message, language } = req.body;
+        const preferredLang = ["english", "hindi", "hinglish"].includes(String(language || "").toLowerCase())
+            ? String(language).toLowerCase()
+            : "hinglish";
 
         if (!message || typeof message !== "string" || !message.trim()) {
             return res.status(400).json({
@@ -198,11 +201,18 @@ export const handleChatbotMessage = async (req, res) => {
                     return `- ${p.name} (Category: ${p.category}, Price: ₹${price}, Benefits: ${p.benefits || p.description.slice(0, 80)})`;
                 }).join("\n");
 
+                const langInstruction = preferredLang === "english"
+                    ? "Reply strictly in natural, simple English."
+                    : preferredLang === "hindi"
+                        ? "Reply strictly in simple Hindi (Devanagari script)."
+                        : "Reply in natural, friendly Hinglish (Hindi written in English script).";
+
                 const fullPrompt = `${BENE_SYSTEM_PROMPT}
 
 Live Products Catalog:
 ${productSummary}
 
+Preferred Language: ${langInstruction}
 User Question: "${queryText}"
 
 Reply as BENÉ following all rules strictly.`;
@@ -241,27 +251,59 @@ Reply as BENÉ following all rules strictly.`;
             }
         }
 
-        // 5. Fallback Rule-Based Engine (BENÉ Persona)
+        // 5. Fallback Rule-Based Engine (BENÉ Persona, Language-Aware)
         let reply = "";
         const hasSeriousIssue = /\b(pus|bleeding|swelling|infection|allergic|allergy|rash|burning|pregnant|pregnancy|breastfeeding|severe pain)\b/i.test(lowerMsg);
         const asksCertification = /\b(fda|toxin|certified|made safe|clinically proven|dermatologist recommended)\b/i.test(lowerMsg);
 
         if (hasSeriousIssue) {
-            reply = "Agar aapko aisi reaction ya serious skin problem ho rahi hai, to kripya product use karna turant band kar dein aur kisi dermatologist ya doctor se consult karein. Main is case me product recommend nahi kar sakta.";
+            reply = preferredLang === "english"
+                ? "If you're experiencing a reaction or serious skin concern, please stop using the product and consult a dermatologist or doctor. I cannot recommend products in this case."
+                : preferredLang === "hindi"
+                    ? "अगर आपको ऐसी रिएक्शन या गंभीर स्किन समस्या हो रही है, तो कृपया प्रोडक्ट का उपयोग तुरंत बंद करें और किसी डर्मेटोलॉजिस्ट या डॉक्टर से सलाह लें।"
+                    : "Agar aapko aisi reaction ya serious skin problem ho rahi hai, to kripya product use karna turant band kar dein aur kisi dermatologist ya doctor se consult karein. Main is case me product recommend nahi kar sakta.";
         } else if (asksCertification) {
-            reply = `Alora Radiance ke formulations paraben-free, sulphate-free, cruelty-free hain, 48-hour human volunteer patch tested hain, aur Drugs & Cosmetics Act ke under licensed facility me bante hain. Official reports ke liye aap support team se baat kar sakte hain: ${SUPPORT_CONTACT}`;
+            reply = preferredLang === "english"
+                ? `Alora Radiance products are paraben-free, sulphate-free, cruelty-free, 48-hour patch tested, and made in a facility licensed under the Drugs & Cosmetics Act. For official reports, contact support: ${SUPPORT_CONTACT}`
+                : preferredLang === "hindi"
+                    ? `Alora Radiance के प्रोडक्ट्स पैराबेन-फ्री, सल्फेट-फ्री, क्रुएल्टी-फ्री और 48-घंटे पैच टेस्टेड हैं। अधिक जानकारी के लिए सपोर्ट टीम से बात करें: ${SUPPORT_CONTACT}`
+                    : `Alora Radiance ke formulations paraben-free, sulphate-free, cruelty-free hain, 48-hour human volunteer patch tested hain, aur Drugs & Cosmetics Act ke under licensed facility me bante hain. Official reports ke liye support team se baat karein: ${SUPPORT_CONTACT}`;
         } else if (lowerMsg.includes("hello") || lowerMsg.includes("hi") || lowerMsg.includes("hey") || lowerMsg.includes("namaste") || lowerMsg.includes("bene")) {
-            reply = "Hi, main BENÉ hoon, Alora Radiance ki skincare guide. Aapki skin type kya hai? Oily, dry, combination, sensitive ya normal?";
-        } else if (lowerMsg.includes("return") || lowerMsg.includes("refund")) {
-            reply = `Hamari 7-day easy return/replacement policy hai unused products ke liye jo original packaging me hon, aur refunds quality check ke baad 5–7 business days me process hote hain. Refund help ke liye support team se baat karein: ${SUPPORT_CONTACT}`;
-        } else if (lowerMsg.includes("shipping") || lowerMsg.includes("delivery") || lowerMsg.includes("charges")) {
-            reply = "₹499 se upar ke sabhi orders par poore India me free shipping hai, aur standard delivery 3–5 business days leti hai. Kya main aapki skin type ke hisaab se koi product suggest karun?";
+            reply = preferredLang === "english"
+                ? "Hi, I'm BENÉ, your skincare guide at Alora Radiance. What is your skin type — oily, dry, combination, sensitive, or normal?"
+                : preferredLang === "hindi"
+                    ? "नमस्ते, मैं BENÉ हूँ, Alora Radiance की स्किनकेयर गाइड। आपकी स्किन टाइप क्या है — ऑयली, ड्राई, कॉम्बिनेशन, सेंसिटिव या नॉर्मल?"
+                    : "Hi, main BENÉ hoon, Alora Radiance ki skincare guide. Aapki skin type kya hai? Oily, dry, combination, sensitive ya normal?";
+        } else if (lowerMsg.includes("return") || lowerMsg.includes("refund") || lowerMsg.includes("रिटर्न")) {
+            reply = preferredLang === "english"
+                ? `We offer a 7-day easy return/replacement policy for unused products in original packaging, and refunds are processed within 5–7 business days after quality verification. Need help? Contact support: ${SUPPORT_CONTACT}`
+                : preferredLang === "hindi"
+                    ? `हमारी 7-दिन की आसान रिटर्न/रिप्लेसमेंट पॉलिसी है (अप्रयुक्त प्रोडक्ट्स और ओरिजिनल पैकेजिंग के लिए), और रिफंड 5–7 कार्यदिवसों में प्रोसेस होता है। सहायता के लिए संपर्क करें: ${SUPPORT_CONTACT}`
+                    : `Hamari 7-day easy return/replacement policy hai unused products ke liye jo original packaging me hon, aur refunds quality check ke baad 5–7 business days me process hote hain. Refund help ke liye support team se baat karein: ${SUPPORT_CONTACT}`;
+        } else if (lowerMsg.includes("shipping") || lowerMsg.includes("delivery") || lowerMsg.includes("charges") || lowerMsg.includes("शिपिंग")) {
+            reply = preferredLang === "english"
+                ? "We offer free shipping across India on orders above ₹499, and standard delivery takes 3–5 business days. Would you like product suggestions for your skin type?"
+                : preferredLang === "hindi"
+                    ? "₹499 से अधिक के सभी ऑर्डर पर पूरे भारत में फ्री शिपिंग है, और डिलीवरी में 3–5 कार्यदिवस लगते हैं। क्या मैं आपकी स्किन टाइप के हिसाब से प्रोडक्ट सुझाऊँ?"
+                    : "₹499 se upar ke sabhi orders par poore India me free shipping hai, aur standard delivery 3–5 business days leti hai. Kya main aapki skin type ke hisaab se koi product suggest karun?";
         } else if (lowerMsg.includes("contact") || lowerMsg.includes("support") || lowerMsg.includes("human") || lowerMsg.includes("email")) {
-            reply = `Is ke liye aapko hamari support team se baat karni chahiye. Support contact: ${SUPPORT_CONTACT}`;
+            reply = preferredLang === "english"
+                ? `Please reach out to our support team for this. Support contact: ${SUPPORT_CONTACT}`
+                : preferredLang === "hindi"
+                    ? `इसके लिए कृपया हमारी सपोर्ट टीम से संपर्क करें: ${SUPPORT_CONTACT}`
+                    : `Is ke liye aapko hamari support team se baat karni chahiye. Support contact: ${SUPPORT_CONTACT}`;
         } else if (matchedProducts.length > 0) {
-            reply = `Yeh Alora Radiance products aapki zaroorat ke hisaab se check kar sakte hain (pehli baar use karne se pehle patch test zaroor karein). Kya aap chahte hain ki main subah-raat ka simple routine bataun?`;
+            reply = preferredLang === "english"
+                ? "Here are Alora Radiance products that fit your needs (do a quick patch test before first use). Would you like a simple morning and night routine?"
+                : preferredLang === "hindi"
+                    ? "ये Alora Radiance प्रोडक्ट्स आपकी ज़रूरत के हिसाब से उपयुक्त हो सकते हैं (पहली बार उपयोग से पहले पैच टेस्ट ज़रूर करें)। क्या आप सुबह-रात का रूटीन जानना चाहेंगे?"
+                    : "Yeh Alora Radiance products aapki zaroorat ke hisaab se check kar sakte hain (pehli baar use karne se pehle patch test zaroor karein). Kya aap chahte hain ki main subah-raat ka simple routine bataun?";
         } else {
-            reply = "Hi, main BENÉ hoon, Alora Radiance ki skincare guide. Aapki skin type kya hai — oily, dry, combination, sensitive ya normal?";
+            reply = preferredLang === "english"
+                ? "Hi, I'm BENÉ, your skincare guide at Alora Radiance. What is your skin type — oily, dry, combination, sensitive, or normal?"
+                : preferredLang === "hindi"
+                    ? "नमस्ते, मैं BENÉ हूँ, Alora Radiance की स्किनकेयर गाइड। आपकी स्किन टाइप क्या है — ऑयली, ड्राई, कॉम्बिनेशन, सेंसिटिव या नॉर्मल?"
+                    : "Hi, main BENÉ hoon, Alora Radiance ki skincare guide. Aapki skin type kya hai — oily, dry, combination, sensitive ya normal?";
         }
 
         return res.status(200).json({
