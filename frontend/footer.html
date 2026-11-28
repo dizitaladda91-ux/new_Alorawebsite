@@ -1,11 +1,11 @@
 <!-- footer.html -->
 <style>
   footer.alora-footer {
-    background-color: #3B2418 !important;
-    color: #F2EBDA !important;
+    background-color: #C06131 !important;
+    color: #FFFDF9 !important;
     font-family: var(--font-body) !important;
     line-height: 1.6 !important;
-    border-top: 1px solid #3B2418 !important;
+    border-top: 1px solid #A85024 !important;
     overflow: visible;
     padding-top: 48px !important;
     padding-bottom: 24px !important;
@@ -29,8 +29,9 @@
   }
   .alora-footer .footer-payment-label {
     width: 100%;
-    color: #F2EBDA;
+    color: #FFFDF9;
     font-size: 11px;
+    font-weight: 500;
     text-align: center;
   }
   .alora-footer .footer-payment-marks {
@@ -126,23 +127,25 @@
   font-weight: 400 !important;
 }
   .footer-heading {
-    color: #D98E2B !important;
+    color: #FBF1CC !important;
     font-family: var(--font-body) !important;
-    font-weight: 600 !important;
-    letter-spacing: -0.01em !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
     text-transform: uppercase !important;
     font-size: 0.82rem !important;
   }
   .footer-link-item {
-    color: #F5EBDD !important;
+    color: #FFFDF9 !important;
     font-family: var(--font-body) !important;
-    font-size: 0.85rem !important;
-    font-weight: 400 !important;
-    transition: color 0.2s ease !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    transition: color 0.2s ease, opacity 0.2s ease !important;
     display: inline-block !important;
   }
   .footer-link-item:hover {
-    color: #8EC5FF !important;
+    color: #FBF1CC !important;
+    text-decoration: underline !important;
+    text-underline-offset: 3px;
   }
   @media (max-width: 767px) {
     .alora-footer .footer-grid {
@@ -197,7 +200,7 @@
 </style>
 
 <footer class="alora-footer w-full">
-  <div class="footer-grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-b border-[#F2EBDA]/15 relative">
+  <div class="footer-grid max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-b border-[#FFFDF9]/25 relative">
 
   <div class="footer-column">
     <a href="/" class="footer-logo" aria-label="Alora Radiance home">
@@ -270,9 +273,9 @@
         <iframe src="https://maps.google.com/maps?q=Alora%20Radiance&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <div class="text-xs space-y-1">
-        <p class="font-medium text-[#D98E2B] uppercase tracking-wide">Alora Radiance HQ</p>
-        <p class="text-[11px] text-[#F2EBDA]/75">53, Ground Floor, Hargovind Enclave, Rajpur, Chhatarpur, New Delhi 110065</p>
-        <a href="https://share.google/GfIte9pX9tj2VCSAe" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-[11px] text-[#D98E2B] hover:text-[#8EC5FF] font-semibold mt-1">
+        <p class="font-bold text-[#FBF1CC] uppercase tracking-wide">Alora Radiance HQ</p>
+        <p class="text-[12px] text-[#FFFDF9]/90 leading-relaxed">53, Ground Floor, Hargovind Enclave, Rajpur, Chhatarpur, New Delhi 110065</p>
+        <a href="https://share.google/GfIte9pX9tj2VCSAe" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-[12px] text-[#FBF1CC] hover:text-white font-semibold mt-1 underline underline-offset-2">
           <span>Open in Google Maps</span>
           <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </a>
@@ -294,13 +297,13 @@
   </section>
 
   <!-- Copyright Bottom Bar -->
-  <div class="footer-bottom max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between border-b border-[#F2EBDA]/15 text-xs text-[#F2EBDA]/60">
-    <p>Copyright &copy; 2026 <strong class="text-[#F2EBDA] font-medium">Alora Radiance</strong>. All Rights Reserved.</p>
+  <div class="footer-bottom max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between border-b border-[#FFFDF9]/25 text-xs text-[#FFFDF9]/85">
+    <p>Copyright &copy; 2026 <strong class="text-white font-semibold">Alora Radiance</strong>. All Rights Reserved.</p>
     <div class="flex items-center gap-4 text-xs">
-      <a href="/sitemap.html" class="hover:text-[#8EC5FF] transition">Sitemap</a>
+      <a href="/sitemap.html" class="text-[#FFFDF9] hover:text-[#FBF1CC] transition font-medium">Sitemap</a>
       <span>&bull;</span>
       
-      <span class="text-[#D98E2B]">Crafted for Pure Radiance</span>
+      <span class="text-[#FBF1CC] font-semibold">Crafted for Pure Radiance</span>
     </div>
   </div>
 </footer>
