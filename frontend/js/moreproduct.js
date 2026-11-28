@@ -321,18 +321,11 @@ function renderProductCatalog(products) {
     const countEl = document.getElementById('results-count');
     if (countEl) {
         let filterContext = '';
-        selectedCategories.forEach(cat => {
-        const label = CATEGORY_DISPLAY[cat] || cat;
-        chips.push(`
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF7F2] text-[#3B2418] text-xs font-bold border border-[#E8A33D] shadow-2xs">
-                <span>Category: ${label}</span>
-                <button type="button" onclick="removeSingleCategory('${cat}')" class="hover:text-rose-600 transition-colors ml-0.5 cursor-pointer font-extrabold text-sm leading-none" aria-label="Remove ${label} filter">&times;</button>
-            </span>
-        `);
-    });
-
-    if (activeSkinType && activeSkinType !== 'all') {
-            filterContext = ` for ${SKIN_TYPE_DISPLAY[activeSkinType] || activeSkinType}`;
+        if (selectedCategories.length === 1) {
+            filterContext += ` in ${CATEGORY_DISPLAY[selectedCategories[0]] || selectedCategories[0]}`;
+        }
+        if (activeSkinType && activeSkinType !== 'all') {
+            filterContext += ` for ${SKIN_TYPE_DISPLAY[activeSkinType] || activeSkinType}`;
         }
         if (selectedConcerns.length === 1) {
             filterContext += ` (${CONCERN_DISPLAY[selectedConcerns[0]] || selectedConcerns[0]})`;
