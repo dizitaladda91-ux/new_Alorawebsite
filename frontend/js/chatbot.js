@@ -1,6 +1,15 @@
 (function () {
     let isChatOpen = false;
     let isWaitingForResponse = false;
+    let voiceEnabled = true;
+    let hasSpokenIntro = false;
+
+    const BENE_INTRO_TEXT = "Hi, main Bene hoon, Alora Radiance ki skincare guide. Aapki skin type kya hai? Oily, dry, combination, sensitive ya normal?";
+
+    function getAvatarUrl() {
+        return location.protocol === "file:" ? "./static/bene-avatar.jpg" : "/static/bene-avatar.jpg";
+    }
+
     function getApiBaseUrl() {
         if (typeof window.BASE_URL !== "undefined" && window.BASE_URL) {
             return window.BASE_URL;
@@ -8,6 +17,63 @@
         const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:";
         return isLocal ? "http://localhost:5000" : "";
     }
+
+    function stopBeneSpeech() {
+        if (typeof window !== "undefined" && "speechSynthesis" in window) {
+            try { window.speechSynthesis.cancel(); } catch {}
+        }
+    }
+
+    function speakBeneText(text) {
+        if (!voiceEnabled || typeof window === "undefined" || !("speechSynthesis" in window) || !text) return;
+        try {
+            window.speechSynthesis.cancel();
+            const cleanText = String(text).replace(/[*_`#]/g, "").replace(/BENÉ/g, "Bene");
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            const voices = window.speechSynthesis.getVoices() || [];
+            const preferredVoice =
+                voices.find(v => /hi-IN/i.test(v.lang)) ||
+                voices.find(v => /en-IN/i.test(v.lang)) ||
+                voices.find(v => /female|zira|heera|kalpana|swara/i.test(v.name));
+            if (preferredVoice) {
+                utterance.voice = preferredVoice;
+                utterance.lang = preferredVoice.lang;
+            } else {
+                utterance.lang = "en-IN";
+            }
+            utterance.rate = 0.98;
+            utterance.pitch = 1.05;
+            window.speechSynthesis.speak(utterance);
+        } catch (err) {
+            console.warn("Speech synthesis unavailable:", err);
+        }
+    }
+
+    window.playBeneIntro = function () {
+        voiceEnabled = true;
+        updateVoiceToggleIcon();
+        speakBeneText(BENE_INTRO_TEXT);
+    };
+
+    function updateVoiceToggleIcon() {
+        const btn = document.getElementById("bene-voice-toggle");
+        if (!btn) return;
+        btn.innerHTML = voiceEnabled
+            ? '<i class="fa-solid fa-volume-high"></i>'
+            : '<i class="fa-solid fa-volume-xmark"></i>';
+        btn.title = voiceEnabled ? "Mute BENÉ Voice" : "Unmute BENÉ Voice";
+    }
+
+    window.toggleBeneVoice = function () {
+        voiceEnabled = !voiceEnabled;
+        updateVoiceToggleIcon();
+        if (!voiceEnabled) {
+            stopBeneSpeech();
+        } else {
+            speakBeneText(BENE_INTRO_TEXT);
+        }
+    };
+
     window.toggleAloraChat = function () {
         const modal = document.getElementById("alora-chat-modal");
         const iconOpen = document.getElementById("alora-chat-icon-open");
@@ -27,7 +93,12 @@
             if (badge) badge.classList.add("hidden");
             if (input) input.focus();
             scrollToBottom();
+            if (!hasSpokenIntro) {
+                hasSpokenIntro = true;
+                speakBeneText(BENE_INTRO_TEXT);
+            }
         } else {
+            stopBeneSpeech();
             modal.classList.remove("scale-100", "opacity-100");
             modal.classList.add("scale-95", "opacity-0");
             setTimeout(() => {
@@ -38,12 +109,14 @@
             if (iconClose) iconClose.classList.add("hidden");
         }
     };
+
     function scrollToBottom() {
         const container = document.getElementById("alora-chat-messages");
         if (container) {
             container.scrollTop = container.scrollHeight;
         }
     }
+
     function formatMessageText(text) {
         if (!text) return "";
         let formatted = text
@@ -53,23 +126,25 @@
         formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         formatted = formatted.replace(/`(.*?)`/g, '<code class="bg-amber-100 text-amber-900 px-1 py-0.5 rounded text-[11px] font-mono">$1</code>');
         formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="text-[#3B2418] font-semibold underline hover:text-amber-800">$1</a>');
-        formatted = formatted.replace(/(?:^|\n)[•-]\s*(.*?)(?=\n|$)/g, '<li class="ml-3 list-disc text-slate-700 my-0.5">$1</li>');
+        formatted = formatted.replace(/(?:^|\n)[•-]\s*(.*?)(?=\n|$)/g, '<li class="ml-3 list-disc text-[#3B2418] my-0.5">$1</li>');
         formatted = formatted.replace(/\n/g, '<br>');
         return formatted;
     }
+
     function appendUserMessage(text) {
         const container = document.getElementById("alora-chat-messages");
         if (!container) return;
         const msgDiv = document.createElement("div");
         msgDiv.className = "flex items-end justify-end space-x-2 animate-fadeIn";
         msgDiv.innerHTML = `
-            <div class="bg-gradient-to-r from-[#3B2418] to-[#A0522D] text-white p-3 rounded-2xl rounded-br-none shadow-sm max-w-[85%] text-xs sm:text-sm">
+            <div class="bg-[#3B2418] text-[#FAF7F2] p-3 rounded-2xl rounded-br-none shadow-sm max-w-[85%] text-xs sm:text-sm">
                 ${formatMessageText(text)}
             </div>
         `;
         container.appendChild(msgDiv);
         scrollToBottom();
     }
+
     function appendAssistantMessage(htmlContent, products = []) {
         const container = document.getElementById("alora-chat-messages");
         if (!container) return;
@@ -84,13 +159,13 @@
                         const pUrl = isFile ? `./product.html?id=${p.id}` : (p.slug ? `/product/${p.slug}` : `/product.html?id=${p.id}`);
                         const img = p.imagepath || '/static/images/placeholder.jpg';
                         return `
-                            <div class="flex items-center space-x-3 bg-white p-2 border border-amber-900/15 rounded-xl shadow-2xs hover:shadow-md transition-all">
-                                <img src="${img}" alt="${p.name}" class="w-12 h-12 object-cover rounded-lg flex-shrink-0 bg-slate-100">
+                            <div class="flex items-center space-x-3 bg-[#FAF7F2] p-2 border border-[#3B2418]/15 rounded-xl shadow-2xs hover:shadow-md transition-all">
+                                <img src="${img}" alt="${p.name}" class="w-12 h-12 object-cover rounded-lg flex-shrink-0 bg-white">
                                 <div class="flex-1 min-w-0">
-                                    <h4 class="text-xs font-bold text-slate-800 truncate">${p.name}</h4>
-                                    <p class="text-[11px] text-amber-900 font-semibold mt-0.5">₹${p.price} ${p.comparePrice ? `<span class="line-through text-slate-400 font-normal text-[10px] ml-1">₹${p.comparePrice}</span>` : ''}</p>
+                                    <h4 class="text-xs font-bold text-[#3B2418] truncate">${p.name}</h4>
+                                    <p class="text-[11px] text-[#3B2418]/80 font-semibold mt-0.5">₹${p.price} ${p.comparePrice ? `<span class="line-through text-slate-400 font-normal text-[10px] ml-1">₹${p.comparePrice}</span>` : ''}</p>
                                 </div>
-                                <a href="${pUrl}" class="px-2.5 py-1 text-[11px] bg-[#E8A33D] text-[#2B1E16] rounded-lg font-medium hover:bg-[#D48D2A] transition-colors flex-shrink-0">
+                                <a href="${pUrl}" class="px-2.5 py-1 text-[11px] bg-[#E8A33D] text-[#2B1E16] rounded-lg font-bold hover:bg-[#D48D2A] transition-colors flex-shrink-0">
                                     View
                                 </a>
                             </div>
@@ -100,10 +175,8 @@
             `;
         }
         msgDiv.innerHTML = `
-            <div class="w-7 h-7 rounded-full bg-[#3B2418] text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-sm">
-                <i class="fa-solid fa-spa text-xs"></i>
-            </div>
-            <div class="bg-white border border-amber-900/10 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] text-xs sm:text-sm text-slate-800 leading-relaxed">
+            <img src="${getAvatarUrl()}" alt="BENÉ" class="w-8 h-8 rounded-full object-cover border border-[#E8A33D] flex-shrink-0 mt-0.5 shadow-sm">
+            <div class="bg-white border border-[#3B2418]/10 p-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] text-xs sm:text-sm text-[#3B2418] leading-relaxed">
                 <div>${htmlContent}</div>
                 ${productCardsHtml}
             </div>
@@ -111,6 +184,7 @@
         container.appendChild(msgDiv);
         scrollToBottom();
     }
+
     function showTypingIndicator() {
         const container = document.getElementById("alora-chat-messages");
         if (!container) return null;
@@ -118,29 +192,30 @@
         typingDiv.id = "alora-chat-typing";
         typingDiv.className = "flex items-start space-x-2.5 animate-pulse";
         typingDiv.innerHTML = `
-            <div class="w-7 h-7 rounded-full bg-[#3B2418] text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-sm">
-                <i class="fa-solid fa-spa text-xs"></i>
-            </div>
-            <div class="bg-white border border-amber-900/10 px-3.5 py-2.5 rounded-2xl rounded-tl-none shadow-sm flex items-center space-x-1.5 text-slate-400">
-                <span class="w-1.5 h-1.5 bg-amber-700 rounded-full animate-bounce"></span>
-                <span class="w-1.5 h-1.5 bg-amber-700 rounded-full animate-bounce [animation-delay:0.2s]"></span>
-                <span class="w-1.5 h-1.5 bg-amber-700 rounded-full animate-bounce [animation-delay:0.4s]"></span>
+            <img src="${getAvatarUrl()}" alt="BENÉ" class="w-8 h-8 rounded-full object-cover border border-[#E8A33D] flex-shrink-0 mt-0.5 shadow-sm">
+            <div class="bg-white border border-[#3B2418]/10 px-3.5 py-2.5 rounded-2xl rounded-tl-none shadow-sm flex items-center space-x-1.5">
+                <span class="w-1.5 h-1.5 bg-[#E8A33D] rounded-full animate-bounce"></span>
+                <span class="w-1.5 h-1.5 bg-[#E8A33D] rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                <span class="w-1.5 h-1.5 bg-[#E8A33D] rounded-full animate-bounce [animation-delay:0.4s]"></span>
             </div>
         `;
         container.appendChild(typingDiv);
         scrollToBottom();
         return typingDiv;
     }
+
     function removeTypingIndicator() {
         const typingDiv = document.getElementById("alora-chat-typing");
         if (typingDiv) typingDiv.remove();
     }
+
     window.sendAloraQuickQuery = function (queryText) {
         if (isWaitingForResponse) return;
         const input = document.getElementById("alora-chat-input");
         if (input) input.value = queryText;
         window.handleAloraChatSubmit(new Event('submit'));
     };
+
     window.handleAloraChatSubmit = async function (e) {
         if (e && e.preventDefault) e.preventDefault();
         const input = document.getElementById("alora-chat-input");
@@ -181,18 +256,22 @@
             if (input) input.focus();
         }
     };
+
     window.clearAloraChat = function () {
+        stopBeneSpeech();
         const container = document.getElementById("alora-chat-messages");
         if (!container) return;
         container.innerHTML = `
             <div class="flex items-start space-x-2.5">
-                <div class="w-7 h-7 rounded-full bg-[#3B2418] text-white flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-sm">
-                    <i class="fa-solid fa-spa text-xs"></i>
-                </div>
-                <div class="bg-white border border-amber-900/10 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] space-y-2">
-                    <p class="text-slate-700 leading-relaxed">
-                        Chat cleared! 🙏 How can I help you today?
+                <img src="${getAvatarUrl()}" alt="BENÉ" class="w-8 h-8 rounded-full object-cover border border-[#E8A33D] flex-shrink-0 mt-0.5 shadow-sm">
+                <div class="bg-white border border-[#3B2418]/10 p-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] space-y-2.5">
+                    <p class="text-[#3B2418] text-xs sm:text-sm leading-relaxed">
+                        Hi, main <strong>BENÉ</strong> hoon, Alora Radiance ki skincare guide. Aapki skin type kya hai? Oily, dry, combination, sensitive ya normal?
                     </p>
+                    <button type="button" onclick="window.playBeneIntro()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F2EBDA] hover:bg-[#E8A33D] text-[#3B2418] text-[11px] font-bold transition-colors cursor-pointer">
+                        <i class="fa-solid fa-volume-high text-[10px]"></i>
+                        <span>Listen Intro</span>
+                    </button>
                 </div>
             </div>
         `;
