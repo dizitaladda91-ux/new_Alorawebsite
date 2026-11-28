@@ -219,6 +219,22 @@ async function loadAllPartials() {
 
         await loadPartial("#footer-placeholder", footerUrl);
 
+        if (!isAdminOrAuth) {
+            let chatbotPlaceholder = document.getElementById("chatbot-placeholder");
+            if (!chatbotPlaceholder) {
+                chatbotPlaceholder = document.createElement("div");
+                chatbotPlaceholder.id = "chatbot-placeholder";
+                document.body.appendChild(chatbotPlaceholder);
+            }
+            await loadPartial("#chatbot-placeholder", chatbotUrl);
+            if (!document.getElementById("alora-chatbot-script")) {
+                const chatScript = document.createElement("script");
+                chatScript.id = "alora-chatbot-script";
+                chatScript.src = isFile ? "./js/chatbot.min.js" : "/js/chatbot.min.js";
+                document.body.appendChild(chatScript);
+            }
+        }
+
         if (!isAdminOrAuth && !document.getElementById("alora-lead-script")) {
             const isFile = location.protocol === "file:";
             const leadScript = document.createElement("script");
