@@ -2,6 +2,7 @@
     let isChatOpen = false;
     let isWaitingForResponse = false;
     let selectedLanguage = "hinglish";
+    let chatHistory = [];
 
     const BENE_COPY = {
         english: {
@@ -228,7 +229,7 @@
             const response = await fetch(`${baseUrl}/api/chatbot/message`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: userMsg, language: selectedLanguage })
+                body: JSON.stringify({ message: userMsg, language: selectedLanguage, history: chatHistory.slice(-8) })
             });
             removeTypingIndicator();
             if (!response.ok) {
@@ -237,6 +238,8 @@
             }
             const data = await response.json();
             if (data && data.reply) {
+                chatHistory.push({ role: "user", text: userMsg }, { role: "assistant", text: data.reply });
+                if (chatHistory.length > 16) chatHistory = chatHistory.slice(-16);
                 appendAssistantMessage(formatMessageText(data.reply), data.products || []);
             } else {
                 appendAssistantMessage("Thank you for your message. How else can I assist you with Alora Radiance?");
@@ -253,6 +256,7 @@
     };
 
     window.clearAloraChat = function () {
+        chatHistory = [];
         const container = document.getElementById("alora-chat-messages");
         if (!container) return;
         const copy = BENE_COPY[selectedLanguage] || BENE_COPY.hinglish;

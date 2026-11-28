@@ -77,13 +77,20 @@ Then add one short tip (how to use or what to pair it with) and end with ONE fol
 - Free shipping on orders above ₹499 across India
 
 # OFFERS DATA
-- Free shipping on all orders above ₹499 across India.
-- Bundles and combos: save up to 25%.
-- Hydration Duo bundle: ₹1,399.
+- Free shipping on all orders of ₹499 or above across India (₹40 standard delivery below ₹499).
+- Bundles and combos: save up to 25% compared to buying individual products separately.
+- Hydration Duo bundle: ₹1,399 | Daily Glow Duo: ₹1,349 | Cleanse & Protect Duo: ₹1,199 | Radiance Ritual Trio: ₹1,999.
 - Alora Radiance Travel Essentials Kit (5-in-1 daily minis): ₹149.
+- Coupon codes (apply on Cart page): WINTER20, ALORA15 (eligible on subtotal above ₹2,000), ALORA398 (₹398 flat discount).
+
+# BRAND INFORMATION
+- Brand Story & Mission: Alora Radiance is an Indian skincare brand crafting thoughtful daily face and body care with botanical extracts (like saffron, shea butter, walnut, mulberry) paired with well-known skincare actives (niacinamide, hyaluronic acid, salicylic acid, ceramides).
+- Why Choose Alora Radiance: Transparent ingredient lists, paraben-free and sulphate-free formulations, cruelty-free, 48-hour patch tested, and manufactured in a facility licensed under the Drugs & Cosmetics Act.
 
 # POLICY DATA
-- Shipping: Free shipping on all orders above ₹499 across India. Standard delivery takes 3–5 business days.
+- How to Place an Order: Open any product page (or /products), choose size/quantity, click "Add to Cart", open Cart, enter shipping details & coupon if applicable, and complete payment via Razorpay.
+- Shipping: Free shipping on orders ₹499 and above across India; ₹40 standard delivery charge below ₹499. Standard delivery takes 3–5 business days.
+- Cancellation: Orders can be cancelled before they are processed or shipped; once dispatched, cancellation may not be possible.
 - Returns & Refunds: 7-day easy return/replacement policy for unused products in original packaging. Refunds are processed within 5–7 business days after quality verification.
 - Payments: Secure online payments via Razorpay (UPI, debit/credit cards, netbanking, wallets).
 
@@ -102,10 +109,16 @@ Then add one short tip (how to use or what to pair it with) and end with ONE fol
 
 export const handleChatbotMessage = async (req, res) => {
     try {
-        const { message, language } = req.body;
+        const { message, language, history } = req.body;
         const preferredLang = ["english", "hindi", "hinglish"].includes(String(language || "").toLowerCase())
             ? String(language).toLowerCase()
             : "hinglish";
+        const recentHistory = Array.isArray(history)
+            ? history
+                .slice(-8)
+                .map(h => `${h?.role === "assistant" ? "BENÉ" : "Customer"}: ${String(h?.text || "").slice(0, 300)}`)
+                .join("\n")
+            : "";
 
         if (!message || typeof message !== "string" || !message.trim()) {
             return res.status(400).json({
@@ -212,7 +225,7 @@ export const handleChatbotMessage = async (req, res) => {
 Live Products Catalog:
 ${productSummary}
 
-Preferred Language: ${langInstruction}
+${recentHistory ? `Recent Conversation:\n${recentHistory}\n` : ""}Preferred Language: ${langInstruction}
 User Question: "${queryText}"
 
 Reply as BENÉ following all rules strictly.`;
@@ -274,6 +287,30 @@ Reply as BENÉ following all rules strictly.`;
                 : preferredLang === "hindi"
                     ? "नमस्ते, मैं BENÉ हूँ, Alora Radiance की स्किनकेयर गाइड। आपकी स्किन टाइप क्या है — ऑयली, ड्राई, कॉम्बिनेशन, सेंसिटिव या नॉर्मल?"
                     : "Hi, main BENÉ hoon, Alora Radiance ki skincare guide. Aapki skin type kya hai? Oily, dry, combination, sensitive ya normal?";
+        } else if (lowerMsg.includes("cancel")) {
+            reply = preferredLang === "english"
+                ? `Orders can be cancelled before they are processed or shipped. Once dispatched, cancellation may not be possible. For cancellation requests, contact support: ${SUPPORT_CONTACT}`
+                : preferredLang === "hindi"
+                    ? `ऑर्डर प्रोसेस या डिस्पैच होने से पहले कैंसल किया जा सकता है। डिस्पैच के बाद कैंसलेशन संभव नहीं हो पाता। सहायता के लिए संपर्क करें: ${SUPPORT_CONTACT}`
+                    : `Order process ya ship hone se pehle cancel kiya ja sakta hai; dispatch hone ke baad cancellation possible nahi hoti. Cancellation ke liye support team se baat karein: ${SUPPORT_CONTACT}`;
+        } else if (lowerMsg.includes("how to order") || lowerMsg.includes("place order") || lowerMsg.includes("kaise order")) {
+            reply = preferredLang === "english"
+                ? "To place an order, pick your product at https://www.aloraradiance.com/products, click Add to Cart, open your Cart, enter your delivery details, and pay securely via Razorpay (UPI, cards, or netbanking)."
+                : preferredLang === "hindi"
+                    ? "ऑर्डर करने के लिए https://www.aloraradiance.com/products पर प्रोडक्ट चुनें, Add to Cart पर क्लिक करें, फिर Cart में जाकर एड्रेस भरें और Razorpay (UPI, कार्ड या नेटबैंकिंग) से पेमेंट करें।"
+                    : "Order karne ke liye https://www.aloraradiance.com/products par product chunein, Add to Cart karein, phir Cart me address daal kar Razorpay (UPI, card ya netbanking) se payment complete karein.";
+        } else if (lowerMsg.includes("offer") || lowerMsg.includes("discount") || lowerMsg.includes("coupon") || lowerMsg.includes("combo")) {
+            reply = preferredLang === "english"
+                ? "Combos save up to 25% vs buying individually (like Hydration Duo at ₹1,399 or Travel Kit at ₹149). You also get free shipping on ₹499+ and can apply coupons like WINTER20, ALORA15 (above ₹2,000), or ALORA398 in Cart."
+                : preferredLang === "hindi"
+                    ? "कॉम्बो पैक्स में सिंगल प्रोडक्ट्स की तुलना में 25% तक की बचत होती है, ₹499+ पर फ्री शिपिंग मिलती है, और आप कार्ट में WINTER20, ALORA15 (₹2,000+ पर) या ALORA398 कूपन लगा सकते हैं।"
+                    : "Combos lene par individual products ke comparison me 25% tak savings hoti hai (jaise Hydration Duo ₹1,399 aur Travel Kit ₹149). ₹499+ par free shipping hai aur Cart me WINTER20, ALORA15 (₹2,000+ par) ya ALORA398 coupon laga sakte ho.";
+        } else if (lowerMsg.includes("brand") || lowerMsg.includes("alora") && lowerMsg.includes("why")) {
+            reply = preferredLang === "english"
+                ? "Alora Radiance pairs Indian botanicals like saffron and shea butter with everyday actives like niacinamide and hyaluronic acid — cruelty-free, paraben-free, sulphate-free, and 48-hour patch tested."
+                : preferredLang === "hindi"
+                    ? "Alora Radiance केसर और शिया बटर जैसे बॉटैनिकल तत्वों को नियासिनमाइड और हयालूरोनिक एसिड के साथ जोड़ता है — क्रुएल्टी-फ्री, पैराबेन-फ्री, सल्फेट-फ्री और 48-घंटे पैच टेस्टेड।"
+                    : "Alora Radiance saffron aur shea butter jaise botanicals ko niacinamide aur hyaluronic acid ke saath pair karta hai — cruelty-free, paraben-free, sulphate-free aur 48-hour patch tested.";
         } else if (lowerMsg.includes("return") || lowerMsg.includes("refund") || lowerMsg.includes("रिटर्न")) {
             reply = preferredLang === "english"
                 ? `We offer a 7-day easy return/replacement policy for unused products in original packaging, and refunds are processed within 5–7 business days after quality verification. Need help? Contact support: ${SUPPORT_CONTACT}`
